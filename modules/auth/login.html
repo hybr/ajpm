@@ -1,0 +1,52 @@
+<div class="ui-widget">
+	<br />
+	<!-- Don’t forget to include method=”post”, otherwise your credentials will be appended as 
+	query string parameters, which are exposed in the browser’s history. -->
+	<form name="form_login" novalidate ng-controller="LoginController" method="POST">
+		<table>
+			<tr class="ui-corner-bl ui-corner-br jpmSmallFitWidth">
+				<td class="ui-widget-header ui-corner-tl ui-corner-tr jpmTitle">Login</td>
+			</tr>
+			<tr>
+				<td><fieldset>
+						<table>
+							<tr>
+								<td colspan=2><div
+										ng-show="form_login.name_email.$dirty && form_login.name_email.$error.required"
+										class="ui-state-error">Email address is required</div>
+									<div
+										ng-show="form_login.name_email.$dirty && form_login.name_email.$error.email"
+										class="ui-state-error">Email address is invalid</div></td>
+							</tr>
+							<tr
+								ng-class="{ 'ui-state-error': form_login.name_email.$dirty && form_login.name_email.$invalid }">
+								<td><label for="id_email">Email Address</label></td>
+								<td><input type="email" name="name_email" id="id_email"
+									placeholder="Email Address" ng-model="credentials.email" required /></td>
+							</tr>
+							<tr>
+								<td colspan=2><div
+										ng-show="form_login.name_password.$dirty && form_login.name_password.$error.required"
+										class="ui-state-error">Password is required</div></td>
+							</tr>
+							<tr
+								ng-class="{ 'ui-state-error': form_login.name_password.$dirty && form_login.name_password.$invalid }">
+								<td><label for="id_password">Password</label></td>
+								<td><input type="password" name="name_password"
+									id="id_password" ng-model="credentials.password" required /></td>
+							</tr>
+
+							<tr>
+								<td>
+									<button ng-click="submit()">Login</button>
+									<button ng-click="reset()">Reset</button></td>
+								<td><a href="/register">Register</a> | <a href="/forget_password">Forget Password</a></td>
+							</tr>
+						</table>
+					</fieldset></td>
+			</tr>
+		</table>
+	</form>
+	<hr />
+	
+</div>

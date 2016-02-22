@@ -1,0 +1,19 @@
+{
+    "users": {
+        "a@a": {
+        		"email": "a@a",
+            "password": "admin",
+            "userRole": "admin"
+        },
+        "e@e": {
+        		"email": "e@e",
+            "password": "editor",
+            "userRole": "editor"
+        },
+        "g@g": {
+        		"email": "g@g",
+            "password": "guest",
+            "userRole": "guest"
+        }
+    }
+}

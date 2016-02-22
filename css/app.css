@@ -1,0 +1,24 @@
+#toolbar {
+	padding: 4px;
+	display: inline-block;
+}
+
+.jpmPadded {
+	padding: 4px;
+}
+
+.jpmSmallFitWidth {
+	display: inline;
+}
+
+.jpmTitle {
+	align: center;
+}
+
+fieldset {
+	line-height: 10px;
+}
+/* support: IE7 */
+*+html #toolbar {
+	display: inline;
+}

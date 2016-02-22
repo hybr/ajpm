@@ -1,0 +1,85 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" ng-app="ajpmApp">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>JI</title>
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width">
+
+<link rel="stylesheet" type="text/css" 	href="js/jquery/jquery-ui.min.css">
+
+<!-- angular lib -->
+<script src="js/angular.min.js"></script>
+<script src="js/angular-ui-router.min.js"></script>
+
+<!-- jQuery lib -->
+<script src="js/jquery/external/jquery/jquery.js"></script>
+<script src="js/jquery/jquery-ui.min.js"></script>
+
+</head>
+
+<!-- class ui-widget here gives the font type and size on all text -->
+<body ng-controller="ApplicationController" class="ui-widget">
+	<base href="/">
+
+	<form name="form_topMenu">
+		<fieldset id="toolbar" class="ui-widget-header ui-corner-all">
+			<legend></legend>
+			<div id="topMenu">
+				<input type="radio" id="id_home" name="name_topMenuRadio" ui-sref="home">
+				<label for="id_home">Home</label> 
+				
+				<input type="radio" id="id_about_us"
+					name="name_topMenuRadio" ui-sref="about_us"> 
+				<label for="id_about_us">About
+					Us</label> 
+				
+				<input type="radio" id="id_contact_us" name="name_topMenuRadio"
+					ui-sref="contact_us"> 
+				<label for="id_contact_us">Contact
+					Us</label>
+					
+				<span ng-if="loggedIn"><input type="radio" id="id_my_account" name="name_topMenuRadio"
+					ui-sref="my_account"> 
+				<label for="id_my_account"><span>{{ userRecord.email }} Test</span></label></span>
+				
+				<span ng-if="loggedIn"><input type="radio" id="id_logout" name="name_topMenuRadio"
+					ui-sref="logout"> 
+				<label for="id_logout"><span>Logout</span></label></span>
+
+				<input type="radio" id="id_admin_dashboard" name="name_topMenuRadio"
+					ui-sref="admin_dashboard"> 
+				<label for="id_admin_dashboard">Admin</label>				
+			</div>
+		</fieldset>
+	</form>
+	<div ng-show="hasPageMessages()"><ul>
+		<li class="ui-state-error jpmPadded" ng-repeat="pageMessage in getPageMessages()">
+			{{pageMessage}}
+		</li>
+	</ul></div>
+	
+	<div login-dialog></div>
+	<div ui-view></div>
+	
+	<script src="modules/application/main.js"></script>
+	<script src="modules/application/router.js"></script>
+	<script src="modules/auth/session.js"></script>
+	<script src="modules/auth/interceptor.js"></script>
+	
+	<script src="modules/auth/directive.js"></script>
+	<script src="modules/application/controller.js"></script>
+	
+
+	<script src="modules/auth/service.js"></script>
+	<script src="modules/auth/controller.js"></script>
+	<script src="modules/application/global.js"></script>
+
+
+</body>
+</html>
