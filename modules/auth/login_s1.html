@@ -1,0 +1,16 @@
+<div class="ui-widget">
+	<br />
+	<!-- Don’t forget to include method=”post”, otherwise your credentials will be appended as 
+	query string parameters, which are exposed in the browser’s history. -->
+	<form name="form_login_s1" novalidate ng-controller="LoginController" method="POST">
+			<div ng-show="form_login_s1.name_email.$dirty && form_login_s1.name_email.$error.required" class="ui-state-error jpmPadded">Email address is required</div>
+			<div ng-show="form_login_s1.name_email.$dirty && form_login_s1.name_email.$error.email" class="ui-state-error jpmPadded">Email address is invalid</div>
+			<label ng-show="form_login_s1.name_email.$dirty" for="id_email" class="ui-state-highlight jpmPadded">Email Address</label><br />
+			<input type="email" name="name_email" id="id_email" placeholder="Email Address" ng-model="email_address" required />
+			<br /><br />
+			<button ng-click="submit_s1()">Login</button>
+			<button ng-click="reset()">Reset</button>
+			<button ng-click="register()">Join</button>
+			<button ng-click="forget_password()">Forgot</button>
+	</form>
+</div>

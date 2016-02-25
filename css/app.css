@@ -1,10 +1,34 @@
-#toolbar {
-	padding: 4px;
-	display: inline-block;
+/* To align in center */
+body {
+	width: 98%;
+	margin-left: auto;
+	margin-right: auto;
 }
 
+
+/* ng-show and ng-hide animations */
+
+.animate-show {
+  line-height: 20px;
+  opacity: 1;
+  padding: 10px;
+}
+
+.animate-show.ng-hide-add, .animate-show.ng-hide-remove {
+  transition: all linear 0.5s;
+}
+
+.animate-show.ng-hide {
+  line-height: 0;
+  opacity: 0;
+  padding: 0 10px;
+}
+
+/* common classes */
 .jpmPadded {
-	padding: 4px;
+  line-height: 24px;
+  opacity: 1;
+  padding: 5px;
 }
 
 .jpmSmallFitWidth {
@@ -18,6 +42,7 @@
 fieldset {
 	line-height: 10px;
 }
+
 /* support: IE7 */
 *+html #toolbar {
 	display: inline;

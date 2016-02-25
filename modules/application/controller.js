@@ -7,27 +7,27 @@
 
 'use strict';
 
-angular.module('ajpmApp').controller('ApplicationController', ['$scope', '$rootScope', 'AuthService', 'AUTH_EVENTS', '$window', '$state',
-function($scope, $rootScope, AuthService, AUTH_EVENTS, $window, $state){
+angular.module('ajpmApp').controller('ApplicationController', 
+	['$scope', '$rootScope', 'AuthService', 'SessionService', 'AUTH_EVENTS', '$state',
+	function($scope, $rootScope, AuthService, SessionService, AUTH_EVENTS, $state){
+	
+	$rootScope.nextRequestedStateName =  '';
+	
 	
 	// this is the parent controller for all controllers.
 	// Manages auth login functions and each controller
 	// inherits from this controller	
 	
-	$scope.loggedIn = AuthService.isAuthenticated();
-	$scope.hasRoles = AuthService.isAuthorized();
+	$scope.isAuthenticated = AuthService.isAuthenticated();
+	$scope.isAuthorized = AuthService.isAuthorized();
+
+	console.log('isAuthenticated ', $scope.isAuthenticated );
 	
-	$scope.currentState =  null;
 	
 	/**
 	 * If user is logged in then load the userRecord when page is refreshed
 	 */
-	if ($scope.loggedIn) {
-		$scope.userRecord = $window.sessionStorage.getItem("userInfo");
-	} else {
-		$scope.userRecord = null;
-	}
-	console.log($scope.userRecord);
+	$scope.currentUserEmail = SessionService.getCurrentUserEmail();
 	
 	/**
 	 * Main page message functions
@@ -56,17 +56,26 @@ function($scope, $rootScope, AuthService, AUTH_EVENTS, $window, $state){
 	 */
 	
 	var showNotAuthorized = function(){
-		alert("Not Authorized");
+		if (AuthService.isAuthenticated) {
+			$scope.pushPageMessage("You are not authorized");
+		} else {
+			$scope.pushPageMessage("Please login first");
+			$rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
+		}
 	}
 
 	var loginPass = function() {
-		$scope.pushPageMessage(" You are logged in. ");
-		$state.go($rootScope.currentState);
+		$state.go($rootScope.nextRequestedStateName);
 	}
 	
+	var logoutPass = function() {
+		$state.go('home');
+	}
 	
 	/* listen to events of unsuccessful logins, to run the login dialog */
 	$rootScope.$on(AUTH_EVENTS.notAuthorized, showNotAuthorized);
 	$rootScope.$on(AUTH_EVENTS.loginSuccess, loginPass);
+	$rootScope.$on(AUTH_EVENTS.logoutSuccess, logoutPass);
+
 
 } ]);

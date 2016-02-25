@@ -1,22 +1,16 @@
 /**
  * Contains functions that are added to the root AngularJs scope.
  */
-angular.module('ajpmApp').run(function($rootScope, $state, $window, AuthService, AUTH_EVENTS) {
+angular.module('ajpmApp').run(['$rootScope', '$state', 'AuthService', 'AUTH_EVENTS', function($rootScope, $state, AuthService, AUTH_EVENTS) {
 
-	// before each state change, check if the user is logged in
-	// and authorized to move onto the next state
+	/* before each state change, check if the user is logged in and authorized to move onto the next state */
 	$rootScope.$on('$stateChangeStart', function(event, next) {
-
 		
-		$rootScope.currentState = next;
-		
-		console.log("Next ", $rootScope.currentState);
-		console.log("userInfo ", $window.sessionStorage.getItem("userInfo"));
-		
-		if (next.name == "logout") {
-			AuthService.logout();
-		}
-		
+		$rootScope.nextRequestedStateName = next.name;		
+		/**
+		 * Find the roles assigned to activity. If no roles then guest role 
+		 * is assigned if we define roles to any activity/state in router 
+		 * that means it is not a public page */
 		var authorizedRoles = ['guest'];
 		var isPublicPage = false;
 		if (next && next.data && next.data.authorizedRoles) {
@@ -26,13 +20,17 @@ angular.module('ajpmApp').run(function($rootScope, $state, $window, AuthService,
 			isPublicPage = true;
 		}
 
+		/**
+		 * For private pages broadcast events if user is not logged in or authorized.
+		 * 
+		 */
 		if (!isPublicPage && !AuthService.isAuthorized(authorizedRoles)) {
 			event.preventDefault();
 			if (AuthService.isAuthenticated()) {
-				// user is not allowed
+				/* user is not allowed */
 				$rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
 			} else {
-				// user is not logged in
+				/* user is not logged in */
 				$rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
 			}
 		}
@@ -47,8 +45,4 @@ angular.module('ajpmApp').run(function($rootScope, $state, $window, AuthService,
 		}
 	}
 
-	$rootScope.logout = function() {
-		AuthService.logout();
-	};
-
-});
+}]);

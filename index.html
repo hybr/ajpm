@@ -12,6 +12,7 @@
 <meta name="viewport" content="width=device-width">
 
 <link rel="stylesheet" type="text/css" 	href="js/jquery/jquery-ui.min.css">
+<link rel="stylesheet" type="text/css" 	href="css/app.css">
 
 <!-- angular lib -->
 <script src="js/angular.min.js"></script>
@@ -44,11 +45,11 @@
 				<label for="id_contact_us">Contact
 					Us</label>
 					
-				<span ng-if="loggedIn"><input type="radio" id="id_my_account" name="name_topMenuRadio"
+				<span ng-if="isAuthenticated"><input type="radio" id="id_my_account" name="name_topMenuRadio"
 					ui-sref="my_account"> 
-				<label for="id_my_account"><span>{{ userRecord.email }} Test</span></label></span>
+				<label for="id_my_account"><span>{{ currentUserEmail }}</span></label></span>
 				
-				<span ng-if="loggedIn"><input type="radio" id="id_logout" name="name_topMenuRadio"
+				<span ng-if="isAuthenticated"><input type="radio" id="id_logout" name="name_topMenuRadio"
 					ui-sref="logout"> 
 				<label for="id_logout"><span>Logout</span></label></span>
 
@@ -64,7 +65,8 @@
 		</li>
 	</ul></div>
 
-	<div login-dialog id="userLoginModelOne" title="User Login" ui-jq="dialog" ui-options="{width: auto, autoOpen: false, modal: true}"></div>    
+	<div login-dialog-one id="userLoginModelOne" title="User Login" ui-jq="dialog" ui-options="{autoOpen: false, modal: true}"></div>
+	<div login-dialog-two id="userLoginModelTwo" title="User Login" ui-jq="dialog" ui-options="{autoOpen: false, modal: true}"></div> 
 	<div ui-view></div>
 	
 	<script src="modules/application/main.js"></script>

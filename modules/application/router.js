@@ -34,11 +34,16 @@ angular.module('ajpmApp').config(['$stateProvider', '$urlRouterProvider', 'USER_
 		templateUrl : "modules/my_account/view.html"
 	}).state('logout', {
 		url : "/logout",
-		template : "<div class='ui-state-highlight'> You are logged out. </div>"
-	}).state('login', {
-		url : "/login",
-		templateUrl : "modules/auth/login.html",
+		template : "<div class='ui-state-highlight'> You are logged out. </div>",
+		controller : 'LogoutController'
+	}).state('login1', {
+		url : "/login1",
+		templateUrl : "modules/auth/login_s1.html",
 		controller : 'LoginController'
+	}).state('login2', {
+		url : "/login2",
+		templateUrl : "modules/auth/login_s2.html",
+		controller : 'LoginController'			
 	}).state('admin_dashboard', {
 		url : "/admin_dashboard",
 		templateUrl : "modules/admin_dashboard/view.html",

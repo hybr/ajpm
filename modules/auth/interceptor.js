@@ -7,8 +7,8 @@
  */
 angular.module('ajpmApp').factory(
 		'AuthInterceptor',
-		[ '$rootScope', '$q', 'Session', 'AUTH_EVENTS',
-				function($rootScope, $q, Session, AUTH_EVENTS) {
+		[ '$rootScope', '$q', 'AUTH_EVENTS',
+				function($rootScope, $q, AUTH_EVENTS) {
 					return {
 						responseError : function(response) {
 							$rootScope.$broadcast({

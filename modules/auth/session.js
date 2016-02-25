@@ -1,23 +1,55 @@
 'use strict';
 
-/**
- * In this service the user data is defined for the current session. Within
- * angular current session is until the page is refreshed. When the page is
- * refreshed the user is reinitialized through $window.sessionStorage at the
- * login.js file.
- */
-angular.module('ajpmApp').service('Session', function($rootScope, USER_ROLES) {
+angular.module('ajpmApp').service('SessionService',
+		[ '$window', function($window) {
 
-	this.create = function(user) {
-		this.user = user;
-		this.userRole = user.userRole;
-	};
-	this.destroy = function() {
-		this.user = null;
-		this.userRole = null;
-	};
-	this.getUser = function() {
-		return this.user;
-	}
-	return this;
-});
+			/**
+			 * User information has following values session_id email roles
+			 */
+
+			var sessionService = {};
+
+			sessionService.setSession = function(key, value) {
+				$window.sessionStorage[key] = value;
+			}
+
+			sessionService.getSession = function(key) {
+				return $window.sessionStorage.getItem(key);
+			}
+
+			sessionService.clearUserSession = function() {
+				$window.sessionStorage.removeItem("session_id");
+				$window.sessionStorage.removeItem("email");
+				$window.sessionStorage.removeItem("roles");
+			}
+
+			sessionService.setCurrentUserEmail = function(value) {
+				$window.sessionStorage['email'] = value;
+			}
+
+			sessionService.getCurrentUserEmail = function() {
+				return $window.sessionStorage.getItem("email");
+			}
+
+			sessionService.setCurrentUserSessionId = function(value) {
+				$window.sessionStorage['session_id'] = value;
+			}
+
+			sessionService.getCurrentUserSessionId = function() {
+				return $window.sessionStorage.getItem("session_id");
+			}
+
+			sessionService.setCurrentUserRoles = function(value) {
+				if (!angular.isArray(value)) {
+					value = [ value ];
+				}				
+				$window.sessionStorage['roles'] = value;
+			}
+
+			sessionService.getCurrentUserRoles = function() {
+				return $window.sessionStorage.getItem("roles");
+			}
+
+			return sessionService;
+
+		} ]);
