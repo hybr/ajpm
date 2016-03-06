@@ -1,7 +1,7 @@
 <?php
 require_once JPM_DIR . DIRECTORY_SEPARATOR . "objects" . DIRECTORY_SEPARATOR . "owebp" . DIRECTORY_SEPARATOR . "Base.php";
 
-class owebp_InputSelect extends owebp_Base {
+class InputSelect extends Base {
 
 	public $value = '';
 

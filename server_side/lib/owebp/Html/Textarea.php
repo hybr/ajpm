@@ -1,6 +1,6 @@
 <?php
 require_once JPM_DIR . DIRECTORY_SEPARATOR . "objects" . DIRECTORY_SEPARATOR . "owebp" . DIRECTORY_SEPARATOR . "Html" . DIRECTORY_SEPARATOR . "Tag.php";
-class owebp_Html_Textarea extends owebp_Html_Tag { 
+class Html_Textarea extends Html_Tag { 
 
 	function __construct($opts = array()) {
 		/* define options  and their defaults */

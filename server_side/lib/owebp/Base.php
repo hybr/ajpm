@@ -798,10 +798,10 @@ class Base {
 		}
 
 		$rStr = '';
- 		$this->debugPrintArray ( $this->record ); 
+ 		debugPrintArray ( $this->record ); 
 		$this->record = $this->processFieldsForPrecentationAndStorage ( 'before_save', $this->fields, $this->record, 1 );
 
- 		$this->debugPrintArray ( $this->record ); 
+ 		debugPrintArray ( $this->record ); 
 
 		if (count ( $this->errorMessage ) > 0) {
 			return $this->showError ();
@@ -819,7 +819,7 @@ class Base {
 			$rStr .= '<th>' . 'Request to transfer to you' . '</th>';
 			$rStr .= '<th colspan=10>' . 'Names in profile' . '</th>';
 			$rStr .= '</tr>';
-			$personInstance = new owebp_public_Person();
+			$personInstance = new public_Person();
 			foreach ($this->record['name'] as $name) {
 				$this->findCursor = $_SESSION ['mongo_database']->{$this->collectionName}->find (array(
 					'name.first' => $name['first'] 
@@ -862,7 +862,7 @@ class Base {
 				$rStr = '';
 			}	
 		}
- 		$this->debugPrintArray ( $this->record ); 
+ 		debugPrintArray ( $this->record ); 
 		if ($_SESSION ['mongo_database'] != NULL && $savePersonRecord) {
 			$_SESSION ['mongo_database']->{$this->collectionName}->save ( $this->record );
 			$rStr .= ' Saved successfully ';
@@ -1047,24 +1047,12 @@ class Base {
 			);
 		}
 		
- 		$this->debugPrintArray ( $retCond ); 
-		$this->debugPrintArray ( $this->record ); 
-		$this->debugPrintArray ( $_SESSION ); 
+ 		debugPrintArray ( $retCond ); 
+		debugPrintArray ( $this->record ); 
+		debugPrintArray ( $_SESSION ); 
 		return $retCond;
 	}
-	public function debugPrintArray($a, $msg = '') {
-		if (!$_SESSION['debug']) return; 
-		echo '<hr />';
-		echo 'DEBUG of '. $msg .'<pre>';
-		$traces = debug_backtrace();
-		foreach($traces as $trace) {
-			echo "<br />called by {$trace['class']} :: {$trace['function']}";
-		}
-		echo '<hr />';
-		print_r ( $a );
-		echo '</pre>';
-		echo '<hr />';
-	}
+
 	private function makeSurePersonprofileExists() {
 		if ($_SESSION['allowed_as'] == 'PUBLIC') {
 			return;
@@ -1072,7 +1060,7 @@ class Base {
 		if (empty ( $_SESSION ['user'] ) ) {
 			array_push ( $this->errorMessage, 'Please login first.' );
 		}
-		if (!in_array($_SESSION['url_action'], array('owebp_public_Person', 'owebp_public_User'))
+		if (!in_array($_SESSION['url_action'], array('public_Person', 'public_User'))
 			&& (!isset ($_SESSION ['login_person_id'])
 				|| $_SESSION ['login_person_id'] == ''
 			)
@@ -1092,6 +1080,8 @@ class Base {
 		if (isset ( $urlArgsArray ['id'] )) {
 			$this->record ['_id'] = $urlArgsArray ['id'];
 		}
+		
+		
 		if ($this->record ['_id'] == '') {
 			array_push ( $this->errorMessage, 'Record id not specified' );
 			return $this->showError ();
@@ -1112,9 +1102,11 @@ class Base {
 			
 			if ($this->curlsMode == 'Present') {
 				$rStr .= $this->presentDocument ( $this->subTaskKeyToSave, $this->fields, $doc );
+			} elseif ($this->curlsMode == 'Present Json') {
+					$rStr .= "test 2" . $doc;				
 			} else {
 				/* initialize form */
-				$f = new owebp_InputForm ();
+				$f = new InputForm ();
 				$f->curlsMode = $this->curlsMode;
 				$f->form ['title'] = $this->getFormTitle ();
 				$f->subTaskKeyToSave = $this->subTaskKeyToSave;
@@ -1144,7 +1136,7 @@ class Base {
 		$this->initializeTask ();
 		
 		/* initialize form */
-		$f = new owebp_InputForm ();
+		$f = new InputForm ();
 		$f->form ['title'] = $this->getFormTitle ();
 		
 		$f->curlsMode = $this->curlsMode;
@@ -1167,8 +1159,8 @@ class Base {
 		}
 
 		$this->findCursor = $_SESSION ['mongo_database']->{$this->collectionName}->find (getQueryConditions(array()));
-		$this->debugPrintArray ($this->findCursor->count(), 'findCursor count'); 
-		$this->debugPrintArray ($this->findCursor->count(true), 'findCursor count true'); 
+		debugPrintArray ($this->findCursor->count(), 'findCursor count'); 
+		debugPrintArray ($this->findCursor->count(true), 'findCursor count true'); 
 		
 		/* get the form */
 		
@@ -1268,8 +1260,12 @@ class Base {
 		return $this->edit ( $urlArgsArray );
 	}
 	public function presentDocument($subTaskKeyToSave, $fields, $doc) {
-		return 'Not Implemented';
+		return $doc;
 	}
+	public function presentJson($urlArgsArray) {
+		$this->curlsMode = 'Present Json';
+		return $this->edit ( $urlArgsArray );
+	}	
 	public function presentAll($urlArgsArray) {
 		$this->curlsMode = 'Present All';
 		return $this->readAll ( $urlArgsArray );

@@ -1,6 +1,6 @@
 <?php
 require_once JPM_DIR . DIRECTORY_SEPARATOR . "objects" . DIRECTORY_SEPARATOR . "owebp" . DIRECTORY_SEPARATOR . "Base.php";
-class owebp_WebVisitorType extends owebp_Base {
+class WebVisitorType extends Base {
 	public $titleValueConversionRequired = 0;
 	public $fields = array (
 			'value' => array (

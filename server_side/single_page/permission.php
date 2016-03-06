@@ -13,6 +13,7 @@
  * @return boolean
  */
 function isAllowed($moduleNames, $subTask) {
+	
 	$_SESSION ['allowed_as'] = "NULL";
 	
 	/* creater is admin */
@@ -78,6 +79,7 @@ function isAllowed($moduleNames, $subTask) {
 	/* allow public tasks */
 	if (in_array ( strtolower ( $_SESSION ['url_action'] ) . '-' . strtolower ( $_SESSION ['url_task'] ) . '-' . strtolower ( $_SESSION ['url_sub_task'] ), array (
 			'public_user-login-all',
+			'public_checkuser-exsistance-all',
 			'public_user-authenticate-all',
 			'public_user-logout-all',
 			'public_user-join-all',
@@ -90,7 +92,9 @@ function isAllowed($moduleNames, $subTask) {
 			'public_shoppingcart-present-all',
 			'public_shoppingcart-presentall-all',
 			'public_webpage-present-all',
-			'public_contact-presentall-all',
+			'public_webpage-present_document-all',
+			'public_webpage-presentjson-all',
+			'public_user-login-all','public_contact-presentall-all',
 			'public_organization-clients-all',
 			'public_familytree-presentall-all',
 			'public_familytree-present-all' 

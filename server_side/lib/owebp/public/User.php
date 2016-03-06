@@ -1,6 +1,6 @@
 <?php
 require_once JPM_DIR . DIRECTORY_SEPARATOR . "objects" . DIRECTORY_SEPARATOR . "owebp" . DIRECTORY_SEPARATOR . "Base.php";
-class owebp_public_User extends owebp_Base {
+class public_User extends Base {
 	function __construct() {
 		$this->collectionName = 'user';
 	}
@@ -22,7 +22,7 @@ class owebp_public_User extends owebp_Base {
 		),
 		'provider' => array (
 			'type' => 'list',
-			'list_class' => 'owebp_AuthenticationProvider',
+			'list_class' => 'AuthenticationProvider',
 			'input_mode' => 'clicking',
 			'required' => 1,
 			'show_in_list' => 1 
@@ -40,7 +40,7 @@ class owebp_public_User extends owebp_Base {
 	/*
 	 *
 	 * private function loginCredential() {
-	 * return new owebp_LoginCredential ();
+	 * return new LoginCredential ();
 	 * }
 	 */
 	private function sendAccountVerificationEmailToUser($user) {
@@ -66,7 +66,7 @@ class owebp_public_User extends owebp_Base {
 	public function login($urlArgsArray) {
 		$rStr = '';
 		/* this process is to receive login credentials for authentication */
-		$f = new owebp_InputForm ();
+		$f = new InputForm ();
 		$f->form ['label'] = 'left';
 		$f->form ['title'] = 'Login';
 		
@@ -92,7 +92,7 @@ class owebp_public_User extends owebp_Base {
 	public function join($urlArgsArray) {
 		$rStr = '';
 		/* this process is to receive login credentials for authentication */
-		$f = new owebp_InputForm ();
+		$f = new InputForm ();
 		$f->form ['label'] = 'left';
 		$f->form ['title'] = 'Registration';
 		$f->curlsMode = 'Join';
@@ -163,7 +163,7 @@ class owebp_public_User extends owebp_Base {
 		$this->debugPrintArray($_SESSION ); 
 		$rStr = '';
 		/* this process is to receive login credentials for authentication */
-		$f = new owebp_InputForm ();
+		$f = new InputForm ();
 		$f->form ['label'] = 'left';
 		$f->form ['title'] = 'Password Update and Account Activation';
 		
@@ -275,7 +275,7 @@ class owebp_public_User extends owebp_Base {
 						) );
 						$personCommunicationEmail = $lcRec ['email_address'];
 						
-						$personClass = new owebp_public_Person ();
+						$personClass = new public_Person ();
 						$personClass->record = $personRec;
 						array_push ( $this->errorMessage, $personClass->getOfficialFullName () . ' is holding this user account, <a href="mainto:' . $personCommunicationEmail . '">request</a> the person to migrate it to you.' );
 					}

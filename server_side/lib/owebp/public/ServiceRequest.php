@@ -1,6 +1,6 @@
 <?php
 require_once JPM_DIR . DIRECTORY_SEPARATOR . "objects" . DIRECTORY_SEPARATOR . "owebp" . DIRECTORY_SEPARATOR . "Base.php";
-class owebp_public_User extends owebp_Base {
+class public_User extends Base {
 	function __construct() {
 		$this->collectionName = 'user';
 	}
@@ -28,7 +28,7 @@ class owebp_public_User extends owebp_Base {
 			),
 			'provider' => array (
 					'type' => 'list',
-					'list_class' => 'owebp_AuthenticationProvider',
+					'list_class' => 'AuthenticationProvider',
 					'input_mode' => 'clicking',
 					'required' => 1,
 					'show_in_list' => 1 

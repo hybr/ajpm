@@ -1,5 +1,5 @@
 <?php
-class owebp_Root {
+class Root {
 
 	function __construct($opts = array()) {
 		/* echo '<pre>'; print_r($opts); echo '</pre>'; */

@@ -1,6 +1,6 @@
 <?php
 require_once JPM_DIR . DIRECTORY_SEPARATOR . "objects" . DIRECTORY_SEPARATOR . "owebp" . DIRECTORY_SEPARATOR . "Base.php";
-class owebp_public_organizationBuilding extends owebp_Base {
+class public_organizationBuilding extends Base {
 	function __construct() {
 		$this->collectionName = 'organization_building';
 	} /* __construct */
@@ -27,7 +27,7 @@ class owebp_public_organizationBuilding extends owebp_Base {
 					'fields' => array (
 							'weekday' => array (
 									'type' => 'list',
-									'list_class' => 'owebp_Weekday',
+									'list_class' => 'Weekday',
 									'input_mode' => 'clicking',
 									'show_in_list' => 1,
 									'multiple' => 1,

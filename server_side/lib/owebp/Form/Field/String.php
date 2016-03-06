@@ -1,7 +1,7 @@
 <?php
 
-require_once JPM_DIR . DIRECTORY_SEPARATOR . "objects" . DIRECTORY_SEPARATOR . "owebp" . DIRECTORY_SEPARATOR . "Root.php";
-class owebp_Form_Field_String extends owebp_Root {
+require_once DIR . DIRECTORY_SEPARATOR . "Root.php";
+class Form_Field_String extends Root {
 
         function __construct($opts = array()) {
                 /* define options  and their defaults */
@@ -16,7 +16,7 @@ class owebp_Form_Field_String extends owebp_Root {
         }
 
 	public function show() {
-		$inputHtmlTag = new owebp_Html_Input(array(
+		$inputHtmlTag = new Html_Input(array(
 			'name' => $this->getOption('name'),
 			'id' => $this->getOption('name'),
                 	'size' => $this->getOption('size'),
@@ -25,7 +25,7 @@ class owebp_Form_Field_String extends owebp_Root {
 		));
 
 		/* return with cover */
-		return (new owebp_Html_FormFieldComponentCover(array(
+		return (new Html_FormFieldComponentCover(array(
 			'position' => $this->getOption('position'),
 			'content' => $inputHtmlTag->get(),
 		)))->get();

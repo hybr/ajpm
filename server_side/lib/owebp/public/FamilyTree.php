@@ -1,6 +1,6 @@
 <?php
 require_once JPM_DIR . DIRECTORY_SEPARATOR . "objects" . DIRECTORY_SEPARATOR . "owebp" . DIRECTORY_SEPARATOR . "Base.php";
-class owebp_public_FamilyTree extends owebp_Base {
+class public_FamilyTree extends Base {
 	function __construct() {
 		$this->collectionName = 'family_tree';
 	} /* __construct */
@@ -9,7 +9,7 @@ class owebp_public_FamilyTree extends owebp_Base {
 		'primary' => array (
 			'type' => 'list',
 			'help' => 'Is this the main GEDCOM database?',
-			'list_class' => 'owebp_Boolean',
+			'list_class' => 'Boolean',
 			'input_mode' => 'clicking',
 			'show_in_list' => 1,
 			'default' => 'False',

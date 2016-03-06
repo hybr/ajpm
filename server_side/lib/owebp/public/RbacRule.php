@@ -1,6 +1,6 @@
 <?php
 require_once JPM_DIR . DIRECTORY_SEPARATOR . "objects" . DIRECTORY_SEPARATOR . "owebp" . DIRECTORY_SEPARATOR . "Base.php";
-class owebp_public_RbacRule extends owebp_Base {
+class public_RbacRule extends Base {
 	function __construct() {
 		$this->collectionName = 'rbac_rule';
 	} /* __construct */
@@ -22,7 +22,7 @@ class owebp_public_RbacRule extends owebp_Base {
 			),
 			'permission' => array (
 					'type' => 'list',
-					'list_class' => 'owebp_RbacPermission',
+					'list_class' => 'RbacPermission',
 					'input_mode' => 'selecting',
 					'show_in_list' => 1,
 					'multiple' => 1,

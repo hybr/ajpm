@@ -1,7 +1,7 @@
 <?php
 
 require_once JPM_DIR . DIRECTORY_SEPARATOR . "objects" . DIRECTORY_SEPARATOR . "owebp" . DIRECTORY_SEPARATOR . "Root.php";
-class owebp_Form_Field_Value extends owebp_Root {
+class Form_Field_Value extends Root {
 
         function __construct($opts = array()) {
                 /* define options  and their defaults */

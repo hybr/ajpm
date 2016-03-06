@@ -1,6 +1,6 @@
 <?php
 require_once JPM_DIR . DIRECTORY_SEPARATOR . "objects" . DIRECTORY_SEPARATOR . "owebp" . DIRECTORY_SEPARATOR . "Base.php";
-class owebp_public_ShoppingCart extends owebp_Base {
+class public_ShoppingCart extends Base {
 	function __construct() {
 		$this->collectionName = 'shopping_cart';
 	} /* __construct */
@@ -40,7 +40,7 @@ class owebp_public_ShoppingCart extends owebp_Base {
                       'fields' => array (
 				'flag' => array (
 					'type' => 'list',
-					'list_class' => 'owebp_ShoppingCartItemStatus',
+					'list_class' => 'ShoppingCartItemStatus',
 					'input_mode' => 'selecting',
 					'default' => 'Selected For Purchase',
 				),

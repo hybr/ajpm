@@ -1,6 +1,6 @@
 <?php
 require_once JPM_DIR . DIRECTORY_SEPARATOR . "objects" . DIRECTORY_SEPARATOR . "owebp" . DIRECTORY_SEPARATOR . "Base.php";
-class owebp_public_OrganizationTeamMemberLevel extends owebp_Base {
+class public_OrganizationTeamMemberLevel extends Base {
 	function __construct() {
 		$this->collectionName = 'organization_team_member_level';
 	} /* __construct */

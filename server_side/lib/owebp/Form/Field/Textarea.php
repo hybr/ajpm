@@ -1,7 +1,7 @@
 <?php
 
-require_once JPM_DIR . DIRECTORY_SEPARATOR . "objects" . DIRECTORY_SEPARATOR . "owebp" . DIRECTORY_SEPARATOR . "Root.php";
-class owebp_Form_Field_Textarea extends owebp_Root {
+require_once DIR . DIRECTORY_SEPARATOR . "Root.php";
+class Form_Field_Textarea extends Root {
 
         function __construct($opts = array()) {
                 /* define options  and their defaults */
@@ -17,7 +17,7 @@ class owebp_Form_Field_Textarea extends owebp_Root {
         }
 
 	public function show() {
-		$textareaHtmlTag = new owebp_Html_Textarea(array(
+		$textareaHtmlTag = new Html_Textarea(array(
 			'name' => $this->getOption('name'),
 			'id' => $this->getOption('name'),
                 	'rows' => $this->getOption('rows'),
@@ -27,7 +27,7 @@ class owebp_Form_Field_Textarea extends owebp_Root {
 		));
 
 		/* return with cover */
-		return (new owebp_Html_FormFieldComponentCover(array(
+		return (new Html_FormFieldComponentCover(array(
 			'position' => $this->getOption('position'),
 			'content' => $textareaHtmlTag->get(),
 		)))->get();

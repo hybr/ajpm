@@ -1,6 +1,6 @@
 <?php
 require_once JPM_DIR . DIRECTORY_SEPARATOR . "objects" . DIRECTORY_SEPARATOR . "owebp" . DIRECTORY_SEPARATOR . "Base.php";
-class owebp_public_ItemCatalog extends owebp_Base {
+class public_ItemCatalog extends Base {
 	function __construct() {
 		$this->collectionName = 'item_catalog';
 	} /* __construct */
@@ -18,7 +18,7 @@ class owebp_public_ItemCatalog extends owebp_Base {
 			'use' => array (
 					'type' => 'list',
 					'help' => 'Purpose of this catalog category',
-					'list_class' => 'owebp_ItemFor',
+					'list_class' => 'ItemFor',
 					'input_mode' => 'selecting',
 					'show_in_list' => 1,
 					'default' => 'Make and Sale',
@@ -37,7 +37,7 @@ class owebp_public_ItemCatalog extends owebp_Base {
 							),
 							'live' => array (
 				                                'type' => 'list',
-				                                'list_class' => 'owebp_ItemLiveType',
+				                                'list_class' => 'ItemLiveType',
 				                                'input_mode' => 'clicking',
 				                                'show_in_list' => 1,
 				                                'default' => 'Proposed',
@@ -57,7 +57,7 @@ class owebp_public_ItemCatalog extends owebp_Base {
 				'area' => array(),
 				'method' => array (
 		                	'type' => 'list',
-		                        'list_class' => 'owebp_ItemDeliveryMethod',
+		                        'list_class' => 'ItemDeliveryMethod',
 		                        'input_mode' => 'selecting',
 					'multiple' => 1,
 		                        'default' => 'Post',

@@ -3,11 +3,11 @@
 /**
  * A constant to hold the absolute path of ajpm lib folder on server
  *
- * @constant string OWEBP_DIR
+ * @constant string DIR
  */
 define ( 'AJPM_DIR', __DIR__ . DIRECTORY_SEPARATOR . '..');
-define ( 'OWEBP_DIR', AJPM_DIR
-. DIRECTORY_SEPARATOR . 'lib'
+define ( 'DIR', AJPM_DIR
+		. DIRECTORY_SEPARATOR . 'lib'
 		. DIRECTORY_SEPARATOR . 'owebp'
 );
 
@@ -32,4 +32,17 @@ function getTitle($title) {
 	return $returnString;
 }
 
+function debugPrintArray($a, $msg = '') {
+	if (!$_SESSION['debug']) return;
+	echo '<hr />';
+	echo 'DEBUG of '. $msg .'<pre>';
+	$traces = debug_backtrace();
+	foreach($traces as $trace) {
+		echo "<br />called by {$trace['class']} :: {$trace['function']}";
+	}
+	echo '<hr />';
+			print_r ( $a );
+			echo '</pre>';
+			echo '<hr />';
+}
 ?>

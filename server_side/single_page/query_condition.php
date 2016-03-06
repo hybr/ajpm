@@ -33,7 +33,7 @@ function getQueryConditions($record = array()) {
 	$recordsOwnedByOrg = array (
 			'for_org' => new MongoId ( $_SESSION ['url_domain_org'] ['_id'] ) 
 	);
-	if (strtolower ( $_SESSION ['url_action'] ) == 'owebp_public_organization') {
+	if (strtolower ( $_SESSION ['url_action'] ) == 'public_organization') {
 		$recordsOwnedByOrg = array (
 				'$or' => array (
 						array (
@@ -64,7 +64,7 @@ function getQueryConditions($record = array()) {
 				) 
 		);
 		/* if we are looking at person collection then show only person's profile */
-		if (strtolower ( $_SESSION ['url_action'] ) == 'owebp_public_person') {
+		if (strtolower ( $_SESSION ['url_action'] ) == 'public_person') {
 			$userRecords = array (
 					'$or' => array (
 							array (
@@ -83,7 +83,7 @@ function getQueryConditions($record = array()) {
 	
 	$orgRecords = $recordsOwnedByOrg;
 	
-	if (strtolower ( $_SESSION ['url_action'] ) == 'owebp_public_item') {
+	if (strtolower ( $_SESSION ['url_action'] ) == 'public_item') {
 		$itemForSaleCond = array (
 				"_id" => array (
 						'$exists' => true 
@@ -204,7 +204,7 @@ function getQueryConditions($record = array()) {
 	
 	/* specific actions or collections */
 	
-	if (strtolower ( $_SESSION ['url_action'] ) == 'owebp_public_user') {
+	if (strtolower ( $_SESSION ['url_action'] ) == 'public_user') {
 		if (in_array ( $_SESSION ['allowed_as'], array (
 				'USER',
 				'OWNER',
@@ -223,7 +223,7 @@ function getQueryConditions($record = array()) {
 			);
 		}
 	}
-	if (strtolower ( $_SESSION ['url_action'] ) == 'owebp_public_person') {
+	if (strtolower ( $_SESSION ['url_action'] ) == 'public_person') {
 		if (in_array ( $_SESSION ['allowed_as'], array (
 				'USER',
 				'OWNER',
@@ -253,7 +253,7 @@ function getQueryConditions($record = array()) {
 		);
 	}
 	
-	if (strtolower ( $_SESSION ['url_action'] ) == 'owebp_public_user') {
+	if (strtolower ( $_SESSION ['url_action'] ) == 'public_user') {
 		if (in_array ( $_SESSION ['user'] ['email_address'], array (
 				'sharma.yogesh.1234@gmail.com' 
 		) )) {

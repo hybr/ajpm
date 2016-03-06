@@ -15,7 +15,7 @@
  */
 function __autoload($class_name) {
 	if (strpos ( $class_name, 'PhpGedcom\\' ) !== false) {
-		$pathToPhpGedcom = OWEBP_DIR . '/mrkrstphr/php-gedcom/library';
+		$pathToPhpGedcom = DIR . '/mrkrstphr/php-gedcom/library';
 		$file = $pathToPhpGedcom . DIRECTORY_SEPARATOR . str_replace ( '\\', DIRECTORY_SEPARATOR, $class_name ) . '.php';
 		if (file_exists ( $file )) {
 			require_once ($file);
@@ -27,7 +27,7 @@ function __autoload($class_name) {
 	
 	/* replace the _ in class name to directory seperator */
 	$owebpClassName = str_replace ( '_', DIRECTORY_SEPARATOR, $class_name );
-	$file = OWEBP_DIR . DIRECTORY_SEPARATOR . $owebpClassName . '.php';
+	$file = DIR . DIRECTORY_SEPARATOR . $owebpClassName . '.php';
 	if (file_exists ( $file )) {
 		require_once $file;
 		if (! class_exists ( $class_name, false )) {

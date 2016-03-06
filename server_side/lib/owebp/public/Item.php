@@ -1,6 +1,6 @@
 <?php
 require_once JPM_DIR . DIRECTORY_SEPARATOR . "objects" . DIRECTORY_SEPARATOR . "owebp" . DIRECTORY_SEPARATOR . "Base.php";
-class owebp_public_Item extends owebp_Base {
+class public_Item extends Base {
 	function __construct() {
 		$this->collectionName = 'item';
 	} /* __construct */
@@ -34,14 +34,14 @@ class owebp_public_Item extends owebp_Base {
 		),
 		'live' => array (
 			'type' => 'list',
-			'list_class' => 'owebp_ItemLiveType',
+			'list_class' => 'ItemLiveType',
 			'input_mode' => 'clicking',
 			'show_in_list' => 1,
 			'default' => 'Proposed',
 		),		
 		'type' => array (
 			'type' => 'list',
-			'list_class' => 'owebp_ItemType',
+			'list_class' => 'ItemType',
 			'input_mode' => 'clicking',
 			'show_in_list' => 1,
 			'default' => 'Service' 
@@ -49,7 +49,7 @@ class owebp_public_Item extends owebp_Base {
 		'virtual' => array (
 			'help' => 'Is item virtual or real? Virtual items can be delivered by internet.',
 			'type' => 'list',
-			'list_class' => 'owebp_Boolean',
+			'list_class' => 'Boolean',
 			'input_mode' => 'clicking',
 			'default' => 'False',
 			'required' => 1,
@@ -100,7 +100,7 @@ class owebp_public_Item extends owebp_Base {
 					'for' => array (
 						'type' => 'list',
 						'help' => 'Purpose of this item',
-						'list_class' => 'owebp_ItemFor',
+						'list_class' => 'ItemFor',
 						'input_mode' => 'selecting',
 						'show_in_list' => 1,
 						'default' => 'Make and Sale',
@@ -108,7 +108,7 @@ class owebp_public_Item extends owebp_Base {
 					),							
 					'type' => array (
 						'type' => 'list',
-						'list_class' => 'owebp_ItemPriceType',
+						'list_class' => 'ItemPriceType',
 						'input_mode' => 'clicking',
 						'default' => 'Amount',
 						'required' => 1  
@@ -152,7 +152,7 @@ class owebp_public_Item extends owebp_Base {
 					),
 					'frequency' => array (
 						'type' => 'list',
-						'list_class' => 'owebp_TimeRepeatFrequency',
+						'list_class' => 'TimeRepeatFrequency',
 						'input_mode' => 'selecting',
 						'default' => 'Day',
 						'required' => 1,  
@@ -171,7 +171,7 @@ class owebp_public_Item extends owebp_Base {
 					),
 					'duration_unit' => array (
 						'type' => 'list',
-						'list_class' => 'owebp_TimeRepeatFrequency',
+						'list_class' => 'TimeRepeatFrequency',
 						'input_mode' => 'selecting',
 						'default' => 'Hour',
 						'required' => 1,  
@@ -192,7 +192,7 @@ class owebp_public_Item extends owebp_Base {
 				'fields' => array (
 					'mendatory' => array (
 						'type' => 'list',
-						'list_class' => 'owebp_Boolean',
+						'list_class' => 'Boolean',
 						'input_mode' => 'clicking',
 						'default' => 'False',
 						'required' => 1,
@@ -340,7 +340,7 @@ class owebp_public_Item extends owebp_Base {
 				$startTimeEpoch = strtotime($startDate . ' ' . $startTime);
 				$endTimeEpoch = strtotime($endDate . ' ' . $endTime);
 
-                                $personClass =  new owebp_public_Person();
+                                $personClass =  new public_Person();
                                 $personClass->record = $this->getDocumentById('person', $this->getFieldValue($sh, 'provider'));
                                 $personName = $personClass->getFullName('Official');
 

@@ -1,7 +1,7 @@
 <?php
 
-require_once JPM_DIR . DIRECTORY_SEPARATOR . "objects" . DIRECTORY_SEPARATOR . "owebp" . DIRECTORY_SEPARATOR . "Root.php";
-class owebp_Form_Field_Radios extends owebp_Root {
+require_once DIR . DIRECTORY_SEPARATOR . "Root.php";
+class Form_Field_Radios extends Root {
 
         function __construct($opts = array()) {
                 /* define options  and their defaults */
@@ -30,7 +30,7 @@ class owebp_Form_Field_Radios extends owebp_Root {
                                 $checked = 'checked';
                         }
 			$oneBox = '<label>';
-			$input = new owebp_Html_Input(array(
+			$input = new Html_Input(array(
 				'type' => 'radio',
 				'name' => $this->getOption('name'),
 				'content' => $r['value'],
@@ -44,7 +44,7 @@ class owebp_Form_Field_Radios extends owebp_Root {
                 } /* foreach ( $dataClassInstance->getTable () as $r ) */
 
 		/* return with cover */
-		return (new owebp_Html_FormFieldComponentCover(array(
+		return (new Html_FormFieldComponentCover(array(
 			'position' => $this->getOption('position'),
 			'content' => $selectOptionsList,
 		)))->get();

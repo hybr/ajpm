@@ -1,7 +1,7 @@
 <?php
 
-require_once JPM_DIR . DIRECTORY_SEPARATOR . "objects" . DIRECTORY_SEPARATOR . "owebp" . DIRECTORY_SEPARATOR . "Root.php";
-class owebp_Form_Field_Help extends owebp_Root {
+require_once DIR . DIRECTORY_SEPARATOR . "Root.php";
+class Form_Field_Help extends Root {
 
         function __construct($opts = array()) {
                 /* define options  and their defaults */
@@ -17,13 +17,13 @@ class owebp_Form_Field_Help extends owebp_Root {
 		if ($this->getOption('text') == '') {
 			return '';
 		}
-		$contentHtmlTag = new owebp_Html_Tag(array(
+		$contentHtmlTag = new Html_Tag(array(
                         'tag' => 'span',
 			'id' => $this->getOption('fieldName'),
                         'content' => '<b>Help</b>: ' . $this->getOption('text'),
                 ));
 		/* return with cover */
-                return (new owebp_Html_FormFieldComponentCover(array(
+                return (new Html_FormFieldComponentCover(array(
                         'position' => $this->getOption('position'),
                         'content' => $contentHtmlTag->get(),
                 )))->get();

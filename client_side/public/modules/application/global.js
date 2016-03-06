@@ -6,6 +6,11 @@ angular.module('ajpmApp').run(['$rootScope', '$state', 'AuthService', 'AUTH_EVEN
 	/* before each state change, check if the user is logged in and authorized to move onto the next state */
 	$rootScope.$on('$stateChangeStart', function(event, next) {
 		
+		/**
+		 * Clear page message at every state change
+		 */
+		$scope.clearPageMessages();
+		
 		$rootScope.nextRequestedStateName = next.name;		
 		/**
 		 * Find the roles assigned to activity. If no roles then guest role 

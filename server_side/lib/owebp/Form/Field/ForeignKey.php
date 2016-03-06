@@ -1,7 +1,7 @@
 <?php
 
-require_once JPM_DIR . DIRECTORY_SEPARATOR . "objects" . DIRECTORY_SEPARATOR . "owebp" . DIRECTORY_SEPARATOR . "Root.php";
-class owebp_Form_Field_ForeignKey extends owebp_Root {
+require_once DIR . DIRECTORY_SEPARATOR . "Root.php";
+class Form_Field_ForeignKey extends Root {
 
         function __construct($opts = array()) {
                 /* define options  and their defaults */
@@ -21,7 +21,7 @@ class owebp_Form_Field_ForeignKey extends owebp_Root {
         }
 
 	public function show() {
-		$inputHtmlTag = new owebp_Html_Input(array(
+		$inputHtmlTag = new Html_Input(array(
 			'name' => $this->getOption('name'),
 			'id' => $this->getOption('name'),
                 	'size' => $this->getOption('size'),
@@ -35,14 +35,14 @@ class owebp_Form_Field_ForeignKey extends owebp_Root {
 		));
 
 
-		$valueInstance = new owebp_Form_Field_Value(array(
+		$valueInstance = new Form_Field_Value(array(
                         'value' => $this->getOption('value'),
                         'jpm_foreign_collection' => $this->getOption('jpm_foreign_collection'),
                         'jpm_foreign_title_fields' => $this->getOption('jpm_foreign_title_fields'),
                 ));
 
 		/* return with cover */
-		return (new owebp_Html_FormFieldComponentCover(array(
+		return (new Html_FormFieldComponentCover(array(
 			'position' => $this->getOption('position'),
 			'content' => $inputHtmlTag->get() . $valueInstance->get(),
 		)))->get();

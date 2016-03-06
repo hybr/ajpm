@@ -1,6 +1,6 @@
 <?php
-require_once JPM_DIR . DIRECTORY_SEPARATOR . "objects" . DIRECTORY_SEPARATOR . "owebp" . DIRECTORY_SEPARATOR . "Base.php";
-class owebp_WebPageComponent extends owebp_Base {
+require_once DIR . DIRECTORY_SEPARATOR . "Base.php";
+class WebPageComponent extends Base {
 	public $titleValueConversionRequired = 0;
 	public $fields = array (
 			'value' => array (

@@ -1,5 +1,5 @@
 <?php
-require_once OWEBP_DIR . DIRECTORY_SEPARATOR . "Base.php";
+require_once DIR . DIRECTORY_SEPARATOR . "Base.php";
 class OwebpModule extends Base {
 	public $titleValueConversionRequired = 0;
 	public $fields = array (

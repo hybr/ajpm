@@ -1,6 +1,6 @@
 <?php
 require_once JPM_DIR . DIRECTORY_SEPARATOR . "objects" . DIRECTORY_SEPARATOR . "owebp" . DIRECTORY_SEPARATOR . "Base.php";
-class owebp_public_ChartOfAccounts extends owebp_Base {
+class public_ChartOfAccounts extends Base {
 	function __construct() {
 		$this->collectionName = 'chart_of_accounts';
 	} /* __construct */

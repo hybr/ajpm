@@ -1,6 +1,6 @@
 <?php
 require_once JPM_DIR . DIRECTORY_SEPARATOR . "objects" . DIRECTORY_SEPARATOR . "owebp" . DIRECTORY_SEPARATOR . "Base.php";
-class owebp_InputForm extends owebp_Base {
+class InputForm extends Base {
 	public $form = array (
 		'label' => 'top', /* two values left and top */
 		'title' => '' 
@@ -321,7 +321,7 @@ class owebp_InputForm extends owebp_Base {
 					$field['type'] = 'readonly';
 				}
 
-		                $rStr .= (new owebp_Form_Field_Widget(array(
+		                $rStr .= (new Form_Field_Widget(array(
 					'inputTag' => $field ['type'],
 					'title' => $field['title'],
 					'name' => $field['name'],

@@ -1,6 +1,6 @@
 <?php
 require_once JPM_DIR . DIRECTORY_SEPARATOR . "objects" . DIRECTORY_SEPARATOR . "owebp" . DIRECTORY_SEPARATOR . "Base.php";
-class owebp_ApplicationEnvironment extends owebp_Base {
+class ApplicationEnvironment extends Base {
 	public $fields = array (
 			'value' => array (
 					'type' => 'integer',

@@ -1,6 +1,6 @@
 <?php
 require_once JPM_DIR . DIRECTORY_SEPARATOR . "objects" . DIRECTORY_SEPARATOR . "owebp" . DIRECTORY_SEPARATOR . "Base.php";
-class owebp_public_FileUpload extends owebp_Base {
+class public_FileUpload extends Base {
 	function __construct() {
 		$this->collectionName = 'file_upload';
 	}

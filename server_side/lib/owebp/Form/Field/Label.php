@@ -1,7 +1,7 @@
 <?php
 
-require_once JPM_DIR . DIRECTORY_SEPARATOR . "objects" . DIRECTORY_SEPARATOR . "owebp" . DIRECTORY_SEPARATOR . "Root.php";
-class owebp_Form_Field_Label extends owebp_Root {
+require_once DIR . DIRECTORY_SEPARATOR . "Root.php";
+class Form_Field_Label extends Root {
 
         function __construct($opts = array()) {
                 /* define options  and their defaults */
@@ -15,20 +15,20 @@ class owebp_Form_Field_Label extends owebp_Root {
         }
 
 	public function show() {
-		$contentHtmlTag = new owebp_Html_Tag(array(
+		$contentHtmlTag = new Html_Tag(array(
                         'tag' => 'span',
-                        'content' => (new owebp_TitleCreator(array( 'string' => $this->getOption('title'))))->get(),
+                        'content' => (new TitleCreator(array( 'string' => $this->getOption('title'))))->get(),
                 ));
 		$titleText = trim($contentHtmlTag->get());
 		if ($this->getOption('required') == 1) {
-			$requiredHtmlTag = new owebp_Html_Tag(array(
+			$requiredHtmlTag = new Html_Tag(array(
 				'tag' => 'span',
 				'content' => ' *',
                         	'style' => 'color: red;',
 			));
 			$titleText .= ' ' . $requiredHtmlTag->get();
 		}
-		$labelHtmlTag = new owebp_Html_Tag(array(
+		$labelHtmlTag = new Html_Tag(array(
 			'tag' => 'label',
 			'class' => 'ui-widget-header',
 			'id' => $this->getOption('name'),
@@ -37,7 +37,7 @@ class owebp_Form_Field_Label extends owebp_Root {
 		));
 
                 /* return with cover */
-                return (new owebp_Html_FormFieldComponentCover(array(
+                return (new Html_FormFieldComponentCover(array(
                         'position' => $this->getOption('position'),
                         'content' => $labelHtmlTag->get(),
                 )))->get();

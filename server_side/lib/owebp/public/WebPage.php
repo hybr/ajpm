@@ -1,5 +1,5 @@
 <?php
-require_once OWEBP_DIR . DIRECTORY_SEPARATOR . "Base.php";
+require_once DIR . DIRECTORY_SEPARATOR . "Base.php";
 class public_WebPage extends Base {
 	function __construct() {
 		$this->collectionName = 'web_page';
@@ -14,7 +14,7 @@ class public_WebPage extends Base {
 			'fields' => array (
 				'type' => array (
 					'type' => 'list',
-					'list_class' => 'owebp_WebPageComponent',
+					'list_class' => 'WebPageComponent',
 					'input_mode' => 'selecting',
 					'default' => 'Paragraph'
 				)
@@ -106,7 +106,7 @@ class public_WebPage extends Base {
 				$rStr .= '<br /><div class="ui-widget-header ui-corner-top jpmHeaderPadding">Contact Information</div>';
 				$rStr .= '<div class="ui-widget-content ui-corner-bottom jpmContentPadding">';
 				$rStr .= '<table class="showTable">';
-				$contactInstance = new owebp_public_Contact();
+				$contactInstance = new public_Contact();
 				foreach ($doc['contacts'] as $rec) {
 					$contactDoc = $this->getDocumentById('contact', $rec['contact']);
 					$rStr .= $contactInstance->showContactAsTableRow($contactDoc);

@@ -1,6 +1,6 @@
 <?php
 require_once JPM_DIR . DIRECTORY_SEPARATOR . "objects" . DIRECTORY_SEPARATOR . "owebp" . DIRECTORY_SEPARATOR . "Base.php";
-class owebp_public_Contact extends owebp_Base {
+class public_Contact extends Base {
 	function __construct() {
 		$this->collectionName = 'contact';
 		
@@ -9,14 +9,14 @@ class owebp_public_Contact extends owebp_Base {
 			'public' => array (
 					'type' => 'list',
 					'help' => 'If true then this contact info will be on contact us page',
-					'list_class' => 'owebp_Boolean',
+					'list_class' => 'Boolean',
 					'input_mode' => 'clicking',
 					'default' => 'False',
 					'sub_tasks' => array('all', 'Phone','Fax','Pager','Voip','Email Address','Postal Address','Web')
 			),
 			'location' => array (
 					'type' => 'list',
-					'list_class' => 'owebp_ContactLocation',
+					'list_class' => 'ContactLocation',
 					'input_mode' => 'clicking',
 					'show_in_list' => 1,
 					'default' => 'Work',
@@ -24,7 +24,7 @@ class owebp_public_Contact extends owebp_Base {
 			),
 			'medium' => array (
 					'type' => 'list',
-					'list_class' => 'owebp_ContactMedium',
+					'list_class' => 'ContactMedium',
 					'input_mode' => 'selecting',
 					'show_in_list' => 1,
 					'default' => 'Phone',
@@ -33,7 +33,7 @@ class owebp_public_Contact extends owebp_Base {
 			'primary' => array (
 					'type' => 'list',
 					'help' => 'Is thiis a main contact?',
-					'list_class' => 'owebp_Boolean',
+					'list_class' => 'Boolean',
 					'input_mode' => 'clicking',
 					'show_in_list' => 1,
 					'default' => 'False',
@@ -150,7 +150,7 @@ class owebp_public_Contact extends owebp_Base {
 
         public function presentAllDocument($subTaskKeyToSave, $fields, $docCursor) {
 		$rStr .= '<table class="showTable">';
-		$contactInstance = new owebp_public_Contact();
+		$contactInstance = new public_Contact();
                 foreach ( $docCursor as $doc ) {
 			if (isset($doc['public']) && strtolower($doc['public']) == 'true') {
                         	$rStr .= $this->showContactAsTableRow($doc);

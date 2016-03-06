@@ -1,7 +1,7 @@
 <?php
 
 require_once JPM_DIR . DIRECTORY_SEPARATOR . "objects" . DIRECTORY_SEPARATOR . "owebp" . DIRECTORY_SEPARATOR . "Root.php";
-class owebp_Form_Field_Widget extends owebp_Root {
+class Form_Field_Widget extends Root {
 
         function __construct($opts = array()) {
                 /* define options  and their defaults */
@@ -34,7 +34,7 @@ class owebp_Form_Field_Widget extends owebp_Root {
 		if ($this->getOption('layout') == 'left_title') {
 			$position = 'left';
 		}
-                $rStr .= (new owebp_Form_Field_Label(array(
+                $rStr .= (new Form_Field_Label(array(
                         'title' => $this->getOption('title'),
                         'name' => $this->getOption('name'),
                         'required' => $this->getOption('required'),
@@ -52,27 +52,27 @@ class owebp_Form_Field_Widget extends owebp_Root {
 			}
 		}
 		if ($this->getOption('inputTag') == 'foreign_key') {
-			$t = (new owebp_TitleCreator(array( 'string' => $this->getOption('jpm_foreign_collection'))))->get();
+			$t = (new TitleCreator(array( 'string' => $this->getOption('jpm_foreign_collection'))))->get();
 			$helpText .= 'If required please add <a target="_blank" href="/' 
 				. $this->getOption('jpm_foreign_collection') 
 				. '/create">'. $t .'</a>';
 		}
-                $rStr .= (new owebp_Form_Field_Help(array(
+                $rStr .= (new Form_Field_Help(array(
                         'text' => $helpText,
 			'position' => $position,
                 )))->show();
 
 
 		/* input form field */
-		$fieldClass = 'owebp_Form_Field_' . ucfirst(strtolower($this->getOption('inputTag')));
+		$fieldClass = 'Form_Field_' . ucfirst(strtolower($this->getOption('inputTag')));
 		if (strtolower($this->getOption('inputTag')) == 'foreign_key') {
-			$fieldClass = 'owebp_Form_Field_ForeignKey';
+			$fieldClass = 'Form_Field_ForeignKey';
 		}
 		if (strtolower($this->getOption('inputTag')) == 'geonames_city') {
-			$fieldClass = 'owebp_Form_Field_GeoNamesCity';
+			$fieldClass = 'Form_Field_GeoNamesCity';
 		}
 		if (strtolower($this->getOption('inputTag')) == 'file_list') {
-			$fieldClass = 'owebp_Form_Field_FileList';
+			$fieldClass = 'Form_Field_FileList';
 		}
 
 		$allOptions = array(
@@ -95,7 +95,7 @@ class owebp_Form_Field_Widget extends owebp_Root {
 		$rStr .= (new $fieldClass($allOptions))->show();
 
 		/* return with cover */
-		return (new owebp_Html_FormFieldCover(array(
+		return (new Html_FormFieldCover(array(
 			'content' => $rStr,
 		)))->get();
 	}

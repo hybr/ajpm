@@ -50,7 +50,7 @@ include dirname(__FILE__) . '/../single_page/query_condition.php';
 include dirname(__FILE__) . '/../single_page/content.php'; 
 
 if ($_SESSION['debug']) {
-	echo '<pre>'; print_r($_SESSION); echo '</pre>';
+	echo '<pre>'; print_r($_SESSION); print_r($urlArgsArray); echo '</pre>';
 }
 
 ?>

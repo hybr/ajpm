@@ -1,6 +1,6 @@
 <?php
 require_once JPM_DIR . DIRECTORY_SEPARATOR . "objects" . DIRECTORY_SEPARATOR . "owebp" . DIRECTORY_SEPARATOR . "Base.php";
-class owebp_public_Organization extends owebp_Base {
+class public_Organization extends Base {
 	function __construct() {
 		$this->collectionName = 'organization';
 	} /* __construct */
@@ -42,14 +42,14 @@ class owebp_public_Organization extends owebp_Base {
 		'web_site_content_type' => array (
 			'help' => 'What type of website to setup?',
 			'type' => 'list',
-			'list_class' => 'owebp_WebSiteContentType',
+			'list_class' => 'WebSiteContentType',
 			'input_mode' => 'selecting',
 			'default' => 'Electronic Commerce',
 		),
 		'web_site_theme' => array (
 			'help' => 'Color scheme of the website',
 			'type' => 'list',
-			'list_class' => 'owebp_WebPageTheme',
+			'list_class' => 'WebPageTheme',
 			'input_mode' => 'selecting',
 			'default' => 'start'
 		),
@@ -90,7 +90,7 @@ class owebp_public_Organization extends owebp_Base {
 			$rStr .=  "Owner";
 			$rStr .= '</td>';
 			$rStr .= '<td class="jpmContentPadding">';
-			$personClass =  new owebp_public_Person();
+			$personClass =  new public_Person();
 			$personClass->record = $owner; 
 			$rStr .= $personClass->getOfficialFullName();
 			$rStr .= '</td>';

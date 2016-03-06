@@ -1,6 +1,6 @@
 <?php
 require_once JPM_DIR . DIRECTORY_SEPARATOR . "objects" . DIRECTORY_SEPARATOR . "owebp" . DIRECTORY_SEPARATOR . "Base.php";
-class owebp_public_Person extends owebp_Base {
+class public_Person extends Base {
 	function __construct() {
 		$this->collectionName = 'person';
 	} /* __construct */
@@ -12,7 +12,7 @@ class owebp_public_Person extends owebp_Base {
 			'fields' => array (
 				'type' => array (
 					'type' => 'list',
-					'list_class' => 'owebp_PersonNameType',
+					'list_class' => 'PersonNameType',
 					'input_mode' => 'clicking',
 					'default' => 'Official' 
 				),
@@ -25,7 +25,7 @@ class owebp_public_Person extends owebp_Base {
 		),
 		'gender' => array (
 			'type' => 'list',
-			'list_class' => 'owebp_PersonGender',
+			'list_class' => 'PersonGender',
 			'input_mode' => 'clicking',
 			'show_in_list' => 1,
 			'default' => 'Male' 
@@ -36,7 +36,7 @@ class owebp_public_Person extends owebp_Base {
 			'fields' => array (
 				'primary' => array (
 					'type' => 'list',
-					'list_class' => 'owebp_Boolean',
+					'list_class' => 'Boolean',
 					'input_mode' => 'clicking',
 					'show_in_list' => 1,
 					'default' => 'False'
@@ -65,7 +65,7 @@ class owebp_public_Person extends owebp_Base {
 			'fields' => array (
 				'relation' => array (
 					'type' => 'list',
-					'list_class' => 'owebp_PersonRelation',
+					'list_class' => 'PersonRelation',
 					'input_mode' => 'clicking' 
 				),
 				'person' => array (
@@ -92,7 +92,7 @@ class owebp_public_Person extends owebp_Base {
 		 ) ,
 		'check_duplicate' => array (
 			'type' => 'list',
-			'list_class' => 'owebp_Boolean',
+			'list_class' => 'Boolean',
 			'input_mode' => 'clicking',
 			'default' => 'True'
 		),

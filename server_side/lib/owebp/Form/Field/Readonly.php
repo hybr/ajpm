@@ -1,7 +1,7 @@
 <?php
 
-require_once JPM_DIR . DIRECTORY_SEPARATOR . "objects" . DIRECTORY_SEPARATOR . "owebp" . DIRECTORY_SEPARATOR . "Root.php";
-class owebp_Form_Field_Readonly extends owebp_Root {
+require_once DIR . DIRECTORY_SEPARATOR . "Root.php";
+class Form_Field_Readonly extends Root {
 
         function __construct($opts = array()) {
                 /* define options  and their defaults */
@@ -20,14 +20,14 @@ class owebp_Form_Field_Readonly extends owebp_Root {
 
 	public function show() {
 
-		$valueInstance = new owebp_Form_Field_Value(array(
+		$valueInstance = new Form_Field_Value(array(
 			'value' => $this->getOption('value'),
 			'jpm_foreign_collection' => $this->getOption('jpm_foreign_collection'),
 			'jpm_foreign_title_fields' => $this->getOption('jpm_foreign_title_fields'),
 			'dataClassName' => $this->getOption('dataClassName'),
 		));
 
-		return (new owebp_Html_FormFieldComponentCover(array(
+		return (new Html_FormFieldComponentCover(array(
 			'position' => $this->getOption('position'),
 			'content' => $valueInstance->get(),
 		)))->get();
