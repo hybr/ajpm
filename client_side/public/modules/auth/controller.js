@@ -22,12 +22,12 @@ angular.module('ajpmApp').controller(
 					$scope.credentials = {};
 					$scope.form_login_s1 = {};
 					$scope.form_login_s2 = {};
-					$scope.clearPageMessages();
+					$rootScope.clearPageMessages();
 					
 					// when the form step s1 is submitted
 					$scope.submit_s1 = function() {
 						
-						$scope.clearPageMessages();
+						$rootScope.clearPageMessages();
 						
 						if (!$scope.form_login_s1.$invalid) {
 							
@@ -51,14 +51,14 @@ angular.module('ajpmApp').controller(
 							);
 							
 						} else {
-							$scope.pushPageMessage('Invalid entries in login form');
+							$rootScope.pushPageMessage('Invalid entries in login form');
 						}
 					};
 					
 					// when the form step s2 is submitted
 					$scope.submit_s2 = function() {
 						
-						$scope.clearPageMessages();
+						$rootScope.clearPageMessages();
 						
 						if (!$scope.form_login_s2.$invalid) {
 							
@@ -88,34 +88,34 @@ angular.module('ajpmApp').controller(
 									$scope.isPasswordCorrectFail
 								);
 							} else {
-								$scope.pushPageMessage("First provide the user email address");
+								$rootScope.pushPageMessage("First provide the user email address");
 								$rootScope.$broadcast(AUTH_EVENTS.loginFailed);
 							}
 						} else {
 							
-							$scope.pushPageMessage('Invalid entries in login form');
+							$rootScope.pushPageMessage('Invalid entries in login form');
 						}
 					};
 
 					$scope.checkUserForLoginProcessPass = function(message) {
-						if (message) $scope.pushPageMessage(message);
+						if (message) $rootScope.pushPageMessage(message);
 						/* fire event of user exists */
 						$rootScope.$broadcast(AUTH_EVENTS.loginUserExists);
 					}
 
 					$scope.checkUserForLoginProcessFail = function(message) {
-						if (message) $scope.pushPageMessage(message);
+						if (message) $rootScope.pushPageMessage(message);
 						$rootScope.$broadcast(AUTH_EVENTS.loginFailed);
 					}
 					
 					$scope.isPasswordCorrectPass = function(message) {
-						if (message) $scope.pushPageMessage(message);
+						if (message) $rootScope.pushPageMessage(message);
 						/* fire event of successful login */
 						$rootScope.$broadcast(AUTH_EVENTS.loginSuccess);							
 					}
 					
 					$scope.isPasswordCorrectFail = function(message) {
-						if (message) $scope.pushPageMessage(message);
+						if (message) $rootScope.pushPageMessage(message);
 						$rootScope.$broadcast(AUTH_EVENTS.loginFailed);								
 					}
 					

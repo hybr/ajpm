@@ -56,6 +56,22 @@ function isInt(n){
     return typeof n == "number" && isFinite(n) && n % 1 === 0;
 }
 
+/**
+ * @function _3g is used to hold the server side service link
+ * @return {string} the domain name from url
+ */
+function _3gf () {
+	var _1l = window.location.hostname.replace(/www\./g, "");
+	var _2l = false; /* _2l = development environment */
+	if (_1l == 'localhost') {_1l = 'localhost:8000';  _2l = true;}
+	if (_1l == '10.92.74.10') {_1l = 'localhost:8000'; _2l = true;}	
+	if (!_2l) {
+	  _1l = 'service.' . _1l;
+	}
+	return _1l;
+}
+_3g = _3gf();
+
 
 /**
  * @variable ajpmApp is used to hold the main angular module Main application

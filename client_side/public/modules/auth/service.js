@@ -25,13 +25,17 @@ angular.module('ajpmApp').factory(
 							authService.checkUserForLoginProcess = function(email, passFunc, failFunc) {
 								/* this is  dummy technique, normally here the user is returned with his data from the db */
 								/* send md5(email) to server side and verify if user exists. */
-								$http.get('data/users.json').success(function(data) {
-									/* fake user table */
-									var userRecordFromDb = data.users[email];
+								$http({
+								
+									method: 'POST',
+									url: 'http://' + _3g + '/check_user/exsistance',
+									data: { email_address: email }
+								
+								}).then(function successCallback(response) {
 									
-									if (!userRecordFromDb) {
+									if (data.status != 'User exists') {
 										/* email address supplied does not exists */
-										failFunc('User does not exists'); /* empty session_id */
+										failFunc(data.status); /* empty session_id */
 									} else {
 										
 										/* session id we will receive from server side */
@@ -45,10 +49,14 @@ angular.module('ajpmApp').factory(
 										SessionService.setCurrentUserEmail(email);
 										
 										passFunc(''); /* session id from server side */
-									}						
-								}).error(function() {
-									failFunc('Can not connect to server side API to verify user email'); /* error */
-								}); /* $http.get('data/users.json').success/error(function(data) { */
+									}
+									
+								}, function errorCallback(response) {
+									
+									failFunc('Can not connect to server side API to verify user email'); 
+									/* error */
+								});
+
 							}; /* authService.doesUserExists = function(email, success, error) { */
 							
 							

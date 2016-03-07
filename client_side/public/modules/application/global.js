@@ -1,7 +1,8 @@
 /**
  * Contains functions that are added to the root AngularJs scope.
  */
-angular.module('ajpmApp').run(['$rootScope', '$state', 'AuthService', 'AUTH_EVENTS', function($rootScope, $state, AuthService, AUTH_EVENTS) {
+angular.module('ajpmApp').run(['$rootScope', '$state', 'AuthService', 'AUTH_EVENTS', 
+    function($rootScope, $state, AuthService, AUTH_EVENTS) {
 
 	/* before each state change, check if the user is logged in and authorized to move onto the next state */
 	$rootScope.$on('$stateChangeStart', function(event, next) {
@@ -9,7 +10,7 @@ angular.module('ajpmApp').run(['$rootScope', '$state', 'AuthService', 'AUTH_EVEN
 		/**
 		 * Clear page message at every state change
 		 */
-		$scope.clearPageMessages();
+		$rootScope.clearPageMessages();
 		
 		$rootScope.nextRequestedStateName = next.name;		
 		/**

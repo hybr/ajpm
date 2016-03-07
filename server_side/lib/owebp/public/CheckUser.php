@@ -9,6 +9,11 @@ class public_CheckUser extends Base {
 	public function exsistance($urlArgsArray) {
 		/* $this->debugPrintArray($_POST); */ 
 
+		$response = array();
+		
+		/**
+		 * get the email address from post/get
+		 */
 		$userEmail = '';
 		if (isset($_POST ['email_address'])) {
 			$userEmail = $_POST ['email_address'];
@@ -17,36 +22,44 @@ class public_CheckUser extends Base {
 			$userEmail = $_GET ['email_address'];
 		}
 		
-		/* read the record */
-		$_SESSION ['user'] = $_SESSION ['mongo_database']->user->findOne ( array (
+		/**
+		 *  read the record from database
+		 */
+		$userRecord = $_SESSION ['mongo_database']->user->findOne ( array (
 				'email_address' => $userEmail
 		) );
+
+		/**
+		 * Verificacion logic
+		 */
+		$response['status'] = 'User exists';
+		if (empty($userRecord)) {
+			$response['status'] = 'User does not exists';
+		} else {
+			if (isset($userRecord['verified'])) {
+				if ($userRecord['verified'] != 1) {
+					$response['status'] = 'User is not verified yet';
+				}
+			} else {
+				$response['status'] = 'User verification field missing';
+			}
+		}
 		
+		/**
+		 * Return the response
+		 */
+		if ($response['status'] == 'User exists') {
+			$_SESSION ['user'] = $userRecord;
+		} else {
+			$_SESSION ['user'] = 'NULL';
+			array_push ( $this->errorMessage, $response['status'] );
+		}
+
 		if ($_SESSION['debug']) {
 			echo '<pre>SESSION user : '; print_r($_SESSION['user']); echo '</pre>';
 		}
-				
-		/* $this->debugPrintArray($_SESSION ['user']); */
 		
-		if (empty($_SESSION ['user'])) {
-			array_push ( $this->errorMessage, 'User does not exists' );
-			unset($_SESSION['user']);
-			return $this->showError ();
-		}
-
-		if (isset($_SESSION ['user']['verified'])) {
-			if ($_SESSION ['user']['verified'] != 1) {
-				array_push ( $this->errorMessage, 'User is not verified yet' );
-				unset($_SESSION['user']);
-				return $this->showError ();
-			}
-		} else {
-			array_push ( $this->errorMessage, $userEmail . 'User needs verification' );
-			unset($_SESSION['user']);
-			return $this->showError ();
-		}
- 
-		return 'User exists';
+		return json_encode($response);
 	} /* authenticate */
 }
 ?>

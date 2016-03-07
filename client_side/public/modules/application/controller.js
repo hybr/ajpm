@@ -34,19 +34,19 @@ angular.module('ajpmApp').controller('ApplicationController',
 	 */
 	var pageMessages = [];
 	
-	$scope.pushPageMessage = function(message) {
+	$rootScope.pushPageMessage = function(message) {
 		pageMessages.push(message);
 	}
 	
-	$scope.hasPageMessages = function() {
+	$rootScope.hasPageMessages = function() {
 		return (pageMessages.length > 0);
 	}
 	
-	$scope.clearPageMessages = function() {
+	$rootScope.clearPageMessages = function() {
 		pageMessages = [];
 	}
 	
-	$scope.getPageMessages = function() {
+	$rootScope.getPageMessages = function() {
 		return pageMessages;
 	}
 	
@@ -57,9 +57,9 @@ angular.module('ajpmApp').controller('ApplicationController',
 	
 	var showNotAuthorized = function(){
 		if (AuthService.isAuthenticated) {
-			$scope.pushPageMessage("You are not authorized");
+			$rootScope.pushPageMessage("You are not authorized");
 		} else {
-			$scope.pushPageMessage("Please login first");
+			$rootScope.pushPageMessage("Please login first");
 			$rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
 		}
 	}
