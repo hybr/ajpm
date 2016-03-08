@@ -1,5 +1,5 @@
 <?php
-require_once JPM_DIR . DIRECTORY_SEPARATOR . "objects" . DIRECTORY_SEPARATOR . "owebp" . DIRECTORY_SEPARATOR . "Base.php";
+require_once SERVER_SIDE_LIB_DIR . DIRECTORY_SEPARATOR . "Base.php";
 class ApplicationEnvironment extends Base {
 	public $fields = array (
 			'value' => array (

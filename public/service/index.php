@@ -50,9 +50,6 @@ define ( 'SERVER_SIDE_LIB_DIR', SERVER_SIDE_PUBLIC_DIR
 	. DIRECTORY_SEPARATOR . 'server_side'
 );
 
-/* DIR is temporary so we can replace it in eclipe IDE */
-define('DIR', SERVER_SIDE_LIB_DIR);
-
 define ( 'SERVER_SIDE_SP_DIR', SERVER_SIDE_PUBLIC_DIR
 	. DIRECTORY_SEPARATOR . '..'
 	. DIRECTORY_SEPARATOR . '..'

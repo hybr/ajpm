@@ -1,6 +1,6 @@
 <?php
 
-require_once DIR . DIRECTORY_SEPARATOR . "Root.php";
+require_once SERVER_SIDE_LIB_DIR . DIRECTORY_SEPARATOR . "Root.php";
 class Form_Field_Help extends Root {
 
         function __construct($opts = array()) {

@@ -1,5 +1,5 @@
 <?php
-require_once JPM_DIR . DIRECTORY_SEPARATOR . "objects" . DIRECTORY_SEPARATOR . "owebp" . DIRECTORY_SEPARATOR . "Base.php";
+require_once SERVER_SIDE_LIB_DIR . DIRECTORY_SEPARATOR . "Base.php";
 class ContactMedium extends Base {
 	public $titleValueConversionRequired = 0;
 	public $fields = array (

@@ -1,6 +1,6 @@
 <?php
 
-require_once JPM_DIR . DIRECTORY_SEPARATOR . "objects" . DIRECTORY_SEPARATOR . "owebp" . DIRECTORY_SEPARATOR . "Root.php";
+require_once SERVER_SIDE_LIB_DIR . DIRECTORY_SEPARATOR . "Root.php";
 class Form_Field_Value extends Root {
 
         function __construct($opts = array()) {
