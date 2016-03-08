@@ -10,7 +10,9 @@ angular.module('ajpmApp').run(['$rootScope', '$state', 'AuthService', 'AUTH_EVEN
 		/**
 		 * Clear page message at every state change
 		 */
-		$rootScope.clearPageMessages();
+		if (next.name != 'login2' ) {
+			$rootScope.clearPageMessages();
+		}
 		
 		$rootScope.nextRequestedStateName = next.name;		
 		/**

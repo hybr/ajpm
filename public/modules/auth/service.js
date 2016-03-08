@@ -21,106 +21,97 @@ angular.module('ajpmApp').factory('AuthService', [
 		 * @function getUserRecord to implement the authentication from server side
 		 */
 		authService.checkUserForLoginProcess = function(email, passFunc, failFunc) {
-		/* this is  dummy technique, normally here the user is returned with his data from the db */
-		/* send md5(email) to server side and verify if user exists. */
-		$http({
-			method: 'POST',
-			url: '/service/check_user/exsistance',
-			params: { email_address: email }
-						
-		}).then(function successCallback(response) {
-									
-			if (response.status != 200) {
-				/* connection error with server_side */
-				failFunc(response.statusText); 
-			} else if (response.data.status != 'User exists') {
-				/* email address supplied does not exists */
-				failFunc(response.data.status); /* empty session_id */
-			} else {
-						
-				/* session id we will receive from server side */
-				var sessionId = '234ABC';
-									
-				/* attempt to login so clear the current login if exists */
-				SessionService.clearUserSession();
-									
-				/* user exists so save the session_id and email */
-				SessionService.setCurrentUserSessionId(sessionId);
-				SessionService.setCurrentUserEmail(email);
+			/* send md5(email) to server side and verify if user exists. */
+			$http({
+				method: 'POST',
+				url: '/service/check_user/exsistance',
+				params: { email_address: email }
+							
+			}).then(function successCallback(response) {
 										
-				passFunc(response); /* session id from server side */
-			}
-									
-		}, function errorCallback(response) {
-			failFunc(response.statusText);
-		});
-
-	}; /* authService.doesUserExists = function(email, success, error) { */
+				if (response.status != 200) {
+					/* connection error with server_side */
+					failFunc(response.statusText); 
+				} else if (response.data.status != 'User exists') {
+					/* email address supplied does not exists */
+					failFunc(response.data.status); /* empty session_id */
+				} else {
 							
-							
-							
-	authService.isPasswordCorrect = function(sessionId, password, passFunc, failFunc) {
-		var message = '';
-						
-		/* this is  dummy technique, normally here the user is returned with his data from the db */
-		/* send sessionId and md5(password) to server end and verify is password OK */
-		$http.get('data/users.json').success(function(data) {
-
-									/* fake user table */
-									var userRecordFromDb = data.users[sessionId];
-									var passOk = true;
-									
-									if (!userRecordFromDb) {
-										/* email address supplied does not exists */
-										failFunc('User does not exists');
-										passOk = false;
-									} else {
-										if (password == '') {
-											failFunc('Password is empty');
-											passOk = false;
-										}										
-										if (userRecordFromDb.password !== password) {
-											failFunc('Password does not match');
-											passOk = false;
-										}
+					/* session id we will receive from server side */
+					/* attempt to login so clear the current login if exists */
+					SessionService.clearUserSession();
 										
-										if (passOk) {
-											/* password OK */
-											/**
-											 * Add user roles in browser session
-											 */
-											SessionService.setCurrentUserRoles (userRecordFromDb.roles);
+					/* user exists so save the session_id and email */
+					SessionService.setCurrentUserSessionId(response.data.session_id);
+					SessionService.setCurrentUserEmail(email);
 											
-											passFunc('You are logged in')
-										}
-									}						
-								}).error(function() {
-									failFunc('Can not connect to server side API to verify user password'); /* error */
-								}); /* $http.get('data/users.json').success/error(function(data) { */
-							};
+					passFunc('User exists, please enter password now'); 
+					/* session id from server side */
+				}
+										
+			}, function errorCallback(response) {
+				failFunc(response.statusText);
+			});
 
-							/**
-							 * If current browser has session id then user exists
-							 */
-							authService.isAuthenticated = function() {
-								return (SessionService.getCurrentUserSessionId())
-							};
+		}; /* authService.doesUserExists = function(email, success, error) { */
 							
 							
-							/* check if the user is authorized to access the next route */
-							authService.isAuthorized = function(authorizedRoles) {
-								if (!angular.isArray(authorizedRoles)) {
-									authorizedRoles = [ authorizedRoles ];
-								}
-								return (authService.isAuthenticated() && 
-										authorizedRoles.indexOf(SessionService.getCurrentUserRoles()) !== -1);
-							};
+							
+		authService.isPasswordCorrect = function(sessionId, passwordToCheck, passFunc, failFunc) {
+			var message = '';
+			
+			/* send sessionId and md5(password) to server end and verify is password OK */
+			$http({
+				method: 'POST',
+				url: '/service/check_user/password',
+				params: { session_id: sessionId, password: passwordToCheck }
+							
+			}).then(function successCallback(response) {
+										
+				if (response.status != 200) {
+					/* connection error with server_side */
+					failFunc(response.statusText); 
+				} else if (response.data.status != 'Password OK') {
+					failFunc(response.data.status); 
+				} else {
+					
+					/**
+					 * Add user roles in browser session
+					 */
+					SessionService.setCurrentUserRoles (userRecordFromDb.roles);
+											
+					passFunc('You are logged in'); 
+					/* session id from server side */
+				}
+										
+			}, function errorCallback(response) {
+				failFunc(response.statusText);
+			});
 
-							/* log out the user and broadcast the logoutSuccess event */
-							authService.logout = function() {
-								SessionService.clearUserSession();
-								$rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
-							}
+		};
 
-							return authService;
-						} ]); /* AuthService */
+		/**
+		 * If current browser has session id then user exists
+		 */
+		authService.isAuthenticated = function() {
+			return (SessionService.getCurrentUserSessionId())
+		};
+		
+		
+		/* check if the user is authorized to access the next route */
+		authService.isAuthorized = function(authorizedRoles) {
+			if (!angular.isArray(authorizedRoles)) {
+				authorizedRoles = [ authorizedRoles ];
+			}
+			return (authService.isAuthenticated() && 
+					authorizedRoles.indexOf(SessionService.getCurrentUserRoles()) !== -1);
+		};
+
+		/* log out the user and broadcast the logoutSuccess event */
+		authService.logout = function() {
+			SessionService.clearUserSession();
+			$rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
+		}
+
+		return authService;
+	} ]); /* AuthService */

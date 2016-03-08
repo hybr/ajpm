@@ -1,15 +1,20 @@
 <div class="ui-widget">
 	<br />
-	<!-- Don’t forget to include method=”post”, otherwise your credentials will be appended as 
-	query string parameters, which are exposed in the browser’s history. -->
-	<form name="form_login_s2" novalidate ng-controller="LoginController" method="POST">
-			<div ng-show="form_login_s2.name_password.$dirty && form_login_s2.name_password.$error.required" class="ui-state-error jpmPadded">Password is required</div>
-			<label ng-show="form_login_s2.name_password.$dirty" for="id_password" class="ui-state-highlight jpmPadded">Password</label><br />
-			<input type="password" name="name_password" id="id_password" placeholder="Password" ng-model="password" required />
-			<br /><br />
-			<button ng-click="submit_s2()">Login</button>
-			<button ng-click="reset()">Reset</button>
-			<button ng-click="register()">Join</button>
-			<button ng-click="forget_password()">Forgot</button>
+	<!-- Donï¿½t forget to include method=ï¿½postï¿½, otherwise your credentials will be appended as 
+	query string parameters, which are exposed in the browserï¿½s history. -->
+	<form name="form_login_s2" novalidate ng-controller="LoginController"
+		method="POST">
+		<div
+			ng-show="form_login_s2.name_password.$dirty && form_login_s2.name_password.$error.required"
+			class="ui-state-error jpmPadded">Password is required</div>
+		<label ng-show="form_login_s2.name_password.$dirty" for="id_password"
+			class="ui-state-highlight jpmPadded">Password</label><br /> <input
+			type="password" name="name_password" id="id_password"
+			placeholder="Password" ng-model="password" required /> <br />
+		<br />
+		<button ng-click="submit_s2()">Login</button>
+		<button ng-click="reset()">Reset</button>
+		<button ng-click="register()">Join</button>
+		<button ng-click="forget_password()">Forgot</button>
 	</form>
 </div>
