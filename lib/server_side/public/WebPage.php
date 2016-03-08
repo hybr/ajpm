@@ -1,5 +1,5 @@
 <?php
-require_once DIR . DIRECTORY_SEPARATOR . "Base.php";
+require_once SERVER_SIDE_LIB_DIR . DIRECTORY_SEPARATOR . "Base.php";
 class public_WebPage extends Base {
 	function __construct() {
 		$this->collectionName = 'web_page';

@@ -1,16 +1,5 @@
 <?php
 
-/**
- * A constant to hold the absolute path of ajpm lib folder on server
- *
- * @constant string DIR
- */
-define ( 'AJPM_DIR', __DIR__ . DIRECTORY_SEPARATOR . '..');
-define ( 'DIR', AJPM_DIR
-		. DIRECTORY_SEPARATOR . 'lib'
-		. DIRECTORY_SEPARATOR . 'owebp'
-);
-
 /* debug option */
 if (isset ( $_GET ['debug'] )) {
 	$_SESSION ['debug'] = true;

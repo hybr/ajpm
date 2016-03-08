@@ -6,6 +6,7 @@
 
 /* production environment */
 $mongoUrl = "mongodb://" . $_SESSION ['url_domain'] . ":27017";
+$mongoUrl = "mongodb://localhost:27017"; /* on production box only localhost is listining */
 $_SESSION ['database_name'] = "db1";
 
 if ($_SERVER ['SERVER_NAME'] == 'localhost') {

@@ -8,4 +8,4 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-l
 RewriteCond %{HTTPS} !=on
 RewriteCond $1 !^/(css|js|img|query.php)/
-RewriteRule ^(.*)$ /index.php?$1 [L,QSA]
+RewriteRule ^(.*)$ /service/index.php?$1 [L,QSA]

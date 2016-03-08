@@ -67,11 +67,14 @@ function _3gf () {
 	if (_1l == '10.92.74.10') {_1l = 'localhost:8000'; _2l = true;}	
 	if (!_2l) {
 	  _1l = 'service.' . _1l;
+	  _1l = 'service.ji.owebp.com';
 	}
 	return _1l;
 }
-_3g = _3gf();
+var _3g = _3gf();
 
+
+_3g  = 'service.ji.owebp.com';
 
 /**
  * @variable ajpmApp is used to hold the main angular module Main application
@@ -80,6 +83,11 @@ _3g = _3gf();
  */
 var ajpmApp = angular.module('ajpmApp', [ 'ui.router' ]);
 
+ajpmApp.config(['$httpProvider', function($httpProvider) {
+        $httpProvider.defaults.useXDomain = true;
+        delete $httpProvider.defaults.headers.common['X-Requested-With'];
+    }
+]);
 
 /**
  * authorization events

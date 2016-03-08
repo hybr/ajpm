@@ -8,6 +8,8 @@
 /* find arguments */
 $urlPartsArray = parse_url ( $_SERVER ['REQUEST_URI'] );
 
+debugPrintArray($urlPartsArray, 'urlPartsArray');
+
 $urlArgsArray = array ();
 if (array_key_exists ( 'query', $urlPartsArray )) {
 	parse_str ( $urlPartsArray ['query'], $urlArgsArray );
@@ -19,6 +21,12 @@ $_SESSION ['url_task'] = '';
 $_SESSION ['url_sub_task'] = '';
 if (array_key_exists ( 'path', $urlPartsArray )) {
 	$urlPathArray = split ( '/', $urlPartsArray ['path'] );
+	/* array_shift will remove word service, word service is used for backend calls */
+	debugPrintArray($urlPathArray, 'urlPathArray');
+	if (strtolower ($urlPathArray [1]) == 'service') {
+		array_shift($urlPathArray);
+	}
+	debugPrintArray($urlPathArray, 'urlPathArray');
 	if (sizeof ( $urlPathArray ) >= 2) {
 		foreach ( split ( '_', $urlPathArray [1] ) as $w ) {
 			$_SESSION ['url_action'] .= ucfirst ( strtolower ( $w ) );
