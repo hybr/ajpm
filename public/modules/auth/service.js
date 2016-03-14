@@ -24,11 +24,9 @@ angular.module('ajpmApp').factory('AuthService', [
 			/* send md5(email) to server side and verify if user exists. */
 			$http({
 				method: 'POST',
-				url: '/service/check_user/exsistance',
-				params: { email_address: email }
-							
+				url: '/service/check_user/e',
+				params: { e: email }
 			}).then(function successCallback(response) {
-										
 				if (response.status != 200) {
 					/* connection error with server_side */
 					failFunc(response.statusText); 
@@ -36,7 +34,6 @@ angular.module('ajpmApp').factory('AuthService', [
 					/* email address supplied does not exists */
 					failFunc(response.data.status); /* empty session_id */
 				} else {
-							
 					/* session id we will receive from server side */
 					/* attempt to login so clear the current login if exists */
 					SessionService.clearUserSession();
@@ -48,7 +45,6 @@ angular.module('ajpmApp').factory('AuthService', [
 					passFunc('User exists, please enter password now'); 
 					/* session id from server side */
 				}
-										
 			}, function errorCallback(response) {
 				failFunc(response.statusText);
 			});
@@ -57,37 +53,35 @@ angular.module('ajpmApp').factory('AuthService', [
 							
 							
 							
-		authService.isPasswordCorrect = function(sessionId, passwordToCheck, passFunc, failFunc) {
-			var message = '';
+		authService.isPasswordCorrect = function(passwordToCheck, passFunc, failFunc) {
+			$rootScope.clearPageMessages();
 			
 			/* send sessionId and md5(password) to server end and verify is password OK */
 			$http({
 				method: 'POST',
-				url: '/service/check_user/password',
-				params: { session_id: sessionId, password: passwordToCheck }
-							
+				url: '/service/check_user/p',
+				params: { 
+					s: SessionService.getCurrentUserSessionId(), 
+					p: passwordToCheck 
+				}
 			}).then(function successCallback(response) {
-										
 				if (response.status != 200) {
 					/* connection error with server_side */
 					failFunc(response.statusText); 
 				} else if (response.data.status != 'Password OK') {
 					failFunc(response.data.status); 
 				} else {
-					
 					/**
 					 * Add user roles in browser session
 					 */
-					SessionService.setCurrentUserRoles (userRecordFromDb.roles);
-											
+					SessionService.setCurrentUserRoles (response.data.person_record.position);
+					
 					passFunc('You are logged in'); 
 					/* session id from server side */
 				}
-										
 			}, function errorCallback(response) {
 				failFunc(response.statusText);
 			});
-
 		};
 
 		/**

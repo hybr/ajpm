@@ -27,85 +27,67 @@ angular.module('ajpmApp').controller('LoginController',	[
 			
 			$rootScope.clearPageMessages();
 			
-			if (!$scope.form_login_s1.$invalid) {
-				
-				/**
-				 * Create a service here
-				 * 1. Encrypt as md5 of credentials.email
-				 * 2. Send the encrypted credentials.email to server
-				 * 3. Response will be any one of two
-				 * 		3.1 Found user and return with a session_id
-				 * 		3.2 No user found and return is empty string
-				 */
-				
-				/**
-				 * If user exists then we will get a valid session id to start the session from the server side
-				 * if session_id is empty then user does not exists
-				 */
-				AuthService.checkUserForLoginProcess(
-					$scope.email_address,
-					$scope.checkUserForLoginProcessPass,
-					$scope.checkUserForLoginProcessFail
-				);
-				
-			} else {
-				$rootScope.pushPageMessage('Invalid entries in login form');
-			}
+			/**
+			 * Create a service here
+			 * 1. Encrypt as md5 of credentials.email
+			 * 2. Send the encrypted credentials.email to server
+			 * 3. Response will be any one of two
+			 * 		3.1 Found user and return with a session_id
+			 * 		3.2 No user found and return is empty string
+			 */
+			
+			/**
+			 * If user exists then we will get a valid session id to start the session from the server side
+			 * if session_id is empty then user does not exists
+			 */
+			AuthService.checkUserForLoginProcess(
+				$scope.email_address,
+				checkUserForLoginProcessPass,
+				checkUserForLoginProcessFail
+			);
 		};
 		
 		// when the form step s2 is submitted
 		$scope.submit_s2 = function() {
-					
-			if (!$scope.form_login_s2.$invalid) {
+			/**
+			 * Create a service here
+			 * 1. Encrypt as md5 of credentials.email
+			 * 2. Send the encrypted credentials.email to server
+			 * 3. Response will be any one of two
+			 * 		3.1 Found user and return with a session_id
+			 * 		3.2 No user found and return is empty string
+			 */
+			
+			if (SessionService.getCurrentUserSessionId() != '') {
+				/* user email address is checked in step 1 and it is OK */
 				
 				/**
-				 * Create a service here
-				 * 1. Encrypt as md5 of credentials.email
-				 * 2. Send the encrypted credentials.email to server
-				 * 3. Response will be any one of two
-				 * 		3.1 Found user and return with a session_id
-				 * 		3.2 No user found and return is empty string
+				 * Check if password is OK
 				 */
-					
-				var sessionId = SessionService.getCurrentUserSessionId();
-				/* For dummy table just use email, for php we will implement session id */
-				sessionId = SessionService.getCurrentUserEmail();
-				
-				if (sessionId != '') {
-					/* user email address is checked in step 1 and it is OK */
-					
-					/**
-					 * Check if password is OK
-					 */
-					AuthService.isPasswordCorrect(
-						sessionId, 
-						$scope.password,
-						$scope.isPasswordCorrectPass,
-						$scope.isPasswordCorrectFail
-					);
-				} else {
-					$rootScope.pushPageMessage("First provide the user email address");
-					$rootScope.$broadcast(AUTH_EVENTS.loginFailed);
-				}
+				AuthService.isPasswordCorrect(
+					md5($scope.password),
+					$scope.isPasswordCorrectPass,
+					$scope.isPasswordCorrectFail
+				);
 			} else {
-				
-				$rootScope.pushPageMessage('Invalid entries in login form');
+				$rootScope.pushPageMessage("First provide the user email address");
+				$rootScope.$broadcast(AUTH_EVENTS.loginFailed);
 			}
 		};
 
-		$scope.checkUserForLoginProcessPass = function(message) {
+		function checkUserForLoginProcessPass (message) {
 			if (message) $rootScope.pushPageMessage(message);
 			/* fire event of user exists */
 			$rootScope.$broadcast(AUTH_EVENTS.loginUserExists);
 		}
 
-		$scope.checkUserForLoginProcessFail = function(message) {
+		function checkUserForLoginProcessFail (message) {
 			if (message) $rootScope.pushPageMessage(message);
 			$rootScope.$broadcast(AUTH_EVENTS.loginFailed);
 		}
 		
 		$scope.isPasswordCorrectPass = function(message) {
-			if (message) $rootScope.pushPageMessage(message);
+			if (message) $rootScope.pushPageMessage(message + 'test');
 			/* fire event of successful login */
 			$rootScope.$broadcast(AUTH_EVENTS.loginSuccess);							
 		}

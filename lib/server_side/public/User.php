@@ -33,7 +33,7 @@ class public_User extends Base {
 			'foreign_search_fields' => 'name.first,name.middle,name.last',
 			'foreign_title_fields' => 'name,gender' 
 		),
-		'veryfied' => array(
+		'verified' => array(
 			'default' => 0
 		)
 	);
@@ -47,7 +47,7 @@ class public_User extends Base {
 		$message = '<html><head><title>Account Verification Email</title></head><body>';
 		$message .= '<b>Hello</b>,<br /><p>Please verify your email address to activate the account. <a href="http://'
 			.$_SESSION['url_domain']
-			.'/user/va?c=' .$user['veryfied']
+			.'/user/va?c=' .$user['verified']
 			.'&e='.md5($user['email_address']).'">Click here</a></p><br />Thanks<br />'
 			.$_SESSION['url_domain'];
 		$message .= '</body></html>';
@@ -63,6 +63,7 @@ class public_User extends Base {
 			. "\r\n" .  'X-Mailer: PHP/' . phpversion();
 		mail($user['email_address'], "Please verify your email address", $message, $headers);
 	}
+	
 	public function login($urlArgsArray) {
 		$rStr = '';
 		/* this process is to receive login credentials for authentication */
@@ -75,7 +76,7 @@ class public_User extends Base {
 		}
 		unset ( $this->fields ['provider'] );
 		unset ( $this->fields ['person'] );
-		unset ( $this->fields ['veryfied'] );
+		unset ( $this->fields ['verified'] );
 		$f->curlsMode = 'Login';
 		
 		$rStr .= $f->showForm ( $urlArgsArray, '/user/authenticate', array (), $this->fields );
@@ -98,7 +99,7 @@ class public_User extends Base {
 		$f->curlsMode = 'Join';
 		unset ( $this->fields ['person'] );
 		unset ( $this->fields ['provider'] );
-		unset ( $this->fields ['veryfied'] );
+		unset ( $this->fields ['verified'] );
 		if (array_key_exists ( 'ea', $urlArgsArray )) {
 			$this->fields ['email_address'] ['value'] = $urlArgsArray ['ea'];
 		}
@@ -110,7 +111,7 @@ class public_User extends Base {
 		/* read the record */
 
 		$user = $_SESSION ['mongo_database']->user->findOne ( array (
-			'veryfied' => $urlArgsArray ['c']
+			'verified' => $urlArgsArray ['c']
 		) );
 		if (empty($user)) {
 			array_push ( $this->errorMessage, 'Invalid activation code' );
@@ -120,8 +121,8 @@ class public_User extends Base {
 			array_push ( $this->errorMessage, 'Invalid activation email' );
 			return $this->showError ();
 		}
-		$user['password'] = $user['veryfied'];
-		$user['veryfied'] = 1;
+		$user['password'] = $user['verified'];
+		$user['verified'] = 1;
 		$user['session_id'] = session_id();
 		$_POST = $user;
 		$rStr = $this->save ( $urlArgsArray );
@@ -143,7 +144,7 @@ class public_User extends Base {
 		}
 
 		/* convert password to md5 code and save in record, keep rest stuff same */
-		$user['veryfied'] = md5($_POST['password']);
+		$user['verified'] = md5($_POST['password']);
 		$user['session_id'] = $_POST['session_id'];
 		$_POST = $user;
 
@@ -173,7 +174,7 @@ class public_User extends Base {
 		/* unset ( $this->fields ['password'] ); */
 		unset ( $this->fields ['provider'] );
 		unset ( $this->fields ['person'] );
-		unset ( $this->fields ['veryfied'] );
+		unset ( $this->fields ['verified'] );
 		$f->curlsMode = 'Forget Password';
 		
 		$rStr .= 'Note: To just activate account you can keep password as same as current.' 
@@ -197,14 +198,14 @@ class public_User extends Base {
 			return $this->showError ();
 		}
 
-		if (isset($_SESSION ['user']['veryfied'])) {
-			if ($_SESSION ['user']['veryfied'] != 1) {
-				array_push ( $this->errorMessage, $_POST ['email_address'] . ' is  not veryfied yet.' );
+		if (isset($_SESSION ['user']['verified'])) {
+			if ($_SESSION ['user']['verified'] != 1) {
+				array_push ( $this->errorMessage, $_POST ['email_address'] . ' is  not verified yet.' );
 				unset($_SESSION['user']);
 				return $this->showError ();
 			}
 		} else {
-			array_push ( $this->errorMessage, $_POST ['email_address'] . ' is  not veryfied. Use '
+			array_push ( $this->errorMessage, $_POST ['email_address'] . ' is  not verified. Use '
 				. '<a href="/user/forget_password">Forget Password</a> to activate.' );
 			unset($_SESSION['user']);
 			return $this->showError ();
@@ -288,7 +289,7 @@ class public_User extends Base {
 		}
 
 		/* Create mechanisum to activate the account */
-		$_POST['veryfied'] = md5($_POST['password']);
+		$_POST['verified'] = md5($_POST['password']);
 
 		$rStr =  "Registered Successfully";
 

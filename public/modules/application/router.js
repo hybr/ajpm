@@ -28,7 +28,8 @@ angular.module('ajpmApp').config(['$stateProvider', '$urlRouterProvider', 'USER_
 		}
 	}).state('contact_us', {
 		url : "/contact_us",
-		templateUrl : "modules/contact_us/view.html"
+		templateUrl : "modules/contact_us/view.html",
+		controller : 'ContactUsController'
 	}).state('my_account', {
 		url : "/my_account",
 		templateUrl : "modules/my_account/view.html"

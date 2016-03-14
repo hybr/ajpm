@@ -10,3 +10,5 @@
 <script src="modules/auth/service.js"></script>
 <script src="modules/auth/controller.js"></script>
 <script src="modules/application/global.js"></script>
+
+<script src="modules/contact_us/controller.js"></script>

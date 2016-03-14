@@ -34,4 +34,11 @@ function debugPrintArray($a, $msg = '') {
 			echo '</pre>';
 			echo '<hr />';
 }
+
+function getParamValue($key, $args) {
+	if (isset($_POST [$key])) return $_POST [$key];
+	if (isset($_GET [$key])) return $_GET [$key];
+	if (isset($args [$key])) return $args [$key];
+	return null;
+}
 ?>

@@ -11,56 +11,90 @@ class public_CheckUser extends Base {
 		return preg_match('/^[-,a-zA-Z0-9]{1,128}$/', $session_id) > 0;
 	}
 
-	public function exsistance($urlArgsArray) {
+	private function emailVarification($emailToCheck, $userRecord) {
+		$rStr = 'User exists';
+		if (empty($userRecord)) {
+			$rStr = 'User ' . $emailToCheck . ' does not exists';
+		} else {
+			if (isset($userRecord['email_address'])) {
+				if ($emailToCheck != $userRecord['email_address']) {
+					$rStr = 'User email is invalid';
+				}				
+			} else {
+				$rStr = 'User ' . $emailToCheck . ' email_address field missing';
+			}
+			if (isset($userRecord['verified'])) {
+				if ($userRecord['verified'] != 1) {
+					$rStr = 'User is not verified yet';
+				}
+			} else {
+				$rStr = 'User ' . $emailToCheck . ' verification field missing';
+			}
+		}
+		return $rStr;	
+	}
+	
+	private function passwordVarification(
+		$passwordToCheck, $userRecord
+	) {
+		$rStr = $this->emailVarification($userRecord['email_address'], $userRecord);
+		
+		if ($rStr == 'User exists') {
+			if ($userRecord['password'] == '') {
+				$rStr = 'Password is empty';
+			} else if ($passwordToCheck != $userRecord['password']) {
+				$rStr = 'Password does not match ' . $userRecord['password'];
+			}
+		}
+		
+		if ($rStr == 'User exists') {
+			$rStr = 'Password OK';
+		}
+		return $rStr;
+	}	
+	
+	/* public function exsistance($urlArgsArray) { */
+	public function e($urlArgsArray) {
 		$response = array();
 		
 		/**
 		 * get the email address from post/get
 		 */
-		$userEmail = '';
-		if (isset($_POST ['email_address'])) {
-			$userEmail = $_POST ['email_address'];
-		}
-		if (isset($_GET ['email_address'])) {
-			$userEmail = $_GET ['email_address'];
-		}
-		if (isset($urlArgsArray ['email_address'])) {
-			$userEmail = $urlArgsArray ['email_address'];
-		}
-		
+		$emailToCheck = getParamValue('e', $urlArgsArray);
+
 		/**
 		 *  read the record from database
 		 */
 		$userRecord = $_SESSION ['mongo_database']->user->findOne ( array (
-				'email_address' => $userEmail
+				'email_address' => $emailToCheck
 		) );
 
 		/**
 		 * Verificacion logic
 		 */
-		$response['status'] = 'User exists';
-		if (empty($userRecord)) {
-			$response['status'] = 'User ' . $userEmail . ' does not exists';
-		} else {
-			if (isset($userRecord['verified'])) {
-				if ($userRecord['verified'] != 1) {
-					$response['status'] = 'User is not verified yet';
-				}
-			} else {
-				$response['status'] = 'User ' . $userEmail . ' verification field missing';
-			}
-		}
+		$response['status'] = $this->emailVarification(
+			$emailToCheck, $userRecord
+		);
 		
 		/**
 		 * Return the response
 		 */
+		$sessionId = session_id();
 		if ($response['status'] == 'User exists') {
-			if ($this->validSessionId(session_id())) {
-				$response ['session_id' ] = session_id();
+			if ($this->validSessionId($sessionId)) {
+				
+				/* get current server side session id */
+				$response ['session_id' ] = $sessionId;
+				$_SESSION ['user'] = $userRecord;
+				
+				/* Save the login attempt in database */
+				$userRecord = $_SESSION ['mongo_database']->logins->save (array (
+						'session_id' => $sessionId,
+						'email_address' => $emailToCheck
+				));				
+			} else {
+				array_push ( $this->errorMessage, 'Invalid session id' );
 			}
-			$_SESSION ['user'] = $userRecord;
-			
-			/* Save the login attempt in database */
 		} else {
 			$_SESSION ['user'] = 'NULL';
 			array_push ( $this->errorMessage, $response['status'] );
@@ -70,73 +104,52 @@ class public_CheckUser extends Base {
 
 	} /* public function exsistance($urlArgsArray) { */
 	
-	public function password($urlArgsArray) {
+	/* public function password($urlArgsArray) { */
+	public function p($urlArgsArray) {
 		$response = array();
 	
 		/**
 		 * get the email address from post/get
 		*/
-		$sessionId = '';
-		$passwordToCheck = '';
-		if (isset($_POST ['session_id'])) {
-			$sessionId = $_POST ['session_id'];
-			$passwordToCheck = $_POST[ 'password'];
-		}
-		if (isset($_GET ['session_id'])) {
-			$sessionId = $_GET ['session_id'];
-			$passwordToCheck = $_GET[ 'password'];
-		}
-		if (isset($urlArgsArray ['session_id'])) {
-			$sessionId = $urlArgsArray ['session_id'];
-			$passwordToCheck = $urlArgsArray[ 'password'];
-		}
-	
+		$sessionId = getParamValue('s', $urlArgsArray);
+		$passwordToCheck = getParamValue('p', $urlArgsArray);
+
 		/**
 		 *  read the record from database
 		 */
 		$loginsRecord = $_SESSION ['mongo_database']->logins->findOne ( array (
-				'session_id' => $sessionId
+			'session_id' => $sessionId
 		) );
 		$userRecord = $_SESSION ['mongo_database']->user->findOne ( array (
-				'email_address' => $loginsRecord['email_address']
+			'email_address' => $loginsRecord['email_address']
 		) );		
 	
 		/**
 		 * Verificacion logic
 		*/
-		$response['status'] = 'Password OK';
-		if (empty($userRecord)) {
-			$response['status'] = 'User ' . $userEmail . ' does not exists';
-		} else {
-			if (isset($userRecord['verified'])) {
-				if ($userRecord['verified'] != 1) {
-					$response['status'] = 'User is not verified yet';
-				}
-			} else {
-				$response['status'] = 'User ' . $userEmail . ' verification field missing';
-			}
-		}
-		if ($response['status'] == 'Password OK') {
-			if ($userRecord['password'] == '') {
-				$response['status'] = 'Password is empty';
-			} else if ($passwordToCheck != $userRecord['password']) {
-				$response['status'] = 'Password does not match';
-			}
-		}
+		$response['status'] = $this->passwordVarification(
+			$passwordToCheck, $userRecord
+		);
 	
 		
 		/**
 		 * Return the response
 		 */
 		if ($response['status'] == 'Password OK') {
-			if ($this->validSessionId(session_id())) {
-				$response ['session_id' ] = session_id();
-			}
 			$_SESSION ['user'] = $userRecord;
+			$_SESSION ['session_id'] = $sessionId;
 			
-			
+			/**
+			 * Read person record for this user and get the roles
+			 */
+			$personRecord = $_SESSION ['mongo_database']->person->findOne ( array (
+					'_id' => $userRecord['person']
+			) );
+			$response ['email_address'] = $userRecord['email_address'];
+			$response ['person_record'] = $personRecord;
 		} else {
 			$_SESSION ['user'] = 'NULL';
+			$_SESSION ['session_id'] = 'NULL';
 			array_push ( $this->errorMessage, $response['status'] );
 		}
 	
