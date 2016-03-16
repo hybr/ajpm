@@ -20,12 +20,12 @@ angular.module('ajpmApp').controller('LoginController',	[
 		$scope.credentials = {};
 		$scope.form_login_s1 = {};
 		$scope.form_login_s2 = {};
-		
 					
 		// when the form step s1 is submitted
 		$scope.submit_s1 = function() {
 			
 			$rootScope.clearPageMessages();
+			
 			
 			/**
 			 * Create a service here

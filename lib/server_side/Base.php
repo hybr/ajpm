@@ -1070,9 +1070,11 @@ class Base {
 	}
 	private function edit($urlArgsArray) {
 		$this->makeSurePersonprofileExists();
+		
 		if (!empty($this->errorMessage)) {
 			return $this->showError ();
 		}
+		
 		$this->initializeTask ();
 		
 		/* make sure id exists */
@@ -1090,7 +1092,8 @@ class Base {
 		$this->findCursor = $_SESSION ['mongo_database']->{$this->collectionName}->find (getQueryConditions($this->record));
 		
 		if ($this->findCursor->count () < 1) {
-			array_push ( $this->errorMessage, 'Not one (' . $this->findCursor->count () . ') record with id ' . $this->record ['_id'] . ' exists in ' . $this->collectionName . '. Or you do not have access to record.' );
+			/* array_push ( $this->errorMessage, 'Not one (' . $this->findCursor->count () . ') record with id "' . $this->record ['_id'] . '" exists in ' . $this->collectionName . '. Or you do not have access to record.' . implode(" ",getQueryConditions($this->record)) . '<pre>' . var_dump($_SESSION) . '</pre>' ); */
+			array_push ( $this->errorMessage, 'Not one (' . $this->findCursor->count () . ') record with id "' . $this->record ['_id'] . '" exists in ' . $this->collectionName . '. Or you do not have access to record.');
 			return $this->showError ();
 		}
 		
@@ -1103,7 +1106,7 @@ class Base {
 			if ($this->curlsMode == 'Present') {
 				$rStr .= $this->presentDocument ( $this->subTaskKeyToSave, $this->fields, $doc );
 			} elseif ($this->curlsMode == 'Present Json') {
-					$rStr .= "test 2" . $doc;				
+					return $doc;				
 			} else {
 				/* initialize form */
 				$f = new InputForm ();
@@ -1262,10 +1265,16 @@ class Base {
 	public function presentDocument($subTaskKeyToSave, $fields, $doc) {
 		return $doc;
 	}
+	/* get the document/record */
+	public function d($urlArgsArray) {
+		return $doc;
+	}
+	
 	public function presentJson($urlArgsArray) {
 		$this->curlsMode = 'Present Json';
-		return $this->edit ( $urlArgsArray );
-	}	
+		return json_encode($this->edit ( $urlArgsArray ));
+	}
+	
 	public function presentAll($urlArgsArray) {
 		$this->curlsMode = 'Present All';
 		return $this->readAll ( $urlArgsArray );

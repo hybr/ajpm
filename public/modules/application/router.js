@@ -9,7 +9,8 @@ angular.module('ajpmApp').config(['$stateProvider', '$urlRouterProvider', 'USER_
 
 	$stateProvider.state('home', {
 		url : "/home",
-		templateUrl : "modules/home/view.html"
+		templateUrl : "modules/home/view.html",
+		controller : "HomeController"
 	}).state('home.list', {
 		url : "/list",
 		templateUrl : "modules/home/list.html",

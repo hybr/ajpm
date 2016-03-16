@@ -21,6 +21,7 @@
 		?>
 	</head>
 	<body>
+		<script>var _hpid = '<?php echo (string) $_SESSION ['url_domain_org']['web_site_home_page']; ?>';</script>
 		<?php if(file_exists($homePageDir . '/_body.php')) 
 			include $homePageDir . '/_body.php';
 		?>

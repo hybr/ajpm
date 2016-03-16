@@ -12,3 +12,4 @@
 <script src="modules/application/global.js"></script>
 
 <script src="modules/contact_us/controller.js"></script>
+<script src="modules/home/controller.js"></script>

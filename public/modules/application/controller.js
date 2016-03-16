@@ -20,10 +20,7 @@ angular.module('ajpmApp').controller('ApplicationController',
 	
 	$scope.isAuthenticated = AuthService.isAuthenticated();
 	$scope.isAuthorized = AuthService.isAuthorized();
-
-	console.log('isAuthenticated ', $scope.isAuthenticated );
-	
-	
+		
 	/**
 	 * If user is logged in then load the userRecord when page is refreshed
 	 */

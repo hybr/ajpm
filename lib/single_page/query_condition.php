@@ -13,7 +13,8 @@ function getQueryConditions($record = array()) {
 			'copy',
 			'remove',
 			'show',
-			'present' 
+			'present',
+			'presentjson'
 	) );
 	$requestForMultipleRecord = in_array ( strtolower ( $_SESSION ['url_task'] ), array (
 			'read',
@@ -189,7 +190,8 @@ function getQueryConditions($record = array()) {
 	) )) {
 		if (! is_null ( $recordId ) && $recordId != '') {
 			if (in_array ( strtolower ( $_SESSION ['url_task'] ), array (
-					'present' 
+					'present',
+					'presentjson'
 			) )) {
 				$conds = $orgRecord;
 			}

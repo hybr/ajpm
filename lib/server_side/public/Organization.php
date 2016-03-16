@@ -185,6 +185,25 @@ class public_Organization extends Base {
 			$rStr .=  '</li>';
 		}
 		return $rStr . '</ol>';
-	}	
+	}
+	
+	/* public function getHomePageId () { */
+	public function a($urlArgsArray) {
+		$response = array();
+		
+		/**
+		 * get the organization ID
+		 */
+		$organizationId = getParamValue('a', $urlArgsArray);
+			
+		$orgRecord = $_SESSION ['mongo_database']->{$this->collectionName}->findOne ( array (
+			'_id' => new MongoId((string)(trim($organizationId)))
+		) );
+			
+		$response['home_page_id'] = $orgRecord['web_site_home_page'];
+			
+		return json_encode($response);
+
+	}
 } /* class */
 ?>
