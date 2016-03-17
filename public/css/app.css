@@ -39,10 +39,6 @@ body {
 	align: center;
 }
 
-fieldset {
-	line-height: 10px;
-}
-
 /* support: IE7 */
 *+html #toolbar {
 	display: inline;

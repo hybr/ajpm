@@ -111,3 +111,12 @@ ajpmApp.constant('USER_ROLES', {
 	editor : 'editor',
 	guest : 'guest'
 });
+
+/**
+ * Filter to show html as trusted html
+ */
+angular.module('ajpmApp').filter('showAsHtml', function ($sce) {
+    return function (htmlText) {
+    	return $sce.trustAsHtml(htmlText);
+    }
+});
