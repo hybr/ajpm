@@ -1,0 +1,20 @@
+<form method="post" ng-controller="JoinController" name="RegisterForm">
+  <h2>Register</h2>
+  <table style="text-align:right;">
+    <tr>
+      <td><span>E-Mail : </span></td><td><input type="email" name="email" novalidate ng-model="email"></td>
+    </tr>
+    <tr>
+      <td><span>Name : </span></td><td><input type="text" name="name" novalidate ng-model="name"></td>
+    </tr>
+    <tr>
+      <td><span>Password : </span></td><td><input type="password" name="pass" novalidate ng-model="pass"></td>
+    </tr>
+    <tr>
+      <td><span>Retype Password : </span></td><td><input type="password" name="repass" novalidate ng-model="repass"></td>
+    </tr>
+    <tr style="text-align:left;">
+      <td></td><td><button ng-click="registernewuser()">Register</button>&nbsp;<button ng-click="reset()">Reset</button></td>
+    </tr>
+  </table>
+</form>

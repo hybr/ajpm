@@ -38,6 +38,14 @@ angular.module('ajpmApp').config(['$stateProvider', '$urlRouterProvider', 'USER_
 		url : "/logout",
 		template : "<div class='ui-state-highlight'> You are logged out. </div>",
 		controller : 'LogoutController'
+	}).state('join', {
+		url : "/join",
+		templateUrl : "modules/join/join.html",
+		controller : 'JoinController'
+	}).state('forgot', {
+		url : "/forgot",
+		templateUrl : "modules/forgot/forgot.html",
+		controller : 'ForgotController'
 	}).state('login1', {
 		url : "/login1",
 		templateUrl : "modules/auth/login_s1.html",
@@ -45,7 +53,7 @@ angular.module('ajpmApp').config(['$stateProvider', '$urlRouterProvider', 'USER_
 	}).state('login2', {
 		url : "/login2",
 		templateUrl : "modules/auth/login_s2.html",
-		controller : 'LoginController'			
+		controller : 'LoginController'
 	}).state('admin_dashboard', {
 		url : "/admin_dashboard",
 		templateUrl : "modules/admin_dashboard/view.html",
@@ -56,5 +64,5 @@ angular.module('ajpmApp').config(['$stateProvider', '$urlRouterProvider', 'USER_
 
 	// enable HTML5mode to disable hashbang urls
     // $locationProvider.html5Mode(true);
-    
+
 }]);

@@ -12,7 +12,8 @@ angular.module('ajpmApp').controller('LoginController',	[
 	'AuthService',
 	'SessionService',
 	'AUTH_EVENTS',
-	function($rootScope, $scope, $state, $window, AuthService, SessionService, AUTH_EVENTS) {
+	'$location',
+	function($rootScope, $scope, $state, $window, AuthService, SessionService, AUTH_EVENTS, $location) {
 
 		/**
 		 * Initialize the user record before login form is shown
@@ -20,13 +21,13 @@ angular.module('ajpmApp').controller('LoginController',	[
 		$scope.credentials = {};
 		$scope.form_login_s1 = {};
 		$scope.form_login_s2 = {};
-					
+
 		// when the form step s1 is submitted
 		$scope.submit_s1 = function() {
-			
+
 			$rootScope.clearPageMessages();
-			
-			
+
+
 			/**
 			 * Create a service here
 			 * 1. Encrypt as md5 of credentials.email
@@ -35,7 +36,7 @@ angular.module('ajpmApp').controller('LoginController',	[
 			 * 		3.1 Found user and return with a session_id
 			 * 		3.2 No user found and return is empty string
 			 */
-			
+
 			/**
 			 * If user exists then we will get a valid session id to start the session from the server side
 			 * if session_id is empty then user does not exists
@@ -46,7 +47,7 @@ angular.module('ajpmApp').controller('LoginController',	[
 				checkUserForLoginProcessFail
 			);
 		};
-		
+
 		// when the form step s2 is submitted
 		$scope.submit_s2 = function() {
 			/**
@@ -57,10 +58,10 @@ angular.module('ajpmApp').controller('LoginController',	[
 			 * 		3.1 Found user and return with a session_id
 			 * 		3.2 No user found and return is empty string
 			 */
-			
+
 			if (SessionService.getCurrentUserSessionId() != '') {
 				/* user email address is checked in step 1 and it is OK */
-				
+
 				/**
 				 * Check if password is OK
 				 */
@@ -85,22 +86,32 @@ angular.module('ajpmApp').controller('LoginController',	[
 			if (message) $rootScope.pushPageMessage(message);
 			$rootScope.$broadcast(AUTH_EVENTS.loginFailed);
 		}
-		
+
 		$scope.isPasswordCorrectPass = function(message) {
 			if (message) $rootScope.pushPageMessage(message + 'test');
 			/* fire event of successful login */
-			$rootScope.$broadcast(AUTH_EVENTS.loginSuccess);							
+			$rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
 		}
-		
+
 		$scope.isPasswordCorrectFail = function(message) {
 			if (message) $rootScope.pushPageMessage(message);
-			$rootScope.$broadcast(AUTH_EVENTS.loginFailed);								
+			$rootScope.$broadcast(AUTH_EVENTS.loginFailed);
 		}
-		
+
 		$scope.reset = function() {
 			$scope.credentials.password = '';
 		};
-		
+
+		$scope.register = function() {
+						$location.url('/join');
+						$('#userLoginModelOne').dialog("close");
+						$('#userLoginModelTwo').dialog("close");
+		}
+		$scope.forget_password = function() {
+						$location.url('/forgot');
+						$('#userLoginModelOne').dialog("close");
+						$('#userLoginModelTwo').dialog("close");
+		}
 		$scope.reset();
 
 		// if a session exists for current user (page was refreshed)
@@ -109,9 +120,9 @@ angular.module('ajpmApp').controller('LoginController',	[
 			$rootScope.$broadcast(AUTH_EVENTS.sessionTimeout);
 		}
 
-					
+
 } ]);
 
 angular.module('ajpmApp').controller('LogoutController', ['AuthService', function(AuthService) {
-	AuthService.logout();			
+	AuthService.logout();
 } ]);

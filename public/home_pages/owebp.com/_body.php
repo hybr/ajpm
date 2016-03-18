@@ -20,14 +20,14 @@
 			}
 		?></h3>
 	</div>
-	
+
 	<!-- Top menu -->
 	<form name="form_topMenu">
 		<fieldset id="toolbar" class="ui-widget-header ui-corner-all">
 			<legend></legend>
-			
+
 			<div id="topMenu">
-			
+
 				<?php if (isset($_SESSION['user']) && !empty($_SESSION['user'])) { ?>
 					<div style="width:100px;float:left;" >
 					<ul id="ajpm_home_page_menu" class="ui-corner-all jpmContentPadding" >
@@ -35,50 +35,50 @@
 					</ul>
 					</div>
 				<?php } ?>
-				
+
 				<input type="radio" id="id_home" name="name_topMenuRadio" ui-sref="home">
-				<label for="id_home">Home</label> 
-				
+				<label for="id_home">Home</label>
+
 				<input type="radio" id="id_about_us"
-					name="name_topMenuRadio" ui-sref="about_us"> 
+					name="name_topMenuRadio" ui-sref="about_us">
 				<label for="id_about_us">About
-					Us</label> 
-				
+					Us</label>
+
 				<input type="radio" id="id_contact_us" name="name_topMenuRadio"
-					ui-sref="contact_us"> 
+					ui-sref="contact_us">
 				<label for="id_contact_us">Contact
 					Us</label>
-					
+
 				<span ng-if="isAuthenticated"><input type="radio" id="id_my_account" name="name_topMenuRadio"
-					ui-sref="my_account"> 
+					ui-sref="my_account">
 				<label for="id_my_account"><span>{{ currentUserEmail }}</span></label></span>
-				
+
 				<span ng-if="isAuthenticated"><input type="radio" id="id_logout" name="name_topMenuRadio"
-					ui-sref="logout"> 
+					ui-sref="logout">
 				<label for="id_logout"><span>Logout</span></label></span>
-	
+
 				<input type="radio" id="id_admin_dashboard" name="name_topMenuRadio"
-					ui-sref="admin_dashboard"> 
-				<label for="id_admin_dashboard">Admin</label>				
+					ui-sref="admin_dashboard">
+				<label for="id_admin_dashboard">Admin</label>
 			</div>
 		</fieldset>
 	</form>
-	
-	
+
+
 	<!-- main message bar -->
 	<div ng-show="hasPageMessages()"><ul>
 		<li class="ui-state-error" ng-repeat="pageMessage in getPageMessages()">
 			{{pageMessage}}
 		</li>
 	</ul></div>
-	
+
 	<div login-dialog-one id="userLoginModelOne" title="User Login" ui-jq="dialog" ui-options="{autoOpen: false, modal: true}"></div>
-	<div login-dialog-two id="userLoginModelTwo" title="User Login" ui-jq="dialog" ui-options="{autoOpen: false, modal: true}"></div> 
+	<div login-dialog-two id="userLoginModelTwo" title="User Login" ui-jq="dialog" ui-options="{autoOpen: false, modal: true}"></div>
 	<div ui-view></div>
+
 	
-	
-	<?php if(file_exists(dirname(__FILE__) . '/../_body_links.php')) 
-		include dirname(__FILE__) . '/../_body_links.php'; 
+	<?php if(file_exists(dirname(__FILE__) . '/../_body_links.php'))
+		include dirname(__FILE__) . '/../_body_links.php';
 	?>
-	
+
 </div>
