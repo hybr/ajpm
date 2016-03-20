@@ -4,7 +4,7 @@
 $(function() {
 	$("button").button();
 	$("#topMenu").buttonset();
-	$( ".dialog" ).dialog();
+	$(".dialog" ).dialog();
 });
 
 
@@ -81,7 +81,7 @@ _3g  = 'service.ji.owebp.com';
  *           controller ApplicationController is defined in login.js as it
  *           needed lot of other information from login controller
  */
-var ajpmApp = angular.module('ajpmApp', [ 'ui.router' ]);
+var ajpmApp = angular.module('ajpmApp', [ 'ui.router', 'angular-carousel', 'ngTouch' ]);
 
 ajpmApp.config(['$httpProvider', function($httpProvider) {
         $httpProvider.defaults.useXDomain = true;

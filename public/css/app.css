@@ -5,8 +5,27 @@ body {
 	margin-right: auto;
 }
 
-
 /* ng-show and ng-hide animations */
+
+.bgimage {
+    text-align:right;
+    color:white;
+    background-size:cover;
+    height: 100%;
+    background-position: center center;
+}
+
+ul[rn-carousel] {
+    height:400px;
+    margin: 0 auto;
+}
+
+.carousel li {
+    width:100%;
+    height:100%;
+    font-size:30px;
+    background-color: #ccc;
+}
 
 .animate-show {
   line-height: 20px;

@@ -1,5 +1,15 @@
 
 <div ng-repeat="c in doc.component">
+	<div ng-if="c.type == 'Image Slider'">
+            <ul rn-carousel rn-carousel-transition="zoom" rn-carousel-buffered rn-carousel-controls-allow-loop 
+		class="carousel" rn-carousel-auto-slide>
+		<li ng-repeat="image in doc.slider_image">
+			<div ng-style="{'background-image': 'url(' + image.file_name + ')'}"  class="bgimage">
+                        {{ image.caption }}
+			</div>
+                </li>
+            </ul>
+	</div>
 	<div ng-if="c.type == 'Paragraph'">
 		<div ng-repeat="para in doc.paragraph">
 			<br />
