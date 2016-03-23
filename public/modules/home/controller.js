@@ -23,6 +23,7 @@ angular.module('ajpmApp').controller('HomeController',
 			$rootScope.pushPageMessage(response);
 		} else {
 			$scope.doc = response.data;
+			$scope.os = _orgStatement;
 		}
 	}, function errorCallback(response) {
 		$rootScope.pushPageMessage(response);

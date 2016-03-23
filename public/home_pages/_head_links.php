@@ -14,7 +14,7 @@
 <script src="js/angular/angular-animate.min.js"></script>
 <script src="js/angular-ui/angular-ui-router.js"></script>
 
-<!-- md5 -->>
+<!-- md5 -->
 <script src="js/md5/md5.min.js"></script>
 
 <!-- slider -->

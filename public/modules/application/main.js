@@ -2,7 +2,7 @@
  * jQuery calls for look and feel
  */
 $(function() {
-	$("button").button();
+	$(".button").button();
 	$("#topMenu").buttonset();
 	$(".dialog" ).dialog();
 });

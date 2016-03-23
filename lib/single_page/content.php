@@ -112,6 +112,4 @@ try {
 } catch ( Exception $e ) {
 	echo 'invalid action ' . $_SESSION ['url_action'] . $e->getMessage ();
 }
-
-echo $jpmContent;
 ?>
