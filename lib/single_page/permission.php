@@ -77,7 +77,11 @@ function isAllowed($moduleNames, $subTask) {
 	}
 	
 	/* allow public tasks */
-	if (in_array ( strtolower ( $_SESSION ['url_action'] ) . '-' . strtolower ( $_SESSION ['url_task'] ) . '-' . strtolower ( $_SESSION ['url_sub_task'] ), array (
+	$task = strtolower ( $_SESSION ['url_action'] ) 
+		. '-' . strtolower ( $_SESSION ['url_task'] ) 
+		. '-' . strtolower ( $_SESSION ['url_sub_task'] );
+
+	if (in_array ( $task, array (
 			'public_user-login-all',
 			
 			'public_checkuser-exsistance-all',

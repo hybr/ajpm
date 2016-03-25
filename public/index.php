@@ -64,17 +64,22 @@ include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'autoload.php';
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'parse_action.php';
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'get_menu.php';
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'permission.php';
+echo $_SESSION ['allowed_as'];
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'query_condition.php';
+include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'content.php';
 
 /**
  * This is main home page code file.
  * It has a mechanisum to create the home page based on domain name
  */
 
-if(file_exists(dirname(__FILE__) . '/home_pages/_default.php'))
-	include dirname(__FILE__) . '/home_pages/_default.php';
-
+if ($_SESSION['request_type'] == 'service') {
+	echo $jpmContent;
+} else {
+	if(file_exists($_SESSION ['LAYOUT_DIR'] . DIRECTORY_SEPARATOR . '_default.php')) {
+		include $_SESSION ['LAYOUT_DIR'] . DIRECTORY_SEPARATOR .  '_default.php';
+	}
+}
 debugPrintArray($_SESSION, 'SESSION');
-
 ?>
 

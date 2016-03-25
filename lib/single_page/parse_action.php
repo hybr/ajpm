@@ -19,6 +19,11 @@ if (array_key_exists ( 'query', $urlPartsArray )) {
 $_SESSION ['url_action'] = 'public_';
 $_SESSION ['url_task'] = '';
 $_SESSION ['url_sub_task'] = '';
+/* identify if it is a web_ui, admin_ui or service_ui */
+$_SESSION['request_type'] = 'web';
+$_SESSION ['LAYOUT_DIR'] = SERVER_SIDE_PUBLIC_DIR . DIRECTORY_SEPARATOR . 'layout/web';
+
+
 if (array_key_exists ( 'path', $urlPartsArray )) {
 	$urlPathArray = split ( '/', $urlPartsArray ['path'] );
 	/* array_shift will remove word service, word service is used for backend calls */
@@ -29,6 +34,16 @@ if (array_key_exists ( 'path', $urlPartsArray )) {
 	debugPrintArray($urlPathArray, 'urlPathArray');
 	if (sizeof ( $urlPathArray ) >= 2) {
 		foreach ( split ( '_', $urlPathArray [1] ) as $w ) {
+			if (strpos($w, '-a-') !== FALSE) {
+				$_SESSION ['LAYOUT_DIR'] = SERVER_SIDE_PUBLIC_DIR . DIRECTORY_SEPARATOR . 'layout/admin';
+				$_SESSION['request_type'] = 'admin';
+				$w = str_replace('-a-', '', $w);
+			}
+			if (strpos($w, '-s-') !== FALSE) {
+				$_SESSION ['LAYOUT_DIR'] = SERVER_SIDE_PUBLIC_DIR . DIRECTORY_SEPARATOR . 'layout/service';
+				$_SESSION['request_type'] = 'service';
+				$w = str_replace('-s-', '', $w);
+			}			
 			$_SESSION ['url_action'] .= ucfirst ( strtolower ( $w ) );
 		}
 	}

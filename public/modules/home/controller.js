@@ -13,7 +13,7 @@ angular.module('ajpmApp').controller('HomeController',
 
 	$http({
 		method: 'POST',
-		url: '/service/web_page/presentjson',
+		url: '/-s-web_page/presentjson',
 		params: { 
 			id: _hpid
 		}

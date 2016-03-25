@@ -16,7 +16,7 @@ function getMenu($parent = 'All') {
 			$rStr .= '<li>' . $record ['value'];
 			$rStr .= '<ul>';
 			foreach ( $record ['collections'] as $collection ) {
-				$rStr .= '<li><a href="/' . $collection . '">' . ucwords ( join ( ' ', split ( '_', $collection ) ) ) . '</a></li>';
+				$rStr .= '<li><a href="/-a-' . $collection . '">' . ucwords ( join ( ' ', split ( '_', $collection ) ) ) . '</a></li>';
 			}
 			$rStr .= getMenu ( $record ['value'] );
 			$rStr .= '</ul>';

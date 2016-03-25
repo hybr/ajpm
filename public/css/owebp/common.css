@@ -1,0 +1,68 @@
+/* To align in center */
+body {
+	width: 98%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.jpmHeaderPadding {
+	padding: 5px;
+	text-align: center;
+}
+.jpmContentPadding {
+	padding: 3px;
+}
+.jpmHide {
+	display: none;
+}
+
+.jpmFormField {
+	padding:5px;
+	border: 3px solid gray;
+}
+
+fieldset {
+	border: 6px solid black;
+	margin-top: 20px; margin-bottom:20px;
+}
+
+
+.jpm-html-form-field-component-cover {
+	padding: 2px;
+}
+
+.jpm-html-form-field-cover {
+	padding: 2px;
+	border: 3px solid gray;
+}
+
+ul.jpmPns {
+	list-style: none;
+	overflow: hidden;
+}
+
+ul.jpmPns li {
+	display: inline-block;
+	float: left;
+	padding: 10px
+}
+
+/* common classes */
+.jpmPadded {
+  line-height: 24px;
+  opacity: 1;
+  padding: 5px;
+}
+
+.jpmSmallFitWidth {
+	display: inline;
+}
+
+.jpmTitle {
+	align: center;
+}
+
+/* support: IE7 */
+*+html #toolbar {
+	display: inline;
+}
