@@ -54,10 +54,10 @@ class public_organizationBranch extends Base {
 	public function presentAllDocument($subTaskKeyToSave, $fields, $docCursor) {
 		$rStr = '<ul>';
 		foreach ( $docCursor as $doc ) {
-			$rStr .= '<li><a href="/organization_branch/present?id=' . (string) ($doc['_id']) . '" >'
+			$rStr .= '<li><a href="/-a-organization_branch/present?id=' . (string) ($doc['_id']) . '" >'
 					. $doc['code'] . '</a>: ' . $doc['name'];
 			$org = $this->getDocumentById('organization', $doc['organization']);
-				$rStr .= ' | Organization: <a href="/organization/present?id='
+				$rStr .= ' | Organization: <a href="/-a-organization/present?id='
 						. ( string ) ($org ['_id']) . '" >'
 								. $org ['name'] . '</a>';
 			$rStr .=  '</li>';

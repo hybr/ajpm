@@ -86,7 +86,7 @@ class public_WebPage extends Base {
 			if ($component['type'] == 'Learn More') {
 				$rStr .= '<br /><div class="ui-widget-content ui-corner-all jpmContentPadding"><br />'
 					. (string)$_SESSION ['url_domain_org'] ['statement'] 
-					. '<br /><br /><a href="/">Learn More</a><br />&nbsp;</div>';
+					. '<br /><br /><a href="/-a-">Learn More</a><br />&nbsp;</div>';
 			}
 			
 			if ($component['type'] == 'Media Box') {

@@ -116,7 +116,7 @@ class public_FamilyTree extends Base {
 		$nickName =  $this->getFromObjectFunction(current($nameObj), 'getNick');
 
 		if ($nickName != '')  { $nickName = ', ' . $nickName; }
-		return ' <a href="/family_tree/present?id=' . $this->gedcomFileRecordId . '&iid=' 
+		return ' <a href="/-a-family_tree/present?id=' . $this->gedcomFileRecordId . '&iid=' 
 			. $individual->getId() . '">' 
 			. str_replace('/','',$name) 
 			. $nickName

@@ -65,7 +65,7 @@ class public_ChartOfAccounts extends Base {
 						} else {
 							$manufacturarDoc = $this->getDocumentById ( 'organization', $pasDoc ['manufacturar'] );	
 						}
-						$rStr .= '<li><a href="/item/present?id=' 
+						$rStr .= '<li><a href="/-a-item/present?id=' 
 								. ( string ) ($pas ['pas_id']) . '">';
 						if ( isset($pasDoc['photo']) && !empty($pasDoc['photo'])) {
 							$rStr .= '<img height="200px" src="'.$pasDoc['photo'][0]['file_name'].'" />';

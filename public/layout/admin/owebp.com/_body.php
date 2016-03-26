@@ -68,7 +68,7 @@
 		if ($_SESSION['login_person_id'] == '') { 
 			/* person account is not set */
 		} else {
-			$personClass =  new owebp_public_Person();
+			$personClass =  new public_Person();
 			$personClass->record = $_SESSION ['person'];
 			$personName = $personClass->getFullName('Official');
 		}

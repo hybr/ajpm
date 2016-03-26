@@ -53,7 +53,7 @@ class Form_Field_Widget extends Root {
 		}
 		if ($this->getOption('inputTag') == 'foreign_key') {
 			$t = (new TitleCreator(array( 'string' => $this->getOption('jpm_foreign_collection'))))->get();
-			$helpText .= 'If required please add <a target="_blank" href="/' 
+			$helpText .= 'If required please add <a target="_blank" href="/-a-' 
 				. $this->getOption('jpm_foreign_collection') 
 				. '/create">'. $t .'</a>';
 		}

@@ -45,6 +45,10 @@ class RbacPermission extends Base {
 			array (
 					'value' => 'Present All',
 					'title' => 'Present All'
+			),
+			array (
+					'value' => 'Present Json',
+					'title' => 'Present Json'
 			)
 	);
 }

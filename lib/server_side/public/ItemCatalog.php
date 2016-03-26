@@ -79,7 +79,7 @@ class public_ItemCatalog extends Base {
 				$rStr .= '<tr class="ui-widget-content">';
 				
 				$rStr .= '<td class="jpmContentPadding">';
-				$rStr .= '<a href="/item/present?id=' . ( string ) ($item ['id']) . '">' . $itemDoc ['title'] . '</a>';
+				$rStr .= '<a href="/-a-item/present?id=' . ( string ) ($item ['id']) . '">' . $itemDoc ['title'] . '</a>';
 				$rStr .= '</td>';
 				
 				$rStr .= '<td class="jpmContentPadding">';
@@ -114,7 +114,7 @@ class public_ItemCatalog extends Base {
 								'organization', $pasDoc ['manufacturar'] 
 							);	
 						}
-						$rStr .= '<li><a href="/item/present?id=' . ( string ) ($pas ['pas_id']) . '">';
+						$rStr .= '<li><a href="/-a-item/present?id=' . ( string ) ($pas ['pas_id']) . '">';
 						if ( isset($pasDoc['photo']) && !empty($pasDoc['photo'])) {
 							$rStr .= '<img height="20%" src="'.$pasDoc['photo'][0]['file_name'].'" />';
 						}

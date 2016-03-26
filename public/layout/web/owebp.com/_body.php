@@ -28,14 +28,6 @@
 
 			<div id="topMenu">
 
-				<?php if (isset($_SESSION['user']) && !empty($_SESSION['user'])) { ?>
-					<div style="width:100px;float:left;" >
-					<ul id="ajpm_home_page_menu" class="ui-corner-all jpmContentPadding" >
-						<li>Start<?php echo getMenu();?></li>
-					</ul>
-					</div>
-				<?php } ?>
-
 				<input type="radio" id="id_home" name="name_topMenuRadio" ui-sref="home">
 				<label for="id_home">Home</label>
 

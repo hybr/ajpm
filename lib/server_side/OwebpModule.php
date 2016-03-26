@@ -78,7 +78,7 @@ class OwebpModule extends Base {
 					'value' => 'Product and Service',
 					'title' => 'Product and Service',
 					'collections' => array(
-							'item_catalog', 'item'
+							'item_catalog', 'item', 'real_estate_asset'
 					),
 					'parent' => 'All'
 			)

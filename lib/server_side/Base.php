@@ -289,16 +289,16 @@ class Base {
 		}
 		if ($this->collectionName == 'contact') {
 			return 'Create : '
-					. '<a href="/' . $this->collectionName . '/create/phone">Phone</a>'
-					. '<a href="/' . $this->collectionName . '/create/email_address">Email</a>'
-					. '<a href="/' . $this->collectionName . '/create/postal_address">Postal</a>'
-					. '<a href="/' . $this->collectionName . '/create/web">Web</a>'
-					. '<a href="/' . $this->collectionName . '/create/fax">Fax</a>'
-					. '<a href="/' . $this->collectionName . '/create/voip">VoIP</a>'
-					. '<a href="/' . $this->collectionName . '/create/pager">Pager</a>'
+					. '<a href="/-a-' . $this->collectionName . '/create/phone">Phone</a>'
+					. '<a href="/-a-' . $this->collectionName . '/create/email_address">Email</a>'
+					. '<a href="/-a-' . $this->collectionName . '/create/postal_address">Postal</a>'
+					. '<a href="/-a-' . $this->collectionName . '/create/web">Web</a>'
+					. '<a href="/-a-' . $this->collectionName . '/create/fax">Fax</a>'
+					. '<a href="/-a-' . $this->collectionName . '/create/voip">VoIP</a>'
+					. '<a href="/-a-' . $this->collectionName . '/create/pager">Pager</a>'
 			;
 		}		
-		return '<a href="/' . $this->collectionName . '/create' . $st . '">Create</a>';
+		return '<a href="/-a-' . $this->collectionName . '/create' . $st . '">Create</a>';
 	}
 	private function getRemoveLink($st = '') {
 		if ($st != '') {
@@ -308,7 +308,7 @@ class Base {
 		}
 		
 		if (isset ( $this->record ['_id'] )) {
-			return '<a href="/' . $this->collectionName . '/remove' . $st . '?id=' . $this->record ['_id'] . '">Remove</a>';
+			return '<a href="/-a-' . $this->collectionName . '/remove' . $st . '?id=' . $this->record ['_id'] . '">Remove</a>';
 		} else {
 			return '';
 		}
@@ -320,7 +320,7 @@ class Base {
 			$st = '/' . $_SESSION ['url_sub_task'];
 		}
 		if (isset ( $this->record ['_id'] )) {
-			return '<a href="/' . $this->collectionName . '/update' . $st . '?id=' . $this->record ['_id'] . '">Update</a>';
+			return '<a href="/-a-' . $this->collectionName . '/update' . $st . '?id=' . $this->record ['_id'] . '">Update</a>';
 		} else {
 			return '';
 		}
@@ -333,7 +333,7 @@ class Base {
 		}
 		
 		if (isset ( $this->record ['_id'] )) {
-			return '<a href="/' . $this->collectionName . '/copy' . $st . '?id=' . $this->record ['_id'] . '">Copy</a>';
+			return '<a href="/-a-' . $this->collectionName . '/copy' . $st . '?id=' . $this->record ['_id'] . '">Copy</a>';
 		} else {
 			return '';
 		}
@@ -345,7 +345,7 @@ class Base {
 			$st = '/' . $_SESSION ['url_sub_task'];
 		}
 		
-		return '<a href="/' . $this->collectionName . '/read' . $st . '">List</a>';
+		return '<a href="/-a-' . $this->collectionName . '/read' . $st . '">List</a>';
 	}
 	private function getShowLink($st = '') {
 		if ($st != '') {
@@ -355,7 +355,7 @@ class Base {
 		}
 		
 		if (isset ( $this->record ['_id'] )) {
-			return '<a href="/' . $this->collectionName . '/show' . $st . '?id=' . $this->record ['_id'] . '">Show</a>';
+			return '<a href="/-a-' . $this->collectionName . '/show' . $st . '?id=' . $this->record ['_id'] . '">Show</a>';
 		} else {
 			return '';
 		}
@@ -368,7 +368,7 @@ class Base {
 		}
 		
 		if (isset ( $this->record ['_id'] )) {
-			return '<a href="/' . $this->collectionName . '/present' . $st . '?id=' . $this->record ['_id'] . '">Present</a>';
+			return '<a href="/-a-' . $this->collectionName . '/present' . $st . '?id=' . $this->record ['_id'] . '">Present</a>';
 		} else {
 			return '';
 		}
@@ -1065,7 +1065,7 @@ class Base {
 				|| $_SESSION ['login_person_id'] == ''
 			)
 		) {
-			array_push ( $this->errorMessage, 'Please create <a href="/person">person</a> profile.' );
+			array_push ( $this->errorMessage, 'Please create <a href="/-a-person">person</a> profile.' );
 		}
 	}
 	private function edit($urlArgsArray) {
@@ -1121,7 +1121,7 @@ class Base {
 				if ($this->curlsMode == 'Copy') {
 					unset($doc['_id']);
 				}
-				$rStr = $f->showForm ( $urlArgsArray, '/' . $this->collectionName . '/' . $method, $doc, $this->fields );
+				$rStr = $f->showForm ( $urlArgsArray, '/-a-' . $this->collectionName . '/' . $method, $doc, $this->fields );
 			}
 			$rStr .= $this->showLinks ();
 			return $rStr;
@@ -1146,7 +1146,7 @@ class Base {
 		$f->subTaskKeyToSave = $this->subTaskKeyToSave;
 		$f->collectionName = $this->collectionName;
 		
-		$rStr = $f->showForm ( $urlArgsArray, '/' . $this->collectionName . '/save', array (), $this->fields );
+		$rStr = $f->showForm ( $urlArgsArray, '/-a-' . $this->collectionName . '/save', array (), $this->fields );
 		$rStr .= $this->showLinks ();
 		return $rStr;
 	}
@@ -1158,7 +1158,7 @@ class Base {
 		$this->initializeTask ();
 		
 		if (empty ( $_SESSION ['url_domain_org'] ) || ( string ) $_SESSION ['url_domain_org'] ['_id'] == '') {
-			return '<a href="organization/create">Create</a> a organization profile first and relogin';
+			return '<a href="/-a-organization/create">Create</a> a organization profile first and relogin';
 		}
 
 		$this->findCursor = $_SESSION ['mongo_database']->{$this->collectionName}->find (getQueryConditions(array()));

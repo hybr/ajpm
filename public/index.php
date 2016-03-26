@@ -34,7 +34,15 @@ session_start ();
 /**
  * Initialize the session array so every time we rebuild it
  */
-$_SESSION = [];
+/*
+ * 
+foreach($_SESSION as $key) {
+	if (in_array($key, array('user', 'person', 'login_person_id'))) {
+		continue;
+	}
+	unset($_SESSION[$key]);
+}
+*/
 
 /**
  * A constant to hold the absolute path of ajpm lib folder on server
@@ -64,7 +72,6 @@ include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'autoload.php';
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'parse_action.php';
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'get_menu.php';
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'permission.php';
-echo $_SESSION ['allowed_as'];
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'query_condition.php';
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'content.php';
 

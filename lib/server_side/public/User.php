@@ -79,7 +79,7 @@ class public_User extends Base {
 		unset ( $this->fields ['verified'] );
 		$f->curlsMode = 'Login';
 		
-		$rStr .= $f->showForm ( $urlArgsArray, '/user/authenticate', array (), $this->fields );
+		$rStr .= $f->showForm ( $urlArgsArray, '/-a-user/authenticate', array (), $this->fields );
 		$rStr .= '<a href="/-a-user/forget_password">Forget Password</a>';
 //		$rStr .= '<a href="/-a-user/activate_account">Activate Account</a>';
 		return $rStr;
@@ -103,7 +103,7 @@ class public_User extends Base {
 		if (array_key_exists ( 'ea', $urlArgsArray )) {
 			$this->fields ['email_address'] ['value'] = $urlArgsArray ['ea'];
 		}
-		$rStr .= $f->showForm ( $urlArgsArray, '/user/register', array (), $this->fields );
+		$rStr .= $f->showForm ( $urlArgsArray, '/-a-user/register', array (), $this->fields );
 		return $rStr;
 	}
 	public function va($urlArgsArray) {
@@ -178,7 +178,7 @@ class public_User extends Base {
 		$f->curlsMode = 'Forget Password';
 		
 		$rStr .= 'Note: To just activate account you can keep password as same as current.' 
-			. $f->showForm ( $urlArgsArray, '/user/sendactivationemail', array (), $this->fields );
+			. $f->showForm ( $urlArgsArray, '/-a-user/sendactivationemail', array (), $this->fields );
 		return $rStr;
 	}
 	public function authenticate($urlArgsArray) {
@@ -235,7 +235,7 @@ class public_User extends Base {
 			$_SESSION ['login_person_id'] = $_SESSION ['user'] ['person'];
 		}
 		
-		header('Location: /-a-person');    
+		//header('Location: /-a-person');    
 		return $rStr;
 	} /* authenticate */
 	public function register($urlArgsArray) {

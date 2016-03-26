@@ -276,7 +276,7 @@ class public_Item extends Base {
 				$rStr .= '<td>';
 				if (isset($price['type'])) {
 					if ($price['type'] == 'Quote') {
-						$rStr .= '<a href="/contact/present_all">Request a quote</a>';
+						$rStr .= '<a href="/-a-contact/present_all">Request a quote</a>';
 						$rStr .= '<input type="hidden" name="price" value="Quote" />';
 					} else {
 						$rStr .= $price['amount'] . ' ' . $price['currency'] 

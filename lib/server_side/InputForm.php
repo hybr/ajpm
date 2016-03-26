@@ -87,7 +87,7 @@ class InputForm extends Base {
 		$rStr .= $this->showLabel ($field);
 		$rStr .= $this->showHelp ($field);
 		/* select start */
-		$rStr .= '<a target="_blank" href="/file_upload/create">Upload</a> ' . 'file if neeed <br />' ;
+		$rStr .= '<a target="_blank" href="/-a-file_upload/create">Upload</a> ' . 'file if neeed <br />' ;
 		$rStr .= '<select class="ui-menu ui-widget ui-state-default ui-state-hover ui-state-focus" ';
 		$rStr .= $this->showCommonAttributes ($field);
 		$rStr .= ' size="' . $field ['select_tag_hight'] . '"';

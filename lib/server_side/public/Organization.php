@@ -154,7 +154,7 @@ class public_Organization extends Base {
 					. $doc['name'] . '</a>: ' . $doc['statement'];
 			$parentOrganization = $this->getDocumentById('organization', $doc['parent_organization']);
 			if ((string) ($parentOrganization ['_id']) != ( string ) ($parentOrganization ['_id'])) {
-			$rStr .= ' | Patent Organization: <a href="/organization/present?id=' 
+			$rStr .= ' | Patent Organization: <a href="/-a-organization/present?id=' 
 					. ( string ) ($parentOrganization ['_id']) . '" >' 
 					. $parentOrganization ['name'] . '</a>';
 			}

@@ -53,6 +53,5 @@ class RealEstateAssetType extends Base {
 			)
 
 	);
-	public $help = '<ul><li>Proposed: service under development and not yet live</li><li>Live: service offered in production</li><li>Archived: service no longer offered</li></ul>';
 }
 ?>

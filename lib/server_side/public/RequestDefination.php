@@ -46,7 +46,7 @@ class public_RequestDefination extends Base {
 		}
 		$description = $this->getFieldValue($doc, 'description');
 		if ($type != 'Category') {
-			$rStr .= $type . ' : <a href="/request_defination/present?id='.(string)$doc['_id'].'">' . $title . '</a> : ' . $description;
+			$rStr .= $type . ' : <a href="/-a-request_defination/present?id='.(string)$doc['_id'].'">' . $title . '</a> : ' . $description;
 		} else {
 			$rStr .= $title . ' : ' . $description;
 		}

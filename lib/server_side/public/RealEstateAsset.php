@@ -1,164 +1,127 @@
 <?php
-require_once JPM_DIR . DIRECTORY_SEPARATOR . "objects" . DIRECTORY_SEPARATOR . "owebp" . DIRECTORY_SEPARATOR . "Base.php";
-class owebp_public_RealEstateAsset extends owebp_Base {
+require_once SERVER_SIDE_LIB_DIR . DIRECTORY_SEPARATOR . "Base.php";
+class public_RealEstateAsset extends Base {
 		
 	function __construct() {
 		$this->collectionName = 'real_estate_asset';
 	} /* __construct */
 	public $fields = array (
 		'type' => array (
-			'type' => 'string',
-			'show_in_list' => 1,
-		),
-		'type' => array (
-			'help' => 'Selet the type of real estate',
+			'help' => 'Select the type of real estate',
 			'type' => 'list',
 			'list_class' => 'RealEstateAssetType',
 			'input_mode' => 'selecting',
 			'default' => 'Home',
-		)
-	); /* fields */
-	
-	
-	public function presentDocument($subTaskKeyToSave, $fields, $doc) {
-		$rStr = '';
-	
-		$rStr .= '<table class="ui-widget">';
-		$rStr .= '<tr><td class="ui-widget-header" colspan="2"><h2>' . $doc ['name'] . '</h2></td></tr>';
+			'show_in_list' => 1,
+		),
+		'owner' => array(
+				'type' => 'container',
+				'fields' => array (
+					'name' => array (
+							'type' => 'foreign_key',
+							'foreign_collection' => 'person',
+							'foreign_search_fields' => 'name.first,name.middle,name.last',
+							'foreign_title_fields' => 'name,gender',
+							'required' => 1,
+					),	
+					'signatory' => array (
+							'help' => 'Select true if signature required',
+							'type' => 'list',
+							'list_class' => 'Boolean',
+							'input_mode' => 'clicking',
+							'default' => 'True',
+							'required' => 1,
+					),
+				),
+		),			
 		
-		$rStr .= '<tr class="ui-widget-content"><td class="jpmContentPadding" colspan="2">' . $doc ['statement'] . '</td></tr>';
-	
-		$rStr .= '<tr class="ui-widget-content">';
-		$rStr .= '<td class="jpmContentPadding">';
-		$rStr .=  "Abbreviation";
-		$rStr .= '</td>';
-		$rStr .= '<td class="jpmContentPadding">';
-		$rStr .= $doc['abbreviation'];
-		$rStr .= '</td>';
-		$rStr .= '</tr>';
-		if ($doc ['web_site_owner'] != "") {
-			$owner = $_SESSION ['mongo_database']->person->findOne ( array (
-				'_id' => new MongoId ( ( string ) ($doc ['web_site_owner']) )
-			) );
-			$rStr .= '<tr class="ui-widget-content">';
-			$rStr .= '<td class="jpmContentPadding">';
-			$rStr .=  "Owner";
-			$rStr .= '</td>';
-			$rStr .= '<td class="jpmContentPadding">';
-			$personClass =  new public_Person();
-			$personClass->record = $owner; 
-			$rStr .= $personClass->getOfficialFullName();
-			$rStr .= '</td>';
-			$rStr .= '</tr>';
-		}				
+		'area' => array (
+				'type' => 'string',
+				'show_in_list' => 1,
+		),
+		'area_unit' => array (
+				'help' => 'Select the unit of real estate area',
+				'type' => 'list',
+				'list_class' => 'AreaUnit',
+				'input_mode' => 'selecting',
+				'default' => 'Square Foot',
+				'show_in_list' => 1,
+		),
+		'contact' => array(
+				'type' => 'container',
+				'required' => 1,
+				'fields' => array (
+						'contact' => array (
+								'type' => 'foreign_key',
+								'foreign_collection' => 'contact',
+								'foreign_search_fields' => 'location,medium,phone_number,fax_number,pager_number,voip_number,email_address,city,pin_or_zip,area,street,home_or_building',
+								'foreign_title_fields' => 'location,medium,phone_number,fax_number,pager_number,voip_number,email_address,city,pin_or_zip,area,street,home_or_building',
+						)
+				),
+		),			
+		'room' => array(
+				'type' => 'container',
+				'required' => 1,
+				'fields' => array (
+						'type' => array (
+								'help' => 'Select the room type of real estate',
+								'type' => 'list',
+								'list_class' => 'RealEstateRoomType',
+								'input_mode' => 'selecting',
+								'default' => 'Kitchen',
+								'required' => 1,
+						),
+						'count' => array (
+								'type' => 'number' ,
+								'required' => 1,
+						),
+						'area' => array (
+								'type' => 'string',
+						),
+						'area_unit' => array (
+								'help' => 'Select the unit of real estate area',
+								'type' => 'list',
+								'list_class' => 'AreaUnit',
+								'input_mode' => 'selecting',
+								'default' => 'Square Foot',
+						),
+						'accessory' => array(
+								'type' => 'container',
+								'fields' => array (
+										'name' => array (
+												'help' => 'Select the accessory installed',
+												'type' => 'list',
+												'list_class' => 'RealEstateAccessories',
+												'input_mode' => 'selecting',
+												'default' => 'Fan',
+										),
+										'count' => array (
+												'type' => 'number' ,
+												'required' => 1,
+										),
+				
+								),
+						),					
+				),
+		),
+		'accessory' => array(
+				'type' => 'container',
+				'fields' => array (
+						'name' => array (
+								'help' => 'Select the accessory installed',
+								'type' => 'list',
+								'list_class' => 'RealEstateAccessories',
+								'input_mode' => 'selecting',
+								'default' => 'Fan',
+						),
+						'count' => array (
+								'type' => 'number' ,
+								'required' => 1,
+						),
 		
-		if ($doc ['parent_organization'] != "") {
-			$parentOrg = $_SESSION ['mongo_database']->organization->findOne ( array (
-				'_id' => new MongoId ( ( string ) ($doc ['parent_organization']) )
-			) );
-			$rStr .= '<tr class="ui-widget-content">';
-			$rStr .= '<td class="jpmContentPadding">';
-			$rStr .=  "Parent organization"; 
-			$rStr .= '</td>';
-			$rStr .= '<td class="jpmContentPadding">';
-			$rStr .=  $parentOrg['name'];
-			$rStr .= '</td>';			
-			$rStr .= '</tr>';
-		}
-		foreach ($doc ['web_domain'] as $domain) {
-			$rStr .= '<tr class="ui-widget-content">';
-			$rStr .= '<td class="jpmContentPadding">';
-			$rStr .=  "Domain";
-			$rStr .= '</td>';
-			$rStr .= '<td class="jpmContentPadding">';
-			$rStr .= $domain['name'];
-			$rStr .= '</td>';
-			$rStr .= '</tr>';
-		}
-		$rStr .= '<tr class="ui-widget-content">';
-		$rStr .= '<td class="jpmContentPadding">';
-		$rStr .=  "Theme";
-		$rStr .= '</td>';
-		$rStr .= '<td class="jpmContentPadding">';
-		$rStr .= $doc['web_site_theme'];
-		$rStr .= '</td>';
-		$rStr .= '</tr>';	
-		
-		if ($doc ['web_site_home_page'] != "") {
-			$webPage = $_SESSION ['mongo_database']->web_page->findOne ( array (
-				'_id' => new MongoId ( ( string ) ($doc ['web_site_home_page']) )
-			) );
-			$rStr .= '<tr class="ui-widget-content">';
-			$rStr .= '<td class="jpmContentPadding">';
-			$rStr .=  "Home Page";
-			$rStr .= '</td>';
-			$rStr .= '<td class="jpmContentPadding">';
-			$rStr .=  $webPage['title'];
-			$rStr .= '</td>';
-			$rStr .= '</tr>';
-		}
-		
-		$rStr .= '</table>';
-		return $rStr;
-	}
-	
-	public function presentAllDocument($subTaskKeyToSave, $fields, $docCursor) {
-		$rStr = '<ul>';
-		foreach ( $docCursor as $doc ) {
-			$rStr .= '<li><a href="/organization/present?id=' . (string) ($doc['_id']) . '" >'
-					. $doc['name'] . '</a>: ' . $doc['statement'];
-			$parentOrganization = $this->getDocumentById('organization', $doc['parent_organization']);
-			if ((string) ($parentOrganization ['_id']) != ( string ) ($parentOrganization ['_id'])) {
-			$rStr .= ' | Patent Organization: <a href="/organization/present?id=' 
-					. ( string ) ($parentOrganization ['_id']) . '" >' 
-					. $parentOrganization ['name'] . '</a>';
-			}
-			$rStr .=  '</li>';
-		}
-		return $rStr . '</ul>';
-	}	
+				),
+		),				
+	); /* fields */	
 
-	public function clients() {
-		$rStr = '<ol>';
-		$docCursor = $_SESSION ['mongo_database']->{$this->collectionName}->find ();	
-		foreach ( $docCursor as $doc ) {
-			$rStr .= '<li>' . $doc['name'] . ' : ' . $doc['statement'];
-			if (!empty($doc['web_domain'])) {
-				$rStr .= '<ul>';
-			}
-			foreach ($doc['web_domain'] as $domain) {
-				$rStr .= '<li><a target="_blank" href="http://'.$domain['name'].'">' . $domain['name'] . '</a></li>';
-			}
-			if (!empty($doc['web_domain'])) {
-				$rStr .= '</ul>';
-			}
-			$parentOrganization = $this->getDocumentById('organization', (string) $doc['parent_organization']);
-			if (!empty($parentOrganization)
-				&& (string) ($parentOrganization ['_id']) != ( string ) ($doc ['_id'])) {
-				$rStr .= ' | Patent Organization: ' . $parentOrganization ['name'] ;
-			}
-			$rStr .=  '</li>';
-		}
-		return $rStr . '</ol>';
-	}
-	
-	/* public function getHomePageId () { */
-	public function a($urlArgsArray) {
-		$response = array();
-		
-		/**
-		 * get the organization ID
-		 */
-		$organizationId = getParamValue('a', $urlArgsArray);
-			
-		$orgRecord = $_SESSION ['mongo_database']->{$this->collectionName}->findOne ( array (
-			'_id' => new MongoId((string)(trim($organizationId)))
-		) );
-			
-		$response['home_page_id'] = $orgRecord['web_site_home_page'];
-			
-		return json_encode($response);
-
-	}
 } /* class */
 ?>

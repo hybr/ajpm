@@ -90,7 +90,7 @@ class public_ShoppingCart extends Base {
                                                                 'organization', $pasDoc ['manufacturar']
                                                         );
                                                 }
-					$rStr .= '<li><a href="/item/present?id=' . ( string ) ($pasDoc ['_id']) . '">';
+					$rStr .= '<li><a href="/-a-item/present?id=' . ( string ) ($pasDoc ['_id']) . '">';
                         		foreach ( $doc['status'] as $status ) {
 						$rStr .= $this->getFieldValue($status, 'flag', '<br />');
 					}
