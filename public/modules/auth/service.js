@@ -24,7 +24,7 @@ angular.module('ajpmApp').factory('AuthService', [
 			/* send md5(email) to server side and verify if user exists. */
 			$http({
 				method: 'POST',
-				url: '/service/check_user/e',
+				url: '/-s-check_user/e',
 				params: { e: email }
 			}).then(function successCallback(response) {
 				if (response.status != 200) {
@@ -59,7 +59,7 @@ angular.module('ajpmApp').factory('AuthService', [
 			/* send sessionId and md5(password) to server end and verify is password OK */
 			$http({
 				method: 'POST',
-				url: '/service/check_user/p',
+				url: '/-s-check_user/p',
 				params: { 
 					s: SessionService.getCurrentUserSessionId(), 
 					p: passwordToCheck 

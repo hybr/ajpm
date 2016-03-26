@@ -47,7 +47,7 @@ class public_User extends Base {
 		$message = '<html><head><title>Account Verification Email</title></head><body>';
 		$message .= '<b>Hello</b>,<br /><p>Please verify your email address to activate the account. <a href="http://'
 			.$_SESSION['url_domain']
-			.'/user/va?c=' .$user['verified']
+			.'/-a-user/va?c=' .$user['verified']
 			.'&e='.md5($user['email_address']).'">Click here</a></p><br />Thanks<br />'
 			.$_SESSION['url_domain'];
 		$message .= '</body></html>';
@@ -80,8 +80,8 @@ class public_User extends Base {
 		$f->curlsMode = 'Login';
 		
 		$rStr .= $f->showForm ( $urlArgsArray, '/user/authenticate', array (), $this->fields );
-		$rStr .= '<a href="/user/forget_password">Forget Password</a>';
-//		$rStr .= '<a href="/user/activate_account">Activate Account</a>';
+		$rStr .= '<a href="/-a-user/forget_password">Forget Password</a>';
+//		$rStr .= '<a href="/-a-user/activate_account">Activate Account</a>';
 		return $rStr;
 	}
 	public function logout($urlArgsArray) {
@@ -206,7 +206,7 @@ class public_User extends Base {
 			}
 		} else {
 			array_push ( $this->errorMessage, $_POST ['email_address'] . ' is  not verified. Use '
-				. '<a href="/user/forget_password">Forget Password</a> to activate.' );
+				. '<a href="/-a-user/forget_password">Forget Password</a> to activate.' );
 			unset($_SESSION['user']);
 			return $this->showError ();
 		}
@@ -235,7 +235,7 @@ class public_User extends Base {
 			$_SESSION ['login_person_id'] = $_SESSION ['user'] ['person'];
 		}
 		
-		header('Location: /person');    
+		header('Location: /-a-person');    
 		return $rStr;
 	} /* authenticate */
 	public function register($urlArgsArray) {
@@ -278,7 +278,7 @@ class public_User extends Base {
 						
 						$personClass = new public_Person ();
 						$personClass->record = $personRec;
-						array_push ( $this->errorMessage, $personClass->getOfficialFullName () . ' is holding this user account, <a href="mainto:' . $personCommunicationEmail . '">request</a> the person to migrate it to you.' );
+						array_push ( $this->errorMessage, $personClass->getOfficialFullName () . ' is holding this user account, <a href="mailto:' . $personCommunicationEmail . '">request</a> the person to migrate it to you.' );
 					}
 				}
 			}
