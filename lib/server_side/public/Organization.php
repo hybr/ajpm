@@ -59,6 +59,12 @@ class public_Organization extends Base {
 			'foreign_search_fields' => 'title',
 			'foreign_title_fields' => 'title'
 		),
+		'web_site_about_us_page' => array (
+			'type' => 'foreign_key',
+			'foreign_collection' => 'web_page',
+			'foreign_search_fields' => 'title',
+			'foreign_title_fields' => 'title'
+		),			
 		'web_site_logo_file_name' => array (
 			'type' => 'file_list'
 		),

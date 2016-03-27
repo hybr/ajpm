@@ -13,3 +13,4 @@
 
 <script src="modules/contact_us/controller.js"></script>
 <script src="modules/home/controller.js"></script>
+<script src="modules/about_us/controller.js"></script>

@@ -27,7 +27,6 @@
 			<legend></legend>
 
 			<div id="topMenu">
-
 				<input type="radio" id="id_home" name="name_topMenuRadio" ui-sref="home">
 				<label for="id_home">Home</label>
 

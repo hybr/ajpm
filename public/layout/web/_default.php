@@ -23,7 +23,7 @@
 	<body>
 		<script>var _hpid = '<?php echo (string) $_SESSION ['url_domain_org']['web_site_home_page']; ?>';</script>
 		<script>var _orgStatement = '<?php echo (string) $_SESSION ['url_domain_org']['statement']; ?>';</script>
-		
+		<script>var _auid = '<?php echo (string) $_SESSION ['url_domain_org']['web_site_about_us_page']; ?>';</script>
 		<?php if(file_exists($homePageDir . DIRECTORY_SEPARATOR . '_body.php')) 
 			include $homePageDir . DIRECTORY_SEPARATOR . '_body.php';
 		?>

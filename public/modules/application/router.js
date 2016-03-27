@@ -9,24 +9,12 @@ angular.module('ajpmApp').config(['$stateProvider', '$urlRouterProvider', 'USER_
 
 	$stateProvider.state('home', {
 		url : "/home",
-		templateUrl : "modules/home/view.html",
+		templateUrl : "modules/web_page/view.html",
 		controller : "HomeController"
-	}).state('home.list', {
-		url : "/list",
-		templateUrl : "modules/home/list.html",
-		controller : function($scope) {
-			$scope.items = [ "A", "List", "Of", "Items" ];
-		}
 	}).state('about_us', {
 		url : "/about_us",
-		templateUrl : "modules/about_us/view.html"
-
-	}).state('about_us.list', {
-		url : "/list",
-		templateUrl : "modules/about_us/list.html",
-		controller : function($scope) {
-			$scope.things = [ "A", "Set", "Of", "Things" ];
-		}
+		templateUrl : "modules/web_page/view.html",
+		controller : "AboutUsController"
 	}).state('contact_us', {
 		url : "/contact_us",
 		templateUrl : "modules/contact_us/view.html",
