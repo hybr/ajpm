@@ -1,14 +1,5 @@
 
 /**
- * jQuery calls for look and feel
- */
-$(function() {
-	$("button").button();
-	$("#topMenu").buttonset();
-	$(".dialog" ).dialog();
-});
-
-/**
  * @variable _0g used to hold the domain of website
  * 
  * For testing a perticular domain set this variable value to that domain
