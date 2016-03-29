@@ -16,26 +16,17 @@
 					echo "OWebP";
 			}?></b>
 		</div>
-		
-       <md-button class="md-button" aria-label="Home" ui-sref="home">
-          <span>Home</span>
-       </md-button>
-        
-       <md-button class="md-button" aria-label="About" ui-sref="about_us">
-          <span>About</span>
-       </md-button>
-               
       	<span flex></span>
 		
 		<md-button class="md-button" aria-label="Contact" ui-sref="contact_us">
           <span>Contact</span>
 		</md-button>
 		
-		<md-button class="md-button" aria-label="My" ui-sref="my_account">
-          <span>My</span>
-		</md-button>		
+		<md-button class="md-icon-button" aria-label="Favorite" ui-sref="my_account">
+          <md-icon md-svg-icon="img/icons/ic_person_black_48px.svg"></md-icon>
+        </md-button>	
   
-  		<span ng-show="isAuthenticated">
+  		<span ng-show="isAuthenticated"> 
 			<md-button class="md-button" aria-label="Logout" ui-sref="logout">
 	          <span>Logout</span>
 			</md-button>
@@ -58,18 +49,91 @@
 		?></div>
   </md-toolbar>
   
-  <md-content>
-	
-	<!-- main message bar -->
+  
+<md-toolbar class="md-menu-toolbar">
+    <div layout="row">
+        <md-menu-bar>
+          
+          <md-menu>
+            
+            <button ng-click="$mdOpenMenu()">
+              Home
+            </button>
+            
+            <md-menu-content>
+              
+              <md-menu-item class="md-indent">
+              	<md-icon md-svg-icon="img/icons/ic_home_black_48px.svg"></md-icon>
+                <md-button ui-sref="home">
+                  Home
+                </md-button>
+              </md-menu-item>
+
+              <md-menu-divider></md-menu-divider>
+
+              <md-menu-item class="md-indent">
+                <md-button ui-sref="home">
+                  Contact Us
+                </md-button>
+              </md-menu-item>
+
+              <md-menu-item class="md-indent">
+                <md-button ui-sref="login1">
+                  Login
+                </md-button>
+              </md-menu-item>
+                            
+            </md-menu-content>
+          </md-menu>
+
+          <md-menu>
+            
+            <button ng-click="$mdOpenMenu()">
+              About
+            </button>
+            
+            <md-menu-content>
+              
+              <md-menu-item class="md-indent">
+                <md-button ui-sref="about_us">
+                  Why Us
+                </md-button>
+              </md-menu-item>
+
+              <md-menu-divider></md-menu-divider>
+
+              <md-menu-item class="md-indent">
+                <md-button>
+                  Our Projects
+                </md-button>
+              </md-menu-item>
+
+            </md-menu-content>
+          </md-menu>
+          
+          <md-menu>
+            <button ng-click="$mdOpenMenu()">
+              Catalog
+            </button>
+            
+            <md-menu-content>
+			<md-menu-item class="md-indent">
+                	<md-button>
+                  		Services
+                	</md-button>
+				</md-menu-item>
+			</md-menu-content>
+			</md-menu>
+
+		</md-menu-bar>
+    </div>
+  </md-toolbar>
 	<div ng-show="hasPageMessages()"><ul>
 		<li ng-repeat="pageMessage in getPageMessages()">
 			{{pageMessage}}
 		</li>
-	</ul></div>
-	  
-   <div ui-view></div>
-  </md-content>
-  
+	</ul></div>  
+   	<div ui-view>Loading...</div>  
 </div>
 
 	<div login-dialog-one id="userLoginModelOne" title="User Login" ui-jq="dialog" ui-options="{autoOpen: false, modal: true}"></div>
