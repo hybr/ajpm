@@ -17,7 +17,7 @@ if ($_SERVER['request_method'] = "get") {
      "Location" => $doc["Contact"]["City"],
      "Area" => $doc["Area"],
      "Area Unit" => $doc["Area Unit"],
-     "Accessories" => $doc["Accessories"],
+     "Accessories" => $doc["Accessory"],
      "Rooms" => $doc["Rooms"]
     ));
    }
