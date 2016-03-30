@@ -42,6 +42,10 @@ angular.module('ajpmApp').config(['$stateProvider', '$urlRouterProvider', 'USER_
 		url : "/login2",
 		templateUrl : "modules/auth/login_s2.html",
 		controller : 'LoginController'
+	}).state('search', {
+		url : "/search",
+		templateUrl : "modules/search/search.html",
+		controller : 'searchController'
 	}).state('admin_dashboard', {
 		url : "/admin_dashboard",
 		templateUrl : "modules/admin_dashboard/view.html",

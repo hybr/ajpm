@@ -1,0 +1,42 @@
+<table ng-controller="searchController" width="100%" style="white-space:nowrap;overflow:hidden;">
+<tr>
+  <td style="padding-right:10px;vertical-align:top;display:inline-block;float:left;">
+    <div>
+      <table style="text-align:right;">
+        <tr>
+          <td>Location : </td><td><input style="width:100%;" type="text" ng-model="locationa"></td>
+        </tr>
+        <tr>
+          <td>Area : </td><td style="text-align:left;"><input type="text" ng-model="area"> <select ng-model="selectUnit"><option ng-repeat="i in areaUnit">{{i}}</option></select></td>
+        </tr>
+        <tr>
+          <td>Type : </td><td style="text-align:left;"><select ng-model="selectType"><option ng-repeat="i in landType">{{i}}</option></select></td>
+        </tr>
+        <tr>
+          <td>Accessory : </td><td style="text-align:left;"><select ng-model="selectAccessory"><option ng-repeat="i in accessory">{{i}}</option></select></td>
+        </tr>
+        <!--<tr>
+          <td>
+            Room : </td><td style="text-align:left;"><select ng-model="selectRoomType"><option ng-repeat="i in roomType">{{i}}</option></select>
+            Count : <input style="width:50px;" type="text" ng-model="roomCount">
+            &nbsp;&nbsp;<a href="" ng-click="addRoom()">add room</a>
+          </td>
+        </tr>-->
+        <tr>
+          <td></td><td style="text-align:left;"><button ng-click="search()">Search</button></td>
+        </tr>
+      </table>
+    </div>
+  </td>
+  <td style="text-align:left;display:inline-block;width:100%;border-left:1px solid #222222;">
+    <div style="margin-left:10px;border-bottom:1px dashed #222222;"><h2>Search Result</h2></div>
+    <div ng-repeat="i in varResponse" style="margin-left:10px;border-bottom:1px solid #222222;width:100%;">
+        <table width="100%" style="text-align:left;padding:10px;">
+         <tr><td style="float:left; display:inline-block;">Location :&nbsp;</td><td style="float:left;text-align:left;">{{i["Location"]}}</td></tr>
+         <tr><td style="float:left;display:inline-block;">Area :&nbsp;</td><td style="float:left;text-align:left;">{{i["Area"]}} {{i["Area Unit"]}}</td></tr>
+         <tr><td style="float:left;display:inline-block;">Accessories :&nbsp;</td><td style="float:left;text-align:left;">{{i["Accessories"]}}</td></tr>
+        </table>
+    </div>
+  </td>
+</tr>
+</table>
