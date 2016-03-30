@@ -126,3 +126,34 @@ angular.module('ajpmApp').controller('LoginController',	[
 angular.module('ajpmApp').controller('LogoutController', ['AuthService', function(AuthService) {
 	AuthService.logout();
 } ]);
+angular.module('ajpmApp').controller('searchController', ['$scope','$http', function($scope,$http) {
+	$scope.areaUnit = ["sq ft", "sq yard", "sq m", "sq km", "sq mile"];
+	$scope.selectUnit = $scope.areaUnit[0];
+	$scope.landType = ["Home", "Bunglow", "Flat", "Agricultural", "Commercial", "Residential", "Shop", "Building", "Mall"];
+	$scope.selectType = $scope.landType[0];
+	$scope.accessory = ["None", "Air Conditioner", "Air Heater", "Fan", "Tubelight", "CFL Bulb", "LED Bulb", "Cooler", "Cable Box", "Cabinets", "Washing Machine", "Dish Washer", "Chimney", "Boundary Wall", "Wire Fence", "Borewell", "Well", "Electric Meter", "Water Meter", "Pipeline Cooking Gas"];
+	$scope.selectAccessory = $scope.accessory[0];
+	$scope.roomType = ["Bedroom", "Hall", "Kitchen", "Master Bedroom", "Bathroom", "Toilet", "Utility", "Front Yard", "Back Yard", "Balcony", "Shade"];
+	$scope.selectRoomType = $scope.roomType[0];
+	$scope.roomCount = 0;
+	$scope.locationa = "";
+	$scope.area = "";
+	$scope.roomBuffer = [];
+	$scope.searchBuffer = [];
+	$scope.addRoom = function() {
+
+	};
+
+	$scope.search = function() {
+		$scope.varURL = "/search.php?location=" + $scope.locationa + "&area=" + $scope.area + "&areaunit=" + $scope.selectUnit + "&landtype=" + $scope.selectType + "&accessories=" + $scope.selectAccessory + "&rooms=" + $scope.rooms;
+		$http({
+	  method: 'GET',
+	  url: $scope.varURL
+	      }).then(function successCallback(response) {
+	        $scope.varResponse = response.data;
+	      }, function errorCallback(response) {
+	        $scope.varResponse = "ERROR - " + response.error;
+	      });
+		$scope.searchResult = $scope.varResponse;
+	}
+} ]);
