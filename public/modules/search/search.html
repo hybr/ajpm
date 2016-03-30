@@ -32,9 +32,9 @@
     <div style="margin-left:10px;border-bottom:1px dashed #222222;"><h2>Search Result</h2></div>
     <div ng-repeat="i in varResponse" style="margin-left:10px;border-bottom:1px solid #222222;width:100%;">
         <table width="100%" style="text-align:left;padding:10px;">
-         <tr><td style="float:left; display:inline-block;">Location : </td><td style="float:left;text-align:left;">{{i["Location"]}}</td></tr>
-         <tr><td style="float:left;display:inline-block;">Area : </td><td style="float:left;text-align:left;">{{i["Area"]}}</td></tr>
-         <tr><td style="float:left;display:inline-block;">Accessories : </td><td style="float:left;text-align:left;">{{i["Accessories"]}}</td></tr>
+         <tr><td style="float:left; display:inline-block;">Location :&nbsp;</td><td style="float:left;text-align:left;">{{i["Location"]}}</td></tr>
+         <tr><td style="float:left;display:inline-block;">Area :&nbsp;</td><td style="float:left;text-align:left;">{{i["Area"]}} {{i["Area Unit"]}}</td></tr>
+         <tr><td style="float:left;display:inline-block;">Accessories :&nbsp;</td><td style="float:left;text-align:left;">{{i["Accessories"]}}</td></tr>
         </table>
     </div>
   </td>
