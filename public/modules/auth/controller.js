@@ -138,12 +138,28 @@ angular.module('ajpmApp').controller('searchController', ['$scope','$http', func
 	$scope.roomCount = 0;
 	$scope.locationa = "";
 	$scope.area = "";
+	$scope.accessoryBuffer = [];
+	$scope.accessoryOn = 0;
 	$scope.roomBuffer = [];
 	$scope.searchBuffer = [];
+	//$scope.accessoryBuffer.push($scope.selectAccessory);
+	$scope.removeAccessory = function($index) {
+		$scope.accessoryBuffer.splice($index,1);
+		if ($scope.accessoryBuffer.length == 0) {
+			$scope.accessoryOn = 0;
+		}
+		document.getElementById('#accessory').reload(true);
+	};
 	$scope.addRoom = function() {
 
 	};
-
+	$scope.addAccessory = function() {
+		if ($scope.accessoryOn == 0) {
+			$scope.accessoryOn = 1;
+		}
+		$scope.accessoryBuffer.push($scope.selectAccessory);
+		document.getElementById('#accessory').reload(true);
+	};
 	$scope.search = function() {
 		$scope.varURL = "/search.php?location=" + $scope.locationa + "&area=" + $scope.area + "&areaunit=" + $scope.selectUnit + "&landtype=" + $scope.selectType + "&accessories=" + $scope.selectAccessory + "&rooms=" + $scope.rooms;
 		$http({

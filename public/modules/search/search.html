@@ -13,7 +13,10 @@
           <td>Type : </td><td style="text-align:left;"><select ng-model="selectType"><option ng-repeat="i in landType">{{i}}</option></select></td>
         </tr>
         <tr>
-          <td>Accessory : </td><td style="text-align:left;"><select ng-model="selectAccessory"><option ng-repeat="i in accessory">{{i}}</option></select></td>
+          <td>Accessory : </td><td style="text-align:left;"><select ng-model="selectAccessory"><option ng-repeat="i in accessory">{{i}}</option></select><span style="font-style:normal;font-size:15px;cursor:pointer;" ng-click="addAccessory()"> add</span></td>
+        </tr>
+        <tr ng-if="accessoryOn">
+          <td></td><td id="accessory" style="text-align:left;font-size:14px;">Accessories :<ul style="margin:0px;"><li ng-repeat="k in accessoryBuffer"><i>{{k}}&nbsp;&nbsp;<span style="font-style:normal;font-size:11px;cursor:pointer;" ng-click="removeAccessory($index)">(remove)</span></i></li></ul></td>
         </tr>
         <!--<tr>
           <td>
