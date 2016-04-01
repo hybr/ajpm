@@ -20,14 +20,14 @@ class public_WebPage extends Base {
 				)
 			) 
 		),
-			'slider_image' => array (
-					'type' => 'container',
-					'show_in_list' => 0,
-					'fields' => array (
-							'caption' => array (),
-							'file_name' => array ('type' => 'file_list', 'required' => 1),
-							'click_link_url' => array ('type' => 'url')
-					)
+		'slider_image' => array (
+				'type' => 'container',
+				'show_in_list' => 0,
+				'fields' => array (
+						'caption' => array (),
+						'file_name' => array ('type' => 'file_list', 'required' => 1),
+						'click_link_url' => array ('type' => 'url')
+				)
 			),
 			'media_box' => array (
 					'type' => 'container',
@@ -48,7 +48,7 @@ class public_WebPage extends Base {
 							'content' => array ('type' => 'textarea', 'required' => 1)
 					)
 			),
-			'link' => array (
+			'what_is_next' => array (
 					'type' => 'container',
 					'show_in_list' => 0,
 					'fields' => array (
@@ -66,7 +66,35 @@ class public_WebPage extends Base {
 						'foreign_title_fields' => 'location,medium,phone_number,fax_number,pager_number,voip_number,email_address,city,pin_or_zip,area,street,home_or_building'
 					)                                                    
 				),
-			)
+			),
+			'photo' => array (
+					'type' => 'container',
+					'show_in_list' => 0,
+					'fields' => array (
+							'caption' => array (),
+							'file_name' => array (
+									'type' => 'file_list',
+									'required' => 1
+							),
+							'click_link_url' => array (
+									'type' => 'url'
+							)
+					)
+			) ,
+			'site_plan' => array (
+					'type' => 'container',
+					'show_in_list' => 0,
+					'fields' => array (
+							'caption' => array (),
+							'file_name' => array (
+									'type' => 'file_list',
+									'required' => 1
+							),
+							'click_link_url' => array (
+									'type' => 'url'
+							)
+					)
+			) ,
 	); /* fields */
 	
 	public function presentDocument($subTaskKeyToSave, $fields, $doc) {
