@@ -38,5 +38,49 @@ class Root {
 		return '';
 	}
 
+	public function createTreeView($array, $currentParent, $currLevel = 0) {
+	
+		$retStr = '';
+	
+		foreach ($array as $key => $record) {
+	
+			if ($currentParent == $record['parent']) {
+					
+				$retStr .=  '<li>';
+	
+				$id = 'id'.$currLevel.$key.$this->getOption( 'name' );
+				 
+				$checked = '';
+				if ($record['id'] == $this->getOption('value')) {
+					$checked = 'checked=checked';
+				}
+				$inputType = 'radio';
+				if ($this->getOption( 'multiple' ) != '') {
+					$inputType = 'checkbox';
+				}
+				$retStr .= '<input type="' . $inputType . '"'
+						.' id="'.$id.'"'
+								.' name="'.$this->getOption( 'name' ).'"'
+				    		.' value="'. $record['id'] .'" '
+				    				. $checked
+				    				.' />';
+				 
+				$retStr .= '<label for="'.$id.'">'
+						.$record['text'].'</label>';
+					
+				$childsText = $this->createTreeView ($array, $record['id'], $currLevel+1);
+				 
+				if ($childsText != '') {
+					$retStr .= '<ol>' . $childsText . '</ol>';
+				}
+					
+				$retStr .= '</li>';
+			}
+	
+		}
+	
+		return $retStr;
+	
+	}
 } /* class */
 ?>

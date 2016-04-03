@@ -170,8 +170,8 @@ class Base {
 			'name' => '',
 			'value' => '',
 			'required' => '',
-			'minlength' => - 1,
-			'maxlength' => - 1,
+			'minlength' => -1,
+			'maxlength' => -1,
 			'input_tag_length' => 40,
 			'select_tag_hight' => 1,
 			'list_class' => '',
@@ -429,7 +429,8 @@ class Base {
 		$this->errorMessage = array ();
 	}
 	private function convertField($direction, $name, $attributes, $value) {
-		$nv = $value; /* if no conversion return same value so new value = value received */
+		$nv = $value; 
+		/* if no conversion return same value so new value = value received */
 		
 		/* echo "<br />Converting Field " . $name; */
 		
@@ -506,7 +507,7 @@ class Base {
 				}
 			}
 		}
-		
+				
 		/* update is always the latest date time */
 		if ($name == 'updated_on' || $name == 'created_on') {
 			if ($direction == 'before_save') {
@@ -533,7 +534,7 @@ class Base {
 				$nv = ( string ) $value;
 			}
 		}
-		
+					
 		/* convert foreign keys in the mongo id object before saving */
 		if ($name == 'for_org') {
 			if ($_SESSION ['url_domain_org'] ['_id'] != '') {
@@ -667,7 +668,7 @@ class Base {
 		
 		return $nv;
 	}
-	private function processFieldsForPrecentationAndStorage($direction, $slfs, $slrec, $level) {
+	private function processFieldsForPresentationAndStorage($direction, $slfs, $slrec, $level) {
 		if ($level == 1 && $direction == 'before_save') {
 			/* created_on and created_by only at first level */
 			if (isset ( $slrec ['_id'] )) {
@@ -770,7 +771,7 @@ class Base {
 						echo '<hr /> ERROR: field fields missing ' . $key . ' = ';
 						print_r ( $field2 );
 					}
-					array_push ( $arr, $this->processFieldsForPrecentationAndStorage ( $direction, $field2 ['fields'], $subValues, $level ) );
+					array_push ( $arr, $this->processFieldsForPresentationAndStorage ( $direction, $field2 ['fields'], $subValues, $level ) );
 				}
 				$slrec [$key] = $arr;
 			}
@@ -788,6 +789,8 @@ class Base {
 	}
 	public function save($urlArgsArray) {
 		$this->initializeTask ();
+		debugPrintArray ( $_POST, 'POST' );
+		
 		$this->record = $_POST;
 		
 		if ($this->record ['session_id'] != session_id ()) {
@@ -798,10 +801,10 @@ class Base {
 		}
 
 		$rStr = '';
- 		debugPrintArray ( $this->record ); 
-		$this->record = $this->processFieldsForPrecentationAndStorage ( 'before_save', $this->fields, $this->record, 1 );
+ 		debugPrintArray ( $this->record, 'Before Process'); 
+		$this->record = $this->processFieldsForPresentationAndStorage ( 'before_save', $this->fields, $this->record, 1 );
 
- 		debugPrintArray ( $this->record ); 
+ 		debugPrintArray ( $this->record, 'After Process'); 
 
 		if (count ( $this->errorMessage ) > 0) {
 			return $this->showError ();
@@ -1101,7 +1104,7 @@ class Base {
 		foreach ( $this->findCursor as $doc ) {
 			$rStr = '';
 
-			$doc = $this->processFieldsForPrecentationAndStorage ( 'after_read', $this->fields, $doc, 1 );
+			$doc = $this->processFieldsForPresentationAndStorage ( 'after_read', $this->fields, $doc, 1 );
 			
 			if ($this->curlsMode == 'Present') {
 				$rStr .= $this->presentDocument ( $this->subTaskKeyToSave, $this->fields, $doc );
@@ -1194,7 +1197,7 @@ class Base {
 			$rStr .= '<tbody>';
 			
 			foreach ( $this->findCursor as $doc ) {
-				$this->record = $this->processFieldsForPrecentationAndStorage ( 'after_read', $this->fields, $doc, 1 );
+				$this->record = $this->processFieldsForPresentationAndStorage ( 'after_read', $this->fields, $doc, 1 );
 				
 				$rStr .= '<tr>';
 				foreach ( $this->fields as $key => $val ) {

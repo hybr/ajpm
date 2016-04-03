@@ -5,11 +5,19 @@
  */
 var ajpmApp = angular.module('ajpmApp', [ 'ui.router', 'ngMaterial' ]);
 
-ajpmApp.config(['$httpProvider', function($httpProvider) {
-        $httpProvider.defaults.useXDomain = true;
-        delete $httpProvider.defaults.headers.common['X-Requested-With'];
-    }
-]);
+ajpmApp.config([ '$httpProvider', function($httpProvider) {
+	$httpProvider.defaults.useXDomain = true;
+	delete $httpProvider.defaults.headers.common['X-Requested-With'];
+} ]);
+
+ajpmApp.config(function($mdThemingProvider) {
+	$mdThemingProvider.theme('default').primaryPalette('light-blue');
+});
+
+ajpmApp.config(function($mdIconProvider) {
+	$mdIconProvider.iconSet('social', 'img/icons/sets/social-icons.svg', 24)
+			.defaultIconSet('img/icons/sets/core-icons.svg', 24);
+});
 
 /**
  * authorization events
@@ -37,8 +45,8 @@ ajpmApp.constant('USER_ROLES', {
 /**
  * Filter to show html as trusted html
  */
-angular.module('ajpmApp').filter('showAsHtml', function ($sce) {
-    return function (htmlText) {
-    	return $sce.trustAsHtml(htmlText);
-    }
+angular.module('ajpmApp').filter('showAsHtml', function($sce) {
+	return function(htmlText) {
+		return $sce.trustAsHtml(htmlText);
+	}
 });

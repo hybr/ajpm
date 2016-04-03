@@ -36,7 +36,7 @@ angular.module('ajpmApp').config(['$stateProvider', '$urlRouterProvider', 'USER_
 		controller : 'ForgotController'
 	}).state('login1', {
 		url : "/login1",
-		templateUrl : "modules/auth/login_s1.html",
+
 		controller : 'LoginController'
 	}).state('login2', {
 		url : "/login2",

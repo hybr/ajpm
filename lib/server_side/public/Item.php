@@ -85,7 +85,7 @@ class public_Item extends Base {
 			'fields' => array (
 				'caption' => array (),
 				'file_name' => array (
-				'type' => 'file_list',
+					'type' => 'file_list',
 					'required' => 1 
 				),
 				'click_link_url' => array (

@@ -23,7 +23,7 @@
 		</md-button>
 		
 		<md-button class="md-icon-button" aria-label="Favorite" ui-sref="my_account">
-          <md-icon md-svg-icon="img/icons/ic_person_black_48px.svg"></md-icon>
+          <i class="material-icons">face</i>
         </md-button>	
   
   		<span ng-show="isAuthenticated"> 

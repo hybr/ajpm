@@ -1,7 +1,6 @@
 <base href="/">
-<div ng-controller="ApplicationController">
 
-<div layout="column" layout-fill>
+
   <md-toolbar class="md-tall">
     <div class="md-toolbar-tools">
     	<div>
@@ -16,14 +15,16 @@
 					echo "OWebP";
 			}?></b>
 		</div>
+		
       	<span flex></span>
 		
-		<md-button class="md-button" aria-label="Contact" ui-sref="contact_us">
-          <span>Contact</span>
+		<md-button class="md-icon-button" aria-label="Contact" ui-sref="contact_us">
+          <i class="material-icons">contacts</i>
+          
 		</md-button>
-		
-		<md-button class="md-icon-button" aria-label="Favorite" ui-sref="my_account">
-          <md-icon md-svg-icon="img/icons/ic_person_black_48px.svg"></md-icon>
+
+		<md-button class="md-icon-button" aria-label="Account" ui-sref="my_account">
+          <i class="material-icons">face</i>
         </md-button>	
   
   		<span ng-show="isAuthenticated"> 
@@ -33,11 +34,11 @@
 		</span>
 		
   		<span ng-hide="isAuthenticated">
-			<md-button class="md-button" aria-label="Login" ui-sref="login1">
-	          <span>Login</span>
-			</md-button>
+			<md-icon-button class="md-primary md-raised" ng-click="show_s1($event)" ui-sref="login1" >
+			  <i class="material-icons">input</i>
+			</md-button>			
 		</span>		
-
+  
        </div>
        
        <div class="md-toolbar-tools"><?php
@@ -128,13 +129,14 @@
 		</md-menu-bar>
     </div>
   </md-toolbar>
+
 	<div ng-show="hasPageMessages()"><ul>
 		<li ng-repeat="pageMessage in getPageMessages()">
 			{{pageMessage}}
 		</li>
 	</ul></div>  
    	<div ui-view>Loading...</div>  
-</div>
+
 
 	<div login-dialog-one id="userLoginModelOne" title="User Login" ui-jq="dialog" ui-options="{autoOpen: false, modal: true}"></div>
 	<div login-dialog-two id="userLoginModelTwo" title="User Login" ui-jq="dialog" ui-options="{autoOpen: false, modal: true}"></div>
@@ -144,5 +146,3 @@
 	<?php if(file_exists(dirname(__FILE__) . '/../_body_links.php'))
 		include dirname(__FILE__) . '/../_body_links.php';
 	?>
-
-</div>

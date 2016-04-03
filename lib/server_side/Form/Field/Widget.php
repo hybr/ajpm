@@ -47,9 +47,9 @@ class Form_Field_Widget extends Root {
 	                $dataClassName = $this->getOption('dataClassName');
 	                if ($dataClassName == '') { return 'data source mising'; }
 	                $dataClassInstance = new $dataClassName();
-                	if ($dataClassInstance->help != '') { 
-				$helpText .= $listInstance->help; 
-			}
+                	/* if ($dataClassInstance->help != '') { 
+						$helpText .= $listInstance->help; 
+					} */
 		}
 		if ($this->getOption('inputTag') == 'foreign_key') {
 			$t = (new TitleCreator(array( 'string' => $this->getOption('jpm_foreign_collection'))))->get();

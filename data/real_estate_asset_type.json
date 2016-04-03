@@ -1,0 +1,138 @@
+[
+	{
+	  "id"          : "Agriculture",
+	  "parent"      : "#",
+	  "text"        : "Agriculture"
+	},
+	{
+	  "id"          : "Agriculture Land",
+	  "parent"      : "Agriculture",
+	  "text"        : "Land"
+	},
+	{
+	  "id"          : "Agriculture Well",
+	  "parent"      : "Agriculture",
+	  "text"        : "Well"
+	},
+	{
+	  "id"          : "Commercial",
+	  "parent"      : "#",
+	  "text"        : "Commercial"
+	},
+	{
+	  "id"          : "Commercial Land",
+	  "parent"      : "Commercial",
+	  "text"        : "Land"
+	},
+	{
+	  "id"          : "Commercial Building",
+	  "parent"      : "Commercial",
+	  "text"        : "Building"
+	},
+	{
+	  "id"          : "Commercial Store",
+	  "parent"      : "Commercial",
+	  "text"        : "Store"
+	},
+	{
+	  "id"          : "Commercial Shop",
+	  "parent"      : "Commercial",
+	  "text"        : "Shop"
+	},
+	{
+	  "id"          : "Commercial Warehouse",
+	  "parent"      : "Commercial",
+	  "text"        : "Warehouse"
+	},
+	{
+	  "id"          : "Commercial Mall",
+	  "parent"      : "Commercial",
+	  "text"        : "Mall"
+	},
+	{
+	  "id"          : "Commercial Theater",
+	  "parent"      : "Commercial",
+	  "text"        : "Theater"
+	},
+	{
+	  "id"          : "Commercial Factory",
+	  "parent"      : "Commercial",
+	  "text"        : "Factory"
+	},
+	{
+	  "id"          : "Residential",
+	  "parent"      : "#",
+	  "text"        : "Residential"
+	},	
+	{
+	  "id"          : "Residential Land",
+	  "parent"      : "Residential",
+	  "text"        : "Land"
+	},	
+	{
+	  "id"          : "Residential Plot",
+	  "parent"      : "Residential",
+	  "text"        : "Plot"
+	},
+	{
+	  "id"          : "Residential Multiple Family",
+	  "parent"      : "Residential",
+	  "text"        : "Multiple Family"
+	},
+	{
+	  "id"          : "Residential Single Family",
+	  "parent"      : "Residential",
+	  "text"        : "Single Family"
+	},
+	{
+	  "id"          : "Residential Multiple Family Highrise",
+	  "parent"      : "Residential Multiple Family",
+	  "text"        : "Highrise"
+	},
+	{
+	  "id"          : "Residential Multiple Family Lowrise",
+	  "parent"      : "Residential Multiple Family",
+	  "text"        : "Lowrise"
+	},
+	{
+	  "id"          : "Residential Multiple Family Highrise Flat",
+	  "parent"      : "Residential Multiple Family Highrise",
+	  "text"        : "Flat"
+	},
+	{
+	  "id"          : "Residential Multiple Family Highrise Loft",
+	  "parent"      : "Residential Multiple Family Highrise",
+	  "text"        : "Loft"
+	},
+	{
+	  "id"          : "Residential Multiple Family Highrise Penthouse",
+	  "parent"      : "Residential Multiple Family Highrise",
+	  "text"        : "Penthouse"
+	},
+	{
+	  "id"          : "Residential Multiple Family Lowrise Townhouse",
+	  "parent"      : "Residential Multiple Family Lowrise",
+	  "text"        : "Townhouse"
+	},
+	{
+	  "id"          : "Residential Multiple Family Lowrise Condo",
+	  "parent"      : "Residential Multiple Family Lowrise",
+	  "text"        : "Condo"
+	},
+	{
+	  "id"          : "Residential Multiple Family Lowrise Duplex",
+	  "parent"      : "Residential Multiple Family Lowrise",
+	  "text"        : "Duplex"
+	},
+	{
+	  "id"          : "Residential Single Family Attached",
+	  "parent"      : "Residential Single Family",
+	  "text"        : "Attached"
+	},
+	{
+	  "id"          : "Residential Single Family Bunglow",
+	  "parent"      : "Residential Single Family",
+	  "text"        : "Bunglow"
+	}
+	
+]

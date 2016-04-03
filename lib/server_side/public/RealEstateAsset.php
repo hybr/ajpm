@@ -6,12 +6,19 @@ class public_RealEstateAsset extends Base {
 		$this->collectionName = 'real_estate_asset';
 	} /* __construct */
 	public $fields = array (
+		'live' => array (
+				'type' => 'list',
+				'list_class' => 'ItemLiveType',
+				'input_mode' => 'clicking',
+				'show_in_list' => 1,
+				'default' => 'Proposed',
+		),
 		'type' => array (
 			'help' => 'Select the type of real estate',
-			'type' => 'list',
+			'type' => 'Realestateassettype',
 			'list_class' => 'RealEstateAssetType',
 			'input_mode' => 'selecting',
-			'default' => 'Home',
+			'default' => 'Residential Multiple Family Highrise Flat',
 			'show_in_list' => 1,
 		),
 		'owner' => array(
@@ -90,10 +97,11 @@ class public_RealEstateAsset extends Base {
 								'fields' => array (
 										'name' => array (
 												'help' => 'Select the accessory installed',
-												'type' => 'list',
-												'list_class' => 'RealEstateAccessories',
-												'input_mode' => 'selecting',
-												'default' => 'Fan',
+												'type' => 'foreign_key',
+												'foreign_collection' => 'real_estate_accessory',
+												'foreign_search_fields' => 'title,detail',
+												'foreign_title_fields' => 'title',
+												'required' => 1,
 										),
 										'count' => array (
 												'type' => 'number' ,
@@ -104,15 +112,16 @@ class public_RealEstateAsset extends Base {
 						),					
 				),
 		),
-		'accessory' => array(
+		'feature' => array(
 				'type' => 'container',
 				'fields' => array (
 						'name' => array (
 								'help' => 'Select the accessory installed',
-								'type' => 'list',
-								'list_class' => 'RealEstateAccessories',
-								'input_mode' => 'selecting',
-								'default' => 'Fan',
+								'type' => 'foreign_key',
+								'foreign_collection' => 'real_estate_accessory',
+								'foreign_search_fields' => 'title,detail',
+								'foreign_title_fields' => 'title',
+								'required' => 1,
 						),
 						'count' => array (
 								'type' => 'number' ,
@@ -120,7 +129,137 @@ class public_RealEstateAsset extends Base {
 						),
 		
 				),
+		),
+		'photo' => array (
+				'type' => 'container',
+				'show_in_list' => 0,
+				'fields' => array (
+						'caption' => array (),
+						'file_name' => array (
+								'type' => 'file_list',
+								'required' => 1
+						),
+						'click_link_url' => array (
+								'type' => 'url'
+						)
+				)
+		) ,
+		'site_plan' => array (
+				'type' => 'container',
+				'show_in_list' => 0,
+				'fields' => array (
+						'caption' => array (),
+						'file_name' => array (
+								'type' => 'file_list',
+								'required' => 1
+						),
+						'click_link_url' => array (
+								'type' => 'url'
+						)
+				)
+		) ,
+		'price' => array (
+			'type' => 'container',
+			'show_in_list' => 0,
+			'fields' => array (
+				'for' => array (
+						'type' => 'list',
+						'help' => 'Purpose of this asset',
+						'list_class' => 'ItemFor',
+						'input_mode' => 'selecting',
+						'show_in_list' => 1,
+						'default' => 'Make and Sale',
+						'required' => 1
+				),
+				'type' => array (
+						'type' => 'list',
+						'list_class' => 'ItemPriceType',
+						'input_mode' => 'clicking',
+						'default' => 'Amount',
+						'required' => 1
+				),
+				'amount' => array (
+						'type' => 'number',
+						'required' => 1
+				),
+				'currency' => array (
+						'type' => 'currency',
+						'required' => 1,
+						'default' => 'INR'
+				),
+				'per' => array (
+						'type' => 'number',
+						'required' => 1,
+						'default' => 1
+				),
+				'per_unit' => array (
+						'type' => 'string',
+						'required' => 1
+				),
+			)
+		),
+		'visit_hours' => array (
+				'help' => 'Time when seller wants to show the site.',
+				'type' => 'container',
+				'show_in_list' => 0,
+				'fields' => array (
+						'every' => array (
+								'type' => 'number' ,
+								'required' => 1,
+						),
+						'frequency' => array (
+								'type' => 'list',
+								'list_class' => 'TimeRepeatFrequency',
+								'input_mode' => 'selecting',
+								'default' => 'Day',
+								'required' => 1,
+						),
+						'start_date' => array (
+								'type' => 'date' ,
+								'required' => 1,
+						),
+						'start_time' => array (
+								'type' => 'time' ,
+								'required' => 1,
+						),
+						'duration' => array (
+								'type' => 'number' ,
+								'required' => 1,
+						),
+						'duration_unit' => array (
+								'type' => 'list',
+								'list_class' => 'TimeRepeatFrequency',
+								'input_mode' => 'selecting',
+								'default' => 'Hour',
+								'required' => 1,
+						),
+						'end_date' => array (
+								'type' => 'date' ,
+								'required' => 1,
+						),
+						'end_time' => array (
+								'type' => 'time' ,
+								'required' => 1,
+						),
+				)
+		),
+		'pre_requisites' => array (
+				'type' => 'container',
+				'show_in_list' => 0,
+				'fields' => array (
+						'mendatory' => array (
+								'type' => 'list',
+								'list_class' => 'Boolean',
+								'input_mode' => 'clicking',
+								'default' => 'False',
+								'required' => 1,
+						),
+						'condition' => array (
+								'required' => 1,
+						),
+				)
 		),				
+					
 	); /* fields */	
 
 } /* class */

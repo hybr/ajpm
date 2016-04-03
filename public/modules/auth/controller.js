@@ -13,7 +13,8 @@ angular.module('ajpmApp').controller('LoginController',	[
 	'SessionService',
 	'AUTH_EVENTS',
 	'$location',
-	function($rootScope, $scope, $state, $window, AuthService, SessionService, AUTH_EVENTS, $location) {
+	'$mdDialog', '$mdMedia',
+	function($rootScope, $scope, $state, $window, AuthService, SessionService, AUTH_EVENTS, $location, $mdDialog, $mdMedia) {
 
 		/**
 		 * Initialize the user record before login form is shown
@@ -22,6 +23,23 @@ angular.module('ajpmApp').controller('LoginController',	[
 		$scope.form_login_s1 = {};
 		$scope.form_login_s2 = {};
 
+		 $scope.show_s1 = function(ev) {
+			    // Appending dialog to document.body to cover sidenav in docs app
+			    var confirm = $mdDialog.prompt()
+			          .title('What would you name your dog?')
+			          .textContent('Bowser is a common name.')
+			          .placeholder('dog name')
+			          .ariaLabel('Dog name')
+			          .targetEvent(ev)
+			          .ok('Okay!')
+			          .cancel('I\'m a cat person');
+			    $mdDialog.show(confirm).then(function(result) {
+			      $scope.status = 'You decided to name your dog ' + result + '.';
+			    }, function() {
+			      $scope.status = 'You didn\'t name your dog.';
+			    });
+			  };
+			  
 		// when the form step s1 is submitted
 		$scope.submit_s1 = function() {
 

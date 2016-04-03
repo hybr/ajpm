@@ -7,7 +7,7 @@
 <script src="js/angular-ui/angular-ui-router.js"></script>
 
 <!-- Angular Material Library -->
-<script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+<script src="js/angular/angular-material.min.js"></script>
   
 <!-- md5 -->
 <script src="js/md5/md5.min.js"></script>
