@@ -126,50 +126,38 @@ angular.module('ajpmApp').controller('LoginController',	[
 angular.module('ajpmApp').controller('LogoutController', ['AuthService', function(AuthService) {
 	AuthService.logout();
 } ]);
-angular.module('ajpmApp').controller('searchController', ['$scope','$http', function($scope,$http) {
-	$scope.areaUnit = ["sq ft", "sq yard", "sq m", "sq km", "sq mile"];
-	$scope.selectUnit = $scope.areaUnit[0];
-	$scope.landType = ["Home", "Bunglow", "Flat", "Agricultural", "Commercial", "Residential", "Shop", "Building", "Mall"];
-	$scope.selectType = $scope.landType[0];
-	$scope.accessory = ["None", "Air Conditioner", "Air Heater", "Fan", "Tubelight", "CFL Bulb", "LED Bulb", "Cooler", "Cable Box", "Cabinets", "Washing Machine", "Dish Washer", "Chimney", "Boundary Wall", "Wire Fence", "Borewell", "Well", "Electric Meter", "Water Meter", "Pipeline Cooking Gas"];
-	$scope.selectAccessory = $scope.accessory[0];
-	$scope.roomType = ["Bedroom", "Hall", "Kitchen", "Master Bedroom", "Bathroom", "Toilet", "Utility", "Front Yard", "Back Yard", "Balcony", "Shade"];
-	$scope.selectRoomType = $scope.roomType[0];
-	$scope.roomCount = 0;
-	$scope.locationa = "";
-	$scope.area = "";
-	$scope.accessoryBuffer = [];
-	$scope.accessoryOn = 0;
-	$scope.roomBuffer = [];
-	$scope.searchBuffer = [];
-	//$scope.accessoryBuffer.push($scope.selectAccessory);
-	$scope.removeAccessory = function($index) {
-		$scope.accessoryBuffer.splice($index,1);
-		if ($scope.accessoryBuffer.length == 0) {
-			$scope.accessoryOn = 0;
+angular.module('ajpmApp').filter('capitalize', function() {
+  return function(token) {
+      return token.charAt(0).toUpperCase() + token.slice(1);
+   }
+});
+angular.module('ajpmApp').controller('searchController', ['$scope','$http','$window', function($scope,$http,$window) {
+	$scope.searchQuery = "";
+	$scope.searchQueryPage = "";
+	$scope.resultNotFound = 0;
+	$scope.resultFound = 1;
+	$scope.search = function(t) {
+		if (t == "assets") {
+			$scope.varURL = "/search.php?q=" + $scope.searchQuery + "&t=assets";
+		} else {
+			$scope.varURL = "/search.php?q=" + $scope.searchQuery + "&t=blogs";
 		}
-		document.getElementById('#accessory').reload(true);
-	};
-	$scope.addRoom = function() {
-
-	};
-	$scope.addAccessory = function() {
-		if ($scope.accessoryOn == 0) {
-			$scope.accessoryOn = 1;
-		}
-		$scope.accessoryBuffer.push($scope.selectAccessory);
-		document.getElementById('#accessory').reload(true);
-	};
-	$scope.search = function() {
-		$scope.varURL = "/search.php?location=" + $scope.locationa + "&area=" + $scope.area + "&areaunit=" + $scope.selectUnit + "&landtype=" + $scope.selectType + "&accessories=" + $scope.selectAccessory + "&rooms=" + $scope.rooms;
 		$http({
 	  method: 'GET',
 	  url: $scope.varURL
 	      }).then(function successCallback(response) {
 	        $scope.varResponse = response.data;
+									if ($scope.varResponse.length == 0) {
+										$scope.resultFound = 0;
+										$scope.resultNotFound = 1;
+										$scope.varResponse = "No result found! Please try again with another query."
+									} else {
+										$scope.resultFound = 1;
+										$scope.resultNotFound = 0;
+									}
 	      }, function errorCallback(response) {
 	        $scope.varResponse = "ERROR - " + response.error;
 	      });
-		$scope.searchResult = $scope.varResponse;
+
 	}
 } ]);
