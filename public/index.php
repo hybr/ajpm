@@ -88,5 +88,6 @@ if ($_SESSION['request_type'] == 'service') {
 	}
 }
 debugPrintArray($_SESSION, 'SESSION');
-?>
 
+
+?>

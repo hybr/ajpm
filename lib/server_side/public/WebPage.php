@@ -20,53 +20,53 @@ class public_WebPage extends Base {
 				)
 			) 
 		),
-			'slider_image' => array (
-					'type' => 'container',
-					'show_in_list' => 0,
-					'fields' => array (
-							'caption' => array (),
-							'file_name' => array ('type' => 'file_list', 'required' => 1),
-							'click_link_url' => array ('type' => 'url')
-					)
-			),
-			'media_box' => array (
-					'type' => 'container',
-					'show_in_list' => 0,
-					'fields' => array (
-							'title' => array ('required' => 1),
-							'image_file_name' => array ('type' => 'file_list','required' => 1),
-							'content' => array('required' => 1),
-							'link_name' => array('required' => 1),
-							'link_url' => array('type' => 'url', 'required' => 1)
-					)
-			),
-			'paragraph' => array (
-					'type' => 'container',
-					'show_in_list' => 0,
-					'fields' => array (
-							'title' => array ('required' => 1),
-							'content' => array ('type' => 'textarea', 'required' => 1)
-					)
-			),
-			'link' => array (
-					'type' => 'container',
-					'show_in_list' => 0,
-					'fields' => array (
-							'title' => array ('required' => 1),
-							'url' => array ('type' => 'url', 'required' => 1)
-					)
-			),
-			'contacts' => array(
-				'type' => 'container',
-				'fields' => array (
-					'contact' => array (
-						'type' => 'foreign_key',
-						'foreign_collection' => 'contact',
-						'foreign_search_fields' => 'location,medium,phone_number,fax_number,pager_number,voip_number,email_address,city,pin_or_zip,area,street,home_or_building',
-						'foreign_title_fields' => 'location,medium,phone_number,fax_number,pager_number,voip_number,email_address,city,pin_or_zip,area,street,home_or_building'
-					)                                                    
-				),
+		'slider_image' => array (
+			'type' => 'container',
+			'show_in_list' => 0,
+			'fields' => array (
+					'caption' => array (),
+					'file_name' => array ('type' => 'file_list', 'required' => 1),
+					'click_link_url' => array ('type' => 'url')
 			)
+		),
+		'media_box' => array (
+				'type' => 'container',
+				'show_in_list' => 0,
+				'fields' => array (
+						'title' => array ('required' => 1),
+						'image_file_name' => array ('type' => 'file_list','required' => 1),
+						'content' => array('required' => 1),
+						'link_name' => array('required' => 1),
+						'link_url' => array('type' => 'url', 'required' => 1)
+				)
+		),
+		'paragraph' => array (
+				'type' => 'container',
+				'show_in_list' => 0,
+				'fields' => array (
+						'title' => array ('required' => 1),
+						'content' => array ('type' => 'textarea', 'required' => 1)
+				)
+		),
+		'what_is_next' => array (
+				'type' => 'container',
+				'show_in_list' => 0,
+				'fields' => array (
+						'title' => array ('required' => 1),
+						'url' => array ('type' => 'url', 'required' => 1)
+				)
+		),
+		'contacts' => array(
+			'type' => 'container',
+			'fields' => array (
+				'contact' => array (
+					'type' => 'foreign_key',
+					'foreign_collection' => 'contact',
+					'foreign_search_fields' => 'location,medium,phone_number,fax_number,pager_number,voip_number,email_address,city,pin_or_zip,area,street,home_or_building',
+					'foreign_title_fields' => 'location,medium,phone_number,fax_number,pager_number,voip_number,email_address,city,pin_or_zip,area,street,home_or_building'
+				)                                                    
+			),
+		),
 	); /* fields */
 	
 	public function presentDocument($subTaskKeyToSave, $fields, $doc) {

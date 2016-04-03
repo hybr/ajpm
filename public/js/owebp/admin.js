@@ -112,6 +112,11 @@ $(function() {
 
 	$('#jpm_home_page_tabs').tabs();
 
+	$(document).on('focus', '.jpm_js_tree', function() {
+		var element = this;
+		$(element).jstree();
+	}); /* .jpm_js_tree */
+	
 	$(document).on('focus', '.jpm_datepicker', function() {
 		var element = this;
 		$(element).datepicker({
