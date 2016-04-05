@@ -9,11 +9,11 @@
 	 */
 	echo $_SESSION ['url_domain_org']['abbreviation'];
 
-	if ($actionInstance->collectionName == 'web_page' 
+	if ($_SESSION ['url_action'] == 'public_WebPage' 
 			&& $_SESSION['url_task'] == 'present') { 
 		echo ''; /* web page title will be get added via javascript later */ 
 	} else {
-		echo getTitle($actionInstance->collectionName) . ' ' 
+		echo getTitle($_SESSION ['url_action']) . ' ' 
 				. getTitle($_SESSION['url_task']);
 	}
 ?></title>

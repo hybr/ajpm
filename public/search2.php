@@ -61,7 +61,7 @@ if (array_key_exists ( 'query', $urlPartsArray )) {
 }
 
 if (!isset($urlArgsArray ['p']) || $urlArgsArray ['p'] == '') {
-	echo "{status : 'pattern to search is missing', result : ''}";
+	echo '{"status" : "pattern to search is missing", "result" : ""}';
 	exit;
 }
 
@@ -75,10 +75,10 @@ foreach ( split('_', $urlArgsArray ['c']) as $w ) {
 }
 $actionInstance = new $classForQuery();
 if (!isAllowed(array($actionInstance->myModuleName()), $_SESSION['url_sub_task'])) {
-	echo "{status : 'No Access to " 
+	echo '{"status" : "No Access to "' 
 		. $_SESSION['url_task'] . '/' 
-		.  $_SESSION['url_sub_task'] 
-		. ", result : ''}";
+		. $_SESSION['url_sub_task'] 
+		. ', "result" : ""}';
 	exit;
 	return;
 }
@@ -119,13 +119,13 @@ $searchConditions = array ();
 foreach ( getSerchableFieldList($actionInstance->fields) as $sf ) {
 	array_push ( $searchConditions, array (
 			$sf => array (
-					'$regex' => new MongoRegex ( "/" . $urlArgsArray ['p'] . "/i" ) 
+					'$regex' => new MongoRegex ( '/' . $urlArgsArray ['p'] . '/i' ) 
 			) 
 	) );
 } /* foreach */
 
 if (empty($searchConditions)) {
-	echo "{status : 'no searchable fields', result : ''}";
+	echo '{"status" : "no searchable fields", "result" : ""}';
 	exit;	
 }
 
@@ -156,12 +156,6 @@ if (in_array($urlArgsArray ['c'], array('user', 'person', 'organization', 'item'
 	);
 }
 
-
-/*
-echo "{status : 'OK', result : " . json_encode ($searchConditions) . "}";
-exit;
-*/
-
 $limit = 10;
 $skip = 0;
 if (isset($urlArgsArray ['l'])) {
@@ -181,7 +175,8 @@ $arr = array ();
 foreach ( $findCursor as $doc ) {
 	array_push ( $arr, $doc);
 }
-echo "{status : 'OK', result : " . json_encode ($arr) . ", conditions : " . json_encode($searchConditions) . "}";
+echo '{"status" : "OK", "result" : ' . json_encode ($arr) 
+	. ', "conditions" : ' . json_encode($searchConditions) . "}";
 exit;
 
 ?>

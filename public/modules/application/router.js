@@ -36,7 +36,7 @@ angular.module('ajpmApp').config(['$stateProvider', '$urlRouterProvider', 'USER_
 		controller : 'ForgotController'
 	}).state('login1', {
 		url : "/login1",
-
+		templateUrl : "modules/auth/login_s1.html",
 		controller : 'LoginController'
 	}).state('login2', {
 		url : "/login2",
@@ -46,6 +46,10 @@ angular.module('ajpmApp').config(['$stateProvider', '$urlRouterProvider', 'USER_
 		url : "/search",
 		templateUrl : "modules/search/search.html",
 		controller : 'searchController'
+	}).state('search2', {
+		url : "/search2",
+		templateUrl : "modules/search/search2.html",
+		controller : 'Search2Controller'			
 	}).state('admin_dashboard', {
 		url : "/admin_dashboard",
 		templateUrl : "modules/admin_dashboard/view.html",
