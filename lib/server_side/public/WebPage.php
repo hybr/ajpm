@@ -5,7 +5,9 @@ class public_WebPage extends Base {
 		$this->collectionName = 'web_page';
 	} /* __construct */
 	public $fields = array (
-		'title' => array(),
+		'title' => array(
+			'searchable' => 1
+		),
  		'component' => array (
 			'type' => 'container',
 			'required' => 1,
@@ -25,35 +27,42 @@ class public_WebPage extends Base {
 			'show_in_list' => 0,
 			'fields' => array (
 					'caption' => array (),
-					'file_name' => array ('type' => 'file_list', 'required' => 1),
-					'click_link_url' => array ('type' => 'url')
+					'file_name' => array (
+						'type' => 'file_list', 
+						'required' => 1,
+						'searchable' => 1
+					),
+					'click_link_url' => array (
+						'type' => 'url',
+						'searchable' => 1
+					)
 			)
 		),
 		'media_box' => array (
 				'type' => 'container',
 				'show_in_list' => 0,
 				'fields' => array (
-						'title' => array ('required' => 1),
+						'title' => array ('required' => 1, 'searchable' => 1),
 						'image_file_name' => array ('type' => 'file_list','required' => 1),
-						'content' => array('required' => 1),
-						'link_name' => array('required' => 1),
-						'link_url' => array('type' => 'url', 'required' => 1)
+						'content' => array('required' => 1, 'searchable' => 1),
+						'link_name' => array('required' => 1, 'searchable' => 1),
+						'link_url' => array('type' => 'url', 'required' => 1, 'searchable' => 1)
 				)
 		),
 		'paragraph' => array (
 				'type' => 'container',
 				'show_in_list' => 0,
 				'fields' => array (
-						'title' => array ('required' => 1),
-						'content' => array ('type' => 'textarea', 'required' => 1)
+						'title' => array ('required' => 1, 'searchable' => 1),
+						'content' => array ('type' => 'textarea', 'required' => 1, 'searchable' => 1)
 				)
 		),
 		'what_is_next' => array (
 				'type' => 'container',
 				'show_in_list' => 0,
 				'fields' => array (
-						'title' => array ('required' => 1),
-						'url' => array ('type' => 'url', 'required' => 1)
+						'title' => array ('required' => 1, 'searchable' => 1),
+						'url' => array ('type' => 'url', 'required' => 1, 'searchable' => 1)
 				)
 		),
 		'contacts' => array(
