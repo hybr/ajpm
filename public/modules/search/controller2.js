@@ -22,7 +22,7 @@ angular.module('ajpmApp').controller('Search2Controller',
 					/* connection error with server_side */
 					$rootScope.pushPageMessage(response);
 				} else {
-					$scope.result = response;
+					$scope.response = response;
 				}
 			}, function errorCallback(response) {
 				$rootScope.pushPageMessage(response);

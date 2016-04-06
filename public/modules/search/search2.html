@@ -1,5 +1,10 @@
 Searching <b>{{searchPattern}}</b> ...
 
-<ul ng-repeat="record in results">
-	<li>{{record}}</li>
+<ul ng-repeat="record in response.data.result">
+	<li>
+		<div ng-if="response.data.searchArea = 'public_WebPage'">
+			<b><span>{{record.title}}</span></b>:
+			<span ng-repeat="p in record.paragraph">{{p.content}}</span>		
+		</div>
+	</li>	
 </ul>

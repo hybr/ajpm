@@ -1,7 +1,6 @@
 <base href="/">
-<div ng-controller="ApplicationController">
 
-<div layout="column" layout-fill>
+
   <md-toolbar class="md-tall">
     <div class="md-toolbar-tools">
     	<div>
@@ -16,28 +15,30 @@
 					echo "OWebP";
 			}?></b>
 		</div>
+		
       	<span flex></span>
 		
-		<md-button class="md-button" aria-label="Contact" ui-sref="contact_us">
-          <span>Contact</span>
-		</md-button>
-		
-		<md-button class="md-icon-button" aria-label="Favorite" ui-sref="my_account">
+		<md-icon-button class="md-primary md-raised" aria-label="Contact" ui-sref="contact_us">
+          <i class="material-icons">contacts</i>
+          
+		</md-icon-button>
+
+		<md-icon-button class="md-primary md-raised" aria-label="Account" ui-sref="my_account">
           <i class="material-icons">face</i>
-        </md-button>	
+        </md-icon-button>	
   
   		<span ng-show="isAuthenticated"> 
-			<md-button class="md-button" aria-label="Logout" ui-sref="logout">
-	          <span>Logout</span>
+			<md-button class="md-primary md-raised" aria-label="Logout" ui-sref="logout">
+	          Logout
 			</md-button>
 		</span>
 		
   		<span ng-hide="isAuthenticated">
-			<md-button class="md-button" aria-label="Login" ui-sref="login1">
-	          <span>Login</span>
-			</md-button>
+			<md-button class="md-primary md-raised" ng-click="show_s1($event)" ui-sref="login1" >
+			  Login
+			</md-button>			
 		</span>		
-
+  
        </div>
        
        <div class="md-toolbar-tools"><?php
@@ -61,7 +62,6 @@
             </button>
             
             <md-menu-content>
-              
               <md-menu-item class="md-indent">
               	<md-icon md-svg-icon="img/icons/ic_home_black_48px.svg"></md-icon>
                 <md-button ui-sref="home">
@@ -87,13 +87,11 @@
           </md-menu>
 
           <md-menu>
-            
             <button ng-click="$mdOpenMenu()">
               About
             </button>
             
             <md-menu-content>
-              
               <md-menu-item class="md-indent">
                 <md-button ui-sref="about_us">
                   Why Us
@@ -115,9 +113,8 @@
             <button ng-click="$mdOpenMenu()">
               Catalog
             </button>
-            
             <md-menu-content>
-			<md-menu-item class="md-indent">
+				<md-menu-item class="md-indent">
                 	<md-button>
                   		Services
                 	</md-button>
@@ -125,16 +122,24 @@
 			</md-menu-content>
 			</md-menu>
 
+			<span flex></span>
+			
+			<input type=text ng-model="searchPattern" />
+			<md-icon-button class="md-primary" aria-label="Go Search" ui-sref="search2">
+				<i class="material-icons">input</i>
+			</md-icon-button>
+        
 		</md-menu-bar>
     </div>
   </md-toolbar>
+
 	<div ng-show="hasPageMessages()"><ul>
 		<li ng-repeat="pageMessage in getPageMessages()">
 			{{pageMessage}}
 		</li>
 	</ul></div>  
    	<div ui-view>Loading...</div>  
-</div>
+
 
 	<div login-dialog-one id="userLoginModelOne" title="User Login" ui-jq="dialog" ui-options="{autoOpen: false, modal: true}"></div>
 	<div login-dialog-two id="userLoginModelTwo" title="User Login" ui-jq="dialog" ui-options="{autoOpen: false, modal: true}"></div>
@@ -144,5 +149,3 @@
 	<?php if(file_exists(dirname(__FILE__) . '/../_body_links.php'))
 		include dirname(__FILE__) . '/../_body_links.php';
 	?>
-
-</div>

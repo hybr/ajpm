@@ -6,7 +6,8 @@ class public_WebPage extends Base {
 	} /* __construct */
 	public $fields = array (
 		'title' => array(
-			'searchable' => 1
+			'searchable' => 1,
+			'searchResultTitle' => 1,
 		),
  		'component' => array (
 			'type' => 'container',
@@ -54,7 +55,7 @@ class public_WebPage extends Base {
 				'show_in_list' => 0,
 				'fields' => array (
 						'title' => array ('required' => 1, 'searchable' => 1),
-						'content' => array ('type' => 'textarea', 'required' => 1, 'searchable' => 1)
+						'content' => array ('type' => 'textarea', 'required' => 1, 'searchable' => 1, 'searchResultDetail' => 1,)
 				)
 		),
 		'what_is_next' => array (
@@ -62,7 +63,7 @@ class public_WebPage extends Base {
 				'show_in_list' => 0,
 				'fields' => array (
 						'title' => array ('required' => 1, 'searchable' => 1),
-						'url' => array ('type' => 'url', 'required' => 1, 'searchable' => 1)
+						'url' => array ('type' => 'url', 'required' => 1, 'searchable' => 1,)
 				)
 		),
 		'contacts' => array(

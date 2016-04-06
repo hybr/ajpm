@@ -83,15 +83,21 @@ if (!isAllowed(array($actionInstance->myModuleName()), $_SESSION['url_sub_task']
 	return;
 }
 
+$searchResultTitleFieldNames = array();
+$searchResultDetailFieldNames = array();
+
 /* find 'searchable' => 1 fields */
 function getSerchableFieldList ($fields, $parentFieldName = '' ) {
 	$fieldsList = array();
+	$searchResultTitleFieldNames = array();
+	$searchResultDetailFieldNames = array();
+		
 	foreach ($fields as $fieldName => $fieldAttributes) {
 		if (isset($fieldAttributes['type']) && $fieldAttributes['type'] == 'container') {
-			$fieldsList = array_merge(
-				$fieldsList, 
-				getSerchableFieldList($fieldAttributes['fields'], $fieldName)
-			);
+			$tas = getSerchableFieldList($fieldAttributes['fields'], $fieldName);
+			$fieldsList = array_merge($fieldsList, $tas[0]);
+			$searchResultTitleFieldNames = array_merge($searchResultTitleFieldNames, $tas[1]);
+			$searchResultDetailFieldNames = array_merge($searchResultDetailFieldNames, $tas[2]);
 		} else {
 			if (isset($fieldAttributes['searchable']) && $fieldAttributes['searchable'] == 1) {
 				if ($parentFieldName == '') {
@@ -100,9 +106,23 @@ function getSerchableFieldList ($fields, $parentFieldName = '' ) {
 					array_push($fieldsList, $parentFieldName . '.' . $fieldName);
 				}
 			}
+			if (isset($fieldAttributes['searchResultTitle']) && $fieldAttributes['searchResultTitle'] == 1) {
+				if ($parentFieldName == '') {
+					array_push($searchResultTitleFieldNames, $fieldName);
+				} else {
+					array_push($searchResultTitleFieldNames, $parentFieldName . '.' . $fieldName);
+				}
+			}
+			if (isset($fieldAttributes['searchResultDetail']) && $fieldAttributes['searchResultDetail'] == 1) {
+				if ($parentFieldName == '') {
+					array_push($searchResultDetailFieldNames, $fieldName);
+				} else {
+					array_push($searchResultDetailFieldNames, $parentFieldName . '.' . $fieldName);
+				}
+			}			
 		}
 	}
-	return $fieldsList;
+	return array($fieldsList, $searchResultTitleFieldNames, $searchResultDetailFieldNames);
 }
 
 
@@ -114,9 +134,9 @@ $condition = array ();
 $jsConf = '';
 $searchConditions = array ();
 
-
 /* create search conditions array  sf = search field */
-foreach ( getSerchableFieldList($actionInstance->fields) as $sf ) {
+$tas =  getSerchableFieldList($actionInstance->fields);
+foreach ( $tas[0] as $sf ) {
 	array_push ( $searchConditions, array (
 			$sf => array (
 					'$regex' => new MongoRegex ( '/' . $urlArgsArray ['p'] . '/i' ) 
@@ -176,7 +196,12 @@ foreach ( $findCursor as $doc ) {
 	array_push ( $arr, $doc);
 }
 echo '{"status" : "OK", "result" : ' . json_encode ($arr) 
-	. ', "conditions" : ' . json_encode($searchConditions) . "}";
+	. ', "conditions" : ' . json_encode($searchConditions)
+	. ', "titleFields" : ' . json_encode($tas[1])
+	. ', "detailFields" : ' . json_encode($tas[2])
+	. ', "searchArea" : "' . $classForQuery . '"'
+	
+	. "}";
 exit;
 
 ?>

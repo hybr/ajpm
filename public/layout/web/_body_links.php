@@ -21,6 +21,7 @@
 
 <script src="modules/application/main.js"></script>
 <script src="modules/application/router.js"></script>
+<script src="modules/application/filter.js"></script>
 
 <script src="modules/auth/session.js"></script>
 <script src="modules/auth/interceptor.js"></script>
