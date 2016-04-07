@@ -1,12 +1,11 @@
-use
-'strict';
+'use strict;'
 
 /*
  * wordwise (boolean) - if true, cut only by words bounds,
  * max (integer) - max length of the text, cut to this number of chars,
  * tail (string, default: ' …') - add this string to the input string if the string was cut.
  */
-angular.module('ng').filter('cutText', function() {
+angular.module('ajpmApp').filter('cutText', function() {
 	return function(value, wordwise, max, tail) {
 		if (!value)
 			return '';
