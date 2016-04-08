@@ -108,7 +108,9 @@ function isAllowed($moduleNames, $subTask) {
 			'public_user-login-all','public_contact-presentall-all',
 			'public_organization-clients-all',
 			'public_familytree-presentall-all',
-			'public_familytree-present-all' 
+			'public_familytree-present-all',
+			
+			'public_search2.php-presentall-all'
 	) )) {
 		$_SESSION ['allowed_as'] = "PUBLIC";
 		return true;

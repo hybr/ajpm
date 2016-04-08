@@ -42,16 +42,6 @@ header ( 'Cache-Control: no-cache, must-revalidate' );
 // The JSON standard MIME header.
 header ( 'Content-type: application/json' );
 
-if (empty($_SESSION ['user'])) {
-	echo json_encode ( array (
-		array (
-			'label' => 'Please login first',
-			'value' => '' 
-		) 
-	) );
-	return;
-}
-
 /* find arguments */
 $urlPartsArray = parse_url ( $_SERVER ['REQUEST_URI'] );
 

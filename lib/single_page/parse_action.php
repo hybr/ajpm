@@ -28,10 +28,6 @@ if (array_key_exists ( 'path', $urlPartsArray )) {
 	$urlPathArray = split ( '/', $urlPartsArray ['path'] );
 	/* array_shift will remove word service, word service is used for backend calls */
 	debugPrintArray($urlPathArray, 'urlPathArray');
-	if (strtolower ($urlPathArray [1]) == 'service') {
-		array_shift($urlPathArray);
-	}
-	debugPrintArray($urlPathArray, 'urlPathArray');
 	if (sizeof ( $urlPathArray ) >= 2) {
 		foreach ( split ( '_', $urlPathArray [1] ) as $w ) {
 			if (strpos($w, '-a-') !== FALSE) {
@@ -82,4 +78,5 @@ if ($_SESSION ['url_sub_task'] == '') {
 }
 $_SESSION ['url_sub_task'] = trim ( $_SESSION ['url_sub_task'] );
 
+debugPrintArray($_SESSION, 'SESSION');
 ?>

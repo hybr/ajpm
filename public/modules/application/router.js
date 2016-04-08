@@ -57,6 +57,9 @@ angular.module('ajpmApp').config(['$stateProvider', '$urlRouterProvider', 'USER_
 	}).state('admin_dashboard', {
 		url : "/admin_dashboard",
 		templateUrl : "modules/admin_dashboard/view.html",
+		/* if roles are specified then it will check for authorization
+		 * else the state is considerd for public use
+		 */
 		data : {
 			authorizedRoles: [USER_ROLES.admin]
 		}
