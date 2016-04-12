@@ -1,21 +1,18 @@
+'use strict';
 
 /**
- * @controller HomeController to maintain home page information
+ * @controller HomeController to manage home page information
  */
-
-'use strict';
 
 angular.module('ajpmApp').controller('HomeController', 
 	['$scope', '$rootScope', '$http',
 	function($scope, $rootScope, $http){
 	
-	/* Get the web page id for the home page */
-
 	$http({
 		method: 'POST',
 		url: '/-s-web_page/presentjson',
-		params: { 
-			id: _hpid
+		params: {
+			id: _hpid /* home page id */
 		}
 	}).then(function successCallback(response) {
 		if (response.status != 200) {

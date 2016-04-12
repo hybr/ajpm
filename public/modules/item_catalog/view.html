@@ -1,0 +1,17 @@
+<md-content>
+	 <md-toolbar layout="row">
+      <div class="md-toolbar-tools">
+        <span>Our Catalogs</span>
+      </div>
+    </md-toolbar>
+	<md-list>
+        <md-list-item class="md-3-line" ng-repeat="doc in docs" ng-click="null">
+          <div class="md-list-item-text" layout="column">
+            <h3>{{ doc.category }}</h3>
+            <h4>{{ getCategoryTitle(doc.parent_category.$id) }}</h4>
+            <p>{{ doc.summary }}</p>
+          </div>
+        </md-list-item>
+        <md-divider ></md-divider>
+	</md-list>
+</md-content>

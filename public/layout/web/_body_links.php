@@ -38,3 +38,4 @@
 <script src="modules/about_us/controller.js"></script>
 <script src="modules/search/controller2.js"></script>
 <script src="modules/web_page/controller.js"></script>
+<script src="modules/item_catalog/controller.js"></script>

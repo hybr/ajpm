@@ -2,7 +2,7 @@
 <div ng-repeat="c in doc.component">
 
 	<div ng-if="c.type == 'Image Slider'">
-<link href="layout/web/ji.owebp.com/cssslider_files/csss_engine1/style.css" rel="stylesheet">
+		<link href="layout/web/ji.owebp.com/cssslider_files/csss_engine1/style.css" rel="stylesheet">
 		<!--[if IE]><link rel="stylesheet" href="layout/web/ji.owebp.com/cssslider_files/csss_engine1/ie.css"><![endif]-->
 		<!--[if lte IE 9]><script type="text/javascript" src="layout/web/ji.owebp.com/cssslider_files/csss_engine1/ie.js"></script><![endif]-->
 		 <div class="csslider1 autoplay ">
@@ -67,5 +67,12 @@
 			</md-content>
 		</div>
 	</div>
-	
+</div>
+
+<div ng-if="doc.what_is_next.length > 0">
+	<div class="md-toolbar-tools" ng-repeat="link in doc.what_is_next">
+		<md-button class="md-primary md-raised" aria-label="{{link.title}}">
+         	<a href="{{link.url}}">{{link.title}}</a>
+		</md-button>
+	</div>
 </div>

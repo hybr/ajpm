@@ -1176,8 +1176,13 @@ class Base {
 			. $this->getFormTitle () .'</div>';
 		$rStr .= '<div class="ui-widget-content ui-corner-bottom jpmContentPadding">'; /* widget content */
 
-
-		if ($this->curlsMode == 'Present All') {
+		if ($this->curlsMode == 'Present Json All') {
+			$records = array();
+			foreach ( $this->findCursor as $doc ) {
+				array_push($records, $doc);
+			}
+			return $records;
+		} else if ($this->curlsMode == 'Present All') {
 			$rStr .= $this->presentAllDocument ( $this->subTaskKeyToSave, $this->fields, $this->findCursor );
 		} else { /* Present All */
 			
@@ -1275,7 +1280,12 @@ class Base {
 	
 	public function presentJson($urlArgsArray) {
 		$this->curlsMode = 'Present Json';
-		return json_encode($this->edit ( $urlArgsArray ));
+		return json_encode($this->edit( $urlArgsArray ));
+	}
+	
+	public function presentJsonAll($urlArgsArray) {
+		$this->curlsMode = 'Present Json All';
+		return json_encode($this->readAll( $urlArgsArray ));
 	}
 	
 	public function presentAll($urlArgsArray) {
