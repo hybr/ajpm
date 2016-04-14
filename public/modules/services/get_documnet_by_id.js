@@ -1,16 +1,12 @@
 'use strict';
 
 /**
- * @factory GetDocumentByIdService to fetch a record/document from mongo db */
+ * @service GetDocumentByIdService to fetch a record/document from mongo db */
 
-angular.module('ajpmApp').factory('GetDocumentByIdService', 
+angular.module('ajpmApp').service('GetDocumentByIdService', 
 	['$http', '$q', function( $http, $q) {
 
-	var deffered = $q.defer();
-	var data = [];  
-	var factory = {}; 
-
-    factory.getDocument = function(collectionName, requestedId) {
+    this.getDocument = function(collectionName, requestedId, callbackFunc) {
     	$http({
 			method: 'POST',
 			url: '/-s-' + collectionName + '/presentjson',
@@ -18,19 +14,8 @@ angular.module('ajpmApp').factory('GetDocumentByIdService',
 				id: requestedId
 			}			
 		}).success(function (d) {
-	      data[collectionName] = d;
-	      console.log('GetDocumentByIdService getDocument', collectionName, requestedId, d);
-	      deffered.resolve();
+			callbackFunc(d);
 	    });
-	    
-	    return deffered.promise;
 	} /* getDocument */
- 
-    factory.getData = function(collectionName) {
-    	console.log('GetDocumentByIdService getData', collectionName, data[collectionName]);
-    	return data[collectionName]; 
-    };
-    
-    return factory;
 
 } ]); /* function */
