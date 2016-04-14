@@ -51,7 +51,7 @@
 		</div>
 	</div>
 	<div ng-if="c.type == 'Learn More'">
-		<div class="ui-widget-content">
+		<div>
 			{{os}} <button class="button" ui-sref="about_us">Learn More</button>
 		</div>
 		
@@ -59,11 +59,11 @@
 	
 	<div ng-if="c.type == 'Paragraph'">
 		<div ng-repeat="para in doc.paragraph">
-			<md-toolbar class="md-warn"><div class="md-toolbar-tools">
+			<md-toolbar><div class="md-toolbar-tools">
 			      <h2 class="md-flex">{{para.title}}</h2>
     			</div></md-toolbar>
 			<md-content flex layout-padding>
-				<div class="ui-widget-content" ng-bind-html="para.content  | showAsHtml"></div>
+				<div ng-bind-html="para.content  | showAsHtml"></div>
 			</md-content>
 		</div>
 	</div>

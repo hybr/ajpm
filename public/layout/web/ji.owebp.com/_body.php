@@ -18,23 +18,23 @@
 		
       	<span flex></span>
 		
-		<md-icon-button class="md-primary md-raised" aria-label="Contact" ui-sref="contact_us">
+		<md-icon-button class="md-primary md-raised" aria-label="Contact" ui-sref-active="is-active" ui-sref="contact_us">
           <i class="material-icons">contacts</i>
           
 		</md-icon-button>
 
-		<md-icon-button class="md-primary md-raised" aria-label="Account" ui-sref="my_account">
+		<md-icon-button class="md-primary md-raised" aria-label="Account" ui-sref-active="is-active" ui-sref="my_account">
           <i class="material-icons">face</i>
         </md-icon-button>	
   
   		<span ng-show="isAuthenticated"> 
-			<md-button class="md-primary md-raised" aria-label="Logout" ui-sref="logout">
+			<md-button class="md-primary md-raised" aria-label="Logout" ui-sref-active="is-active" ui-sref="logout">
 	          Logout
 			</md-button>
 		</span>
 		
   		<span ng-hide="isAuthenticated">
-			<md-button class="md-primary md-raised" ng-click="show_s1($event)" ui-sref="login1" >
+			<md-button class="md-primary md-raised" ng-click="show_s1($event)" ui-sref-active="is-active" ui-sref="login1" >
 			  Login
 			</md-button>			
 		</span>		
@@ -64,7 +64,7 @@
             <md-menu-content>
               <md-menu-item class="md-indent">
               	<md-icon md-svg-icon="img/icons/ic_home_black_48px.svg"></md-icon>
-                <md-button ui-sref="home">
+                <md-button ui-sref-active="is-active" ui-sref="home">
                   Home
                 </md-button>
               </md-menu-item>
@@ -72,13 +72,13 @@
               <md-menu-divider></md-menu-divider>
 
               <md-menu-item class="md-indent">
-                <md-button ui-sref="home">
+                <md-button ui-sref-active="is-active" ui-sref="home">
                   Contact Us
                 </md-button>
               </md-menu-item>
 
               <md-menu-item class="md-indent">
-                <md-button ui-sref="login1">
+                <md-button ui-sref-active="is-active" ui-sref="login1">
                   Login
                 </md-button>
               </md-menu-item>
@@ -93,7 +93,7 @@
             
             <md-menu-content>
               <md-menu-item class="md-indent">
-                <md-button ui-sref="about_us">
+                <md-button ui-sref-active="is-active" ui-sref="about_us">
                   Why Us
                 </md-button>
               </md-menu-item>
@@ -115,7 +115,7 @@
             </button>
             <md-menu-content>
 				<md-menu-item class="md-indent">
-                	<md-button>
+                	<md-button ui-sref-active="is-active" ui-sref="item_catalog">
                   		Services
                 	</md-button>
 				</md-menu-item>

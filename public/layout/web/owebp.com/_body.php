@@ -115,7 +115,7 @@
             </button>
             <md-menu-content>
 				<md-menu-item class="md-indent">
-                	<md-button>
+                	<md-button ui-sref-active="is-active" ui-sref="item_catalog">
                   		Services
                 	</md-button>
 				</md-menu-item>
