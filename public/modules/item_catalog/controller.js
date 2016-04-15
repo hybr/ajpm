@@ -5,29 +5,11 @@
  */
 
 angular.module('ajpmApp').controller('ItemCatalogController', 
-	['$scope', '$rootScope', '$http',
-	function($scope, $rootScope, $http){
+	['$scope', '$rootScope', '$http', 'GetCollectionService',
+	function($scope, $rootScope, $http, GetCollectionService){
 
 	$scope.docs = [];
 	$scope.items = [];
-	
-	$http({
-		method: 'POST',
-		url: '/-s-item/presentjsonall'
-	}).then(function successCallback(response) {
-		if (response.status != 200) {
-			/* connection error with server_side */
-			$rootScope.pushPageMessage(response);
-		} else {
-			/* TODO reduce the items size in memory */
-			/* for (key in response.data) {
-				$scope.items
-			} */
-			$scope.items = response.data;
-		}
-	}, function errorCallback(response) {
-		$rootScope.pushPageMessage(response);
-	});
 	
 	$scope.getCategoryTitle = function(id) {
 		var key;
@@ -52,19 +34,14 @@ angular.module('ajpmApp').controller('ItemCatalogController',
 		}
 		return '';
 	}
+
+
+       GetCollectionService.getCollection('item', function(d1) {
+                $scope.items = d1;
+       });
+       GetCollectionService.getCollection('item_catalog', function(d1) {
+                $scope.docs = d1;
+       });
+
 	
-	$http({
-		method: 'POST',
-		url: '/-s-item_catalog/presentjsonall'
-	}).then(function successCallback(response) {
-		if (response.status != 200) {
-			/* connection error with server_side */
-			$rootScope.pushPageMessage(response);
-		} else {
-			$scope.docs = response.data;
-		}
-	}, function errorCallback(response) {
-		$rootScope.pushPageMessage(response);
-	});
-		
 } ]);

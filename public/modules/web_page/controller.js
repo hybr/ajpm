@@ -5,12 +5,12 @@
  */
 
 angular.module('ajpmApp').controller('WebPageController', 
-	['$scope', '$rootScope', '$http', '$stateParams',
-	function($scope, $rootScope, $http, $stateParams){
+	['$scope', '$stateParams', 'GetDocumentByIdService',
+	function($scope, $stateParams, GetDocumentByIdService){
 	
 	/* Get the web page id for the about us page */
 	GetDocumentByIdService.getDocument('web_page', $stateParams.webPageId, function(d1) {
-		$scope.doc
+		$scope.doc = d1;
 	});
 		
 } ]);

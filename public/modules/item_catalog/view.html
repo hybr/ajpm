@@ -5,12 +5,13 @@
       </div>
     </md-toolbar>
 	<md-list>
-        <md-list-item class="md-3-line" ng-repeat="doc in docs" ng-click="null">
+        <md-list-item class="md-3-line" ng-repeat="doc in docs track by $index" ng-click="null">
           <div class="md-list-item-text" layout="column">
+		{{$index}} {{doc}}
             <h3>{{ doc.category }}</h3>
             <h4>{{ getCategoryTitle(doc.parent_category.$id) }}</h4>
             <p>{{ doc.summary }}</p>
-            <p><div ng-repeat="pns in doc.pas">
+            <p><div ng-repeat="pns in doc.pas track by $index">
             	<a href="/#/item/{{ pns.pas_id.$id }}">{{ getItemTitle(pns.pas_id.$id) }}</a>
             </div></p>
           </div>

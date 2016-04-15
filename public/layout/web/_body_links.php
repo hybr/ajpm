@@ -34,6 +34,7 @@
 <script src="modules/application/global.js"></script>
 
 <script src="modules/services/get_documnet_by_id.js"></script>
+<script src="modules/services/get_collection.js"></script>
 
 <script src="modules/contact_us/controller.js"></script>
 <script src="modules/home/controller.js"></script>
