@@ -10,8 +10,8 @@
             <h3>{{ doc.category }}</h3>
             <h4>{{ getCategoryTitle(doc.parent_category.$id) }}</h4>
             <p>{{ doc.summary }}</p>
-            <p><div ng-repeat="pns in doc.item">
-            	<a href="/#/item/{{ pns.id.$id }}">{{ getItemTitle(pns.id.$id) }}</a>
+            <p><div ng-repeat="pns in doc.pas">
+            	<a href="/#/item/{{ pns.pas_id.$id }}">{{ getItemTitle(pns.pas_id.$id) }}</a>
             </div></p>
           </div>
         </md-list-item>

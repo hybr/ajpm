@@ -11,7 +11,12 @@ ajpmApp.config([ '$httpProvider', function($httpProvider) {
 } ]);
 
 ajpmApp.config(function($mdThemingProvider) {
-	$mdThemingProvider.theme('default').primaryPalette('light-blue');
+	$mdThemingProvider.theme('newTheme').primaryPalette('indigo');
+	$mdThemingProvider.theme('newTheme').accentPalette('brown');
+	$mdThemingProvider.theme('newTheme').warnPalette('orange');
+	$mdThemingProvider.theme('newTheme').backgroundPalette('amber');
+	
+	$mdThemingProvider.setDefaultTheme('newTheme');
 });
 
 ajpmApp.config(function($mdIconProvider) {

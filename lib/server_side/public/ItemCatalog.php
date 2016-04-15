@@ -6,6 +6,7 @@ class public_ItemCatalog extends Base {
 	} /* __construct */
 	public $fields = array (
 			'category' => array (
+					'show_in_list' => 1,
 					'required' => 1 
 			),
 			'summary' => array (),

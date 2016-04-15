@@ -1,10 +1,15 @@
 
 <md-content>
+	 <md-toolbar layout="row">
+      <div class="md-toolbar-tools">
+        <span>{{ doc.type }} {{ doc.title }}</span>
+      </div>
+    </md-toolbar>
     <md-tabs md-dynamic-height md-border-bottom>
       
       <md-tab ng-if="doc.type == 'Service'" label="Service">
         <md-content class="md-padding">
-          <h1 class="md-display-2">{{ doc.title }}</h1>
+          <h2>{{ doc.title }}</h2>
           <h2> By {{ manufacturarName }}</h2>
           <p>{{ doc.summary }}</p>
         </md-content>
