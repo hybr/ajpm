@@ -1,0 +1,24 @@
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+    	<h3 class="panel-title">{{ doc.type }} {{ doc.title }}</h3>
+  	</div>
+  	<div class="panel-body">
+		<h2>{{ doc.title }}</h2>
+		<h3> By {{ manufacturarName }}</h3>
+	    <p>{{ doc.summary }}</p>	
+		<hr />
+		<div ng-repeat="abt in doc.about">
+          		<h3>{{ abt.category }}</h3>
+          		<p>{{ abt.about_category }}</p>
+          		<ul><li ng-repeat="atr in abt.attribute">
+          			<b>{{ atr.name }}</b>: {{ atr.value }}{{ atr.unit }}<br />{{atr.summary}}
+          		</li></ul>
+          </div>
+          </hr>
+   		<ul><li ng-repeat="pr in doc.price">
+   			{{ pr.type }} {{pr.amount }} {{pr.currency }} {{pr.per }} {{pr.per_unit }}
+   		</li></ul>           
+ 	 </div>
+  	<div class="panel-footer"></div>
+</div>

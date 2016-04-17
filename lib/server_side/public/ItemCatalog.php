@@ -6,65 +6,66 @@ class public_ItemCatalog extends Base {
 	} /* __construct */
 	public $fields = array (
 			'category' => array (
-					'show_in_list' => 1,
-					'required' => 1 
+				'show_in_list' => 1,
+				'required' => 1 
 			),
 			'summary' => array (),
 			'parent_category' => array (
-					'type' => 'foreign_key',
-					'foreign_collection' => 'item_catalog',
-					'foreign_search_fields' => 'category,summary',
-					'foreign_title_fields' => 'category,summary' 
+				'type' => 'foreign_key',
+				'foreign_collection' => 'item_catalog',
+				'foreign_search_fields' => 'category,summary',
+				'foreign_title_fields' => 'category,summary' 
 			),
 			'use' => array (
-					'type' => 'list',
-					'help' => 'Purpose of this catalog category',
-					'list_class' => 'ItemFor',
-					'input_mode' => 'selecting',
-					'show_in_list' => 1,
-					'default' => 'Make and Sale',
-					'required' => 1 
+				'type' => 'list',
+				'help' => 'Purpose of this catalog category',
+				'list_class' => 'ItemFor',
+				'input_mode' => 'selecting',
+				'show_in_list' => 1,
+				'default' => 'Make and Sale',
+				'required' => 1 
 			),
 			'pas' => array (
 					'type' => 'container',
-					'show_in_list' => 0,
+					'show_in_list' => 1,
 					'fields' => array (
 							'pas_id' => array (
-									'type' => 'foreign_key',
-									'foreign_collection' => 'item',
-									'foreign_search_fields' => 'title,summary',
-									'foreign_title_fields' => 'type,title,manufacturar',
-									'help' => 'PAS = Product and Service' 
+								'type' => 'foreign_key',
+								'show_in_list' => 1,
+								'foreign_collection' => 'item',
+								'foreign_search_fields' => 'title,summary',
+								'foreign_title_fields' => 'type,title,manufacturar',
+								'help' => 'PAS = Product and Service' 
 							),
 							'live' => array (
-				                                'type' => 'list',
-				                                'list_class' => 'ItemLiveType',
-				                                'input_mode' => 'clicking',
-				                                'show_in_list' => 1,
-				                                'default' => 'Proposed',
-				                        ),
+                                'type' => 'list',
+                                'list_class' => 'ItemLiveType',
+                                'input_mode' => 'clicking',
+                                'show_in_list' => 1,
+                                'default' => 'Proposed',
+				            ),
 					) 
 			),
 			'profit_required' => array (
-					'type' => 'number',
-					'required' => 1,
-					'default' => 0,
-					'help' => 'Number as percentage for profit in category' 
+				'type' => 'number',
+				'required' => 1,
+				'default' => 0,
+				'help' => 'Number as percentage for profit in category' 
 			),
-		'delivery' => array (
-			'type' => 'container',
-			'show_in_list' => 0,
-			'fields' => array (
-				'area' => array(),
-				'method' => array (
-		                	'type' => 'list',
-		                        'list_class' => 'ItemDeliveryMethod',
-		                        'input_mode' => 'selecting',
-					'multiple' => 1,
-		                        'default' => 'Post',
-				),
-			) 
-		),
+			'delivery' => array (
+				'type' => 'container',
+				'show_in_list' => 0,
+				'fields' => array (
+					'area' => array(),
+					'method' => array (
+			                	'type' => 'list',
+			                        'list_class' => 'ItemDeliveryMethod',
+			                        'input_mode' => 'selecting',
+						'multiple' => 1,
+			                        'default' => 'Post',
+					),
+				) 
+			)
 	); /* fields */
 	public function presentDocument($subTaskKeyToSave, $fields, $doc) {
 		$rStr = '';

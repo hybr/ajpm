@@ -7,12 +7,11 @@
 	<md-list>
         <md-list-item class="md-3-line" ng-repeat="doc in docs track by $index" ng-click="null">
           <div class="md-list-item-text" layout="column">
-		{{$index}} {{doc}}
             <h3>{{ doc.category }}</h3>
             <h4>{{ getCategoryTitle(doc.parent_category.$id) }}</h4>
             <p>{{ doc.summary }}</p>
             <p><div ng-repeat="pns in doc.pas track by $index">
-            	<a href="/#/item/{{ pns.pas_id.$id }}">{{ getItemTitle(pns.pas_id.$id) }}</a>
+            	<a ng-show="pns.live == 'Live'" href="/#/item/{{ pns.pas_id.$id }}">{{ getItemTitle(pns.pas_id.$id) }}</a>
             </div></p>
           </div>
         </md-list-item>

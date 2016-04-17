@@ -1,0 +1,1 @@
+{ "indexes" : [ { "v" : 1, "key" : { "_id" : 1 }, "ns" : "jpm_devlopment.persons", "name" : "_id_" } ] }

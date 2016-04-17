@@ -22,7 +22,7 @@
 	}
 ?></title>
 
-<!--   <link rel="stylesheet" href="js/angular/angular-material.min.css"> -->
+<link rel="stylesheet" href="js/angular/angular-material.min.css">
  
 <!-- jQuery lib -->
 <script src="/js/jquery/jquery-ui/external/jquery/jquery.js"></script>
