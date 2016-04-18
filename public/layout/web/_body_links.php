@@ -25,7 +25,6 @@
 
 <script src="modules/auth/session.js"></script>
 <script src="modules/auth/interceptor.js"></script>
-<script src="modules/auth/directive.js"></script>
 
 <script src="modules/application/controller.js"></script>
 

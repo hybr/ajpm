@@ -22,24 +22,7 @@ angular.module('ajpmApp').controller('LoginController',	[
 		$scope.credentials = {};
 		$scope.form_login_s1 = {};
 		$scope.form_login_s2 = {};
-
-		 $scope.show_s1 = function(ev) {
-			    // Appending dialog to document.body to cover sidenav in docs app
-			    var confirm = $mdDialog.prompt()
-			          .title('What would you name your dog?')
-			          .textContent('Bowser is a common name.')
-			          .placeholder('dog name')
-			          .ariaLabel('Dog name')
-			          .targetEvent(ev)
-			          .ok('Okay!')
-			          .cancel('I\'m a cat person');
-			    $mdDialog.show(confirm).then(function(result) {
-			      $scope.status = 'You decided to name your dog ' + result + '.';
-			    }, function() {
-			      $scope.status = 'You didn\'t name your dog.';
-			    });
-			  };
-			  
+		
 		// when the form step s1 is submitted
 		$scope.submit_s1 = function() {
 
@@ -96,24 +79,22 @@ angular.module('ajpmApp').controller('LoginController',	[
 
 		function checkUserForLoginProcessPass (message) {
 			if (message) $rootScope.pushPageMessage(message);
-			/* fire event of user exists */
-			$rootScope.$broadcast(AUTH_EVENTS.loginUserExists);
+			$state.go('login2');
 		}
 
 		function checkUserForLoginProcessFail (message) {
 			if (message) $rootScope.pushPageMessage(message);
-			$rootScope.$broadcast(AUTH_EVENTS.loginFailed);
+			$state.go('login1');
 		}
 
 		$scope.isPasswordCorrectPass = function(message) {
 			if (message) $rootScope.pushPageMessage(message + 'test');
-			/* fire event of successful login */
-			$rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+			$state.go('home');
 		}
 
 		$scope.isPasswordCorrectFail = function(message) {
 			if (message) $rootScope.pushPageMessage(message);
-			$rootScope.$broadcast(AUTH_EVENTS.loginFailed);
+			$state.go('login2');
 		}
 
 		$scope.reset = function() {
@@ -130,12 +111,13 @@ angular.module('ajpmApp').controller('LoginController',	[
 						$('#userLoginModelOne').dialog("close");
 						$('#userLoginModelTwo').dialog("close");
 		}
+		
 		$scope.reset();
 
 		// if a session exists for current user (page was refreshed)
 		// log him in again
 		if (SessionService.getCurrentUserSessionId() == '') {
-			$rootScope.$broadcast(AUTH_EVENTS.sessionTimeout);
+			$state.go('login1');
 		}
 
 
@@ -143,39 +125,4 @@ angular.module('ajpmApp').controller('LoginController',	[
 
 angular.module('ajpmApp').controller('LogoutController', ['AuthService', function(AuthService) {
 	AuthService.logout();
-} ]);
-angular.module('ajpmApp').filter('capitalize', function() {
-  return function(token) {
-      return token.charAt(0).toUpperCase() + token.slice(1);
-   }
-});
-angular.module('ajpmApp').controller('searchController', ['$scope','$http','$window', function($scope,$http,$window) {
-	$scope.searchQuery = "";
-	$scope.searchQueryPage = "";
-	$scope.resultNotFound = 0;
-	$scope.resultFound = 1;
-	$scope.search = function(t) {
-		if (t == "assets") {
-			$scope.varURL = "/search.php?q=" + $scope.searchQuery + "&t=assets";
-		} else {
-			$scope.varURL = "/search.php?q=" + $scope.searchQuery + "&t=blogs";
-		}
-		$http({
-	  method: 'GET',
-	  url: $scope.varURL
-	      }).then(function successCallback(response) {
-	        $scope.varResponse = response.data;
-									if ($scope.varResponse.length == 0) {
-										$scope.resultFound = 0;
-										$scope.resultNotFound = 1;
-										$scope.varResponse = "No result found! Please try again with another query."
-									} else {
-										$scope.resultFound = 1;
-										$scope.resultNotFound = 0;
-									}
-	      }, function errorCallback(response) {
-	        $scope.varResponse = "ERROR - " + response.error;
-	      });
-
-	}
 } ]);

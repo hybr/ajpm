@@ -3,7 +3,7 @@
  *           controller ApplicationController is defined in login.js as it
  *           needed lot of other information from login controller
  */
-var ajpmApp = angular.module('ajpmApp', [ 'ui.router', 'ngMaterial' ]);
+var ajpmApp = angular.module('ajpmApp', [ 'ui.router', 'ngMaterial', 'ngMessages' ]);
 
 ajpmApp.config([ '$httpProvider', function($httpProvider) {
 	$httpProvider.defaults.useXDomain = true;

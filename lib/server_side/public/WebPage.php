@@ -7,6 +7,7 @@ class public_WebPage extends Base {
 	public $fields = array (
 		'title' => array(
 			'searchable' => 1,
+			'show_in_list' => 1,
 			'searchResultTitle' => 1,
 		),
  		'component' => array (

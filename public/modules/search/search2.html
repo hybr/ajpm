@@ -1,5 +1,17 @@
-Searching <b>{{searchPattern}}</b> ...
-
+<form name="form_search" novalidate ng-submit="form_search.$valid">
+<md-input-container>
+  		<label>Search</label>
+  		<input type="text" id="id_search" name="name_search" ng-model="searchPattern" required />
+  		<div ng-messages="form_search.name_search.$error" ng-show="form_search.name_search.$dirty">
+    			<div id="id_search_error_required" ng-message="required">Search string is required</div>
+  		</div>
+		</md-input-container>			
+<md-button class="md-primary md-raised" aria-label="Go Search" ui-sref="search2">
+	Search
+</md-button>
+     	</form>
+        	
+        	
 <ul ng-repeat="record in response.data.result">
 	<li>
 		<div ng-if="response.data.searchArea = 'public_WebPage'">

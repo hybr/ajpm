@@ -17,6 +17,7 @@ _0g = "kriya.owebp.com";
 _0g = "apdds.owebp.com";
 _0g = "syspro.owebp.com";
 _0g = "ji.owebp.com";
+_0g = "pis.owebp.com";
 
 /**
  * @function _1g to get the domain name of from the url
