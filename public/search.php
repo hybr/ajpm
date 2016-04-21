@@ -77,6 +77,7 @@ if ($_SERVER['request_method'] = "get") {
    }
     echo json_encode($searchBuffer,JSON_HEX_TAG);
  } elseif ($GET['t'] == "blogs") {
+  
  }
 }
 ?>

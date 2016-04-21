@@ -61,13 +61,13 @@ if(!isset($urlArgsArray ['c'])) {
 	$urlArgsArray ['c'] = 'web_page';
 }
 foreach ( split('_', $urlArgsArray ['c']) as $w ) {
-	$classForQuery .= ucfirst ( strtolower ( $w ) );			
+	$classForQuery .= ucfirst ( strtolower ( $w ) );
 }
 $actionInstance = new $classForQuery();
 if (!isAllowed(array($actionInstance->myModuleName()), $_SESSION['url_sub_task'])) {
-	echo '{"status" : "No Access to "' 
-		. $_SESSION['url_task'] . '/' 
-		. $_SESSION['url_sub_task'] 
+	echo '{"status" : "No Access to "'
+		. $_SESSION['url_task'] . '/'
+		. $_SESSION['url_sub_task']
 		. ', "result" : ""}';
 	exit;
 	return;
@@ -81,7 +81,7 @@ function getSerchableFieldList ($fields, $parentFieldName = '' ) {
 	$fieldsList = array();
 	$searchResultTitleFieldNames = array();
 	$searchResultDetailFieldNames = array();
-		
+
 	foreach ($fields as $fieldName => $fieldAttributes) {
 		if (isset($fieldAttributes['type']) && $fieldAttributes['type'] == 'container') {
 			$tas = getSerchableFieldList($fieldAttributes['fields'], $fieldName);
@@ -109,7 +109,7 @@ function getSerchableFieldList ($fields, $parentFieldName = '' ) {
 				} else {
 					array_push($searchResultDetailFieldNames, $parentFieldName . '.' . $fieldName);
 				}
-			}			
+			}
 		}
 	}
 	return array($fieldsList, $searchResultTitleFieldNames, $searchResultDetailFieldNames);
@@ -129,14 +129,14 @@ $tas =  getSerchableFieldList($actionInstance->fields);
 foreach ( $tas[0] as $sf ) {
 	array_push ( $searchConditions, array (
 			$sf => array (
-					'$regex' => new MongoRegex ( '/' . $urlArgsArray ['p'] . '/i' ) 
-			) 
+					'$regex' => new MongoRegex ( '/' . $urlArgsArray ['p'] . '/i' )
+			)
 	) );
 } /* foreach */
 
 if (empty($searchConditions)) {
 	echo '{"status" : "no searchable fields", "result" : ""}';
-	exit;	
+	exit;
 }
 
 /* there are few collections which are open for public, for rest add organization as conditions */
@@ -151,7 +151,7 @@ if (in_array($urlArgsArray ['c'], array('user', 'person', 'organization', 'item'
 		$id = $_SESSION ['url_domain_org'] ['_id'];
 	} else {
 		$id = '54c27c437f8b9a7a0d074be6'; /* owebp */
-	}		
+	}
 	$isOwnedByCurrentUrlDomain = array (
 			'for_org' => new MongoId ( $id )
 	);
@@ -174,10 +174,13 @@ if (isset($urlArgsArray ['l'])) {
 if (isset($urlArgsArray ['s'])) {
 	$skip = $urlArgsArray ['s'];
 }
+
+print_r($searchConditions);
+
 $findCursor = $_SESSION['mongo_database']
 	->	{$urlArgsArray ['c']}
 	->	find ($searchConditions)
-	->	skip($skip)
+	->	skip ($skip)
 	->	limit ( $limit );
 
 
@@ -185,12 +188,12 @@ $arr = array ();
 foreach ( $findCursor as $doc ) {
 	array_push ( $arr, $doc);
 }
-echo '{"status" : "OK", "result" : ' . json_encode ($arr) 
+echo '{"status" : "OK", "result" : ' . json_encode ($arr)
 	. ', "conditions" : ' . json_encode($searchConditions)
 	. ', "titleFields" : ' . json_encode($tas[1])
 	. ', "detailFields" : ' . json_encode($tas[2])
 	. ', "searchArea" : "' . $classForQuery . '"'
-	
+
 	. "}";
 exit;
 

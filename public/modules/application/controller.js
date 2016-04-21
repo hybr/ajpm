@@ -7,51 +7,51 @@
 
 'use strict';
 
-angular.module('ajpmApp').controller('ApplicationController', 
+angular.module('ajpmApp').controller('ApplicationController',
 	['$scope', '$rootScope', 'AuthService', 'SessionService', 'AUTH_EVENTS', '$state',
 	function($scope, $rootScope, AuthService, SessionService, AUTH_EVENTS, $state){
-	
+
 	$rootScope.nextRequestedStateName =  '';
-	
-	
+
+
 	// this is the parent controller for all controllers.
 	// Manages auth login functions and each controller
-	// inherits from this controller	
-	
+	// inherits from this controller
+
 	$scope.isAuthenticated = AuthService.isAuthenticated();
 	$scope.isAuthorized = AuthService.isAuthorized();
-		
+
 	/**
 	 * If user is logged in then load the userRecord when page is refreshed
 	 */
 	$scope.currentUserEmail = SessionService.getCurrentUserEmail();
-	
+
 	/**
 	 * Main page message functions
 	 */
 	var pageMessages = [];
-	
+
 	$rootScope.pushPageMessage = function(message) {
 		pageMessages.push(message);
 	}
-	
+
 	$rootScope.hasPageMessages = function() {
 		return (pageMessages.length > 0);
 	}
-	
+
 	$rootScope.clearPageMessages = function() {
 		pageMessages = [];
 	}
-	
+
 	$rootScope.getPageMessages = function() {
 		return pageMessages;
 	}
-	
+
 	/**
 	 * Auth events functions
-	 * 
+	 *
 	 */
-	
+
 	var showNotAuthorized = function(){
 		if (AuthService.isAuthenticated) {
 			$rootScope.pushPageMessage("You are not authorized");
@@ -64,15 +64,78 @@ angular.module('ajpmApp').controller('ApplicationController',
 	var loginPass = function() {
 		$state.go($rootScope.nextRequestedStateName);
 	}
-	
+
 	var logoutPass = function() {
 		$state.go('home');
 	}
-	
+
 	/* listen to events of unsuccessful logins, to run the login dialog */
 	$rootScope.$on(AUTH_EVENTS.notAuthorized, showNotAuthorized);
 	$rootScope.$on(AUTH_EVENTS.loginSuccess, loginPass);
 	$rootScope.$on(AUTH_EVENTS.logoutSuccess, logoutPass);
 
+} ]);
+
+angular.module('ajpmApp').controller('JoinController',
+	['$scope', '$rootScope', 'AuthService', 'SessionService', 'AUTH_EVENTS', '$state',
+	function($scope, $rootScope, AuthService, SessionService, AUTH_EVENTS, $state){
+
+	$scope.name = "";
+	$scope.email = "";
+	$scope.pass = "";
+	$scope.repass = "";
+
+	$scope.registernewuser = function() {
+		$rootScope.clearPageMessages();
+		if ($scope.email == "") {
+			$rootScope.pushPageMessage("Please enter an E-Mail Address!");
+		} else {
+			if ($scope.name == "") {
+				$rootScope.pushPageMessage("Please enter your name!");
+			} else {
+				if ($scope.pass == "") {
+					$rootScope.pushPageMessage("Please enter the password!");
+				} else {
+					if ($scope.pass != $scope.repass) {
+						$rootScope.pushPageMessage("Password doesn't match!");
+					} else {
+
+						/*Logic here*/
+
+					}
+				}
+			}
+		}
+	}
+
+	$scope.reset = function() {
+		$scope.name = "";
+		$scope.email = "";
+		$scope.pass = "";
+		$scope.repass = "";
+		$rootScope.clearPageMessages();
+	}
+
+} ]);
+
+angular.module('ajpmApp').controller('ForgotController',
+	['$scope', '$rootScope', 'AuthService', 'SessionService', 'AUTH_EVENTS', '$state',
+	function($scope, $rootScope, AuthService, SessionService, AUTH_EVENTS, $state){
+
+	$scope.email = "";
+
+	$scope.forgot = function() {
+		$rootScope.clearPageMessages();
+		if ($scope.email == "") {
+			$rootScope.pushPageMessage("Please enter an E-Mail Address!");
+		} else {
+
+    }
+  }
+
+	$scope.reset = function() {
+		$scope.email = "";
+		$rootScope.clearPageMessages();
+	}
 
 } ]);

@@ -22,7 +22,7 @@ angular.module('ajpmApp').controller('LoginController',	[
 		$scope.credentials = {};
 		$scope.form_login_s1 = {};
 		$scope.form_login_s2 = {};
-		
+
 		// when the form step s1 is submitted
 		$scope.submit_s1 = function() {
 
@@ -99,6 +99,9 @@ angular.module('ajpmApp').controller('LoginController',	[
 
 		$scope.reset = function() {
 			$scope.credentials.password = '';
+			$scope.credentials.email = '';
+			$scope.email_address = '';
+			$scope.password = '';
 		};
 
 		$scope.register = function() {
@@ -111,7 +114,7 @@ angular.module('ajpmApp').controller('LoginController',	[
 						$('#userLoginModelOne').dialog("close");
 						$('#userLoginModelTwo').dialog("close");
 		}
-		
+
 		$scope.reset();
 
 		// if a session exists for current user (page was refreshed)
