@@ -175,7 +175,6 @@ if (isset($urlArgsArray ['s'])) {
 	$skip = $urlArgsArray ['s'];
 }
 
-print_r($searchConditions);
 
 $findCursor = $_SESSION['mongo_database']
 	->	{$urlArgsArray ['c']}
