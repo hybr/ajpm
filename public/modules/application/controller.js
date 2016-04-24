@@ -139,3 +139,8 @@ angular.module('ajpmApp').controller('ForgotController',
 	}
 
 } ]);
+angular.module('ajpmApp').filter('stripHTML', function() {
+    return function(text) {
+      return String(text).replace(/<[^>]+>/gm, '');
+    }
+  });

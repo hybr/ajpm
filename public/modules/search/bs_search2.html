@@ -7,5 +7,5 @@ Searching <b>{{searchPattern}}</b> ...
 			<b><span><a ui-sref="web_page({ webPageId: '{{record._id.$id}}' })">{{record.title}}</a></span></b>:
 			<span ng-repeat="p in record.paragraph">{{p.content | cutText:true:50:' ... '}}</span>		
 		</div>
-	</li>	
+	</li>
 </ul>

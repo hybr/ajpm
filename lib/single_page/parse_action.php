@@ -39,7 +39,7 @@ if (array_key_exists ( 'path', $urlPartsArray )) {
 				$_SESSION ['LAYOUT_DIR'] = SERVER_SIDE_PUBLIC_DIR . DIRECTORY_SEPARATOR . 'layout/service';
 				$_SESSION['request_type'] = 'service';
 				$w = str_replace('-s-', '', $w);
-			}			
+			}
 			$_SESSION ['url_action'] .= ucfirst ( strtolower ( $w ) );
 		}
 	}
