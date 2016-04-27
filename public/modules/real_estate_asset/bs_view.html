@@ -1,0 +1,22 @@
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <h2>{{doc.type}} Area {{doc.area}} {{doc.area_unit}}</h2>
+    </div>
+</md-toolbar>
+<md-content>
+	<div ng-repeat="price in doc.price">
+		<b>Price {{price.type}} {{price.amount}} {{price.currency}} for {{price.per}} {{price.per_unit}}</b>
+	</div>
+	<ul>
+        <li ng-repeat="room in doc.room">
+		{{room.count}} {{room.type}},  
+		<span ng-if="room.area != ''">{{room.area}} {{room.area_unit}}</span>
+		<ul>
+	        <li ng-repeat="feature in room.accessory">
+			{{feature.count}} {{feature.type}}
+        	</li>
+		</ul>
+        </li>
+	</ul>
+	
+</md-content>

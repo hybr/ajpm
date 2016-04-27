@@ -109,6 +109,7 @@ function isAllowed($moduleNames, $subTask) {
 			
 			'public_item-presentjson-all',
 			'public_webpage-presentjson-all',
+			'public_realestateasset-presentjson-all',
 			
 			'public_user-login-all',
 			'public_contact-presentall-all',

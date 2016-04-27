@@ -12,6 +12,7 @@ class public_RealEstateAsset extends Base {
 			'input_mode' => 'clicking',
 			'show_in_list' => 1,
 			'default' => 'Proposed',
+			'searchable' => 1,
 		),
 		'type' => array (
 			'help' => 'Select the type of real estate',
@@ -21,7 +22,6 @@ class public_RealEstateAsset extends Base {
 			'default' => 'Residential Multiple Family Highrise Flat',
 			'show_in_list' => 1,
 			'searchable' => 1,
-			'searchResultDetail' => 1,
 		),
 		'owner' => array(
 			'type' => 'container',
@@ -56,9 +56,9 @@ class public_RealEstateAsset extends Base {
 			'input_mode' => 'selecting',
 			'default' => 'Square Foot',
 			'show_in_list' => 1,
+			'searchable' => 1,
 		),
 		'contact' => array(
-			'searchResultDetail' => 1,
 			'type' => 'container',
 			'required' => 1,
 			'fields' => array (
@@ -68,7 +68,6 @@ class public_RealEstateAsset extends Base {
 					'foreign_search_fields' => 'location,medium,phone_number,fax_number,pager_number,voip_number,email_address,city,pin_or_zip,area,street,home_or_building',
 					'foreign_title_fields' => 'location,medium,phone_number,fax_number,pager_number,voip_number,email_address,city,pin_or_zip,area,street,home_or_building',
 					'searchable' => 1,
-					'searchResultDetail' => 1,
 				)
 			),
 		),			
@@ -120,29 +119,31 @@ class public_RealEstateAsset extends Base {
 			),
 		),
 		'feature' => array(
-				'type' => 'container',
-				'fields' => array (
-						'name' => array (
-								'help' => 'Select the accessory installed',
-								'type' => 'foreign_key',
-								'foreign_collection' => 'real_estate_accessory',
-								'foreign_search_fields' => 'title,detail',
-								'foreign_title_fields' => 'title',
-								'required' => 1,
-								'searchable' => 1,
-						),
-						'count' => array (
-								'type' => 'number' ,
-								'required' => 1,
-						),
-		
+			'type' => 'container',
+			'fields' => array (
+				'name' => array (
+					'help' => 'Select the accessory installed',
+					'type' => 'foreign_key',
+					'foreign_collection' => 'real_estate_accessory',
+					'foreign_search_fields' => 'title,detail',
+					'foreign_title_fields' => 'title',
+					'required' => 1,
+					'searchable' => 1,
 				),
+				'count' => array (
+					'type' => 'number' ,
+					'required' => 1,
+				),
+	
+			),
 		),
 		'photo' => array (
 			'type' => 'container',
 			'show_in_list' => 0,
 			'fields' => array (
-				'caption' => array (),
+				'caption' => array (
+					'searchable' => 1,
+				),
 				'file_name' => array (
 					'type' => 'file_list',
 					'required' => 1,
@@ -158,12 +159,16 @@ class public_RealEstateAsset extends Base {
 			'type' => 'container',
 			'show_in_list' => 0,
 			'fields' => array (
-				'caption' => array (),
+				'caption' => array (
+					'searchable' => 1,
+				),
 				'file_name' => array (
 					'type' => 'file_list',
+					'searchable' => 1,
 					'required' => 1
 				),
 				'click_link_url' => array (
+					'searchable' => 1,
 					'type' => 'url'
 				)
 			)
@@ -191,6 +196,7 @@ class public_RealEstateAsset extends Base {
 				),
 				'amount' => array (
 					'type' => 'number',
+					'searchable' => 1,
 					'required' => 1
 				),
 				'currency' => array (
@@ -215,15 +221,15 @@ class public_RealEstateAsset extends Base {
 			'show_in_list' => 0,
 			'fields' => array (
 				'every' => array (
-						'type' => 'number' ,
-						'required' => 1,
+					'type' => 'number' ,
+					'required' => 1,
 				),
 				'frequency' => array (
-						'type' => 'list',
-						'list_class' => 'TimeRepeatFrequency',
-						'input_mode' => 'selecting',
-						'default' => 'Day',
-						'required' => 1,
+					'type' => 'list',
+					'list_class' => 'TimeRepeatFrequency',
+					'input_mode' => 'selecting',
+					'default' => 'Day',
+					'required' => 1,
 				),
 				'start_date' => array (
 					'type' => 'date' ,
@@ -266,6 +272,7 @@ class public_RealEstateAsset extends Base {
 					'required' => 1,
 				),
 				'condition' => array (
+					'searchable' => 1,
 					'required' => 1,
 				),
 			)

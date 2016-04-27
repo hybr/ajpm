@@ -71,44 +71,6 @@
         <div class="footer">
             <div class="container">
                 <div class="row">
-                    <div class="threeBoxes">
-                        <ul>
-                            <li class="col-lg-4 col-sm-4">
-                                <div class="pic"><img src="layout/web/ji.owebp.com/images/box-icon.png"> </div>
-                                <div class="detail">
-                                    <h4>
-                                    ASSOCIATE PARTNERS</h5>
-                                    <p>Lorem Ipsum is simply dummy 
-                                        typesetting industry. 
-                                    </p>
-                                    <a href="">VIEW MORE <i class="fa fa-chevron-right"></i></a>
-                                </div>
-                            </li>
-                            <li class="col-lg-4 col-sm-4">
-                                <div class="pic"><img src="layout/web/ji.owebp.com/images/box-icon.png"> </div>
-                                <div class="detail">
-                                    <h4>
-                                    ASSOCIATE PARTNERS</h5>
-                                    <p>Lorem Ipsum is simply dummy 
-                                        typesetting industry. 
-                                    </p>
-                                    <a href="">VIEW MORE <i class="fa fa-chevron-right"></i></a>
-                                </div>
-                            </li>
-                            <li class="col-lg-4 col-sm-4">
-                                <div class="pic"><img src="layout/web/ji.owebp.com/images/box-icon.png"> </div>
-                                <div class="detail">
-                                    <h4>
-                                    ASSOCIATE PARTNERS</h5>
-                                    <p>Lorem Ipsum is simply dummy 
-                                        typesetting industry. 
-                                    </p>
-                                    <a href="">VIEW MORE <i class="fa fa-chevron-right"></i></a>
-                                </div>
-                            </li>
-                        </ul>
-                        <div class="clearfix"></div>
-                    </div>
                     <div class="footer-link">
                         <div class="col-lg-6 col-sm-6 quick-link">
                             <h4>Quick <span>Link</span></h4>

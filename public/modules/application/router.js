@@ -69,6 +69,10 @@ angular.module('ajpmApp').config(['$stateProvider', '$urlRouterProvider', 'USER_
 		url : "/item/:itemId",
 		templateUrl : "modules/item/"+viewType+"view.html",
 		controller : 'ItemController'			
+	}).state('real_estate_asset', {
+		url : "/real_estate_asset/:realEstateAssetId",
+		templateUrl : "modules/real_estate_asset/"+viewType+"view.html",
+		controller : 'realEstateAssetController'
 	}).state('admin_dashboard', {
 		url : "/admin_dashboard",
 		templateUrl : "modules/admin_dashboard/"+viewType+"view.html",
