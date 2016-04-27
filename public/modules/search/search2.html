@@ -4,12 +4,20 @@
     </div>
 </md-toolbar>
 <md-content>
-    <ul ng-repeat="record in response.data.result">
-        <li>
-            <div ng-if="response.data.searchArea = 'public_WebPage'">
-                <b><span><a ui-sref="web_page({ webPageId: '{{record._id.$id}}' })">{{record.title}}</a></span></b>:
-                <span ng-repeat="p in record.paragraph">{{p.content | cutText:true:50:' ... '}}</span>
-            </div>
+	<ul>
+        <li ng-repeat="sa in response.data.searchAreas">{{(sa.split('_')).join(' ')}}
+		<ul>
+    		<div ng-repeat="doc in response.data.result">
+			<li ng-if="doc['collection_name'] == 'web_page' && doc['collection_name'] == sa">
+		                <b><span><a ui-sref="web_page({ webPageId: '{{doc._id.$id}}' })">{{doc.title}}</a></span></b>:
+               			 <span ng-repeat="p in doc.paragraph">{{p.content | cutText:true:50:' ... '}}</span>
+			</li>
+			<li ng-if="doc['collection_name'] == 'real_estate_asset' && doc['collection_name'] == sa">
+		                <b><span><a ui-sref="real_estate_asset({ realEstateAssetId: '{{doc._id.$id}}' })">{{doc.type}}</a></span></b>:
+               			Area {{doc.area }} {{doc.area_unit}}, Parts {{doc.room.length}}
+			</li>
+		</div>
+		</ul>
         </li>
-    </ul>
+	</ul>
 </md-content>

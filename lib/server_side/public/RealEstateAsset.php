@@ -7,11 +7,11 @@ class public_RealEstateAsset extends Base {
 	} /* __construct */
 	public $fields = array (
 		'live' => array (
-				'type' => 'list',
-				'list_class' => 'ItemLiveType',
-				'input_mode' => 'clicking',
-				'show_in_list' => 1,
-				'default' => 'Proposed',
+			'type' => 'list',
+			'list_class' => 'ItemLiveType',
+			'input_mode' => 'clicking',
+			'show_in_list' => 1,
+			'default' => 'Proposed',
 		),
 		'type' => array (
 			'help' => 'Select the type of real estate',
@@ -21,102 +21,103 @@ class public_RealEstateAsset extends Base {
 			'default' => 'Residential Multiple Family Highrise Flat',
 			'show_in_list' => 1,
 			'searchable' => 1,
+			'searchResultDetail' => 1,
 		),
 		'owner' => array(
-				'type' => 'container',
-				'fields' => array (
-					'name' => array (
-							'type' => 'foreign_key',
-							'foreign_collection' => 'person',
-							'foreign_search_fields' => 'name.first,name.middle,name.last',
-							'foreign_title_fields' => 'name,gender',
-							'required' => 1,
-							'searchable' => 1,
-					),	
-					'signatory' => array (
-							'help' => 'Select true if signature required',
-							'type' => 'list',
-							'list_class' => 'Boolean',
-							'input_mode' => 'clicking',
-							'default' => 'True',
-							'required' => 1,
-					),
+			'type' => 'container',
+			'fields' => array (
+				'name' => array (
+					'type' => 'foreign_key',
+					'foreign_collection' => 'person',
+					'foreign_search_fields' => 'name.first,name.middle,name.last',
+					'foreign_title_fields' => 'name,gender',
+					'required' => 1,
+					'searchable' => 1,
+				),	
+				'signatory' => array (
+					'help' => 'Select true if signature required',
+					'type' => 'list',
+					'list_class' => 'Boolean',
+					'input_mode' => 'clicking',
+					'default' => 'True',
+					'required' => 1,
 				),
+			),
 		),			
-		
 		'area' => array (
-				'type' => 'string',
-				'show_in_list' => 1,
-				'searchable' => 1,
+			'type' => 'string',
+			'show_in_list' => 1,
+			'searchable' => 1,
 		),
 		'area_unit' => array (
-				'help' => 'Select the unit of real estate area',
-				'type' => 'list',
-				'list_class' => 'AreaUnit',
-				'input_mode' => 'selecting',
-				'default' => 'Square Foot',
-				'show_in_list' => 1,
+			'help' => 'Select the unit of real estate area',
+			'type' => 'list',
+			'list_class' => 'AreaUnit',
+			'input_mode' => 'selecting',
+			'default' => 'Square Foot',
+			'show_in_list' => 1,
 		),
 		'contact' => array(
-				'type' => 'container',
-				'required' => 1,
-				'fields' => array (
-						'contact' => array (
-								'type' => 'foreign_key',
-								'foreign_collection' => 'contact',
-								'foreign_search_fields' => 'location,medium,phone_number,fax_number,pager_number,voip_number,email_address,city,pin_or_zip,area,street,home_or_building',
-								'foreign_title_fields' => 'location,medium,phone_number,fax_number,pager_number,voip_number,email_address,city,pin_or_zip,area,street,home_or_building',
-								'searchable' => 1,
-						)
-				),
+			'searchResultDetail' => 1,
+			'type' => 'container',
+			'required' => 1,
+			'fields' => array (
+				'contact' => array (
+					'type' => 'foreign_key',
+					'foreign_collection' => 'contact',
+					'foreign_search_fields' => 'location,medium,phone_number,fax_number,pager_number,voip_number,email_address,city,pin_or_zip,area,street,home_or_building',
+					'foreign_title_fields' => 'location,medium,phone_number,fax_number,pager_number,voip_number,email_address,city,pin_or_zip,area,street,home_or_building',
+					'searchable' => 1,
+					'searchResultDetail' => 1,
+				)
+			),
 		),			
 		'room' => array(
-				'type' => 'container',
-				'required' => 1,
-				'fields' => array (
-						'type' => array (
-								'help' => 'Select the room type of real estate',
-								'type' => 'list',
-								'list_class' => 'RealEstateRoomType',
-								'input_mode' => 'selecting',
-								'default' => 'Kitchen',
-								'required' => 1,
-								'searchable' => 1
+			'type' => 'container',
+			'required' => 1,
+			'fields' => array (
+				'type' => array (
+					'help' => 'Select the room type of real estate',
+					'type' => 'list',
+					'list_class' => 'RealEstateRoomType',
+					'input_mode' => 'selecting',
+					'default' => 'Kitchen',
+					'required' => 1,
+					'searchable' => 1
+				),
+				'count' => array (
+					'type' => 'number' ,
+					'required' => 1,
+				),
+				'area' => array (
+					'type' => 'string',
+				),
+				'area_unit' => array (
+					'help' => 'Select the unit of real estate area',
+					'type' => 'list',
+					'list_class' => 'AreaUnit',
+					'input_mode' => 'selecting',
+					'default' => 'Square Foot',
+				),
+				'accessory' => array(
+					'type' => 'container',
+					'fields' => array (
+						'name' => array (
+							'help' => 'Select the accessory installed',
+							'type' => 'foreign_key',
+							'foreign_collection' => 'real_estate_accessory',
+							'foreign_search_fields' => 'title,detail',
+							'foreign_title_fields' => 'title',
+							'required' => 1,
+							'searchable' => 1,
 						),
 						'count' => array (
-								'type' => 'number' ,
-								'required' => 1,
+							'type' => 'number' ,
+							'required' => 1,
 						),
-						'area' => array (
-								'type' => 'string',
-						),
-						'area_unit' => array (
-								'help' => 'Select the unit of real estate area',
-								'type' => 'list',
-								'list_class' => 'AreaUnit',
-								'input_mode' => 'selecting',
-								'default' => 'Square Foot',
-						),
-						'accessory' => array(
-								'type' => 'container',
-								'fields' => array (
-										'name' => array (
-												'help' => 'Select the accessory installed',
-												'type' => 'foreign_key',
-												'foreign_collection' => 'real_estate_accessory',
-												'foreign_search_fields' => 'title,detail',
-												'foreign_title_fields' => 'title',
-												'required' => 1,
-												'searchable' => 1,
-										),
-										'count' => array (
-												'type' => 'number' ,
-												'required' => 1,
-										),
-				
-								),
-						),					
-				),
+					),
+				),					
+			),
 		),
 		'feature' => array(
 				'type' => 'container',

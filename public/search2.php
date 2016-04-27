@@ -178,7 +178,8 @@ function searchInOneTable($collectionName = 'web_site', $patternToSearch) {
 				->skip($skip)
 				->limit ( $limit );
 			foreach ( $findCursor as $doc ) {
-				array_push ( $arr, $doc);
+				$doc['collection_name'] = $collectionName;
+				array_push ($arr, $doc);
 			}
 		}
 	} catch (MongoCursorException $e) {
@@ -189,7 +190,9 @@ function searchInOneTable($collectionName = 'web_site', $patternToSearch) {
 	return $arr;
 } /* function searchInOneTable($collectionName = 'web_site') { */
 
+$searchAreas = array();
 function searchInAllTables($patternToSearch) {
+	global $searchAreas;
 	$arr = array();
 	$tables = array( 'web_page', 'contact', 'item', 'item_catalog', 'person', 'real_estate_asset');
         foreach ($tables as $collectionName ) {
@@ -197,7 +200,11 @@ function searchInAllTables($patternToSearch) {
                          continue;
                 }
 
-		$arr = array_merge($arr,searchInOneTable($collectionName, $patternToSearch));
+		$searchResult = searchInOneTable($collectionName, $patternToSearch);
+		if (!empty($searchResult)){
+			$arr = array_merge($arr, $searchResult);
+			array_push($searchAreas, $collectionName);
+		}
 	}
 	return $arr;
 }
@@ -206,7 +213,11 @@ if (!isset($urlArgsArray ['p']) || $urlArgsArray ['p'] == '') {
 	echo '{"status" : "pattern to search is missing", "result" : ""}';
 	exit;
 }
-echo '{"status" : "OK", "result" : ' . json_encode (searchInAllTables($urlArgsArray ['p'])) . "}";
+echo '{"status" : "OK", "result" : ' 
+	. json_encode (searchInAllTables($urlArgsArray ['p'])) 
+	. ', "searchAreas" : ' .  json_encode($searchAreas) 
+	. ', "errorMessage" : "' . $errorMessage . '"'
+	. "}";
 
 /*
 echo '{"status" : "OK"'
