@@ -21,3 +21,7 @@
 <?php if(file_exists(dirname(__FILE__) . '/../_head_links.php')) {
 	include dirname(__FILE__) . '/../_head_links.php'; 
 } ?>
+
+<style>
+v { border: 2px solid red; }
+</style>
