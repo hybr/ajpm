@@ -24,15 +24,16 @@ class Form_Field_Checkboxes extends Root {
 		/* option are content  of select tag */
 		$selectOptionsList = '';
 		$currentValue = $this->getOption('value');
+		$i = 0;
                 foreach ( $dataClassInstance->getTable () as $r ) {
 			$checked = '';
-                        if ($r['value'] == $currentValue) {
+			if (in_array($r['value'], $currentValue)) {
                                 $checked = 'checked';
                         }
 			$oneBox = '<label>';
 			$input = new Html_Input(array(
 				'type' => 'checkbox',
-				'name' => $this->getOption('name') . '[]',
+				'name' => $this->getOption('name') . '['.$i.']',
 				'content' => $r['value'],
 				'checked' => $checked,
 			));
@@ -41,6 +42,7 @@ class Form_Field_Checkboxes extends Root {
 			$oneBox .= $r['title'];
 			$oneBox .= '</label>';
 			$selectOptionsList .= $oneBox;
+			$i = $i + 1;
                 } /* foreach ( $dataClassInstance->getTable () as $r ) */
 
 		/* return with cover */

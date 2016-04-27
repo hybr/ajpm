@@ -6,12 +6,13 @@ class public_OrganizationRole extends Base {
 	} /* __construct */
 	public $fields = array (
 			'abbreviation' => array (
+					'help' => 'Code of organization role',
 					'type' => 'string',
 					'show_in_list' => 1 
 			),
 			'name' => array (
 					'type' => 'string',
-					'help' => 'Name of the organization position',
+					'help' => 'Name of the organization role',
 					'show_in_list' => 1,
 					'required' => 1 
 			),

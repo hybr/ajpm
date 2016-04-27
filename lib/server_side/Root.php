@@ -59,14 +59,13 @@ class Root {
 					$inputType = 'checkbox';
 				}
 				$retStr .= '<input type="' . $inputType . '"'
-						.' id="'.$id.'"'
-								.' name="'.$this->getOption( 'name' ).'"'
-				    		.' value="'. $record['id'] .'" '
-				    				. $checked
-				    				.' />';
+					.' id="'.$id.'"'
+					.' name="'.$this->getOption( 'name' ).'"'
+			    		.' value="'. $record['id'] .'" '
+	    				. $checked
+	    				.' />';
 				 
-				$retStr .= '<label for="'.$id.'">'
-						.$record['text'].'</label>';
+				$retStr .= '<label for="'.$id.'">'.$record['text'].'</label>';
 					
 				$childsText = $this->createTreeView ($array, $record['id'], $currLevel+1);
 				 

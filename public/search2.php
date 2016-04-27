@@ -50,38 +50,14 @@ if (array_key_exists ( 'query', $urlPartsArray )) {
 	parse_str ( $urlPartsArray ['query'], $urlArgsArray );
 }
 
-if (!isset($urlArgsArray ['p']) || $urlArgsArray ['p'] == '') {
-	echo '{"status" : "pattern to search is missing", "result" : ""}';
-	exit;
-}
 
-$classForQuery = 'public_';
-if(!isset($urlArgsArray ['c'])) {
-	/* default area to search */
-	$urlArgsArray ['c'] = 'web_page';
-}
-foreach ( split('_', $urlArgsArray ['c']) as $w ) {
-	$classForQuery .= ucfirst ( strtolower ( $w ) );
-}
-$actionInstance = new $classForQuery();
-if (!isAllowed(array($actionInstance->myModuleName()), $_SESSION['url_sub_task'])) {
-	echo '{"status" : "No Access to "'
-		. $_SESSION['url_task'] . '/'
-		. $_SESSION['url_sub_task']
-		. ', "result" : ""}';
-	exit;
-	return;
-}
-
-$searchResultTitleFieldNames = array();
-$searchResultDetailFieldNames = array();
 
 /* find 'searchable' => 1 fields */
 function getSerchableFieldList ($fields, $parentFieldName = '' ) {
 	$fieldsList = array();
 	$searchResultTitleFieldNames = array();
 	$searchResultDetailFieldNames = array();
-
+		
 	foreach ($fields as $fieldName => $fieldAttributes) {
 		if (isset($fieldAttributes['type']) && $fieldAttributes['type'] == 'container') {
 			$tas = getSerchableFieldList($fieldAttributes['fields'], $fieldName);
@@ -109,91 +85,140 @@ function getSerchableFieldList ($fields, $parentFieldName = '' ) {
 				} else {
 					array_push($searchResultDetailFieldNames, $parentFieldName . '.' . $fieldName);
 				}
-			}
+			}			
 		}
 	}
 	return array($fieldsList, $searchResultTitleFieldNames, $searchResultDetailFieldNames);
-}
+} /* function getSerchableFieldList ($fields, $parentFieldName = '' ) */
 
 
+function getSearchConditionsForOneCollection($collectionName,$patternToSearch) {
 
-/* if request is for businesses then show the businesses user owners */
-/* search fields */
-$arr = array ();
-$condition = array ();
-$jsConf = '';
-$searchConditions = array ();
-
-/* create search conditions array  sf = search field */
-$tas =  getSerchableFieldList($actionInstance->fields);
-foreach ( $tas[0] as $sf ) {
-	array_push ( $searchConditions, array (
-			$sf => array (
-					'$regex' => new MongoRegex ( '/' . $urlArgsArray ['p'] . '/i' )
-			)
-	) );
-} /* foreach */
-
-if (empty($searchConditions)) {
-	echo '{"status" : "no searchable fields", "result" : ""}';
-	exit;
-}
-
-/* there are few collections which are open for public, for rest add organization as conditions */
-if (in_array($urlArgsArray ['c'], array('user', 'person', 'organization', 'item'))) {
-	/* for public */
-	$searchConditions = array(
-		'$or' => $searchConditions
-	);
-} else {
-	$id = '';
-	if (isset($_SESSION ['url_domain_org']) && isset ( $_SESSION ['url_domain_org'] ['_id'] )) {
-		$id = $_SESSION ['url_domain_org'] ['_id'];
-	} else {
-		$id = '54c27c437f8b9a7a0d074be6'; /* owebp */
+	/* create instance of the table to search */
+	$classForQuery = 'public_';
+	foreach ( split('_', $collectionName) as $w ) {
+		$classForQuery .= ucfirst ( strtolower ( $w ) );			
 	}
-	$isOwnedByCurrentUrlDomain = array (
-			'for_org' => new MongoId ( $id )
-	);
-	/* specific to the domain */
-	$searchConditions = array(
+	$actionInstance = new $classForQuery();
+
+	if (!isAllowed(array($actionInstance->myModuleName()), $_SESSION['url_sub_task'])) {
+		/*
+		echo '{"status" : "No Access to "' 
+			. $_SESSION['url_task'] . '/' 
+			. $_SESSION['url_sub_task'] 
+			. ', "result" : ""}';
+		*/
+		return array();
+	}
+
+	/* get a list of fields to search */
+	$tas =  getSerchableFieldList($actionInstance->fields);
+
+	/* create search conditions array  sf = search field */
+	$searchConditions = array ();
+	foreach ( $tas[0] as $sf ) {
+		array_push ( $searchConditions, array (
+			$sf => array (
+					'$regex' => new MongoRegex ( '/' . $patternToSearch . '/i' ) 
+			) 
+		));
+	}
+
+	if (empty($searchConditions)) {
+		return array();
+	}
+	/* there are few collections which are open for public, for rest add organization as conditions */
+	if (in_array($collectionName, array('user', 'person', 'organization', 'item'))) {
+		/* for public */
+		$searchConditions = array(
+			'$or' => $searchConditions
+		);
+	} else {
+		$id = '';
+		if (isset($_SESSION ['url_domain_org']) && isset ( $_SESSION ['url_domain_org'] ['_id'] )) {
+			$id = $_SESSION ['url_domain_org'] ['_id'];
+		} else {
+			$id = '54c27c437f8b9a7a0d074be6'; /* owebp */
+		}		
+		$isOwnedByCurrentUrlDomain = array (
+				'for_org' => new MongoId ( $id )
+		);
+		/* specific to the domain */
+		$searchConditions = array(
 			'$and' => array(
 					$isOwnedByCurrentUrlDomain,
 					array(
 						'$or' => $searchConditions
 					)
 			)
-	);
+		);
+	}
+
+	return $searchConditions;
+} /* function getSearchConditionsForOneCollection($collectionName,$patternToSearch) */
+
+
+function searchInOneTable($collectionName = 'web_site', $patternToSearch) {
+	$arr = array();
+	$limit = 10;
+	$skip = 0;
+	$errorMessage = '';
+	if (isset($urlArgsArray ['l'])) {
+		$limit = $urlArgsArray ['l'];
+	}
+	if (isset($urlArgsArray ['s'])) {
+		$skip = $urlArgsArray ['s'];
+	}
+	try {
+		$conditions = getSearchConditionsForOneCollection($collectionName, $patternToSearch);
+		if (!empty($conditions)) {
+			$findCursor = $_SESSION['mongo_database']
+				->{$collectionName}
+				->find ($conditions)
+				->skip($skip)
+				->limit ( $limit );
+			foreach ( $findCursor as $doc ) {
+				array_push ( $arr, $doc);
+			}
+		}
+	} catch (MongoCursorException $e) {
+		$errorMessage = $e->getMessage();
+	}
+
+
+	return $arr;
+} /* function searchInOneTable($collectionName = 'web_site') { */
+
+function searchInAllTables($patternToSearch) {
+	$arr = array();
+	$tables = array( 'web_page', 'contact', 'item', 'item_catalog', 'person', 'real_estate_asset');
+        foreach ($tables as $collectionName ) {
+                if (!validDatabaseCollection($collectionName)) {
+                         continue;
+                }
+
+		$arr = array_merge($arr,searchInOneTable($collectionName, $patternToSearch));
+	}
+	return $arr;
 }
 
-$limit = 10;
-$skip = 0;
-if (isset($urlArgsArray ['l'])) {
-	$limit = $urlArgsArray ['l'];
+if (!isset($urlArgsArray ['p']) || $urlArgsArray ['p'] == '') {
+	echo '{"status" : "pattern to search is missing", "result" : ""}';
+	exit;
 }
-if (isset($urlArgsArray ['s'])) {
-	$skip = $urlArgsArray ['s'];
-}
+echo '{"status" : "OK", "result" : ' . json_encode (searchInAllTables($urlArgsArray ['p'])) . "}";
 
-
-$findCursor = $_SESSION['mongo_database']
-	->	{$urlArgsArray ['c']}
-	->	find ($searchConditions)
-	->	skip ($skip)
-	->	limit ( $limit );
-
-
-$arr = array ();
-foreach ( $findCursor as $doc ) {
-	array_push ( $arr, $doc);
-}
-echo '{"status" : "OK", "result" : ' . json_encode ($arr)
+/*
+echo '{"status" : "OK"'
+	. ', "result" : ' . json_encode (searchInAllTables())
 	. ', "conditions" : ' . json_encode($searchConditions)
 	. ', "titleFields" : ' . json_encode($tas[1])
 	. ', "detailFields" : ' . json_encode($tas[2])
 	. ', "searchArea" : "' . $classForQuery . '"'
-
+	. ', "errorMessage" : "' . $errorMessage . '"'
 	. "}";
+*/
+
 exit;
 
 ?>

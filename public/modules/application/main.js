@@ -11,11 +11,19 @@ ajpmApp.config([ '$httpProvider', function($httpProvider) {
 } ]);
 
 ajpmApp.config(function($mdThemingProvider) {
-	$mdThemingProvider.theme('newTheme').primaryPalette('indigo');
-	$mdThemingProvider.theme('newTheme').accentPalette('brown');
-	$mdThemingProvider.theme('newTheme').warnPalette('orange');
-	$mdThemingProvider.theme('newTheme').backgroundPalette('amber');
-	
+	var colors = _theme_2.split("_");
+	if(typeof colors[0] === 'undefined') colors[0] = 'indigo';
+	if(typeof colors[1] === 'undefined') colors[1] = 'brown';
+	if(typeof colors[2] === 'undefined') colors[2] = 'orange';
+	if(typeof colors[3] === 'undefined') colors[3] = 'amber';
+	if(typeof colors[4] === 'undefined') colors[4] = '';
+	$mdThemingProvider.theme('newTheme').primaryPalette(colors[0]);
+	$mdThemingProvider.theme('newTheme').accentPalette(colors[1]);
+	$mdThemingProvider.theme('newTheme').warnPalette(colors[2]);
+	$mdThemingProvider.theme('newTheme').backgroundPalette(colors[3]);
+	if (colors[4] == 'dark') {
+		$mdThemingProvider.theme('newTheme').dark();
+	}
 	$mdThemingProvider.setDefaultTheme('newTheme');
 });
 

@@ -6,6 +6,7 @@ class public_organizationWorkingSeat extends Base {
 	} /* __construct */
 	public $fields = array (
 		'building' => array (
+			'help' => 'Buildng where working seat is located',
 			'type' => 'foreign_key',
 			'foreign_collection' => 'organization_building',
 			'foreign_search_fields' => 'code,name',

@@ -1,11 +1,15 @@
-Searching <b>{{searchPattern}}</b> ...
-
-<div ng-show="response.data.result.length <=0">No result found</div>
-<ul ng-repeat="record in response.data.result">
-	<li>
-		<div ng-if="response.data.searchArea = 'public_WebPage'">
-			<b><span><a ui-sref="web_page({ webPageId: '{{record._id.$id}}' })">{{record.title}}</a></span></b>:
-			<span ng-repeat="p in record.paragraph">{{p.content | cutText:true:50:' ... '}}</span>		
-		</div>
-	</li>
-</ul>
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <h2>Searching <b>{{searchPattern}}</b></h2>
+    </div>
+</md-toolbar>
+<md-content>
+    <ul ng-repeat="record in response.data.result">
+        <li>
+            <div ng-if="response.data.searchArea = 'public_WebPage'">
+                <b><span><a ui-sref="web_page({ webPageId: '{{record._id.$id}}' })">{{record.title}}</a></span></b>:
+                <span ng-repeat="p in record.paragraph">{{p.content | cutText:true:50:' ... '}}</span>
+            </div>
+        </li>
+    </ul>
+</md-content>

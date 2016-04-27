@@ -5,22 +5,24 @@ class public_organizationBranch extends Base {
 		$this->collectionName = 'organization_branch';
 	} /* __construct */
 	public $fields = array (
-			'organization' => array (
-					'type' => 'foreign_key',
-					'foreign_collection' => 'organization',
-					'foreign_search_fields' => 'abbreviation,name',
-					'foreign_title_fields' => 'abbreviation,name' 
-			),
-			'code' => array (
-					'type' => 'string',
-					'show_in_list' => 1,
-					'required' => 1 
-			),
-			'name' => array (
-					'type' => 'string',
-					'help' => 'Name of the organization branch',
-					'show_in_list' => 1 
-			)
+		'organization' => array (
+			'help' => 'The organization to which this branch belongs to',
+			'type' => 'foreign_key',
+			'foreign_collection' => 'organization',
+			'foreign_search_fields' => 'abbreviation,name',
+			'foreign_title_fields' => 'abbreviation,name' 
+		),
+		'code' => array (
+			'type' => 'string',
+			'help' => 'Code of this organization branch',
+			'show_in_list' => 1,
+			'required' => 1 
+		),
+		'name' => array (
+			'type' => 'string',
+			'help' => 'Name of this organization branch',
+			'show_in_list' => 1 
+		)
 	); /* fields */
 	public function presentDocument($subTaskKeyToSave, $fields, $doc) {
 		$rStr = '';

@@ -6,6 +6,7 @@ class public_OrganizationTeam extends Base {
 	} /* __construct */
 	public $fields = array (
 		'abbreviation' => array (
+			'help' => 'Code of the organization team',
 			'type' => 'string',
 			'show_in_list' => 1,
 		),
@@ -17,12 +18,14 @@ class public_OrganizationTeam extends Base {
 		),
 		'about' => array(),
 		'parent_team' => array (
+			'help' => 'This organization team is part of which other team',
 			'type' => 'foreign_key',
 			'foreign_collection' => 'organization_team',
 			'foreign_search_fields' => 'abbreviation,name',
 			'foreign_title_fields' => 'abbreviation,name'
 		),
 		'photo' => array (
+			'help' => 'This organization team photos',
 			'type' => 'container',
 			'show_in_list' => 0,
 			'fields' => array (

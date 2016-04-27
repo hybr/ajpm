@@ -7,7 +7,7 @@ class public_OrganizationTeamMemberLevel extends Base {
 	public $fields = array (
 		'name' => array (
 			'type' => 'string',
-			'help' => 'Level of member in the team',
+			'help' => 'Name of member level in the team',
 			'show_in_list' => 1,
 			'required' => 1
 		) 

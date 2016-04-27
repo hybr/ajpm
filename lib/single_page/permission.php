@@ -82,6 +82,7 @@ function isAllowed($moduleNames, $subTask) {
 		. '-' . strtolower ( $_SESSION ['url_sub_task'] );
 
 	if (in_array ( $task, array (
+			'public_database_domain-present-all',
 			'public_user-login-all',
 			
 			'public_checkuser-exsistance-all',
@@ -109,7 +110,8 @@ function isAllowed($moduleNames, $subTask) {
 			'public_item-presentjson-all',
 			'public_webpage-presentjson-all',
 			
-			'public_user-login-all','public_contact-presentall-all',
+			'public_user-login-all',
+			'public_contact-presentall-all',
 			'public_organization-clients-all',
 			'public_familytree-presentall-all',
 			'public_familytree-present-all',

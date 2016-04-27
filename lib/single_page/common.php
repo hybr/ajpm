@@ -44,4 +44,50 @@ function getParamValue($key, $args) {
 	if (isset($args [$key])) return $args [$key];
 	return null;
 }
+
+function validDatabaseDomain($databaseDomainDoc) {
+        if ($databaseDomainDoc['mandatory'] == 'True') {
+                return true;
+        }
+        foreach ($_SESSION['mongo_database']->organization_database_domain->find() as $allowedDomain ) {
+                if ( (string) $allowedDomain['organization'] == (string) $_SESSION ['url_domain_org']['_id']
+                        && (string) $allowedDomain['domain'] == (string) $databaseDomainDoc['_id']
+                ) {
+                        return  true;
+                }
+        }
+}
+
+
+function validDatabaseCollection ($collectionName) {
+
+	/* get the record of the collection */
+	$databaseCollectionDoc = $_SESSION ['mongo_database']->database_collection->findOne ( array (
+		'name' => $collectionName
+        ) );
+
+	if (empty($databaseCollectionDoc)) {
+		/* no such collection exists */
+		return false;
+	}
+
+
+	foreach( $databaseCollectionDoc['domain'] as $assignedDatabaseDomain) {
+
+		/* find the database_domain record for the assigned database domains */
+ 		$databaseDomainDoc = $_SESSION ['mongo_database']->database_domain->findOne ( array (
+			'_id' => new MongoId((string)(trim($assignedDatabaseDomain['name'])))
+                ) );
+
+		if (empty($databaseDomainDoc)) {
+			/* assigned domain does not exists */
+			return false;
+		}
+
+		return validDatabaseDomain($databaseDomainDoc);
+	} /* foreach( $databaseCollectionDoc['domain'] as $assignedDatabaseDomain) */
+
+
+	return false;
+} /* function validDatabaseCollection */
 ?>

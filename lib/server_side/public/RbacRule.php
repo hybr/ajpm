@@ -6,11 +6,12 @@ class public_RbacRule extends Base {
 	} /* __construct */
 	public $fields = array (
 			'module' => array (
-					'type' => 'list',
-					'list_class' => 'OwebpModule',
-					'input_mode' => 'selecting',
+					'type' => 'foreign_key',
+					'foreign_collection' => 'database_domain',
+					'foreign_search_fields' => 'name',
+					'foreign_title_fields' => 'name',
 					'show_in_list' => 1,
-					'default' => 'All'
+					'required' => 1 
 			),
 			'organization_role' => array (
 					'type' => 'foreign_key',

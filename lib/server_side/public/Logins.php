@@ -13,7 +13,7 @@ class public_Logins extends Base {
 			'show_in_list' => 1 
 		),
 		'session_id' => array (
-			'type' => 'text',
+			'type' => 'string',
 			'placeholder' => 'Browser session id',
 			'required' => 1
 		)

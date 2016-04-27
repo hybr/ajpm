@@ -2,28 +2,40 @@
 
 /**
  * Function to create the menu HTML code
- * @param string $parent first menu record
+ * @param string $parent first menu document
  * @return string HTML ul list of the menu
  */
-function getMenu($parent = 'All') {
-	$module = new OwebpModule ();
+
+/* find id of All domain */
+
+
+function getMenu($parent = '571f91cba934995b1b9af90d') {
+
 	$rStr = '';
-	if ($parent == 'All') {
+	if ($parent == '571f91cba934995b1b9af90d') {
 		$rStr .= '<ul>';
 	}
-	foreach ( $module->table as $record ) {
-		if ($record ['parent'] == $parent) {
-			$rStr .= '<li>' . $record ['value'];
+	foreach ($_SESSION['mongo_database']->database_domain->find() as $databaseDomain ) {
+		if (!validDatabaseDomain($databaseDomain)) {
+			 continue;
+		}
+		if ( (string) $databaseDomain ['parent_domain'] == $parent) {
+			$rStr .= '<li>' . $databaseDomain ['name'] ;
 			$rStr .= '<ul>';
-			foreach ( $record ['collections'] as $collection ) {
-				$rStr .= '<li><a href="/-a-' . $collection . '">' . ucwords ( join ( ' ', split ( '_', $collection ) ) ) . '</a></li>';
+			foreach ($_SESSION['mongo_database']->database_collection->find() as $collection ) {
+				foreach( $collection['domain'] as $assignedDatabaseDomain) {
+					if ( (string) $databaseDomain['_id'] == (string) $assignedDatabaseDomain['name']) {
+						$rStr .= '<li><a href="/-a-' . $collection['name'] 
+						. '">' . ucwords ( join ( ' ', split ( '_', $collection['name'] ) ) ) . '</a></li>';
+					}
+				}
 			}
-			$rStr .= getMenu ( $record ['value'] );
+			$rStr .= getMenu ( (string)$databaseDomain ['_id'] );
 			$rStr .= '</ul>';
 			$rStr .= '</li>';
 		}
 	}
-	if ($parent == 'All') {
+	if ($parent == '571f91cba934995b1b9af90d') {
 		$rStr .= '</ul>';
 	}
 	return $rStr;

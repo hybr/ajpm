@@ -91,38 +91,37 @@ foreach ( $sfs as $sf ) {
 					'$regex' => new MongoRegex ( "/" . $urlArgsArray ['p'] . "/i" ) 
 			) 
 	) );
-}
+} /* foreach ( $sfs as $sf ) */
 
-	/* there are few collections which are open for public, for rest add organization as conditions */
-	if (in_array($urlArgsArray ['c'], array('user', 'person', 'organization', 'item'))) {
-		/* for public */
-		$searchConditions = array(
-			'$or' => $searchConditions
-		);
+
+/* there are few collections which are open for public, for rest add organization as conditions */
+if (in_array($urlArgsArray ['c'], array('user', 'person', 'organization', 'item', 'database_domain'))) {
+	/* for public */
+	$searchConditions = array(
+		'$or' => $searchConditions
+	);
+} else {
+	$id = '';
+	if (isset($_SESSION ['url_domain_org']) && isset ( $_SESSION ['url_domain_org'] ['_id'] )) {
+		$id = $_SESSION ['url_domain_org'] ['_id'];
 	} else {
-		$id = '';
-		if (isset($_SESSION ['url_domain_org']) && isset ( $_SESSION ['url_domain_org'] ['_id'] )) {
-			$id = $_SESSION ['url_domain_org'] ['_id'];
-		} else {
-			$id = '54c27c437f8b9a7a0d074be6'; /* owebp */
-		}		
-		$isOwnedByCurrentUrlDomain = array (
-				'for_org' => new MongoId ( $id )
-		);
-		/* specific to the domain */
-		$searchConditions = array(
-				'$and' => array(
-						$isOwnedByCurrentUrlDomain,
-						array(
-							'$or' => $searchConditions
-						)
-				)
-		);
-	}
+		$id = '54c27c437f8b9a7a0d074be6'; /* owebp */
+	}		
+	$isOwnedByCurrentUrlDomain = array ('for_org' => new MongoId ( $id ));
 
-	/* print_r($searchConditions); */
-	
-	$findCursor = $_SESSION['mongo_database']->{$urlArgsArray ['c']}->find ($searchConditions)->limit ( $limit );
+	/* specific to the domain */
+	$searchConditions = array(
+		'$and' => array(
+			$isOwnedByCurrentUrlDomain,
+			array(
+				'$or' => $searchConditions
+			)
+		)
+	);
+} /* if (in_array($urlArgsArray ['c'], */
+
+/* print_r($searchConditions); */
+$findCursor = $_SESSION['mongo_database']->{$urlArgsArray ['c']}->find ($searchConditions)->limit ( $limit );
 
 
 $arr = array ();
@@ -151,8 +150,15 @@ foreach ( $findCursor as $doc ) {
 	}
 	$label = rtrim ( $label, ", " );
 	array_push ( $arr, array (
-			'label' => $label,
-			'value' => ( string ) $doc ['_id'] 
+		'label' => $label,
+		'value' => ( string ) $doc ['_id'] 
+	) );
+}
+
+if (empty($arr)) {
+	array_push ( $arr, array (
+		'label' => 'No Record Found',
+		'value' => 'No Record Found',
 	) );
 }
 
