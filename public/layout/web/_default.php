@@ -21,10 +21,36 @@
 		?>
 	</head>
 	<body ng-cloak layout="column" ng-controller="ApplicationController">
-		<script>var _hpid = '<?php echo (string) $_SESSION ['url_domain_org']['web_site_home_page']; ?>';</script>
-		<script>var _orgStatement = '<?php echo (string) $_SESSION ['url_domain_org']['statement']; ?>';</script>
-		<script>var _auid = '<?php echo (string) $_SESSION ['url_domain_org']['web_site_about_us_page']; ?>';</script>
-		<script>var _theme_2 = '<?php echo (string) $_SESSION ['url_domain_org']['web_site_theme_2']; ?>';</script>
+		<script>var _hpid = '<?php 
+			if (isset($_SESSION ['url_domain_org']['web_site_home_page'])) {
+				echo (string) $_SESSION ['url_domain_org']['web_site_home_page'];
+			} else {
+				echo '';
+			}
+			 
+		?>';</script>
+		<script>var _orgStatement = '<?php 
+			if (isset($_SESSION ['url_domain_org']['statement'])) {
+				echo (string) $_SESSION ['url_domain_org']['statement']; 
+			} else {
+				echo "We provide best products and services";
+			}
+		?>';</script>
+		<script>var _auid = '<?php 
+			if (isset($_SESSION ['url_domain_org']['web_site_about_us_page'])) {
+				echo (string) $_SESSION ['url_domain_org']['web_site_about_us_page'];
+			} else {
+				/* if no about us page is setup use home page */
+				echo (string) $_SESSION ['url_domain_org']['web_site_home_page'];
+			}
+		?>';</script>
+		<script>var _theme_2 = '<?php 
+			if (isset($_SESSION ['url_domain_org']['web_site_theme_2'])) {
+				echo (string) $_SESSION ['url_domain_org']['web_site_theme_2']; 
+			} else {
+				echo "brown_grey_orange_lime_";
+			}
+		?>';</script>
 		<?php if(file_exists($homePageDir . DIRECTORY_SEPARATOR . '_body.php')) 
 			include $homePageDir . DIRECTORY_SEPARATOR . '_body.php';
 		?>
