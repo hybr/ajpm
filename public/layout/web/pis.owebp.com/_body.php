@@ -55,27 +55,89 @@
                 <div flex id="ajpmMenu" >
 
                     <md-toolbar>
+                    
                         <div class="md-toolbar-tools" ng-hide="showSearchBarDiv">
 
-                            <md-button class="md-icon-button" aria-label="Icon" ui-sref-active="is-active" ui-sref="home" >
+                        	<span id="ajpmAllIcons" hide-gt-xs show-xs>
+						          
+						          <md-menu>
+      						          
+									<md-icon-button aria-label="Menu" class="md-icon-button" ng-click="$mdOpenMenu()">
+                                		<md-tooltip>Menu</md-tooltip>
+										<i class="material-icons">menu</i>
+                            		</md-icon-button>
+                            	
+						            
+						            <md-menu-content >
+						            
+						            
+						              <md-menu-item ui-sref-active="md-active" ui-sref="home">
+			                            <md-button>
+											<span class="material-icons">home</span> Home
+			                            </md-button>
+						              </md-menu-item>
+
+						              <md-menu-item ui-sref-active="md-active" ui-sref="about_us">
+			                            <md-button>
+											<span class="material-icons">business</span> About Us
+			                            </md-button>
+						              </md-menu-item>
+						
+						              <md-menu-item ui-sref-active="md-active" ui-sref="item_catalog">
+			                            <md-button>
+											<span class="material-icons">shop</span> Catalog
+			                            </md-button>
+						              </md-menu-item>
+						       			
+						       		<md-menu-divider></md-menu-divider>
+
+						            <md-menu-item ui-sref-active="md-active" ui-sref="contact_us">
+			                            <md-button>
+											<span class="material-icons">contacts</span> Contact Us
+			                            </md-button>
+						            </md-menu-item>
+						
+						             <md-menu-item ng-show="isAuthenticated">
+										<md-button ui-sref-active="md-active" ui-sref="logout">
+											<span class="material-icons">Logout</span> Logout
+										</md-button>
+						             </md-menu-item>						            
+
+									<md-menu-item class="md-indent" ng-hide="isAuthenticated">
+										<md-button ui-sref-active="md-active" ui-sref="login1">
+											<span class="material-icons">input</span> Login
+										</md-button>
+ 									</md-menu-item>
+
+						            </md-menu-content>
+						          </md-menu>
+                     	
+                        	</span>
+                        	<!--  ajpmAllIcons -->
+                        		
+                        	<span id="ajpmMainIcons" show-gt-xs hide-xs>
+                            
+                            <md-button class="md-icon-button" aria-label="Home" ui-sref-active="md-active" ui-sref="home" >
                                 <md-tooltip>Home</md-tooltip>
-				<i class="material-icons">home</i>
+								<i class="material-icons">home</i>
                             </md-button>
 
-                            <!-- ajpmName -->
-                            <h2>
-				<?php if (isset ( $_SESSION ['url_domain_org'] ['name'] )) {
-                                    echo '<a href="/">' . $_SESSION ['url_domain_org'] ['name'] . '</a>';
-                                } else {
-                                    echo '<a href="/">Our WEB Presence</a>';
-                                }?>
-                            </h2>
-                            <!-- ajpmName -->
+                            <md-button class="md-icon-button" aria-label="About Us" ui-sref-active="md-active" ui-sref="about_us">
+                                <md-tooltip>About Us</md-tooltip>
+								<i class="material-icons">business</i>
+                            </md-button>
 
+                            <md-button class="md-icon-button" aria-label="Catalog" ui-sref-active="md-active" ui-sref="item_catalog">
+                                <md-tooltip>Catalog</md-tooltip>
+								<i class="material-icons">shop</i>
+                            </md-button>
+                                                        
+                            </span>
+                            <!-- ajpmMainIcons -->
+                            
                             <span flex></span>
 
-                            <!-- ajpmSearch -->
-                            <div id="ajpmSearch" md-no-float show-gt-md hide-sm hide-md>
+                            <span id="ajpmSearch" show-gt-sm hide-sm hide-xs>
 
                                 <form name="ajpmFormSearch" novalidate="" method="POST" ng-submit="ajpmFormSearch.$valid && searchIt()">
 
@@ -89,54 +151,55 @@
                                         </div>
                                     </md-input-container>
 
-                                    <md-input-container>
-					<i id="ajpmIdSearchButton" class="material-icons" ui-sref-active="is-active" ui-sref="search2">search</i>
-                                    </md-input-container>
+		                            <md-button class="md-icon-button" ui-sref-active="md-active" ui-sref="search2">
+		                                <md-tooltip>Search</md-tooltip>
+										<i class="material-icons">search</i>
+		                            </md-button>
 
                                 </form>
 
-                            </div>
+                            </span>
                             <!-- ajpmSearch -->
 
                             <span flex></span>
-                            <md-button class="md-icon-button" hide-gt-md show-sm show-md ng-click="showSearchBarDiv = true">
+                            
+                            <span id="ajpmExtraIcons" show-gt-xs hide-xs>
+                            
+                            <md-button class="md-icon-button" hide-gt-sm ng-click="showSearchBarDiv = true">
                                 <md-tooltip>Search</md-tooltip>
-				<i class="material-icons">search</i>
+								<i class="material-icons">search</i>
                             </md-button>
-                            <md-button class="md-icon-button" show-gt-sm hide-sm  ui-sref-active="is-active" ui-sref="about_us">
-                                <md-tooltip>About Us</md-tooltip>
-				<i class="material-icons">business</i>
-                            </md-button>
-                            <md-button class="md-icon-button" show-gt-sm hide-sm ui-sref-active="is-active" ui-sref="contact_us">
+
+                            <md-button class="md-icon-button" ui-sref-active="md-active" ui-sref="contact_us">
                                 <md-tooltip>Contact Us</md-tooltip>
-				<i class="material-icons">contacts</i>
-                            </md-button>
-                            <md-button class="md-icon-button" show-gt-sm hide-sm ui-sref-active="is-active" ui-sref="item_catalog">
-                                <md-tooltip>Catalog</md-tooltip>
-				<i class="material-icons">shop</i>
+								<i class="material-icons">contacts</i>
                             </md-button>
 
-				<span  ng-show="isAuthenticated" show-gt-sm hide-sm>
-				<md-button class="md-icon-button " ui-sref-active="is-active" ui-sref="logout">
+							<span  ng-show="isAuthenticated">
+								<md-button class="md-icon-button " ui-sref-active="md-active" ui-sref="logout">
                                 	<md-tooltip>Logout</md-tooltip>
-					<i class="material-icons">Logout</i>
-				</md-button>
-                                </span>
+									<i class="material-icons">Logout</i>
+								</md-button>
+                           </span>
 
-                                <span  ng-hide="isAuthenticated" show-gt-sm hide-sm>
-				<md-button class="md-icon-button" ui-sref-active="is-active" ui-sref="login1">
+                           <span  ng-hide="isAuthenticated">
+								<md-button class="md-icon-button" ui-sref-active="md-active" ui-sref="login1">
                                 	<md-tooltip>Login</md-tooltip>
-					<i class="material-icons">input</i>
-				</md-button>
-                                </span>
+									<i class="material-icons">input</i>
+								</md-button>
+                           </span>
 
+                           </span>
+                           <!-- ajpmExtraIcons -->
+                           
                         </div>
-
+                        <!-- class=md-toolbar-tools -->
+                                                    
                         <div layout="row" class="md-toolbar-tools" show-sm show-md hide-gt-md ng-show="showSearchBarDiv">
 
                             <md-button class="md-icon-button" ng-click="showSearchBarDiv = false">
                                 <md-tooltip>Back</md-tooltip>
-				<i class="material-icons">arrow back</i>
+								<i class="material-icons">arrow_back</i>
                             </md-button>
 
                                 <form name="ajpmFormSearch" novalidate="" method="POST" ng-submit="ajpmFormSearch.$valid && searchIt()">
@@ -151,16 +214,39 @@
                                         </div>
                                     </md-input-container>
 
-                                    <md-input-container>
-					<i id="ajpmIdSearchButton" class="material-icons" ui-sref-active="is-active" ui-sref="search2">search</i>
-                                    </md-input-container>
-
+		                            <md-button class="md-icon-button" ui-sref-active="md-active" ui-sref="search2">
+		                                <md-tooltip>Search</md-tooltip>
+										<i class="material-icons">search</i>
+		                            </md-button>
+		                            
                                 </form>
 
                         </div>
 
-                    </md-toolbar>
+                    	</md-toolbar>
+                    
+                            <span id="ajpmSearch" hide-gt-xs show-xs>
 
+                                <form name="ajpmFormSearch" novalidate="" method="POST" ng-submit="ajpmFormSearch.$valid && searchIt()" layout="row">
+
+                                    <md-input-container>
+                                        <label for="ajpmIdSearchInput">Search</label>
+
+                                        <input type="text" id="ajpmIdSearchInput" name="nameSearchPattern" ng-model="searchPattern" required="" />
+
+                                        <div ng-messages="ajpmFormSearch.nameSearchPattern.$error" ng-show="ajpmFormSearch.nameSearchPattern.$dirty">
+                                            <div id="ajpmSearchInputRequiredError" ng-message="required">Search pattern is required</div>
+                                        </div>
+                                    </md-input-container>
+
+		                            <md-button class="md-icon-button" ui-sref-active="md-active" ui-sref="search2">
+		                                <md-tooltip>Search</md-tooltip>
+										<i class="material-icons">search</i>
+		                            </md-button>
+
+                                </form>
+
+                            </span>                    
 
                 </div>
                 <!-- ajpmMenu -->
@@ -203,3 +289,4 @@
 <?php if(file_exists(dirname(__FILE__) . '/../_body_links.php'))
         include dirname(__FILE__) . '/../_body_links.php';
 ?>
+
