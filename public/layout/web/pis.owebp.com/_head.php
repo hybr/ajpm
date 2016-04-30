@@ -23,5 +23,5 @@
 } ?>
 
 <style>
-v { border: 2px solid red; }
+	v { border: 2px solid red; }
 </style>
