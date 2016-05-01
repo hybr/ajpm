@@ -33,3 +33,4 @@
 <link href="/js/bootstrap/bootstrap.css" rel="stylesheet">
 
 <link href="layout/web/ji.owebp.com/css/style.css" rel="stylesheet">
+<link rel="stylesheet" href="css/icon.css">

@@ -1,38 +1,107 @@
+<style>
+
+.linkDisabled {
+  cursor: not-allowed;
+  pointer-events: none;
+  color: grey;
+}
+
+</style>
+
 <div class="panel panel-default">
 	<div class="panel-heading">
     	<h3 class="panel-title">Contact Information</h3>
   	</div>
   	<div class="panel-body">
-          
+          <ul>
+          	<li ng-if="doc.public=='True'" ng-repeat="doc in docs">
+          			<span ng-ig="doc.primary=='True'">Primary</span>
+          			&nbsp;{{doc.location}} {{doc.medium}}:
+          			<span ng-if="doc.medium=='Email Address'">
+          				<a href="mailto:{{doc.email_address}}" target="_top">
+						<md-button aria-label="Email Address">
+							<i class="material-icons">email</i>
+							{{doc.email_address}}
+			            </md-button></a>     				
+          			</span>
+          			<span ng-if="doc.medium=='Phone'">
+          				<a href="tel:{{doc.phone_number}}" target="_top">
+						<md-button aria-label="Phone Number">
+							<i class="material-icons">phone</i>
+							{{doc.phone_number}}
+			            </md-button></a>     				
+          			</span>
+					<span ng-if="doc.medium=='Postal Address'">
+          				{{doc.home_or_building}}, {{doc.street}}, {{doc.area}}, {{doc.pin_or_zip}}, {{doc.city}}  				
+          			</span>
+					<span ng-if="doc.medium=='Web'">
+          				<a href="http://{{doc.web_url}}" target="_blank">{{doc.web_url}}</a>			
+          			</span>
+          			<span ng-if="doc.medium=='Fax'">
+          				<a href="tel:{{doc.fax_number}}" target="_top">
+						<md-button aria-label="Fax Number">
+							<i class="material-icons">print</i>
+							{{doc.fax_number}}
+			            </md-button></a>     				
+          			</span>  
+          			<span ng-if="doc.medium=='Voip'">
+          				<a href="tel:{{doc.voip_number}}" target="_top">
+						<md-button aria-label="VoIP Number">
+							<i class="material-icons">phonelink</i>
+							{{doc.voip_number}}
+			            </md-button></a>     				
+          			</span>
+          			<span ng-if="doc.medium=='Pager'">
+          				<a href="tel:{{doc.pager_number}}" target="_top">
+						<md-button aria-label="Pager Number">
+							<i class="material-icons">smartphone</i>
+							{{doc.pager_number}}
+			            </md-button></a>     				
+          			</span>             			
+          			        			  			
+          	</li>
+          </ul>
           
           <div class="container">
             <div class="row">
-                <div class="col-lg-7 col-xs-12 col-md-7 left-panel">
-		          <div class="mail">
-		              <a href="mailto:info@jaipurinvestor.com"><i class="fa fa-envelope"></i>   info@jaipurinvestor.com</a>
-		          </div>
-		          <div class="phone">
-		              <i class="fa fa-phone-square"></i> +91-141-2222222
-		          </div>
-                </div>
                 <div class="col-lg-5  col-xs-12 col-md-5">
                     <div class="enquiry">
                         <h3>Enquiry Form !!</h3>
                         <span>Please provide your details and we will call you!</span>
-                        <form>
-                            <div class="form-group">
-                                <input type="text" class="form-control" id="" placeholder="Enter you name">
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" id="" placeholder="Enter you contact number">
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" id="" placeholder="Enter you email">
-                            </div>
-                            <div class="form-group">
-                                <textarea placeholder="Enter message"></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-default">Submit</button>
+                        <form name="ajpmFormEf" novalidate="" method="POST" ng-submit="ajpmFormEf.$valid">
+                           <md-input-container>
+                               Enter you name
+                               <input type="text" id="ajpmIdEfName" name="ajpmNameEfName" ng-model="ef.name" required/>
+                               <div ng-messages="ajpmFormEf.ajpmNameEfName.$error" ng-show="ajpmFormEf.ajpmNameEfName.$dirty">
+                                   <div id="ajpmIdEfNameErrorRequired" ng-message="required">Name is required</div>
+                               </div>
+                           </md-input-container>     
+                           <md-input-container>
+                               Enter you contact number
+                               <input type="text" id="ajpmIdEfPhone" name="ajpmNameEfPhone" ng-model="ef.phone_number" required ng-pattern="^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$"/>
+                               <div ng-messages="ajpmFormEf.ajpmNameEfPhone.$error" ng-show="ajpmFormEf.ajpmNameEfPhone.$dirty">
+                                   <div id="ajpmIdEfPhoneErrorRequired" ng-message="required">Phone is required</div>
+                                   <div id="ajpmIdEfPhoneErrorPattern" ng-message="pattern">Phone is invalid</div>
+                               </div>
+                           </md-input-container>                               
+                           <md-input-container>
+                               Enter you email
+                               <input type="email" id="ajpmIdEfEmail" name="ajpmNameEfEmail" ng-model="ef.email" required="" />
+                               <div ng-messages="ajpmFormEf.ajpmNameEfEmail.$error" ng-show="ajpmFormEf.ajpmNameEfEmail.$dirty">
+                                   <div id="ajpmIdEfEmailErrorRequired" ng-message="required">Email is required</div>
+                                   <div id="ajpmIdEfEmailErrorPattern" ng-message="email">Email is invalid</div>
+                               </div>
+                           </md-input-container>   
+                           <md-input-container>
+                               Type message
+                               <textarea id="ajpmIdEfMessage" name="ajpmNameEfMessage" ng-model="ef.message" required="" ></textarea>
+                               <div ng-messages="ajpmFormEf.ajpmNameEfMessage.$error" ng-show="ajpmFormEf.ajpmNameEfMessage.$dirty">
+                                   <div id="ajpmIdEfMessageErrorRequired" ng-message="required">Message is required</div>
+                               </div>
+                           </md-input-container> 
+                            <md-button ng-class="{linkDisabled:ajpmFormEf.$invalid}"> 
+                            <a  href="mailto:jaipurinvestor@gmail.com?subject=Real Estate Enquiry&body='Name: {{ef.name}}<br />Phone: {{ef.phone}}<br />{{ef.message}}<br />Email: {{ef.email}}'">Send</a>
+                            </md-button>
                         </form>
                     </div>
                 </div>

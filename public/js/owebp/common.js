@@ -18,7 +18,6 @@ _0g = "apdds.owebp.com";
 _0g = "syspro.owebp.com";
 _0g = "ji.owebp.com";
 _0g = "pis.owebp.com";
-
 /**
  * @function _1g to get the domain name of from the url
  * @return {string} the domain name from url
@@ -26,7 +25,6 @@ _0g = "pis.owebp.com";
 var _1g = function () {
         var _1l = window.location.hostname.replace(/www\./g, "");
         if (_1l == 'localhost') {_1l = _0g;}
-        if (_1l == '10.92.74.10') {_1l = _0g;}
         return _1l;
 };
 

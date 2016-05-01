@@ -4,14 +4,14 @@
  */
 
 'use strict';
-
+	
 angular.module('ajpmApp').controller('ContactUsController', 
-	['$scope', '$rootScope', 'AuthService', 'SessionService', 'AUTH_EVENTS', '$state',
-	function($scope, $rootScope, AuthService, SessionService, AUTH_EVENTS, $state){
-	
-	$scope.positions =  SessionService.getCurrentUserRoles();
-	
-	// console.log(JSON.stringify($scope.positions));
-	
-	
+		['$scope', '$rootScope', '$http', 'GetCollectionService',
+		function($scope, $rootScope, $http, GetCollectionService){
+			
+		
+		GetCollectionService.getCollection('contact', function(d1) {
+			$scope.docs = d1;
+		});
+
 } ]);

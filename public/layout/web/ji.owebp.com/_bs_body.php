@@ -4,7 +4,6 @@
         	Test <div ui-view>Loading...</div>
         </div></div>
  
- 
        <div id="toTop"><img src="layout/web/ji.owebp.com/images/back-to-top.png"/></div>
         <div class="header">
             <div class="container ">
