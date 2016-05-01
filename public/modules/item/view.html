@@ -11,6 +11,13 @@
         <md-content class="md-padding">
           <h2>{{ doc.title }}</h2>
           <h2> By {{ manufacturarName }}</h2>
+          <div ng-repeat="p in doc.photo">
+			<div ng-show="currentPhoto==$index" style="width:150px">
+          		<img alt="{{p.caption}}" ng-src="{{p.file_name}}" />
+			</div>
+          </div>
+		<md-button ng-click="currentPhoto=currentPhoto-1" >Previuos</md-button>	
+		<md-button ng-click="currentPhoto=currentPhoto+1" >Next</md-button>{{currentPhoto}}	
           <p>{{ doc.summary }}</p>
         </md-content>
       </md-tab>
