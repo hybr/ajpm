@@ -9,6 +9,8 @@ angular.module('ajpmApp').controller('Search2Controller',
 	['$scope', '$rootScope', '$http',
 	function($scope, $rootScope, $http){
 		
+		$scope.orgId = _org_id;
+
 		 $scope.$watch('searchPattern', function() {
 			$http({
 				method: 'POST',

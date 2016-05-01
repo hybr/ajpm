@@ -51,6 +51,13 @@
 				echo "brown_grey_orange_lime_";
 			}
 		?>';</script>
+		<script>var _org_id = '<?php 
+			if (isset($_SESSION ['url_domain_org']['_id'])) {
+				echo (string) $_SESSION ['url_domain_org']['_id']; 
+			} else {
+				echo "";
+			}
+		?>';</script>
 		<?php if(file_exists($homePageDir . DIRECTORY_SEPARATOR . '_body.php')) 
 			include $homePageDir . DIRECTORY_SEPARATOR . '_body.php';
 		?>

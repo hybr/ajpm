@@ -16,6 +16,11 @@
 		                <b><span><a ui-sref="real_estate_asset({ realEstateAssetId: '{{doc._id.$id}}' })">{{doc.type}}</a></span></b>:
                			Area {{doc.area }} {{doc.area_unit}}, Parts {{doc.room.length}}
 			</li>
+			<li ng-if="doc['collection_name'] == 'item' && doc['collection_name'] == sa && orgId == doc['for_org']['$id']">
+		                <b><span><a ui-sref="item({ itemId: '{{doc._id.$id}}' })">{{doc.title}}</a></span></b>:
+				{{doc.summary | cutText:true:50:' ... '}}
+			</li>
+			<span ng-if="orgId == doc.for_org.$id">Same Org {{sa}} {{doc.collection_name}}</span>
 		</div>
 		</ul>
         </li>

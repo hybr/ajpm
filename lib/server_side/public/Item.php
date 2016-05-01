@@ -18,13 +18,16 @@ class public_Item extends Base {
 	public $fields = array (
 		'title' => array (
 			'required' => 1,
-			'show_in_list' => 1 
+			'searchable' => 1,
+			'show_in_list' => 1,
 		),
 		'UPC' => array (
-			'required' => 1 
+			'required' => 1,
+			'searchable' => 1,
 		),
 		'summary' => array (
-			'required' => 1 
+			'required' => 1,
+			'searchable' => 1,				
 		),
 		'manufacturar' => array (
 			'type' => 'foreign_key',
@@ -44,7 +47,8 @@ class public_Item extends Base {
 			'list_class' => 'ItemType',
 			'input_mode' => 'clicking',
 			'show_in_list' => 1,
-			'default' => 'Service' 
+			'default' => 'Service',
+			'searchable' => 1, 
 		),		
 		'virtual' => array (
 			'help' => 'Is item virtual or real? Virtual items can be delivered by internet.',
@@ -60,9 +64,10 @@ class public_Item extends Base {
 			'show_in_list' => 0,
 			'fields' => array (
 				'category' => array (
-					'required' => 1 
+					'required' => 1,
+					'searchable' => 1,
 				),
-				'about_category' => array (),
+				'about_category' => array ('searchable' => 1,),
 				'attribute' => array (
 					'type' => 'container',
 					'required' => 1,
@@ -83,13 +88,15 @@ class public_Item extends Base {
 			'type' => 'container',
 			'show_in_list' => 0,
 			'fields' => array (
-				'caption' => array (),
+				'caption' => array ('searchable' => 1,),
 				'file_name' => array (
 					'type' => 'file_list',
-					'required' => 1 
+					'required' => 1,
+					'searchable' => 1,
 				),
 				'click_link_url' => array (
-					'type' => 'url' 
+					'type' => 'url',
+					'searchable' => 1,
 				) 
 			) 
 		),
@@ -104,7 +111,8 @@ class public_Item extends Base {
 						'input_mode' => 'selecting',
 						'show_in_list' => 1,
 						'default' => 'Make and Sale',
-						'required' => 1
+						'required' => 1,
+						'searchable' => 1,
 					),							
 					'type' => array (
 						'type' => 'list',
@@ -122,7 +130,8 @@ class public_Item extends Base {
 						'required' => 1,
 						'max_length' => 3,
 						'min_length' => 3,
-						'default' => 'INR'
+						'default' => 'INR',
+						'searchable' => 1,
 					),							
 					'per' => array (
 						'type' => 'number',
@@ -198,6 +207,7 @@ class public_Item extends Base {
 						'required' => 1,
 					),							
 					'condition' => array (
+						'searchable' => 1,
 						'required' => 1,
 					),
 				) 

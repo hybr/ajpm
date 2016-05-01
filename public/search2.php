@@ -160,8 +160,6 @@ function getSearchConditionsForOneCollection($collectionName,$patternToSearch) {
 
 function searchInOneTable($collectionName = 'web_site', $patternToSearch) {
 	$arr = array();
-	$limit = 10;
-	$skip = 0;
 	$errorMessage = '';
 	if (isset($urlArgsArray ['l'])) {
 		$limit = $urlArgsArray ['l'];
@@ -174,9 +172,7 @@ function searchInOneTable($collectionName = 'web_site', $patternToSearch) {
 		if (!empty($conditions)) {
 			$findCursor = $_SESSION['mongo_database']
 				->{$collectionName}
-				->find ($conditions)
-				->skip($skip)
-				->limit ( $limit );
+				->find ($conditions);
 			foreach ( $findCursor as $doc ) {
 				$doc['collection_name'] = $collectionName;
 				array_push ($arr, $doc);
