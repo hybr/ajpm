@@ -20,7 +20,6 @@
 		                <b><span><a ui-sref="item({ itemId: '{{doc._id.$id}}' })">{{doc.title}}</a></span></b>:
 				{{doc.summary | cutText:true:50:' ... '}}
 			</li>
-			<span ng-if="orgId == doc.for_org.$id">Same Org {{sa}} {{doc.collection_name}}</span>
 		</div>
 		</ul>
         </li>
