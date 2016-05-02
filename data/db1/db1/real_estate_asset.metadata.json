@@ -1,0 +1,1 @@
+{ "indexes" : [ { "v" : 1, "key" : { "_id" : 1 }, "ns" : "db1.real_estate_asset", "name" : "_id_" } ] }
