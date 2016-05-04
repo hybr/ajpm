@@ -16,8 +16,8 @@ _0g = "pkmishra.owebp.com";
 _0g = "kriya.owebp.com";
 _0g = "apdds.owebp.com";
 _0g = "syspro.owebp.com";
-_0g = "pis.owebp.com";
 _0g = "ji.owebp.com";
+_0g = "pis.owebp.com";
 
 /**
  * @function _1g to get the domain name of from the url
@@ -45,4 +45,10 @@ _2g = "540d90cee4b0b539bd0171c1"; /* yogesh */
  */
 function isInt(n){
     return typeof n == "number" && isFinite(n) && n % 1 === 0;
+}
+
+var viewType = '';
+if (_1g() == 'ji.owebp.com') {
+	/* bootstrap theme */
+	viewType = 'bs_';
 }

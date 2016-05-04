@@ -11,13 +11,14 @@
 	 * of owebp.com will be used 
 	 */
 	$homePageDir = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'owebp.com';
-	if (file_exists(dirname(__FILE__) . DIRECTORY_SEPARATOR . $_SESSION['url_domain'])) {
+	
+	if (file_exists(dirname(__FILE__) . DIRECTORY_SEPARATOR  . $_SESSION['url_domain'])) {
 		$homePageDir = dirname(__FILE__) . DIRECTORY_SEPARATOR . $_SESSION['url_domain'];
 	}
 	?>
 	<head>
-		<?php if(file_exists($homePageDir . DIRECTORY_SEPARATOR . '_head.php')) 
-			include $homePageDir . DIRECTORY_SEPARATOR . '_head.php'; 
+		<?php if(file_exists($homePageDir . DIRECTORY_SEPARATOR . $_SESSION['view_type'] . '_head.php')) 
+			include $homePageDir . DIRECTORY_SEPARATOR . $_SESSION['view_type'] . '_head.php'; 
 		?>
 	</head>
 	<body ng-cloak ng-controller="ApplicationController">
@@ -58,12 +59,8 @@
 				echo "";
 			}
 		?>';</script>
-		<?php if(file_exists($homePageDir . DIRECTORY_SEPARATOR . '_body.php')) 
-			if ($_SESSION ['url_domain'] == 'ji2.owebp.com') {
-				include $homePageDir . DIRECTORY_SEPARATOR . '_body.php';
-			} else {
-				include $homePageDir . DIRECTORY_SEPARATOR . '_bs_body.php';
-			}
+		<?php if(file_exists($homePageDir . DIRECTORY_SEPARATOR . $_SESSION['view_type'] .'_body.php')) 
+			include $homePageDir . DIRECTORY_SEPARATOR . $_SESSION['view_type'] . '_body.php';
 		?>
 	</body>
 </html>

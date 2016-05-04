@@ -6,12 +6,6 @@
 angular.module('ajpmApp').config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES',
     function($stateProvider, $urlRouterProvider, USER_ROLES) {
 
-	var viewType = '';
-	if (_1g() == 'ji.owebp.com') {
-		/* bootstrap theme */
-		viewType = 'bs_';
-	}
-	
 	$urlRouterProvider.otherwise("/home");
 
 	$stateProvider.state('home', {
