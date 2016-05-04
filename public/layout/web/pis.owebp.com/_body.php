@@ -1,6 +1,5 @@
 <base href="/">
-
-<md-content>
+<md-content layout-fill>
 
 	<div id="ajpmMainRow" layout="column">
 
@@ -231,9 +230,8 @@
 		</div>
 		<!-- ajpmHeaderAndMenu-->
 
-		<div flex id="ajpmViewAndFooter" layout="column">
-
-			<div flex id="ajpmMessage">
+		<div id="ajpmViewAndFooter" layout="column" layout-margin>
+			<div id="ajpmMessage">
 				<div ng-show="hasPageMessages()">
 					<ul>
 						<li ng-repeat="pageMessage in getPageMessages()">
@@ -244,12 +242,12 @@
 			</div>
 			<!-- ajpmMessage -->
 
-			<div flex id="ajpmView">
-				 <md-content ui-view>Loading...</md-content>
+			<div id="ajpmView">
+				 <div ui-view>Loading...</div>
 			</div>
 			<!-- ajpmView -->
 
-			<div flex id="ajpmFooter">
+			<div id="ajpmFooter">
                 	&copy; Copyright 
                 	<?php if (isset ( $_SESSION ['url_domain_org'] ['name'] )) {
 						echo '<a href="/">' . $_SESSION ['url_domain_org'] ['name'] . '</a>';

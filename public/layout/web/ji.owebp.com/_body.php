@@ -1,134 +1,273 @@
 <base href="/">
-       <div id="toTop"><img src="layout/web/ji.owebp.com/images/back-to-top.png"/></div>
-        <div class="header">
-            <div class="container ">
-                <div class="row">
-                    <div class="col-lg-3 col-sm-4 col-sm-3 logo"><img src="layout/web/ji.owebp.com/images/logo.jpg"> </div>
-                    <div class="col-lg-7 col-xs-12 col-sm-8 col-md-9 pull-right top-connect">
-                        <div class="search col-lg-5 col-xs-12 col-sm-6">
-                            <input type="text" placeholder="You can search here..." ng-model="searchPattern">
-                            <input type="submit" value="" ui-sref="search">
-                        </div>
-                        <!-- <div class="social social-header">
-                            <a href=""><i class="fa fa-facebook-square"></i></a>
-                            <a href=""><i class="fa fa-twitter-square"></i></a>
-                            <a href=""><i class="fa fa-google-plus-square"></i></a>
-                            </div> -->
-                        <div class="mail">
-                            <a href="mailto:info@jaipurinvestor.com"><i class="fa fa-envelope"></i>   info@jaipurinvestor.com</a>
-                        </div>
-                        <div class="phone">
-                            <i class="fa fa-phone-square"></i> +91-141-2222222
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="navigation">
-            <nav class="navbar navbar-default navbar-static-top">
-                <div class="container pos-rel">
-                    <div class="navbar-header">
-                        <span>Menu</span> 
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        </button>
-                    </div>
-                    <div id="navbar" class="navbar-collapse collapse">
-                        <ul class="nav navbar-nav">
-                            <li><a href="#" ui-sref-active="active" ui-sref="home">Home</a></li>
-                            <li><a href="#" ui-sref-active="active" ui-sref="about_us">About Us</a></li>
-                            <li><a href="#"ui-sref-active="active" ui-sref="item_catalog">Services</a></li>
-                            <li><a href="#"ui-sref-active="active" ui-sref="contact_us" >Contact Us</a></li>
-                        </ul>
-                    </div>
-                    <!--/.nav-collapse -->
-                    <div class="rightmenu">
-                        <ul>
-                            <li class="dropdown myaccount">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-user"></i> My Account <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Action</a></li>
-                                    <li><a href="#">Another action</a></li>
-                                    <li><a href="#">Something else here</a></li>
-                                </ul>
-                            </li>
-                            <li class="login"><a href="#">Investor <span>Login</span></a> </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </div>
+<md-content layout-fill>
 
-        <div class="clearfix"></div>
-        <div class="container"><div class="row">
-        	<div ui-view>Loading...</div>
-        </div></div>
-        
-        <div class="clearfix"></div>
-        <div class="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="footer-link">
-                        <div class="col-lg-6 col-sm-6 quick-link">
-                            <h4>Quick <span>Link</span></h4>
-                            <ul>
-                                <li class="col-lg-4"><a href=""><i class="fa fa-chevron-right"></i> Home</a> </li>
-                                <li class="col-lg-4"><a href=""><i class="fa fa-chevron-right"></i> About us</a> </li>
-                                <li class="col-lg-4"><a href=""><i class="fa fa-chevron-right"></i> Project</a> </li>
-                                <li class="col-lg-4"><a href=""><i class="fa fa-chevron-right"></i> Finance</a> </li>
-                                <li class="col-lg-4"><a href=""><i class="fa fa-chevron-right"></i> Business Associate</a> </li>
-                                <li class="col-lg-4"><a href=""><i class="fa fa-chevron-right"></i> Projects</a> </li>
-                                <li class="col-lg-4"><a href=""><i class="fa fa-chevron-right"></i>  Contact Us</a> </li>
-                                <li class="col-lg-4"><a href=""><i class="fa fa-chevron-right"></i> About us</a> </li>
-                                <li class="col-lg-4"><a href=""><i class="fa fa-chevron-right"></i> Privacy Policy</a> </li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-3 col-sm-3 social">
-                            <h4>Social <span>Connect</span></h4>
-                            <p>Lorem Ipsum is simply dummy typesetti
-                                iis simply dumly dummy tndustry. 
-                            </p>
-                            <a href=""><i class="fa fa-facebook-square"></i></a>
-                            <a href=""><i class="fa fa-twitter-square"></i></a>
-                            <a href=""><i class="fa fa-google-plus-square"></i></a>
-                        </div>
-                        <div class="col-lg-3 col-sm-3">
-                            <h4>Contact <span>Us</span></h4>
-                            <div class="clearfix"></div>
-                            <strong>JAIPUR INVESTOR</strong> <br/>
-                            Section 1.10.32 of "de Finibus Bonorum 
-                            et Malorum"<br/>
-                            <strong>Email:</strong> <a href="mailto:info@jaipurinvestor.com">info@jaipurinvestor.com</a><br/>
-                            <strong>Phone:</strong> (123) 456-7890
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="clearfix"></div>
-        <div class="copyright">
-            &copy; Copyright Jaipur Investor 2016
-        </div>
+	<div id="ajpmMainRow" layout="column">
 
-        <script>
-            $(function() {
-                $(window).scroll(function() {
-                  if($(this).scrollTop() != 0) {
-                    $('#toTop').fadeIn(); 
-                  } else {
-                    $('#toTop').fadeOut();
-                  }
-                });
-                $('#toTop').click(function() {
-                  $('body,html').animate({scrollTop:0},800);
-                });
-              });
-        </script>
-	
+		<div flex id="ajpmHeaderAndMenu" layout="column">
+
+			<div flex id="ajpmHeader" layout="row" layout-xs="column">
+
+				<div id="ajpmLogo">
+
+					<?php if (isset ( $_SESSION ['url_domain_org'] ['web_site_logo_file_name'] )) {
+						echo '<img ng-src="'.$_SESSION ['url_domain_org'] ['web_site_logo_file_name'].'" />';
+					}?>
+
+				</div><!-- ajpmLogo -->
+				 
+				<div flex id="ajpmNameStatement" layout="column" >
+
+					<div flex id="ajpmName">
+
+						<h1><?php if (isset ( $_SESSION ['url_domain_org'] ['name'] )) {
+							echo '<a href="/">' . $_SESSION ['url_domain_org'] ['name'] . '</a>';
+						} else {
+							echo '<a href="/">Our WEB Presence</a>';
+						}?></h1>
+
+					</div><!-- ajpmName -->
+
+					<div flex id="ajpmStatement" >
+
+						<h2><?php if (isset ( $_SESSION ['url_domain_org'] ['statement'] )) {
+							echo $_SESSION ['url_domain_org'] ['statement'];
+						} else {
+							echo "Best Presence on Web";
+						}?></h2>
+
+					</div><!-- ajpmStatement -->
+					
+				</div><!-- ajpmNameStatement -->
+
+			</div><!-- ajpmHeader -->
+
+			<div id="ajpmMenu" >
+			
+				<md-toolbar>
+			                    
+					<div class="md-toolbar-tools" ng-hide="showSearchBarDiv">
+			
+						<span id="ajpmAllIcons" hide-gt-xs show-xs>
+									          
+								<md-menu>
+      						          
+									<md-icon-button aria-label="Menu" ng-click="$mdOpenMenu()">
+                                		<md-tooltip>Menu</md-tooltip>
+										<i class="material-icons">menu</i>
+                            		</md-icon-button>
+
+						            <md-menu-content >
+						            
+										<md-menu-item ui-sref-active="md-active" ui-sref="home">
+										<md-button aria-label="Home">
+											<i class="material-icons">home</i> Home
+										</md-button>
+										</md-menu-item>
+
+										<md-menu-item ui-sref-active="md-active" ui-sref="about_us">
+			                            <md-button aria-label="About Us">
+											<i class="material-icons">business</i> About Us
+			                            </md-button>
+										</md-menu-item>
+						
+										<md-menu-item ui-sref-active="md-active" ui-sref="item_catalog">
+			                            <md-button aria-label="Catalog">
+											<i class="material-icons">shop</i> Catalog
+			                            </md-button>
+										</md-menu-item>
+						       			
+										<md-menu-divider></md-menu-divider>
+																				
+										<md-menu-item ui-sref-active="md-active" ui-sref="contact_us">
+			                            <md-button aria-label="Contact Us">
+											<i class="material-icons">contacts</i> Contact Us
+			                            </md-button>
+										</md-menu-item>
+						
+										<md-menu-item ng-show="isAuthenticated">
+										<md-button aria-label="Logout" ui-sref-active="md-active" ui-sref="logout">
+											<i class="material-icons">camcel</i> Logout
+										</md-button>
+										</md-menu-item>						            
+
+										<md-menu-item ng-hide="isAuthenticated">
+										<md-button aria-label="Login" ui-sref-active="md-active" ui-sref="login1">
+											<i class="material-icons">input</i> Login
+										</md-button>
+										</md-menu-item>
+
+										<md-menu-item ui-sref-active="md-active" ui-sref="my_account">
+			                            <md-button aria-label="My">
+											<i class="material-icons">person</i> My
+			                            </md-button>
+										</md-menu-item>
+																	
+						            </md-menu-content>
+						            
+						          </md-menu>
+						          
+	                            <md-icon-button hide-gt-sm ng-click="showSearchBarDiv = true" ui-sref-active="md-active" ui-sref="search">
+	                                <md-tooltip>Search</md-tooltip>
+									<i class="material-icons">search</i>
+	                            </md-icon-button>
+			                            						          
+						</span>
+						<!--  ajpmAllIcons -->
+			                        		
+						<span id="ajpmMainIcons" show-gt-xs hide-xs>
+			                            
+                            <md-icon-button aria-label="Home" ui-sref-active="md-active" ui-sref="home" >
+                                <md-tooltip>Home</md-tooltip>
+								<i class="material-icons">home</i>
+                            </md-icon-button>
+
+                            <md-icon-button aria-label="About Us" ui-sref-active="md-active" ui-sref="about_us">
+                                <md-tooltip>About Us</md-tooltip>
+								<i class="material-icons">business</i>
+                            </md-icon-button>
+
+                            <md-icon-button aria-label="Catalog" ui-sref-active="md-active" ui-sref="item_catalog">
+                                <md-tooltip>Catalog</md-tooltip>
+								<i class="material-icons">shop</i>
+                            </md-icon-button>
+			                                                        
+						</span>
+						<!-- ajpmMainIcons -->
+			                            
+						<span flex></span>
+			
+						<span id="ajpmSearch" show-gt-sm hide-sm hide-xs>
+			
+                                <form name="ajpmFormSearch" novalidate="" method="POST" ng-submit="ajpmFormSearch.$valid && searchIt()">
+
+                                    <md-input-container>
+                                        <label for="ajpmIdSearchInput">Search</label>
+
+                                        <input type="text" id="ajpmIdSearchInput" name="nameSearchPattern" ng-model="searchPattern" required="" />
+
+                                        <div ng-messages="ajpmFormSearch.nameSearchPattern.$error" ng-show="ajpmFormSearch.nameSearchPattern.$dirty">
+                                            <div id="ajpmSearchInputRequiredError" ng-message="required">Search pattern is required</div>
+                                        </div>
+                                    </md-input-container>
+
+		                            <md-icon-button ui-sref-active="md-active" ui-sref="search">
+		                                <md-tooltip>Search</md-tooltip>
+										<i class="material-icons">search</i>
+		                            </md-icon-button>
+
+                                </form>
+			
+						</span>
+						<!-- ajpmSearch -->
+			
+						<span flex></span>
+			                            
+						<span id="ajpmExtraIcons" show-gt-xs hide-xs>
+				                            
+				                            <md-icon-button hide-gt-sm ng-click="showSearchBarDiv=true" ui-sref-active="md-active" ui-sref="search">
+				                                <md-tooltip>Search</md-tooltip>
+												<i class="material-icons">search</i>
+				                            </md-icon-button>
+				
+				                            <md-icon-button ui-sref-active="md-active" ui-sref="contact_us">
+				                                <md-tooltip>Contact Us</md-tooltip>
+												<i class="material-icons">contacts</i>
+				                            </md-icon-button>
+				
+											<span ng-show="isAuthenticated">
+												<md-icon-button ui-sref-active="md-active" ui-sref="logout">
+				                                	<md-tooltip>Logout</md-tooltip>
+													<i class="material-icons">Logout</i>
+												</md-icon-button>
+				                           </span>
+				
+				                           <span  ng-hide="isAuthenticated">
+												<md-icon-button ui-sref-active="md-active" ui-sref="login1">
+				                                	<md-tooltip>Login</md-tooltip>
+													<i class="material-icons">input</i>
+												</md-icon-button>
+				                           </span>
+			
+				                            <md-icon-button aria-label="My" ui-sref-active="md-active" ui-sref="my_account">
+												<md-tooltip>My Profile</md-tooltip>
+												<i class="material-icons">person</i>
+				                            </md-icon-button>
+			
+						</span>
+						<!-- ajpmExtraIcons -->
+			                
+					</div>
+					<!-- class=md-toolbar-tools -->
+			                        
+					<div class="md-toolbar-tools"  layout="row" ng-show="showSearchBarDiv">
+			
+						<md-icon-button ng-click="showSearchBarDiv=false">
+							<md-tooltip>Cancel</md-tooltip>
+							<i class="material-icons">cancel</i>
+						</md-icon-button>
+			
+						<form name="ajpmFormSearch" novalidate="" method="POST" ng-submit="ajpmFormSearch.$valid && searchIt()">
+			
+							<md-input-container>
+								<label for="ajpmIdSearchInput">Search</label>
+			
+								<input type="text" id="ajpmIdSearchInput" name="nameSearchPattern" ng-model="searchPattern" required="" />
+			
+								<div ng-messages="ajpmFormSearch.nameSearchPattern.$error" ng-show="ajpmFormSearch.nameSearchPattern.$dirty">
+									<div id="ajpmSearchInputRequiredError" ng-message="required">Search pattern is required</div>
+								</div>
+							</md-input-container>
+			
+						</form>
+			
+					</div>
+			
+				</md-toolbar>                
+			
+			</div>
+			<!-- ajpmMenu -->
+
+		</div>
+		<!-- ajpmHeaderAndMenu-->
+
+		<div id="ajpmViewAndFooter" layout="column" layout-margin>
+			<div id="ajpmMessage">
+				<div ng-show="hasPageMessages()">
+					<ul>
+						<li ng-repeat="pageMessage in getPageMessages()">
+							{{pageMessage}}
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!-- ajpmMessage -->
+
+			<div id="ajpmView">
+				 <div ui-view>Loading...</div>
+			</div>
+			<!-- ajpmView -->
+
+			<div id="ajpmFooter">
+                	&copy; Copyright 
+                	<?php if (isset ( $_SESSION ['url_domain_org'] ['name'] )) {
+						echo '<a href="/">' . $_SESSION ['url_domain_org'] ['name'] . '</a>';
+					} else {
+						echo '<a href="/">Our WEB Presence</a>';
+					}?>
+			</div>
+			<!-- ajpmFooter -->
+
+		</div>
+		<!-- ajpmViewAndFooter -->
+
+            
+	</div>
+	<!-- ajpmMainRow -->
+
+</md-content>
+
+
 <?php if(file_exists(dirname(__FILE__) . '/../_body_links.php'))
-	include dirname(__FILE__) . '/../_body_links.php';
+        include dirname(__FILE__) . '/../_body_links.php';
 ?>
+

@@ -20,7 +20,7 @@
 			include $homePageDir . DIRECTORY_SEPARATOR . '_head.php'; 
 		?>
 	</head>
-	<body ng-cloak layout="column" ng-controller="ApplicationController">
+	<body ng-cloak ng-controller="ApplicationController">
 		<script>var _hpid = '<?php 
 			if (isset($_SESSION ['url_domain_org']['web_site_home_page'])) {
 				echo (string) $_SESSION ['url_domain_org']['web_site_home_page'];
@@ -59,7 +59,11 @@
 			}
 		?>';</script>
 		<?php if(file_exists($homePageDir . DIRECTORY_SEPARATOR . '_body.php')) 
-			include $homePageDir . DIRECTORY_SEPARATOR . '_body.php';
+			if ($_SESSION ['url_domain'] == 'ji2.owebp.com') {
+				include $homePageDir . DIRECTORY_SEPARATOR . '_body.php';
+			} else {
+				include $homePageDir . DIRECTORY_SEPARATOR . '_bs_body.php';
+			}
 		?>
 	</body>
 </html>
