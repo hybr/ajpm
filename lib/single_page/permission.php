@@ -12,9 +12,35 @@
  * @param string $subTask
  * @return boolean
  */
-function isAllowed($moduleNames, $subTask) {
+
+function getPersonRbacRules() {
+	$personRbacRules = array();
 	
-	$_SESSION ['allowed_as'] = "NULL";
+	if (!isset( $_SESSION ['person'] )) {
+		return array();
+		/* rbac rule does not exists unterl person profile exists */
+	}
+	
+	$organizationWorkerCursor = $_SESSION ['mongo_database']->organization_worker->find ( array (
+			'organization_worker' => new MongoId((string)(trim($_SESSION ['person'] ['_id'])))
+	));
+	foreach ($organizationWorkerCursor as $organizationWorkerDoc) {
+		array_push($organizationWorkerDoc, $personRbacRules);
+	}
+	
+	return $personRbacRules;
+}
+
+function isAllowed($collectionName, $subTask) {
+	$_SESSION ['allowed_as'] = "NULL";	
+	
+	/* we are passing action then it makes it collection name */
+	$collectionName = strtolower(str_replace('public_', '', $collectionName));
+	
+	/* check if the domain associated with this collection is allowed */
+	if (!validDatabaseCollection($collectionName)) {
+		return false;
+	}
 	
 	/* creater is admin */
 	/* echo "<pre>"; print_r($_SESSION['person']); echo '</pre>'; */
@@ -29,39 +55,37 @@ function isAllowed($moduleNames, $subTask) {
 	if (isset ( $_SESSION ['person'] ) && isset ( $_SESSION ['person'] ['_id'] ) && ($orgOwnerId == ( string ) $_SESSION ['person'] ['_id'] || $orgCreatedId == ( string ) $_SESSION ['person'] ['_id'])) {
 		$_SESSION ['allowed_as'] = "OWNER";
 		return true;
-	}
+	}	
 	
-	/* permisson based approval */
-	array_push ( $moduleNames, 'All' );
-	if (isset ( $_SESSION ['person'] ) && isset ( $_SESSION ['person'] ['position'] ) && is_array ( $_SESSION ['person'] ['position'] )) {
-		foreach ( $_SESSION ['person'] ['position'] as $position ) {
-			
-			if (isset ( $position ['role'] )) {
-				/* we will get roles on person here */
-				/* for each person role check in module role matches */
-				/* ModuleNames is array of modules to be validated */
-				/* First check rbac_rules and find roles and permissions for modules */
-				if (is_array ( $moduleNames )) {
-					$rulesCursor = $_SESSION ['mongo_database']->rbac_rule->find ( array (
-							'module' => array (
-									'$in' => $moduleNames 
-							) 
-					) );
-					foreach ( $rulesCursor as $rule ) {
-						if (( string ) ($position ['role']) == ( string ) ($rule ['organization_role']) && ($subTask == $rule ['permission'] || $rule ['permission'] == 'All')) {
-							$_SESSION ['allowed_as'] = "AUTHORATIVE";
-							return true;
-						}
+	/* get list of roles for the person */
+	$personRbacRules = getPersonRbacRules();
+	
+	if (!empty($personRbacRules)) {
+		foreach($personRbacRules as $personRbacRule) {
+			/* $personRbacRule['position'] is rbac_rule id */
+			/* $_SESSION['collection']['domain'] has modules associated with collection */
+		
+			/* get the rbac_rule record/doc */
+			$rbacRule = $_SESSION ['mongo_database']->rbac_rule->findOne ( array (
+					'_id' => new MongoId((string)(trim($personRbacRule['position'])))
+			));
+		
+			/* $rbacRule['module'] = database_domain id */
+			foreach($_SESSION['collection']['domain'] as $databaseDomainOfCollection) {
+				if ($databaseDomainOfCollection['name'] ==  $rbacRule['module']) {
+					if ($subTask == $rbacRule ['permission'] || $rbacRule ['permission'] == 'All') {
+						$_SESSION ['allowed_as'] = "AUTHORATIVE";
+						return true;
 					}
 				}
-			} /* if */
-		} /* foreach position */
-	} /* if */
+			}
+		}
+	} else {
+		$_SESSION['authorization_message'] = 'Person does not have position (RBAC) rules assigned';
+		/* we give only message but allow user to continue so that he can create person profile */
+	}
 	
-	/*
-	 * echo "<pre>"; print_r($_SESSION['user']); echo '</pre>';
-	 * echo "<pre>"; print_r($_SESSION); echo '</pre>';
-	 */
+	/* once person join the website he/she must be allowed to create the person record */
 	if (isset ( $_SESSION ['user'] ) && ! empty ( $_SESSION ['user'] ) && in_array ( strtolower ( $_SESSION ['url_action'] ), array (
 			'public_query.php',
 			'public_person',
@@ -70,26 +94,26 @@ function isAllowed($moduleNames, $subTask) {
 			'public_webpage',
 			'public_organization',
 			'public_itemcatalog',
-			'public_item' 
+			'public_item'
 	) )) {
 		$_SESSION ['allowed_as'] = "USER";
 		return true;
 	}
-	
+		
 	/* allow public tasks */
-	$task = strtolower ( $_SESSION ['url_action'] ) 
-		. '-' . strtolower ( $_SESSION ['url_task'] ) 
-		. '-' . strtolower ( $_SESSION ['url_sub_task'] );
-
+	$task = strtolower ( $_SESSION ['url_action'] )
+	. '-' . strtolower ( $_SESSION ['url_task'] )
+	. '-' . strtolower ( $_SESSION ['url_sub_task'] );
+	
 	if (in_array ( $task, array (
 			'public_database_domain-present-all',
 			'public_user-login-all',
-			
+				
 			'public_checkuser-exsistance-all',
 			'public_checkuser-e-all',
 			'public_checkuser-password-all',
 			'public_checkuser-p-all',
-			
+				
 			'public_user-authenticate-all',
 			'public_user-logout-all',
 			'public_user-join-all',
@@ -103,25 +127,26 @@ function isAllowed($moduleNames, $subTask) {
 			'public_shoppingcart-presentall-all',
 			'public_webpage-present-all',
 			'public_webpage-present_document-all',
-			
+				
 			'public_itemcatalog-presentjsonall-all',
 			'public_item-presentjsonall-all',
-			
+				
 			'public_item-presentjson-all',
 			'public_webpage-presentjson-all',
 			'public_realestateasset-presentjson-all',
-			
+				
 			'public_user-login-all',
 			'public_contact-presentall-all',
 			'public_organization-clients-all',
 			'public_familytree-presentall-all',
 			'public_familytree-present-all',
-			
-			'public_search2.php-presentall-all'
+				
+			'public_search.php-presentall-all'
 	) )) {
 		$_SESSION ['allowed_as'] = "PUBLIC";
 		return true;
-	}
+	}	
 	
 	return false;
-}
+} /* function isAllowed */
+

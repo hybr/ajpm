@@ -26,8 +26,7 @@ class public_DatabaseDomain extends Base {
 			'input_mode' => 'clicking',
 			'show_in_list' => 1,
 			'default' => 'False',
-                        ),
-
+        ),
 	); /* fields */
 } /* class */
 ?>

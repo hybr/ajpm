@@ -107,7 +107,7 @@
 						            
 						          </md-menu>
 						          
-	                            <md-icon-button hide-gt-sm ng-click="showSearchBarDiv = true" ui-sref-active="md-active" ui-sref="search2">
+	                            <md-icon-button hide-gt-sm ng-click="showSearchBarDiv = true" ui-sref-active="md-active" ui-sref="search">
 	                                <md-tooltip>Search</md-tooltip>
 									<i class="material-icons">search</i>
 	                            </md-icon-button>
@@ -151,7 +151,7 @@
                                         </div>
                                     </md-input-container>
 
-		                            <md-icon-button ui-sref-active="md-active" ui-sref="search2">
+		                            <md-icon-button ui-sref-active="md-active" ui-sref="search">
 		                                <md-tooltip>Search</md-tooltip>
 										<i class="material-icons">search</i>
 		                            </md-icon-button>
@@ -165,7 +165,7 @@
 			                            
 						<span id="ajpmExtraIcons" show-gt-xs hide-xs>
 				                            
-				                            <md-icon-button hide-gt-sm ng-click="showSearchBarDiv=true" ui-sref-active="md-active" ui-sref="search2">
+				                            <md-icon-button hide-gt-sm ng-click="showSearchBarDiv=true" ui-sref-active="md-active" ui-sref="search">
 				                                <md-tooltip>Search</md-tooltip>
 												<i class="material-icons">search</i>
 				                            </md-icon-button>

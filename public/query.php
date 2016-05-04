@@ -66,10 +66,10 @@ foreach ( split('_', $urlArgsArray ['c']) as $w ) {
 	$classForQuery .= ucfirst ( strtolower ( $w ) );			
 }
 $actionInstance = new $classForQuery();
-if (!isAllowed(array($actionInstance->myModuleName()), $_SESSION['url_sub_task'])) {
+if (!isAllowed($_SESSION ['url_action'], $_SESSION['url_sub_task'])) {
 	echo json_encode ( array (
 		array (
-			'label' => 'No Access to ' . $_SESSION['url_task'] . '/' .  $_SESSION['url_sub_task'],
+			'label' => $_SESSION['authorization_message'],
 			'value' => ''
 		)
 	));

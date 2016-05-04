@@ -27,3 +27,10 @@ angular.module('ajpmApp').filter('cutText', function() {
 		return value + (tail || ' …');
 	};
 });
+
+/* To remove the html tags */
+angular.module('ajpmApp').filter('stripHTML', function() {
+	return function(text) {
+    	return String(text).replace(/<[^>]+>/gm, '');
+    }
+});

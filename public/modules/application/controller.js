@@ -74,73 +74,15 @@ angular.module('ajpmApp').controller('ApplicationController',
 	$rootScope.$on(AUTH_EVENTS.loginSuccess, loginPass);
 	$rootScope.$on(AUTH_EVENTS.logoutSuccess, logoutPass);
 
-} ]);
-
-angular.module('ajpmApp').controller('JoinController',
-	['$scope', '$rootScope', 'AuthService', 'SessionService', 'AUTH_EVENTS', '$state',
-	function($scope, $rootScope, AuthService, SessionService, AUTH_EVENTS, $state){
-
-	$scope.name = "";
-	$scope.email = "";
-	$scope.pass = "";
-	$scope.repass = "";
-
-	$scope.registernewuser = function() {
-		$rootScope.clearPageMessages();
-		if ($scope.email == "") {
-			$rootScope.pushPageMessage("Please enter an E-Mail Address!");
-		} else {
-			if ($scope.name == "") {
-				$rootScope.pushPageMessage("Please enter your name!");
-			} else {
-				if ($scope.pass == "") {
-					$rootScope.pushPageMessage("Please enter the password!");
-				} else {
-					if ($scope.pass != $scope.repass) {
-						$rootScope.pushPageMessage("Password doesn't match!");
-					} else {
-
-						/*Logic here*/
-
-					}
-				}
-			}
-		}
+	
+	/* counter management functions */
+	$scope.increaseCounter = function(counter, limit, step) {
+		if ((counter+step) <= limit) counter = counter + step;
+		return counter;
 	}
-
-	$scope.reset = function() {
-		$scope.name = "";
-		$scope.email = "";
-		$scope.pass = "";
-		$scope.repass = "";
-		$rootScope.clearPageMessages();
-	}
-
+	
+	$scope.decreaseCounter = function(counter, limit, step) {
+		if ((counter-step) >= limit) counter = counter - step;
+		return counter;
+	}	
 } ]);
-
-angular.module('ajpmApp').controller('ForgotController',
-	['$scope', '$rootScope', 'AuthService', 'SessionService', 'AUTH_EVENTS', '$state',
-	function($scope, $rootScope, AuthService, SessionService, AUTH_EVENTS, $state){
-
-	$scope.email = "";
-
-	$scope.forgot = function() {
-		$rootScope.clearPageMessages();
-		if ($scope.email == "") {
-			$rootScope.pushPageMessage("Please enter an E-Mail Address!");
-		} else {
-
-    }
-  }
-
-	$scope.reset = function() {
-		$scope.email = "";
-		$rootScope.clearPageMessages();
-	}
-
-} ]);
-angular.module('ajpmApp').filter('stripHTML', function() {
-    return function(text) {
-      return String(text).replace(/<[^>]+>/gm, '');
-    }
-  });

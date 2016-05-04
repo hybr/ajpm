@@ -16,8 +16,8 @@
           		<img alt="{{p.caption}}" ng-src="{{p.file_name}}" />
 			</div>
           </div>
-		<md-button ng-click="currentPhoto=currentPhoto-1" >Previuos</md-button>	
-		<md-button ng-click="currentPhoto=currentPhoto+1" >Next</md-button>{{currentPhoto}}	
+		<md-button ng-click="currentPhoto=decreaseCounter(currentPhoto,0,1)" >Previuos</md-button>	
+		<md-button ng-click="currentPhoto=increaseCounter(currentPhoto,doc.photo.length,1)" >Next</md-button>{{currentPhoto}}	
           <p>{{ doc.summary }}</p>
         </md-content>
       </md-tab>

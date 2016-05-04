@@ -12,7 +12,7 @@
                     <div class="col-lg-7 col-xs-12 col-sm-8 col-md-9 pull-right top-connect">
                         <div class="search col-lg-5 col-xs-12 col-sm-6">
                             <input type="text" placeholder="You can search here..." ng-model="searchPattern">
-                            <input type="submit" value="" ui-sref="search2"> S1
+                            <input type="submit" value="" ui-sref="search"> S1
                         </div>
                         <!-- <div class="social social-header">
                             <a href=""><i class="fa fa-facebook-square"></i></a>

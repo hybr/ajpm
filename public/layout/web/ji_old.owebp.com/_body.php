@@ -125,7 +125,7 @@
 			<span flex></span>
 			
 			<input type=text ng-model="searchPattern" />
-			<md-icon-button class="md-primary" aria-label="Go Search" ui-sref="search2">
+			<md-icon-button class="md-primary" aria-label="Go Search" ui-sref="search">
 				<i class="material-icons">input</i>
 			</md-icon-button>
         

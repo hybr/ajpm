@@ -13,8 +13,8 @@ if ($_SESSION ['url_domain'] == 'localhost') {
 	$_SESSION ['url_domain'] = 'hybr.owebp.com';
 	$_SESSION ['url_domain'] = 'syspro.owebp.com';
 	$_SESSION ['url_domain'] = 'pkmishra.owebp.com';
-	$_SESSION ['url_domain'] = 'ji.owebp.com';
 	$_SESSION ['url_domain'] = 'pis.owebp.com';
+	$_SESSION ['url_domain'] = 'ji.owebp.com';
 }
 
 /**

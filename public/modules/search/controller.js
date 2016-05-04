@@ -5,7 +5,7 @@
 
 'use strict';
 
-angular.module('ajpmApp').controller('Search2Controller', 
+angular.module('ajpmApp').controller('SearchController', 
 	['$scope', '$rootScope', '$http',
 	function($scope, $rootScope, $http){
 		
@@ -14,7 +14,7 @@ angular.module('ajpmApp').controller('Search2Controller',
 		 $scope.$watch('searchPattern', function() {
 			$http({
 				method: 'POST',
-				url: '/search2.php',
+				url: '/search.php',
 				params: { 
 					p: $scope.searchPattern,
 					s: 1

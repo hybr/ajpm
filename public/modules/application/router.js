@@ -51,12 +51,8 @@ angular.module('ajpmApp').config(['$stateProvider', '$urlRouterProvider', 'USER_
 		controller : 'LoginController'
 	}).state('search', {
 		url : "/search",
-		templateUrl : "modules/search/"+viewType+"search.html",
-		controller : 'searchController'
-	}).state('search2', {
-		url : "/search2",
-		templateUrl : "modules/search/"+viewType+"search2.html",
-		controller : 'Search2Controller'
+		templateUrl : "modules/search/"+viewType+"view.html",
+		controller : 'SearchController'
 	}).state('web_page', {
 		url : "/web_page/:webPageId",
 		templateUrl : "modules/web_page/"+viewType+"view.html",
