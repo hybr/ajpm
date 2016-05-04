@@ -66,7 +66,7 @@ foreach ( split('_', $urlArgsArray ['c']) as $w ) {
 	$classForQuery .= ucfirst ( strtolower ( $w ) );			
 }
 $actionInstance = new $classForQuery();
-if (!isAllowed($_SESSION ['url_action'], $_SESSION['url_sub_task'])) {
+if (!isAllowed($_SESSION ['url_collection'], $_SESSION['url_sub_task'])) {
 	echo json_encode ( array (
 		array (
 			'label' => $_SESSION['authorization_message'],

@@ -200,7 +200,7 @@ if (!isset($urlArgsArray ['p']) || $urlArgsArray ['p'] == '') {
 	exit;
 }
 
-if (!isAllowed($_SESSION ['url_action'], $_SESSION['url_sub_task'])) {
+if (!isAllowed($_SESSION ['url_collection'], $_SESSION['url_sub_task'])) {
 	echo '{"status" : ' . $_SESSION['authorization_message'] . ', "result" : ""}';
 	exit;
 }

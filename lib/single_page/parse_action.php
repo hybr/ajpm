@@ -19,6 +19,7 @@ if (array_key_exists ( 'query', $urlPartsArray )) {
 $_SESSION ['url_action'] = 'public_';
 $_SESSION ['url_task'] = '';
 $_SESSION ['url_sub_task'] = '';
+$_SESSION['url_collection'] = '';
 /* identify if it is a web_ui, admin_ui or service_ui */
 $_SESSION['request_type'] = 'web';
 $_SESSION ['LAYOUT_DIR'] = SERVER_SIDE_PUBLIC_DIR . DIRECTORY_SEPARATOR . 'layout/web';
@@ -41,7 +42,9 @@ if (array_key_exists ( 'path', $urlPartsArray )) {
 				$w = str_replace('-s-', '', $w);
 			}			
 			$_SESSION ['url_action'] .= ucfirst ( strtolower ( $w ) );
+			$_SESSION['url_collection'] .=  '_' . strtolower($w);
 		}
+		$_SESSION['url_collection'] = preg_replace('/^_/', '', $_SESSION['url_collection']);
 	}
 	if (sizeof ( $urlPathArray ) >= 3) {
 		foreach ( split ( '_', $urlPathArray [2] ) as $w ) {
@@ -60,6 +63,7 @@ if ($_SESSION ['url_action'] == 'public_') {
 	/* Home Page */
 	$_SESSION ['url_action'] = 'public_WebPage';
 	$_SESSION ['url_task'] = 'present';
+	$_SESSION['url_collection'] = 'web_page';
 	/* if organization record exists then read the home page id */
 	if (array_key_exists ( 'url_domain_org', $_SESSION ) && $_SESSION ['url_domain_org']) {
 		$urlArgsArray ['id'] = $_SESSION ['url_domain_org'] ['web_site_home_page'];

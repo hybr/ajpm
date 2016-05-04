@@ -34,9 +34,6 @@ function getPersonRbacRules() {
 function isAllowed($collectionName, $subTask) {
 	$_SESSION ['allowed_as'] = "NULL";	
 	
-	/* we are passing action then it makes it collection name */
-	$collectionName = strtolower(str_replace('public_', '', $collectionName));
-	
 	/* check if the domain associated with this collection is allowed */
 	if (!validDatabaseCollection($collectionName)) {
 		return false;
