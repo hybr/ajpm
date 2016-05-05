@@ -14,11 +14,12 @@ function getQueryConditions($record = array()) {
 			'remove',
 			'show',
 			'present',
-			'presentjson'
+			'presentjson',
 	) );
 	$requestForMultipleRecord = in_array ( strtolower ( $_SESSION ['url_task'] ), array (
 			'read',
-			'presentall' 
+			'presentall',
+			'presentjsonall'
 	) );
 	
 	$globalCollections = array (
@@ -197,7 +198,8 @@ function getQueryConditions($record = array()) {
 			}
 		} else {
 			if (in_array ( strtolower ( $_SESSION ['url_task'] ), array (
-					'presentall' 
+					'presentall' ,
+					'presentjsonall' ,
 			) )) {
 				$conds = $orgRecords;
 			}

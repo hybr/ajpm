@@ -103,7 +103,7 @@ if (in_array($urlArgsArray ['c'], array('user', 'person', 'organization', 'item'
 } else {
 	$id = '';
 	if (isset($_SESSION ['url_domain_org']) && isset ( $_SESSION ['url_domain_org'] ['_id'] )) {
-		$id = $_SESSION ['url_domain_org'] ['_id'];
+		$id = (string) $_SESSION ['url_domain_org'] ['_id'];
 	} else {
 		$id = '54c27c437f8b9a7a0d074be6'; /* owebp */
 	}		
@@ -121,7 +121,7 @@ if (in_array($urlArgsArray ['c'], array('user', 'person', 'organization', 'item'
 } /* if (in_array($urlArgsArray ['c'], */
 
 /* print_r($searchConditions); */
-$findCursor = $_SESSION['mongo_database']->{$urlArgsArray ['c']}->find ($searchConditions)->limit ( $limit );
+$findCursor = $_SESSION['mongo_database']->{$urlArgsArray ['c']}->find ($searchConditions);
 
 
 $arr = array ();

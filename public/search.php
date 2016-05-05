@@ -126,7 +126,7 @@ function getSearchConditionsForOneCollection($collectionName,$patternToSearch) {
 	} else {
 		$id = '';
 		if (isset($_SESSION ['url_domain_org']) && isset ( $_SESSION ['url_domain_org'] ['_id'] )) {
-			$id = $_SESSION ['url_domain_org'] ['_id'];
+			$id = (string) $_SESSION ['url_domain_org'] ['_id'];
 		} else {
 			$id = '54c27c437f8b9a7a0d074be6'; /* owebp */
 		}		
@@ -209,6 +209,7 @@ echo '{"status" : "OK", "result" : '
 	. json_encode (searchInAllTables($urlArgsArray ['p'])) 
 	. ', "searchAreas" : ' .  json_encode($searchAreas) 
 	. ', "errorMessage" : "' . $errorMessage . '"'
+	. ', "conditions" : ' . json_encode($searchConditions)
 	. "}";
 
 /*

@@ -1166,7 +1166,6 @@ class Base {
 
 		$this->findCursor = $_SESSION ['mongo_database']->{$this->collectionName}->find (getQueryConditions(array()));
 		debugPrintArray ($this->findCursor->count(), 'findCursor count'); 
-		debugPrintArray ($this->findCursor->count(true), 'findCursor count true'); 
 		
 		/* get the form */
 		
