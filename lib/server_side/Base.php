@@ -13,16 +13,6 @@ class Base {
 	/* data location */
 	public $dataLocation = DATA_LOCATION_SERVER_PERMANENT;
 	/* read, write, present for person,org, and public at table and record level */
-	public $dataAccess = array (
-		/* table */	
-		1/*0*/,1/*1*/,1/*2*/,/*read yes, write yes, present yes for person's own at table level */
-		1/*3*/,1/*4*/,1/*5*/,/*read yes, write yes, present yes for org's own at table level */
-		0/*6*/,0/*7*/,0/*8*/,/*read no, write no, present no for public at table level */
-		/* record */	
-		1/*9*/,1/*10*/,1/*11*/,/*read yes, write yes, present yes for person's own at record level */
-		1/*12*/,1/*13*/,1/*14*/,/*read yes, write yes, present yes for org's own at record level */
-		0/*15*/,0/*16*/,0/*17*/,/*read no, write no, present no for public at record level */			
-	);
 	
 	/* name of colection in progress */
 	public $db = NULL;
@@ -46,146 +36,65 @@ class Base {
 		) );
 	}
 	
-	private function validAccess($process = NULL) {
-		$access = False;
-		if ($process == NULL) {
-			$process = $this->curlsMode;
-		}
-		if ($process == '') {
-			$process = $this->curlsMode;
-		}
-		if ($process == '') {
-			return $access;
-		}
-		
-		$isUserPublic = empty ( $_SESSION ['user'] );
-		
-		if ($process == 'Create') {
-			if ($isUserPublic) {
-				/* table should be writetable by public */
-				$access = $this->dataAccess [7];
-			} else {
-				/* table should be writetable either by person or org */
-				$access = $this->dataAccess [2] || $this->dataAccess [4];
-			}
-		} elseif ($process == 'Remove') {
-			if ($isUserPublic) {
-				/* record should be writetable by public */
-				$access = $this->dataAccess [16];
-			} else {
-				/* record should be writetable either by person or org */
-				$access = $this->dataAccess [10] || $this->dataAccess [13];
-			}
-		} elseif ($process == 'Update') {
-			if ($isUserPublic) {
-				/* record should be writetable by public */
-				$access = $this->dataAccess [16];
-			} else {
-				/* record should be writetable either by person or org */
-				$access = $this->dataAccess [10] || $this->dataAccess [13];
-			}
-		} elseif ($process == 'List') {
-			if ($isUserPublic) {
-				/* table should be readable by public */
-				$access = $this->dataAccess [6];
-			} else {
-				/* table should be readable either by person or org */
-				$access = $this->dataAccess [0] || $this->dataAccess [3];
-			}
-		} elseif ($process == 'Show') {
-			if ($isUserPublic) {
-				/* record should be readable by public */
-				$access = $this->dataAccess [15];
-			} else {
-				/* record should be readable either by person or org */
-				$access = $this->dataAccess [9] || $this->dataAccess [12];
-			}
-		} elseif ($process == 'Present') {
-			if ($isUserPublic) {
-				/* record should be presentable to public */
-				$access = $this->dataAccess [17];
-			} else {
-				/* record should be readable either by person or org */
-				$access = $this->dataAccess [11] || $this->dataAccess [14];
-			}
-		} elseif ($process == 'Present All') {
-			if ($isUserPublic) {
-				/* table should be readable by public */
-				$access = $this->dataAccess [8];
-			} else {
-				/* table should be readable either by person or org */
-				$access = $this->dataAccess [2] || $this->dataAccess [5];
-			}
-		} elseif (in_array ( $process, array (
-				'Login',
-				'Join',
-				'Forget Password' 
-		) )) {
-			$access = True;
-		}
-		
-		return $access;
-	}
-	
 	/* fiel definations */
 	public $defaultFields = array (
 			'created_on' => array (
-					'type' => 'datetime',
-					'show_in_list' => 1 
+				'type' => 'datetime',
+				'show_in_list' => 1 
 			),
 			'updated_on' => array (
-					'type' => 'datetime',
-					'show_in_list' => 1 
+				'type' => 'datetime',
+				'show_in_list' => 1 
 			),
 			'created_by' => array (
-					'type' => 'foreign_key',
-					'foreign_collection' => 'person',
-					'foreign_search_fields' => 'name.first,name.middle,name.last',
-					'foreign_title_fields' => 'name,gender',
-					'show_in_list' => 0 
+				'type' => 'foreign_key',
+				'foreign_collection' => 'person',
+				'foreign_search_fields' => 'name.first,name.middle,name.last',
+				'foreign_title_fields' => 'name,gender',
+				'show_in_list' => 0 
 			),
 			'updated_by' => array (
-					'type' => 'foreign_key',
-					'foreign_collection' => 'person',
-					'foreign_search_fields' => 'name.first,name.middle,name.last',
-					'foreign_title_fields' => 'name,gender',
-					'show_in_list' => 0 
+				'type' => 'foreign_key',
+				'foreign_collection' => 'person',
+				'foreign_search_fields' => 'name.first,name.middle,name.last',
+				'foreign_title_fields' => 'name,gender',
+				'show_in_list' => 0 
 			),
 			'for_org' => array (
-					'type' => 'foreign_key',
-					'foreign_collection' => 'organization',
-					'foreign_search_fields' => 'name,abbreviation',
-					'foreign_title_fields' => 'name,abbreviation',
-					'show_in_list' => 0 
+				'type' => 'foreign_key',
+				'foreign_collection' => 'organization',
+				'foreign_search_fields' => 'name,abbreviation',
+				'foreign_title_fields' => 'name,abbreviation',
+				'show_in_list' => 0 
 			) 
 	);
 	public $help = '';
 	public $fields = array ();
 	public $fieldDefault = array (
-			'title' => '',
-			'type' => 'string',
-			'input_mode' => 'typeing', /* clicking selecting */
-			'placeholder' => 'Text',
-			'help' => '',
-			'name' => '',
-			'value' => '',
-			'required' => '',
-			'minlength' => -1,
-			'maxlength' => -1,
-			'input_tag_length' => 40,
-			'select_tag_hight' => 1,
-			'list_class' => '',
-			'multiple' => 0,
-			'unique' => 0,
-			'show_in_list' => 0,
-			'default' => '',
-			'sub_tasks' => array (
-					'All' 
-			),
-			'is_search_field_level1_embaded' => 0,
-			'foreign_collection' => '',
-			'foreign_search_fields' => '',
-			'foreign_title_fields' => '',
+		'title' => '',
+		'type' => 'string',
+		'input_mode' => 'typeing', /* clicking selecting */
+		'placeholder' => 'Text',
+		'help' => '',
+		'name' => '',
+		'value' => '',
+		'required' => '',
+		'minlength' => -1,
+		'maxlength' => -1,
+		'input_tag_length' => 40,
+		'select_tag_hight' => 1,
+		'list_class' => '',
+		'multiple' => 0,
+		'unique' => 0,
+		'show_in_list' => 0,
+		'default' => '',
+		'sub_tasks' => array (
+			'All' 
+		),
+		'is_search_field_level1_embaded' => 0,
+		'foreign_collection' => '',
+		'foreign_search_fields' => '',
+		'foreign_title_fields' => '',
 	);
 	
 	/* data storage for class is server code then store values in $data */
