@@ -289,7 +289,9 @@ class public_User extends Base {
 		}
 
 		/* Create mechanisum to activate the account */
-		$_POST['verified'] = md5($_POST['password']);
+		/* postpone it till we get email working on server */
+		/* $_POST['verified'] = md5($_POST['password']); */
+		$_POST['verified'] = 1; /* putting 1 means all are verified */
 
 		$rStr =  "Registered Successfully";
 
