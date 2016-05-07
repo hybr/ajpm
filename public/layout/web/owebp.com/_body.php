@@ -86,21 +86,21 @@
 										</md-menu-item>
 						
 										<md-menu-item ng-show="isAuthenticated">
-										<md-button aria-label="Logout" ui-sref-active="md-warn" ui-sref="logout">
+										<md-button aria-label="Logout" ui-sref-active="md-warn" ui-sref="logout" ng-click="isAuthenticated = false">
 											<md-tooltip>User Logout</md-tooltip>
 											<i class="material-icons">cancel</i> Logout
 										</md-button>
 										</md-menu-item>						            
 
 										<md-menu-item ng-hide="isAuthenticated">
-										<md-button aria-label="Login" ui-sref-active="md-warn" ui-sref="login1">
+										<md-button aria-label="Login" ui-sref-active="md-warn" ui-sref="login1" >
 											<md-tooltip>User Login</md-tooltip>
 											<i class="material-icons">input</i> Login
 										</md-button>
 										</md-menu-item>
 
-										<md-menu-item ui-sref-active="md-warn" ui-sref="my_account">
-			                            <md-button aria-label="My">
+										<md-menu-item ng-show="isAuthenticated">
+			                            <md-button aria-label="My" ui-sref-active="md-warn" ui-sref="my_account">
 			                            	<md-tooltip>My Profile</md-tooltip>
 											<i class="material-icons">person</i> My
 			                            </md-button>
@@ -194,11 +194,17 @@
                             </md-icon-button>
 
 							<span ng-show="isAuthenticated">
-								<md-icon-button aria-label="Logout" ui-sref-active="md-warn" ui-sref="logout">
+								<md-icon-button aria-label="Logout" ui-sref-active="md-warn" ui-sref="logout" ng-click="isAuthenticated = false">
                                 	<md-tooltip>User Logout</md-tooltip>
 									<i class="material-icons">cancel</i> Logout
 								</md-icon-button>
-                           </span>
+                            	
+                            	<md-icon-button aria-label="My" ui-sref-active="md-warn" ui-sref="my_account">
+									<md-tooltip>My Profile</md-tooltip>
+									<i class="material-icons">person</i> My
+                            	</md-icon-button>
+                            
+							</span>
 
                            <span  ng-hide="isAuthenticated">
 								<md-icon-button aria-label="Login" ui-sref-active="md-warn" ui-sref="login1">
@@ -206,11 +212,6 @@
 									<i class="material-icons">input</i> Login
 								</md-icon-button>
                            </span>
-
-                            <md-icon-button aria-label="My" ui-sref-active="md-warn" ui-sref="my_account">
-								<md-tooltip>My Profile</md-tooltip>
-								<i class="material-icons">person</i> My
-                            </md-icon-button>
 			
 						</span>
 						<!-- ajpmExtraIPadIcons -->
@@ -224,10 +225,15 @@
                             </md-icon-button>
 
 							<span ng-show="isAuthenticated">
-								<md-icon-button aria-label="Logout" ui-sref-active="md-warn" ui-sref="logout">
+								<md-icon-button aria-label="Logout" ui-sref-active="md-warn" ui-sref="logout" ng-click="isAuthenticated = false">
                                 	<md-tooltip>User Logout</md-tooltip>
 									<i class="material-icons">cancel</i>
 								</md-icon-button>
+								
+	                            <md-icon-button aria-label="My" ui-sref-active="md-warn" ui-sref="my_account">
+									<md-tooltip>My Profile</md-tooltip>
+									<i class="material-icons">person</i>
+	                            </md-icon-button>								
                            </span>
 
                            <span  ng-hide="isAuthenticated">
@@ -236,11 +242,6 @@
 									<i class="material-icons">input</i>
 								</md-icon-button>
                            </span>
-
-                            <md-icon-button aria-label="My" ui-sref-active="md-warn" ui-sref="my_account">
-								<md-tooltip>My Profile</md-tooltip>
-								<i class="material-icons">person</i>
-                            </md-icon-button>
 			
 						</span>
 						<!-- ajpmExtraMobileIcons -->

@@ -42,6 +42,7 @@ angular.module('ajpmApp').controller('LoginController',	[
 			 * If user exists then we will get a valid session id to start the session from the server side
 			 * if session_id is empty then user does not exists
 			 */
+			$scope.isAuthenticated = false;
 			AuthService.checkUserForLoginProcess(
 				$scope.email_address,
 				checkUserForLoginProcessPass,
@@ -66,6 +67,7 @@ angular.module('ajpmApp').controller('LoginController',	[
 				/**
 				 * Check if password is OK
 				 */
+				$scope.isAuthenticated = false;
 				AuthService.isPasswordCorrect(
 					md5($scope.password),
 					$scope.isPasswordCorrectPass,
@@ -79,21 +81,25 @@ angular.module('ajpmApp').controller('LoginController',	[
 
 		function checkUserForLoginProcessPass (message) {
 			if (message) $rootScope.pushPageMessage(message);
+			$scope.isAuthenticated = false;
 			$state.go('login2');
 		}
 
 		function checkUserForLoginProcessFail (message) {
 			if (message) $rootScope.pushPageMessage(message);
+			$scope.isAuthenticated = false;
 			$state.go('login1');
 		}
 
 		$scope.isPasswordCorrectPass = function(message) {
-			if (message) $rootScope.pushPageMessage(message + 'test');
+			if (message) $rootScope.pushPageMessage(message);
+			$scope.isAuthenticated = true;
 			$state.go('home');
 		}
 
 		$scope.isPasswordCorrectFail = function(message) {
 			if (message) $rootScope.pushPageMessage(message);
+			$scope.isAuthenticated = false;
 			$state.go('login2');
 		}
 
@@ -102,14 +108,14 @@ angular.module('ajpmApp').controller('LoginController',	[
 		};
 
 		$scope.register = function() {
-						$location.url('/join');
-						$('#userLoginModelOne').dialog("close");
-						$('#userLoginModelTwo').dialog("close");
+			$location.url('/join');
+			$('#userLoginModelOne').dialog("close");
+			$('#userLoginModelTwo').dialog("close");
 		}
 		$scope.forget_password = function() {
-						$location.url('/forgot');
-						$('#userLoginModelOne').dialog("close");
-						$('#userLoginModelTwo').dialog("close");
+			$location.url('/forgot');
+			$('#userLoginModelOne').dialog("close");
+			$('#userLoginModelTwo').dialog("close");
 		}
 		
 		$scope.reset();
@@ -123,6 +129,7 @@ angular.module('ajpmApp').controller('LoginController',	[
 
 } ]);
 
-angular.module('ajpmApp').controller('LogoutController', ['AuthService', function(AuthService) {
+angular.module('ajpmApp').controller('LogoutController', ['$scope', 'AuthService', function($scope, AuthService) {
 	AuthService.logout();
+	$scope.isAuthenticated = false;
 } ]);
