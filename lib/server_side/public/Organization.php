@@ -47,14 +47,14 @@ class public_Organization extends Base {
 			'default' => 'Electronic Commerce',
 		),
 		'web_site_theme' => array (
-			'help' => 'Color scheme of the website under PHP/JQuery',
+			'help' => 'Color scheme of admin site',
 			'type' => 'list',
 			'list_class' => 'WebPageTheme',
 			'input_mode' => 'selecting',
 			'default' => 'start'
 		),
 		'web_site_theme_2' => array (
-			'help' => 'Color scheme of the website under Angular. primary, accent, warn, background, darkness',
+			'help' => 'Color scheme of testing/live site. primary, accent, warn, background, darkness',
 			'type' => 'list',
 			'list_class' => 'WebPageTheme2',
 			'input_mode' => 'selecting',
