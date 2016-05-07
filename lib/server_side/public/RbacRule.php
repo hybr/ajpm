@@ -5,12 +5,17 @@ class public_RbacRule extends Base {
 		$this->collectionName = 'rbac_rule';
 	} /* __construct */
 	public $fields = array (
+			'name' => array (
+					'type' => 'string',
+					'help' => 'Name of the organization role',
+					'show_in_list' => 1,
+					'required' => 1
+			),			
 			'module' => array (
 					'type' => 'foreign_key',
 					'foreign_collection' => 'database_domain',
 					'foreign_search_fields' => 'name',
 					'foreign_title_fields' => 'name',
-					'show_in_list' => 1,
 					'required' => 1 
 			),
 			'organization_role' => array (
@@ -18,7 +23,6 @@ class public_RbacRule extends Base {
 					'foreign_collection' => 'organization_role',
 					'foreign_search_fields' => 'abbreviation,name',
 					'foreign_title_fields' => 'abbreviation,name',
-					'show_in_list' => 1,
 					'required' => 1 
 			),
 			'permission' => array (
