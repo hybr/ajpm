@@ -48,17 +48,6 @@ class public_Person extends Base {
 					'foreign_title_fields' => 'email_address,provider' 
 				) 
 			) 
-		),
-		'position' => array (
-			'type' => 'container',
-			'fields' => array (
-				'role' => array (
-					'type' => 'foreign_key',
-					'foreign_collection' => 'organization_role',
-					'foreign_search_fields' => 'name',
-					'foreign_title_fields' => 'name'
-				)
-			)
 		),			
 		'relative' => array (
 			'type' => 'container',
