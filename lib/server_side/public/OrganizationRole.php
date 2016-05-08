@@ -37,20 +37,6 @@ class public_OrganizationRole extends Base {
 					'foreign_title_fields' => 'name',
 					'required' => 1 
 			),
-			'location' => array (
-					'type' => 'container',
-					'required' => 1,
-					'fields' => array (
-							'seat' => array (
-									'help' => 'Add one seat for each position',
-									'type' => 'foreign_key',
-									'foreign_collection' => 'organization_working_seat',
-									'foreign_search_fields' => 'floor,room,seat',
-									'foreign_title_fields' => 'floor,room,seat',
-									'required' => 1 
-							) 
-					) 
-			) 
 	)
 	; /* fields */
 } /* class */

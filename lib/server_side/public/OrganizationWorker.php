@@ -12,11 +12,71 @@ class public_OrganizationWorker extends Base {
 			'foreign_title_fields' => 'name,gender' 
 		),
 		'position' => array (
+			'help' => 'Create multiple records for more than one position/role of a person',
 			'type' => 'foreign_key',
 			'foreign_collection' => 'rbac_rule',
 			'foreign_search_fields' => 'module,organization_role,permission',
 			'foreign_title_fields' => 'module,organization_role,permission' 
 		),
+		'location' => array (
+			'type' => 'container',
+			'required' => 1,
+			'fields' => array (
+				'seat' => array (
+					'help' => 'Add one or more seat for above position',
+					'type' => 'foreign_key',
+					'foreign_collection' => 'organization_working_seat',
+					'foreign_search_fields' => 'floor,room,seat',
+					'foreign_title_fields' => 'floor,room,seat',
+					'required' => 1
+				)
+			)
+		),
+		'service_hours' => array (
+			'help' => 'Hours when worker is reporting to work for the above role',
+			'type' => 'container',
+			'show_in_list' => 0,
+			'fields' => array (
+				'every' => array (
+					'type' => 'number' ,
+					'required' => 1,
+				),
+				'frequency' => array (
+					'type' => 'list',
+					'list_class' => 'TimeRepeatFrequency',
+					'input_mode' => 'selecting',
+					'default' => 'Day',
+					'required' => 1,
+				),
+				'start_date' => array (
+					'type' => 'date' ,
+					'required' => 1,
+				),
+				'start_time' => array (
+					'type' => 'time' ,
+					'required' => 1,
+				),
+				'duration' => array (
+					'type' => 'number' ,
+					'required' => 1,
+				),
+				'duration_unit' => array (
+					'type' => 'list',
+					'list_class' => 'TimeRepeatFrequency',
+					'input_mode' => 'selecting',
+					'default' => 'Hour',
+					'required' => 1,
+				),
+				'end_date' => array (
+					'type' => 'date' ,
+					'required' => 1,
+				),
+				'end_time' => array (
+					'type' => 'time' ,
+					'required' => 1,
+				),
+			)
+		),			
 	); /* fields */
 } /* class */
 ?>
