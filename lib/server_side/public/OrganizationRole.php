@@ -8,7 +8,6 @@ class public_OrganizationRole extends Base {
 			'abbreviation' => array (
 					'help' => 'Code of organization role',
 					'type' => 'string',
-					'show_in_list' => 1 
 			),
 			'name' => array (
 					'type' => 'string',
@@ -28,14 +27,16 @@ class public_OrganizationRole extends Base {
 					'foreign_collection' => 'organization_team',
 					'foreign_search_fields' => 'abbreviation,name',
 					'foreign_title_fields' => 'abbreviation,name',
-					'required' => 1 
+					'required' => 1,
+					'show_in_list' => 1,
 			),
 			'level' => array (
 					'type' => 'foreign_key',
 					'foreign_collection' => 'organization_team_member_level',
 					'foreign_search_fields' => 'name',
 					'foreign_title_fields' => 'name',
-					'required' => 1 
+					'required' => 1,
+					'show_in_list' => 1,
 			),
 	)
 	; /* fields */

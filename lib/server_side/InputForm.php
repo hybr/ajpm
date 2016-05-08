@@ -8,30 +8,6 @@ class InputForm extends Base {
 	private function nameToTagId($name) {
 		return 'fi_' . str_replace ( ']', '', str_replace ( '[', '_', $name ) );
 	}
-	private function showReadOnlyValue($value, $field) {
-		$rStr = '';
-		if ($field ['type'] == 'foreign_key' && $value != '') {
-			$rStr .= $this->showSelectedReadOnlyFieldsFromDocOfCollection ( $value, $field ['foreign_collection'], $field ['foreign_title_fields'] );
-		} elseif ($field ['type'] == 'list' && $value != '') {
-			$listInstance = new $field ['list_class'] ();
-			if ($listInstance->titleValueConversionRequired) {
-				foreach ( $listInstance->getTable () as $r ) {
-					if ($r ['value'] == $value) {
-						$rStr = $r ['title'];
-					}
-				}
-				if ($rStr == '') {
-					$rStr = $value;
-				}
-			} else {
-				$rStr = $value;
-			}
-		} else {
-			
-			$rStr = $value;
-		}
-		return $rStr;
-	}
 	private function showLabel($field) {
 		$rStr = '';
 		/* label start */

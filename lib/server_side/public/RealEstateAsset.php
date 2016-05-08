@@ -25,6 +25,7 @@ class public_RealEstateAsset extends Base {
 		),
 		'owner' => array(
 			'type' => 'container',
+			'show_in_list' => 1,
 			'fields' => array (
 				'name' => array (
 					'type' => 'foreign_key',
@@ -33,6 +34,7 @@ class public_RealEstateAsset extends Base {
 					'foreign_title_fields' => 'name,gender',
 					'required' => 1,
 					'searchable' => 1,
+					'show_in_list' => 1,
 				),	
 				'signatory' => array (
 					'help' => 'Select true if signature required',
@@ -41,6 +43,7 @@ class public_RealEstateAsset extends Base {
 					'input_mode' => 'clicking',
 					'default' => 'True',
 					'required' => 1,
+					'show_in_list' => 1,
 				),
 			),
 		),			

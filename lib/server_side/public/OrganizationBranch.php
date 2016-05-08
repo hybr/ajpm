@@ -10,7 +10,8 @@ class public_organizationBranch extends Base {
 			'type' => 'foreign_key',
 			'foreign_collection' => 'organization',
 			'foreign_search_fields' => 'abbreviation,name',
-			'foreign_title_fields' => 'abbreviation,name' 
+			'foreign_title_fields' => 'abbreviation,name',
+			'show_in_list' => 1,
 		),
 		'code' => array (
 			'type' => 'string',

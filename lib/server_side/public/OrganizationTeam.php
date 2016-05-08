@@ -22,7 +22,8 @@ class public_OrganizationTeam extends Base {
 			'type' => 'foreign_key',
 			'foreign_collection' => 'organization_team',
 			'foreign_search_fields' => 'abbreviation,name',
-			'foreign_title_fields' => 'abbreviation,name'
+			'foreign_title_fields' => 'abbreviation,name',
+			'show_in_list' => 1,
 		),
 		'photo' => array (
 			'help' => 'This organization team photos',

@@ -22,21 +22,25 @@ class public_Organization extends Base {
 			'type' => 'foreign_key',
 			'foreign_collection' => 'organization',
 			'foreign_search_fields' => 'abbreviation,name',
-			'foreign_title_fields' => 'abbreviation,name'
+			'foreign_title_fields' => 'abbreviation,name',
+			'show_in_list' => 1,
 		),			
 		'org_owner' => array (
 			'help' => 'Person who will manage organization data',
 			'type' => 'foreign_key',
 			'foreign_collection' => 'person',
 			'foreign_search_fields' => 'name.first,name.middle,name.last',
-			'foreign_title_fields' => 'name,gender'
+			'foreign_title_fields' => 'name,gender',
+			'show_in_list' => 1,
 		),
 		'web_domain' => array (
 			'type' => 'container',
 			'required' => 1,
 			'show_in_list' => 1,
 			'fields' => array (
-				'name' => array ()
+				'name' => array (
+					'show_in_list' => 1,
+				)
 			)
 		),
 		'web_site_content_type' => array (

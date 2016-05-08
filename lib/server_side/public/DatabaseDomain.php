@@ -17,7 +17,8 @@ class public_DatabaseDomain extends Base {
 			'type' => 'foreign_key',
 			'foreign_collection' => 'database_domain',
 			'foreign_search_fields' => 'name',
-			'foreign_title_fields' => 'name'
+			'foreign_title_fields' => 'name',
+			'show_in_list' => 1,
 		),
 		'mandatory' => array (
 			'type' => 'list',

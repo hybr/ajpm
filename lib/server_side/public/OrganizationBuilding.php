@@ -10,7 +10,8 @@ class public_organizationBuilding extends Base {
 			'type' => 'foreign_key',
 			'foreign_collection' => 'organization_branch',
 			'foreign_search_fields' => 'code,name',
-			'foreign_title_fields' => 'code,name'
+			'foreign_title_fields' => 'code,name',
+				'show_in_list' => 1,
 		),			
 		'code' => array (
 			'help' => 'Code of the building',

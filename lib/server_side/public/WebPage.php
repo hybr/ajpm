@@ -20,7 +20,8 @@ class public_WebPage extends Base {
 					'type' => 'list',
 					'list_class' => 'WebPageComponent',
 					'input_mode' => 'selecting',
-					'default' => 'Paragraph'
+					'default' => 'Paragraph',
+					'show_in_list' => 1,
 				)
 			) 
 		),
@@ -53,18 +54,9 @@ class public_WebPage extends Base {
 		),
 		'paragraph' => array (
 				'type' => 'container',
-				'show_in_list' => 0,
 				'fields' => array (
 						'title' => array ('required' => 1, 'searchable' => 1),
 						'content' => array ('type' => 'textarea', 'required' => 1, 'searchable' => 1, 'searchResultDetail' => 1,)
-				)
-		),
-		'what_is_next' => array (
-				'type' => 'container',
-				'show_in_list' => 0,
-				'fields' => array (
-						'title' => array ('required' => 1, 'searchable' => 1),
-						'url' => array ('type' => 'url', 'required' => 1, 'searchable' => 1,)
 				)
 		),
 		'contacts' => array(
@@ -78,7 +70,16 @@ class public_WebPage extends Base {
 				)                                                    
 			),
 		),
-	); /* fields */
+		'what_is_next' => array (
+				'type' => 'container',
+				'show_in_list' => 1,
+				'fields' => array (
+						'title' => array ('show_in_list' => 1, 'required' => 1, 'searchable' => 1),
+						'url' => array ('type' => 'url', 'required' => 1, 'searchable' => 1,)
+				)
+		),
+			
+		); /* fields */
 	
 	public function presentDocument($subTaskKeyToSave, $fields, $doc) {
 		// $rStr = '<div class="ui-widget ui-widget-content ui-corner-all" >';

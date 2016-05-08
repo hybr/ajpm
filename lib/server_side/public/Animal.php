@@ -42,6 +42,7 @@ class public_Animal extends Base {
 				'foreign_collection' => 'person',
 				'foreign_search_fields' => 'name.first,name.middle,name.last',
 				'foreign_title_fields' => 'name,gender',
+				'show_in_list' => 1,
 		),
 		'sale_date' => array (
 				'type' => 'date' ,

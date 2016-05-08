@@ -8,13 +8,14 @@ class public_ChartOfAccounts extends Base {
 			'title' => array (),
 			'summary' => array (),
 			'category' => array (
-					'required' => 1 
+				'required' => 1 
 			),
 			'parent_account' => array (
-					'type' => 'foreign_key',
-					'foreign_collection' => 'chart_of_accounts',
-					'foreign_search_fields' => 'title,summary,category',
-					'foreign_title_fields' => 'category,title,summary' 
+				'type' => 'foreign_key',
+				'foreign_collection' => 'chart_of_accounts',
+				'foreign_search_fields' => 'title,summary,category',
+				'foreign_title_fields' => 'category,title,summary',
+				'show_in_list' => 1,
 			),
 	); /* fields */
 	public function presentDocument($subTaskKeyToSave, $fields, $doc) {
@@ -24,7 +25,7 @@ class public_ChartOfAccounts extends Base {
 		$rStr .= '<tr><td class="ui-widget-header" colspan="2"><h2>' . $doc ['title'] . '</h2></td></tr>';
 		$rStr .= '<tr class="ui-widget-content"><td colspan="2">' . $doc ['summary'] . '</td></tr>';
 		$rStr .= '<tr class="ui-widget-content"><td>Category</td><td>' . $doc ['category'] . '</td></tr>';
-		if ((isset($doc ['parent_account']) && (string) $doc ['parent_account'] != '') {
+		if ((isset($doc ['parent_account']) && (string) $doc ['parent_account'] != '')) {
 			$parentAccount = $this->getDocumentById ( 'chart_of_accounts', $doc ['parent_account'] );
 			$rStr .= '<tr class="ui-widget-content"><td>Parent Account</td><td>' . $parentAccount ['title'] . '</td></tr>';
 		}
@@ -38,7 +39,7 @@ class public_ChartOfAccounts extends Base {
 		$rStr .= '<tr><td class="ui-widget-header" colspan="2"><h2>' . $doc ['title'] . '</h2></td></tr>';
 		$rStr .= '<tr class="ui-widget-content"><td colspan="2">' . $doc ['summary'] . '</td></tr>';
 		$rStr .= '<tr class="ui-widget-content"><td>Category</td><td>' . $doc ['category'] . '</td></tr>';
-		if ((isset($doc ['parent_account']) && (string) $doc ['parent_account'] != '') {
+		if ((isset($doc ['parent_account']) && (string) $doc ['parent_account'] != '')) {
 			$parentAccount = $this->getDocumentById ( 'chart_of_accounts', $doc ['parent_account'] );
 			$rStr .= '<tr class="ui-widget-content"><td>Parent Account</td><td>' . $parentAccount ['title'] . '</td></tr>';
 		}

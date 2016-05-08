@@ -16,11 +16,11 @@ class public_Person extends Base {
 					'input_mode' => 'clicking',
 					'default' => 'Official' 
 				),
-				'prefix' => array (),
-				'first' => array ( 'required' => 1 ),
-				'middle' => array (),
-				'last' => array (),
-				'suffix' => array () 
+				'prefix' => array ('show_in_list' => 1,),
+				'first' => array ( 'show_in_list' => 1, 'required' => 1 ),
+				'middle' => array ('show_in_list' => 1,),
+				'last' => array ('show_in_list' => 1,),
+				'suffix' => array ('show_in_list' => 1,) 
 			) 
 		),
 		'gender' => array (
@@ -38,14 +38,14 @@ class public_Person extends Base {
 					'type' => 'list',
 					'list_class' => 'Boolean',
 					'input_mode' => 'clicking',
-					'show_in_list' => 1,
 					'default' => 'False'
 				),							
 				'email_address' => array (
 					'type' => 'foreign_key',
 					'foreign_collection' => 'user',
 					'foreign_search_fields' => 'email_address',
-					'foreign_title_fields' => 'email_address,provider' 
+					'foreign_title_fields' => 'email_address,provider',
+					'show_in_list' => 1,
 				) 
 			) 
 		),			

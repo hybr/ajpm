@@ -137,8 +137,8 @@ class Base {
 			if (isset ( $record [trim ( $oneField )] )) {
 				if (is_array ( $record [trim ( $oneField )] )) {
 					
-					foreach ( $record [trim ( $oneField )] as $subField ) {
-						foreach ( $subField as $subElem => $val ) {
+					foreach ( $record [trim ( $oneField )] as $subRecord ) {
+						foreach ( $subRecord as $subElem => $val ) {
 							if ($val != '') {
 								$fieldValue .= $val . ' ';
 							}
@@ -158,6 +158,31 @@ class Base {
 			if ($fieldValue != '') {
 				$rStr .= $this->getTitle ( $oneField ) . ': ' . $fieldValue . '<br/ >';
 			}
+		}
+		return $rStr;
+	}
+	
+	private function showReadOnlyValue($value, $field) {
+		$rStr = '';
+		if ($field ['type'] == 'foreign_key' && $value != '') {
+			$rStr .= $this->showSelectedReadOnlyFieldsFromDocOfCollection ( $value, $field ['foreign_collection'], $field ['foreign_title_fields'] );
+		} elseif ($field ['type'] == 'list' && $value != '') {
+			$listInstance = new $field ['list_class'] ();
+			if ($listInstance->titleValueConversionRequired) {
+				foreach ( $listInstance->getTable () as $r ) {
+					if ($r ['value'] == $value) {
+						$rStr = $r ['title'];
+					}
+				}
+				if ($rStr == '') {
+					$rStr = $value;
+				}
+			} else {
+				$rStr = $value;
+			}
+		} else {
+				
+			$rStr = $value;
 		}
 		return $rStr;
 	}
@@ -460,7 +485,8 @@ class Base {
 			if ($direction == 'before_save' && $this->isValidMongoObjectID($value)) {
 				$nv = new MongoId ( ( string ) $value );
 			}
-			if ($direction == 'after_read') {
+			if ($direction == 'after_read'&& $this->isValidMongoObjectID($value)) {
+				/* get the title fields values */
 				$nv = ( string ) $value;
 			}
 		}
@@ -1062,6 +1088,40 @@ class Base {
 		$rStr .= $this->showLinks ();
 		return $rStr;
 	}
+	
+	private function showInList($fieldDefination, $record, $fieldName) {
+		$rStr = '';
+		$fieldDefination = array_merge ( $this->fieldDefault, $fieldDefination );
+		
+		if ($fieldDefination ['show_in_list'] == 0) {
+			return $rStr;
+		}
+		
+		if ($fieldDefination['type'] == 'container') {
+			foreach ($fieldDefination['fields'] as $subFieldName => $subFieldDefination) {
+				foreach ( $record[$fieldName] as $index => $subField ) {
+					$rStr .= $this->showInList(
+							$subFieldDefination,
+							$subField,
+							$subFieldName) . ", ";
+				}
+				$rStr = rtrim ( $rStr, ", " );
+			}
+			
+
+		} else if ($fieldDefination['type'] == 'foreign_key') {
+			$rStr .= $this->showReadOnlyValue (
+				$record [$fieldName], /* record id */ 
+				$fieldDefination
+			);
+		} else {
+			$rStr .= ' ' . $record[$fieldName];
+		}
+		
+		if ($rStr == '') $rStr = 'No Value';
+		return $rStr;
+	}
+	
 	public function readAll($urlArgsArray) {
 		$this->makeSurePersonprofileExists();
 		if (!empty($this->errorMessage)) {
@@ -1113,26 +1173,15 @@ class Base {
 				$this->record = $this->processFieldsForPresentationAndStorage ( 'after_read', $this->fields, $doc, 1 );
 				
 				$rStr .= '<tr>';
-				foreach ( $this->fields as $key => $val ) {
-					$field2 = array_merge ( $this->fieldDefault, $val );
-					if ($field2 ['show_in_list'] == 0) {
-						continue;
+				foreach ( $this->fields as $fieldName => $fieldDefination ) {
+					$showStr = $this->showInList(
+						$fieldDefination, 
+						$this->record, 
+						$fieldName
+					);
+					if ($showStr != '') {
+						$rStr .= '<td>' . $showStr . '</td>';
 					}
-					$rStr .= '<td>';
-					
-					if (isset ( $this->record [$key] )) {
-						if ($field2 ['type'] == 'container') {
-							foreach ( $this->record [$key] as $subField ) {
-								$rStr .= implode ( ' ', $subField ) . ', ';
-							}
-							$rStr = rtrim ( $rStr, ", " );
-						} else {
-							$rStr .= $this->record [$key];
-						}
-					} else {
-						$rStr .= 'UNKNOWN';
-					}
-					$rStr .= '</td>';
 				}
 				$subTaskForList = $_SESSION['url_sub_task'];
 				if ( $this->collectionName == 'contact') {

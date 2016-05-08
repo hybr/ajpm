@@ -11,6 +11,7 @@ class public_ItemCatalog extends Base {
 			),
 			'summary' => array (),
 			'parent_category' => array (
+				'show_in_list' => 1,
 				'type' => 'foreign_key',
 				'foreign_collection' => 'item_catalog',
 				'foreign_search_fields' => 'category,summary',
@@ -34,7 +35,7 @@ class public_ItemCatalog extends Base {
 								'show_in_list' => 1,
 								'foreign_collection' => 'item',
 								'foreign_search_fields' => 'title,summary',
-								'foreign_title_fields' => 'type,title,manufacturar',
+								'foreign_title_fields' => 'type,title',
 								'help' => 'PAS = Product and Service' 
 							),
 							'live' => array (

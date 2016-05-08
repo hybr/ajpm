@@ -10,7 +10,8 @@ class public_organizationWorkingSeat extends Base {
 			'type' => 'foreign_key',
 			'foreign_collection' => 'organization_building',
 			'foreign_search_fields' => 'code,name',
-			'foreign_title_fields' => 'code,name' 
+			'foreign_title_fields' => 'code,name',
+			'show_in_list' => 1,
 		),
 		'floor' => array (
 			'help' => 'Floor number',

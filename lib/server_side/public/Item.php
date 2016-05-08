@@ -30,6 +30,7 @@ class public_Item extends Base {
 			'searchable' => 1,				
 		),
 		'manufacturar' => array (
+			'show_in_list' => 1,
 			'type' => 'foreign_key',
 			'foreign_collection' => 'organization',
 			'foreign_search_fields' => 'abbreviation,name',
