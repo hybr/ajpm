@@ -1099,11 +1099,15 @@ class Base {
 		
 		if ($fieldDefination['type'] == 'container') {
 			foreach ($fieldDefination['fields'] as $subFieldName => $subFieldDefination) {
-				foreach ( $record[$fieldName] as $index => $subField ) {
-					$rStr .= $this->showInList(
-							$subFieldDefination,
-							$subField,
-							$subFieldName) . ", ";
+				if (is_array($record[$fieldName])) {
+					foreach ( $record[$fieldName] as $index => $subField ) {
+						$rStr .= $this->showInList(
+								$subFieldDefination,
+								$subField,
+								$subFieldName) . ", ";
+					}
+				} else {
+					$rStr .= ' ' . $record[$fieldName];
 				}
 				$rStr = rtrim ( $rStr, ", " );
 			}
