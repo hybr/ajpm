@@ -7,7 +7,7 @@ class public_RbacRule extends Base {
 	public $fields = array (
 			'name' => array (
 					'type' => 'string',
-					'help' => 'Name of the organization role',
+					'help' => 'Name of the authorization rule',
 					'show_in_list' => 1,
 					'required' => 1
 			),			

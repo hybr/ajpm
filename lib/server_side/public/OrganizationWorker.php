@@ -6,17 +6,18 @@ class public_OrganizationWorker extends Base {
 	} /* __construct */
 	public $fields = array (
 		'person' => array (
+			'help' => 'Name of worker',
 			'type' => 'foreign_key',
 			'foreign_collection' => 'person',
 			'foreign_search_fields' => 'name.first,name.middle,name.last',
 			'foreign_title_fields' => 'name,gender' 
 		),
 		'position' => array (
-			'help' => 'Create multiple records for more than one position/role of a person',
+			'help' => 'Create multiple records for more than one position/rule of a person',
 			'type' => 'foreign_key',
 			'foreign_collection' => 'rbac_rule',
-			'foreign_search_fields' => 'module,organization_role,permission',
-			'foreign_title_fields' => 'module,organization_role,permission' 
+			'foreign_search_fields' => 'name,permission',
+			'foreign_title_fields' => 'name,permission' 
 		),
 		'location' => array (
 			'type' => 'container',
