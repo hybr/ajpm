@@ -9,16 +9,26 @@
       
       <md-tab ng-if="doc.type == 'Service'" label="Service">
         <md-content class="md-padding">
-          <h2>{{ doc.title }}</h2>
-          <h2> By {{ manufacturarName }}</h2>
-          <div ng-repeat="p in doc.photo">
-			<div ng-show="currentPhoto==$index" style="width:150px">
-          		<img alt="{{p.caption}}" ng-src="{{p.file_name}}" />
-			</div>
-          </div>
-		<md-button ng-click="currentPhoto=decreaseCounter(currentPhoto,0,1)" >Previuos</md-button>	
-		<md-button ng-click="currentPhoto=increaseCounter(currentPhoto,doc.photo.length,1)" >Next</md-button>{{currentPhoto}}	
-          <p>{{ doc.summary }}</p>
+			<h2>{{ doc.title }}</h2>
+			<h3> By {{ manufacturarName }}</h3>
+			<div ng-init="currentPhoto=0">
+				<div ng-repeat="imgRec in doc.photo ">
+					<div ng-show="currentPhoto==$index" 
+						class="ajpmCaruselBox"
+						style="background-image: url('{{imgRec.file_name}}');">
+						<a href="{{imgRec.click_link_url}}"><div class="ajpmCaruselCaption">
+							{{imgRec.caption}}
+						</div></a> 	
+					</div>
+				</div>
+				<md-button class="md-primary md-raised" 
+					ng-click="currentPhoto=decreaseCounter(currentPhoto,0,1)"
+				>Previuos</md-button>	
+				<md-button class="md-primary md-raised" 
+					ng-click="currentPhoto=increaseCounter(currentPhoto,doc.photo.length-1,1)" 
+				>Next</md-button>	
+			</div>          
+			<p>{{ doc.summary }}</p>
         </md-content>
       </md-tab>
       

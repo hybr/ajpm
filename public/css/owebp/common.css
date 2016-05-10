@@ -68,7 +68,8 @@ ul.jpmPns li {
 }
 
 .ajpmCaruselBox {
-	background-size: 100% 100%;
+	background-size: contain;
+	background-repeat: no-repeat;
 	min-height: 200px !important;
 	max-height: 300px !important;
 	width:100%;

@@ -2,7 +2,6 @@
 <div ng-repeat="c in doc.component">
 
 	<div ng-if="c.type == 'Image Slider' && doc.slider_image.length > 0"">
-	
 		<div ng-init="currentSliderImage=0">
 			<div ng-repeat="imgRec in doc.slider_image ">
 				<div ng-show="currentSliderImage==$index" 
