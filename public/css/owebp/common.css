@@ -67,26 +67,28 @@ ul.jpmPns li {
 	display: inline;
 }
 
+.ajpmCaruselBox {
+	background-size: 100% 100%;
+	min-height: 200px !important;
+	max-height: 300px !important;
+	width:100%;
+}
 
-.groupX {
-    font-size: 16px;
-    margin: 20px 0;
-    padding: 3px 15px 3px 15px;
-    text-transform: none;
-    font-weight: 400;
-    min-width:100px;
-}
-.md-button.left {
-    border-radius: 10px 0 0 10px;
-}
-.md-button.middle {
-    border-radius: 0;
-    border-left: 1px solid ;
-    border-right: 1px solid ;
-}
-.md-button.right {
-    border-radius: 0 10px 10px 0;
-}
-.md-button:not([disabled]):hover {
-    transition: 0.3s;
+.ajpmCaruselCaption {
+    color: white;
+    background-color: black;
+    opacity: 0.3;
+    text-align: center;
+    font-size: 2em;
+    
+    position: relative;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 150px;
+    z-index: 10;
+    padding-top: 0;
+    padding-bottom: 0;
+    text-align: center;
+    text-shadow: none;
 }

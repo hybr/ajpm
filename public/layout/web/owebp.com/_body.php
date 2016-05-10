@@ -313,11 +313,9 @@
             
 	</div>
 	<!-- ajpmMainRow -->
-
+      
 </md-content>
-
 
 <?php if(file_exists(dirname(__FILE__) . '/../_body_links.php'))
         include dirname(__FILE__) . '/../_body_links.php';
 ?>
-

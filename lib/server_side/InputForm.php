@@ -74,7 +74,7 @@ class InputForm extends Base {
 		$rStr .= ' >';
 	
 		/* options */
-		$target_folder = '/hybr/websites/jpm/public/file/' . ( string ) $_SESSION ['url_domain_org'] ['_id'];
+		$target_folder = '/hybr/websites/ajpm/public/file/' . ( string ) $_SESSION ['url_domain_org'] ['_id'];
 		if(is_dir($target_folder) && is_readable($target_folder)) {
 			if ($handle = opendir($target_folder)) {
 			$rStr .= '<option value=""';

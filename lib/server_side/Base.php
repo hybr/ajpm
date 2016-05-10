@@ -493,7 +493,7 @@ class Base {
 		if ($attributes ['type'] == 'file') {
 			if ($direction == 'before_save') {
 				/* for file upload */		
-				$target_folder = '/hybr/websites/jpm/public/file/' . ( string ) $_SESSION ['url_domain_org'] ['_id'];
+				$target_folder = '/hybr/websites/ajpm/public/file/' . ( string ) $_SESSION ['url_domain_org'] ['_id'];
 				if (! is_dir ( $target_folder )) {
 					mkdir ( $target_folder );
 				}
@@ -832,7 +832,7 @@ class Base {
 		
 		/* remove the uploded file */
 		if ($this->collectionName == 'file_upload') {
-			$target_folder = '/hybr/websites/jpm/public/file/' . ( string ) $_SESSION ['url_domain_org'] ['_id'];
+			$target_folder = '/hybr/websites/ajpm/public/file/' . ( string ) $_SESSION ['url_domain_org'] ['_id'];
 			if (is_dir ( $target_folder ) && is_writeable ( $target_folder )) {
 				echo "Removing : " . $target_folder . '/' . $this->record ['file_name'];
 				print_r ( $this->record );
