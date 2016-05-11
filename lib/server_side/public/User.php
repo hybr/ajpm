@@ -88,7 +88,7 @@ class public_User extends Base {
 		unset ( $_SESSION ['user'] );
 		unset ( $_SESSION ['person'] );
 		unset ( $_SESSION ['login_person_id'] );
-		header('Location: /');    
+		header('Location: /-a-');    
 	}
 	public function join($urlArgsArray) {
 		$rStr = '';
@@ -234,10 +234,10 @@ class public_User extends Base {
 		} else {
 			$_SESSION ['login_person_id'] = $_SESSION ['user'] ['person'];
 		}
-		
-		//header('Location: /-a-person');    
+
 		return $rStr;
 	} /* authenticate */
+	
 	public function register($urlArgsArray) {
 		$userRec = array();
 
