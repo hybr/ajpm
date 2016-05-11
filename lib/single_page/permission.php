@@ -51,10 +51,6 @@ function isAllowed($collectionName, $subTask) {
 			'public_person',
 			'public_user',
 			'public_contact',
-			'public_webpage',
-			'public_organization',
-			'public_itemcatalog',
-			'public_item'
 	) )) {
 		$_SESSION ['allowed_as'] = "USER";
 		return true;
@@ -150,13 +146,9 @@ function isAllowed($collectionName, $subTask) {
 				}
 			}
 		}
-	} else {
-		$_SESSION['authorization_message'] = 'Person does not have position (RBAC) rules assigned';
-		/* we give only message but allow user to continue so that he can create person profile */
 	}
-	
-		
-	
+	$_SESSION['authorization_message'] = 'Your position in organization does not allow this';
+	/* we give only message but allow user to continue so that he can create person profile */	
 	return false;
 } /* function isAllowed */
 

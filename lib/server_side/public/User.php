@@ -230,7 +230,7 @@ class public_User extends Base {
 		}
 		
 		if (empty($_SESSION ['person'])) {
-			$rStr .= ' | No associated person record found';
+			$rStr .= ' | - Please create <a href="/-a-person">person</a> profile. Assign it to your credentials and re-login.';
 		} else {
 			$_SESSION ['login_person_id'] = $_SESSION ['user'] ['person'];
 		}
@@ -259,7 +259,7 @@ class public_User extends Base {
 						'_id' => new MongoId ( $userRec ['person'] ) 
 				) );
 				if (empty ( $personRec )) {
-					array_push ( $this->errorMessage, 'No associated person record found.' );
+					array_push ( $this->errorMessage, ' = Please create <a href="/-a-person">person</a> profile. Assign it to your credentials and re-login.' );
 				} else {
 					$personCommunicationEmail = '';
 					foreach ( $personRec ['login_credential'] as $lc ) {

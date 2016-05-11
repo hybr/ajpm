@@ -1003,7 +1003,7 @@ class Base {
 				|| $_SESSION ['login_person_id'] == ''
 			)
 		) {
-			array_push ( $this->errorMessage, 'Please create <a href="/-a-person">person</a> profile.' );
+			array_push ( $this->errorMessage, '# Please create <a href="/-a-person">person</a> profile. Assign it to your credentials and re-login.' );
 		}
 	}
 	private function edit($urlArgsArray) {
