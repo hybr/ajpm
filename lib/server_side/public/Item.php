@@ -127,13 +127,11 @@ class public_Item extends Base {
 						'required' => 1 
 					),
 					'currency' => array (
-						'type' => 'string',
+						'type' => 'currency',
 						'required' => 1,
-						'max_length' => 3,
-						'min_length' => 3,
 						'default' => 'INR',
 						'searchable' => 1,
-					),							
+					),						
 					'per' => array (
 						'type' => 'number',
 						'required' => 1,
