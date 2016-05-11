@@ -10,7 +10,7 @@ class public_Animal extends Base {
 				'type' => 'string',
 				'show_in_list' => 1,
 		),
-		'self_tag_number' => array (
+		'tag_number' => array (
 				'type' => 'string',
 				'show_in_list' => 1,
 				'required' => 1,
