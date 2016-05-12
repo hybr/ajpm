@@ -18,11 +18,13 @@ function getPersonRbacRules() {
 	
 	if (isset( $_SESSION ['person']) && isset($_SESSION ['person'] ['_id'])) {
 		$organizationWorkerCursor = $_SESSION ['mongo_database']->organization_worker->find ( array (
-			'organization_worker' => new MongoId((string)(trim($_SESSION ['person'] ['_id'])))
+			'person' => new MongoId((string)(trim($_SESSION ['person'] ['_id'])))
 		));
 		foreach ($organizationWorkerCursor as $organizationWorkerDoc) {
-			array_push($organizationWorkerDoc, $personRbacRules);
+			array_push($personRbacRules, $organizationWorkerDoc);
 		}
+	} else {
+		array_push($personRbacRules, 'person id is missing');
 	}
 	
 	return $personRbacRules;
@@ -122,6 +124,7 @@ function isAllowed($collectionName, $subTask) {
 	
 	/* get list of roles for the person */
 	$personRbacRules = getPersonRbacRules();
+	debugPrintArray($personRbacRules, '$personRbacRules');
 	
 	if (!empty($personRbacRules)) {
 		foreach($personRbacRules as $personRbacRule) {
@@ -130,11 +133,13 @@ function isAllowed($collectionName, $subTask) {
 		
 			/* get the rbac_rule record/doc */
 			$rbacRule = $_SESSION ['mongo_database']->rbac_rule->findOne ( array (
-					'_id' => new MongoId((string)(trim($personRbacRule['position'])))
+				'_id' => new MongoId((string)(trim($personRbacRule['position'])))
 			));
-		
+			debugPrintArray($rbacRule, '$rbacRule');
+			
 			/* $rbacRule['module'] = database_domain id */
 			foreach($_SESSION['collection']['domain'] as $databaseDomainOfCollection) {
+				debugPrintArray($databaseDomainOfCollection, '$databaseDomainOfCollection');
 				if ($databaseDomainOfCollection['name'] ==  $rbacRule['module']) {
 					if ($subTask == $rbacRule ['permission'] || $rbacRule ['permission'] == 'All') {
 						$_SESSION ['allowed_as'] = "AUTHORATIVE";
