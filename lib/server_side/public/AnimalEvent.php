@@ -7,32 +7,35 @@ class public_AnimalEvent extends Base {
 	} /* __construct */
 	public $fields = array (
 		'date' => array (
-				'type' => 'date' ,
-				'required' => 1,
+			'type' => 'date' ,
+			'required' => 1,
 		),
 		'time' => array (
-				'type' => 'time' ,
-				'required' => 1,
+			'type' => 'time' ,
+			'required' => 1,
 		),
 		'animal' => array (
-				'type' => 'foreign_key',
-				'foreign_collection' => 'animal',
-				'foreign_search_fields' => 'name,tag_number,type',
-				'foreign_title_fields' => 'name,tag_number,type',
-				'show_in_list' => 1,
-				'required' => 1,
+			'type' => 'foreign_key',
+			'foreign_collection' => 'animal',
+			'foreign_search_fields' => 'name,tag_number,type',
+			'foreign_title_fields' => 'name,tag_number,type',
+			'show_in_list' => 1,
+			'required' => 1,
+			'searchable' => 1,				
 		),
 		'type' => array (
-				'help' => 'Select the type of animal event',
-				'type' => 'list',
-				'list_class' => 'AnimalType',
-				'input_mode' => 'selecting',
-				'default' => 'Cow',
-				'show_in_list' => 1,
-				'required' => 1,
+			'help' => 'Select the type of animal event',
+			'type' => 'list',
+			'list_class' => 'AnimalType',
+			'input_mode' => 'selecting',
+			'default' => 'Cow',
+			'show_in_list' => 1,
+			'required' => 1,
+			'searchable' => 1,
 		),			
 		'detail' => array (
-				'type' => 'string',
+			'type' => 'string',
+			'searchable' => 1,
 		),
 		'cost' => array (
 			'type' => 'number',
@@ -43,11 +46,12 @@ class public_AnimalEvent extends Base {
 			'default' => 'INR'
 		),
 		'provider' => array (
-				'help' => 'Person who helped or worked for this event',
-				'type' => 'foreign_key',
-				'foreign_collection' => 'person',
-				'foreign_search_fields' => 'name.first,name.middle,name.last',
-				'foreign_title_fields' => 'name,gender',
+			'help' => 'Person who helped or worked for this event',
+			'type' => 'foreign_key',
+			'foreign_collection' => 'person',
+			'foreign_search_fields' => 'name.first,name.middle,name.last',
+			'foreign_title_fields' => 'name,gender',
+			'searchable' => 1,
 		),		
 	); /* fields */	
 
