@@ -4,21 +4,52 @@
     	<h3 class="panel-title">{{ doc.type }} {{ doc.title }}</h3>
   	</div>
   	<div class="panel-body">
-		<h2>{{ doc.title }}</h2>
-		<h3> By {{ manufacturarName }}</h3>
-	    <p>{{ doc.summary }}</p>	
-		<hr />
-		<div ng-repeat="abt in doc.about">
-          		<h3>{{ abt.category }}</h3>
-          		<p>{{ abt.about_category }}</p>
-          		<ul><li ng-repeat="atr in abt.attribute">
-          			<b>{{ atr.name }}</b>: {{ atr.value }}{{ atr.unit }}<br />{{atr.summary}}
-          		</li></ul>
-          </div>
-          </hr>
-   		<ul><li ng-repeat="pr in doc.price">
-   			{{ pr.type }} {{pr.amount }} {{pr.currency }} {{pr.per }} {{pr.per_unit }}
-   		</li></ul>           
+			<h2>{{ doc.title }}</h2>
+			<h3> By {{ manufacturarName }}</h3>
+			<p>{{ doc.summary }}</p>
+			<div ng-init="currentPhoto=0">
+				<div ng-repeat="imgRec in doc.photo ">
+					<div ng-show="currentPhoto==$index" 
+						class="ajpmCaruselBox"
+						style="background-image: url('{{imgRec.file_name}}');">
+						<a href="{{imgRec.click_link_url}}"><div class="ajpmCaruselCaption">
+							{{imgRec.caption}}
+						</div></a> 	
+					</div>
+				</div>
+				<md-button class="md-primary md-raised" 
+					ng-click="currentPhoto=decreaseCounter(currentPhoto,0,1)"
+				>Previuos</md-button>	
+				<md-button class="md-primary md-raised" 
+					ng-click="currentPhoto=increaseCounter(currentPhoto,doc.photo.length-1,1)" 
+				>Next</md-button>	
+			</div>
+			<p ng-show="doc.pre_requisites != ''"><h3>Pre Requisites</h3>{{ doc.pre_requisites }}</p>
+			
+			<hr />
+			
+	          <div ng-repeat="abt in doc.about">
+	          		<h3>{{ abt.category }}</h3>
+	          		<p>{{ abt.about_category }}</p>
+	          		<ul><li ng-repeat="atr in abt.attribute">
+	          			<b>{{ atr.name }}</b>: {{ atr.value }}{{ atr.unit }}<br />{{ atr.summary }}
+	          		</li></ul>
+	          </div>
+          
+          	<hr />
+          	
+          	<ul><li ng-repeat="pr in doc.price">
+      			<span ng-show="pr.type=='Quote'">Call us for quote</span>
+      			<span ng-hide="pr.type=='Quote'">{{ pr.type }} {{ pr.amount }} {{ pr.currency }} {{ pr.per }} {{ pr.per_unit }}</span>
+      		</li></ul>
+      		
+      		<hr />
+      		
+      		<h3>Service Time</h3>
+      		<ul><li ng-repeat="sh in doc.service_hours">
+      			Every {{ sh.every }} {{ sh.frequency }} from {{ sh.start_date }} {{ sh.start_time }} for {{ sh.duration }} {{ sh.duration_unit }}
+      		</li></ul> 	
+          			        
  	 </div>
   	<div class="panel-footer"></div>
 </div>

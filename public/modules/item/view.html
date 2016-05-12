@@ -1,4 +1,3 @@
-
 <md-content>
 	 <md-toolbar layout="row">
       <div class="md-toolbar-tools">
@@ -7,10 +6,11 @@
     </md-toolbar>
     <md-tabs md-dynamic-height md-border-bottom>
       
-      <md-tab ng-if="doc.type == 'Service'" label="Service">
+      <md-tab label="Item">
         <md-content class="md-padding">
 			<h2>{{ doc.title }}</h2>
 			<h3> By {{ manufacturarName }}</h3>
+			<p>{{ doc.summary }}</p>
 			<div ng-init="currentPhoto=0">
 				<div ng-repeat="imgRec in doc.photo ">
 					<div ng-show="currentPhoto==$index" 
@@ -27,10 +27,11 @@
 				<md-button class="md-primary md-raised" 
 					ng-click="currentPhoto=increaseCounter(currentPhoto,doc.photo.length-1,1)" 
 				>Next</md-button>	
-			</div>          
-			<p>{{ doc.summary }}</p>
+			</div>
+			<p ng-show="doc.pre_requisites != ''"><h3>Pre Requisites</h3>{{ doc.pre_requisites }}</p>
         </md-content>
       </md-tab>
+
       
       <md-tab label="About">
         <md-content class="md-padding">
@@ -38,7 +39,7 @@
           		<h3>{{ abt.category }}</h3>
           		<p>{{ abt.about_category }}</p>
           		<ul><li ng-repeat="atr in abt.attribute">
-          			<b>{{ atr.name }}</b>: {{ atr.value }}{{ atr.unit }}<br />{{atr.summary}}
+          			<b>{{ atr.name }}</b>: {{ atr.value }}{{ atr.unit }}<br />{{ atr.summary }}
           		</li></ul>
           </div>
        </md-content>
@@ -46,11 +47,20 @@
       
       <md-tab label="Price">
         <md-content class="md-padding">
-      		<ul><li ng-repeat="pr in doc.price">
-      			{{ pr.type }} {{pr.amount }} {{pr.currency }} {{pr.per }} {{pr.per_unit }}
-      		</li></ul> 
+          	<ul><li ng-repeat="pr in doc.price">
+      			<span ng-show="pr.type=='Quote'">Call us for quote</span>
+      			<span ng-hide="pr.type=='Quote'">{{ pr.type }} {{ pr.amount }} {{ pr.currency }} {{ pr.per }} {{ pr.per_unit }}</span>
+      		</li></ul>
       	</md-content>
       </md-tab>
       
+	  <md-tab ng-show="doc.service_hours" label="Time">
+	  	 <md-content class="md-padding">
+	  	 	<h3>Service Time</h3>
+      		<ul><li ng-repeat="sh in doc.service_hours">
+      			Every {{ sh.every }} {{ sh.frequency }} from {{ sh.start_date }} {{ sh.start_time }} for {{ sh.duration }} {{ sh.duration_unit }}
+      		</li></ul> 	  	 
+	  	 </md-content>
+	  </md-tab>      
     </md-tabs>
 </md-content>
