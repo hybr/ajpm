@@ -27,6 +27,14 @@ class WebPageTheme2 extends Base {
 			'value' => 'orange_amber_yellow_lime',
 			'title' => 'orange_amber_yellow_lime',
 		),
+		array (
+			'value' => 'green_light-green_yellow_lime',
+			'title' => 'green_light-green_yellow_lime',
+		),
+		array (
+			'value' => 'purple_deep-purple_red_pink',
+			'title' => 'purple_deep-purple_red_pinke',
+		),
 	);
 }
 ?>
