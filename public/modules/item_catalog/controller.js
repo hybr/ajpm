@@ -8,32 +8,38 @@ angular.module('ajpmApp').controller('ItemCatalogController',
 	['$scope', '$rootScope', '$http', 'GetCollectionService',
 	function($scope, $rootScope, $http, GetCollectionService){
 
-	$scope.docs = [];
-	$scope.items = [];
-	
-	$scope.getCategoryTitle = function(id) {
-		var key;
-		if (id) {
-			for (key in $scope.docs) {
-				if ($scope.docs[key]._id.$id == id) {
-					return 'Under ' + $scope.docs[key].category;
+		$scope.docs = [];
+		$scope.items = [];
+		
+		$scope.getCategoryTitle = function(id) {
+			if (id == '' || id == undefined) { 
+				return '';
+			}
+			var key;
+			if (id) {
+				for (key in $scope.docs) {
+					if ($scope.docs[key]._id.$id == id) {
+						return 'Under ' + $scope.docs[key].category;
+					}
 				}
 			}
+			return 'Category ' + id + ' not found';
 		}
-		return '';
-	}
-	
-	$scope.getItemTitle = function(id) {
-		var key;
-		if (id) {
-			for (key in $scope.items) {
-				if ($scope.items[key]._id.$id == id) {
-					return $scope.items[key].title + ' ' + $scope.items[key].type;
+		
+		$scope.getItemTitle = function(id) {
+			if (id == '' || id == undefined) { 
+				return '';
+			}			
+			var key;
+			if (id) {
+				for (key in $scope.items) {
+					if ($scope.items[key]._id.$id == id) {
+						return $scope.items[key].title + ' ' + $scope.items[key].type;
+					}
 				}
 			}
+			return 'Item ' + id + ' not found';
 		}
-		return '';
-	}
 
 
        GetCollectionService.getCollection('item', function(d1) {
