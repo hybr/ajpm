@@ -10,7 +10,8 @@
         <md-content class="md-padding">
 			<h2>{{ doc.title }}</h2>
 			<h3> By {{ manufacturarName }}</h3>
-			<p>{{ doc.summary }}</p>
+			<p><div ng-bind-html="doc.summary |showAsHtml"></div></p>
+			
 			<div ng-init="currentPhoto=0">
 				<div ng-repeat="imgRec in doc.photo ">
 					<div ng-show="currentPhoto==$index" 
@@ -39,7 +40,9 @@
           		<h3>{{ abt.category }}</h3>
           		<p>{{ abt.about_category }}</p>
           		<ul><li ng-repeat="atr in abt.attribute">
-          			<b>{{ atr.name }}</b>: {{ atr.value }}{{ atr.unit }}<br />{{ atr.summary }}
+          			<b>{{ atr.name }}</b>: {{ atr.value }}{{ atr.unit }}
+          			<br />
+          			<span ng-bind-html="atr.summary |showAsHtml"></span>
           		</li></ul>
           </div>
        </md-content>

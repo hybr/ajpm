@@ -32,7 +32,9 @@
 	          		<h3>{{ abt.category }}</h3>
 	          		<p>{{ abt.about_category }}</p>
 	          		<ul><li ng-repeat="atr in abt.attribute">
-	          			<b>{{ atr.name }}</b>: {{ atr.value }}{{ atr.unit }}<br />{{ atr.summary }}
+	          			<b>{{ atr.name }}</b>: {{ atr.value }}{{ atr.unit }}
+	          			<br />
+	          			<span ng-bind-html="atr.summary |showAsHtml"></span>
 	          		</li></ul>
 	          </div>
           
