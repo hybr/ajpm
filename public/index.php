@@ -90,13 +90,18 @@ if ($_SESSION['request_type'] == 'service') {
 debugPrintArray($_SESSION, 'SESSION');
 
 if ($_SERVER['SERVER_NAME'] == "ji.owebp.com") {
-	echo "<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	echo "<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-77504692-1', 'auto');
-  ga('send', 'pageview');
-		</script>";
+  ga('create', 'UA-77504692-1', 'auto');ga('send', 'pageview');</script>";
 }
+if ($_SERVER['SERVER_NAME'] == "farm.hybr.in" || $_SERVER['SERVER_NAME'] == "farm.hybr.owebp.com") {
+	echo "<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-77614117-1', 'auto');ga('send', 'pageview');</script>";
+}
+
 ?>
