@@ -16,16 +16,13 @@
 function getPersonRbacRules() {
 	$personRbacRules = array();
 	
-	if (!isset( $_SESSION ['person'] )) {
-		return array();
-		/* rbac rule does not exists unterl person profile exists */
-	}
-	
-	$organizationWorkerCursor = $_SESSION ['mongo_database']->organization_worker->find ( array (
+	if (isset( $_SESSION ['person']) && isset($_SESSION ['person'] ['_id'])) {
+		$organizationWorkerCursor = $_SESSION ['mongo_database']->organization_worker->find ( array (
 			'organization_worker' => new MongoId((string)(trim($_SESSION ['person'] ['_id'])))
-	));
-	foreach ($organizationWorkerCursor as $organizationWorkerDoc) {
-		array_push($organizationWorkerDoc, $personRbacRules);
+		));
+		foreach ($organizationWorkerCursor as $organizationWorkerDoc) {
+			array_push($organizationWorkerDoc, $personRbacRules);
+		}
 	}
 	
 	return $personRbacRules;
