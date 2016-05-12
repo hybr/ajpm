@@ -10,32 +10,36 @@
 				<div id="ajpmLogo">
 
 					<?php if (isset ( $_SESSION ['url_domain_org'] ['web_site_logo_file_name'] )) {
-						echo '<img ng-src="'.$_SESSION ['url_domain_org'] ['web_site_logo_file_name'].'" />';
+						echo '<img style="height: 75px; width: auto;" ng-src="'.$_SESSION ['url_domain_org'] ['web_site_logo_file_name'].'" />';
 					}?>
 
 				</div><!-- ajpmLogo -->
 				 
-				<div flex id="ajpmNameStatement" layout="column" >
+				<div flex id="ajpmNameStatement" >
 
-					<div flex id="ajpmName">
+					&nbsp;
 
-						<h1><?php if (isset ( $_SESSION ['url_domain_org'] ['name'] )) {
+					<span id="ajpmName" style="font-size:4.5vw; font-weight:bolder;">
+
+						<?php if (isset ( $_SESSION ['url_domain_org'] ['name'] )) {
 							echo '<a href="/">' . $_SESSION ['url_domain_org'] ['name'] . '</a>';
 						} else {
 							echo '<a href="/">Our WEB Presence</a>';
-						}?></h1>
+						}?>
 
-					</div><!-- ajpmName -->
+					</span><!-- ajpmName -->
 
-					<div flex id="ajpmStatement" >
+					&nbsp; 
 
-						<h2><?php if (isset ( $_SESSION ['url_domain_org'] ['statement'] )) {
+					<span id="ajpmStatement" style="font-size:3vw; font-weight:bold;">
+
+						<?php if (isset ( $_SESSION ['url_domain_org'] ['statement'] )) {
 							echo $_SESSION ['url_domain_org'] ['statement'];
 						} else {
 							echo "Best Presence on Web";
-						}?></h2>
+						}?>
 
-					</div><!-- ajpmStatement -->
+					</span><!-- ajpmStatement -->
 					
 				</div><!-- ajpmNameStatement -->
 
