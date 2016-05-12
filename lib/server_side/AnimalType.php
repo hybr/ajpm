@@ -19,12 +19,12 @@ class AnimalType extends Base {
 					'title' => 'Cow' 
 			),
 			array (
-					'value' => 'Bull',
-					'title' => 'Bull'
+					'value' => 'Bull (Cart)',
+					'title' => 'Bull (Cart)'
 			),
 			array (
-					'value' => 'Ox',
-					'title' => 'Ox'
+					'value' => 'Ox (Breed)',
+					'title' => 'Ox (Breed)'
 			),			
 			array (
 					'value' => 'Dog',

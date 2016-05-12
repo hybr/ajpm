@@ -31,7 +31,7 @@ class public_Animal extends Base {
 		'purchase_cost' => array (
 			'type' => 'number' ,
 		),
-		'purchase_contacts' => array(
+		'purchase_location' => array(
 			'type' => 'container',
 			'fields' => array (
 				'contact' => array (
@@ -41,7 +41,7 @@ class public_Animal extends Base {
 					'foreign_title_fields' => 'location,medium,phone_number,fax_number,pager_number,voip_number,email_address,city,pin_or_zip,area,street,home_or_building'
 				)                                                    
 			),
-		),		
+		),
 		'type' => array (
 			'help' => 'Select the gender and type of animal',
 			'type' => 'list',

@@ -23,20 +23,16 @@ class public_AnimalEvent extends Base {
 			'required' => 1,
 			'searchable' => 1,				
 		),
-		'type' => array (
-			'help' => 'Select the type of animal event',
-			'type' => 'list',
-			'list_class' => 'AnimalType',
-			'input_mode' => 'selecting',
-			'default' => 'Cow',
-			'show_in_list' => 1,
-			'required' => 1,
-			'searchable' => 1,
-		),			
 		'detail' => array (
 			'type' => 'string',
 			'searchable' => 1,
+			'show_in_list' => 1,
 		),
+		'medicin' => array (
+			'type' => 'string',
+			'searchable' => 1,
+			'show_in_list' => 1,
+		),			
 		'cost' => array (
 			'type' => 'number',
 		),
