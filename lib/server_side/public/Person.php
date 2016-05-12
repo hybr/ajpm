@@ -48,7 +48,18 @@ class public_Person extends Base {
 					'show_in_list' => 1,
 				) 
 			) 
-		),			
+		),
+		'contacts' => array(
+			'type' => 'container',
+			'fields' => array (
+				'contact' => array (
+					'type' => 'foreign_key',
+					'foreign_collection' => 'contact',
+					'foreign_search_fields' => 'location,medium,phone_number,fax_number,pager_number,voip_number,email_address,city,pin_or_zip,area,street,home_or_building',
+					'foreign_title_fields' => 'location,medium,phone_number,fax_number,pager_number,voip_number,email_address,city,pin_or_zip,area,street,home_or_building'
+				)
+			),
+		),
 		'relative' => array (
 			'type' => 'container',
 			'fields' => array (
