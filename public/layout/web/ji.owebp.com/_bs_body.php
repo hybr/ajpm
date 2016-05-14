@@ -38,24 +38,10 @@
                     </div>
                     <div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
-                            <li><a href="#" ui-sref-active="active" ui-sref="home">Home</a></li>
-                            <li><a href="#" ui-sref-active="active" ui-sref="about_us">About Us</a></li>
-                            <li><a href="#"ui-sref-active="active" ui-sref="item_catalog">Services</a></li>
-                            <li><a href="#"ui-sref-active="active" ui-sref="contact_us" >Contact Us</a></li>
-                        </ul>
-                    </div>
-                    <!--/.nav-collapse -->
-                    <div class="rightmenu">
-                        <ul>
-                            <li class="dropdown myaccount">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-user"></i> My Account <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Action</a></li>
-                                    <li><a href="#">Another action</a></li>
-                                    <li><a href="#">Something else here</a></li>
-                                </ul>
-                            </li>
-                            <li class="login"><a href="#">Investor <span>Login</span></a> </li>
+                            <li><a ui-sref-active="active" ui-sref="home">Home</a></li>
+                            <li><a ui-sref-active="active" ui-sref="about_us">About Us</a></li>
+                            <li><a ui-sref-active="active" ui-sref="item_catalog">Services</a></li>
+                            <li><a ui-sref-active="active" ui-sref="contact_us" >Contact Us</a></li>
                         </ul>
                     </div>
                 </div>
@@ -75,21 +61,16 @@
                         <div class="col-lg-6 col-sm-6 quick-link">
                             <h4>Quick <span>Link</span></h4>
                             <ul>
-                                <li class="col-lg-4"><a href=""><i class="fa fa-chevron-right"></i> Home</a> </li>
-                                <li class="col-lg-4"><a href=""><i class="fa fa-chevron-right"></i> About us</a> </li>
-                                <li class="col-lg-4"><a href=""><i class="fa fa-chevron-right"></i> Project</a> </li>
-                                <li class="col-lg-4"><a href=""><i class="fa fa-chevron-right"></i> Finance</a> </li>
-                                <li class="col-lg-4"><a href=""><i class="fa fa-chevron-right"></i> Business Associate</a> </li>
-                                <li class="col-lg-4"><a href=""><i class="fa fa-chevron-right"></i> Projects</a> </li>
-                                <li class="col-lg-4"><a href=""><i class="fa fa-chevron-right"></i>  Contact Us</a> </li>
-                                <li class="col-lg-4"><a href=""><i class="fa fa-chevron-right"></i> About us</a> </li>
-                                <li class="col-lg-4"><a href=""><i class="fa fa-chevron-right"></i> Privacy Policy</a> </li>
+                                <li class="col-lg-4"><a ui-sref-active="active" ui-sref="home""><i class="fa fa-chevron-right"></i> Home</a> </li>
+                                <li class="col-lg-4"><a ui-sref-active="active" ui-sref="about_us"><i class="fa fa-chevron-right"></i> About Us</a> </li>
+                                <li class="col-lg-4"><a ui-sref-active="active" ui-sref="item_catalog"><i class="fa fa-chevron-right"></i> Services</a> </li>
+                                <li class="col-lg-4"><a ui-sref-active="active" ui-sref="contact_us"><i class="fa fa-chevron-right"></i>  Contact Us</a> </li>
+                                <li class="col-lg-4"><a ui-sref-active="active" ui-sref="search"><i class="fa fa-chevron-right"></i> Search</li>
                             </ul>
                         </div>
                         <div class="col-lg-3 col-sm-3 social">
                             <h4>Social <span>Connect</span></h4>
-                            <p>Lorem Ipsum is simply dummy typesetti
-                                iis simply dumly dummy tndustry. 
+                            <p>Reach us on our social network pages. 
                             </p>
                             <a href=""><i class="fa fa-facebook-square"></i></a>
                             <a href=""><i class="fa fa-twitter-square"></i></a>
@@ -99,8 +80,7 @@
                             <h4>Contact <span>Us</span></h4>
                             <div class="clearfix"></div>
                             <strong>JAIPUR INVESTOR</strong> <br/>
-                            Section 1.10.32 of "de Finibus Bonorum 
-                            et Malorum"<br/>
+                            Jagatpura, Jaipur, Rajasthan, India<br/>
                             <strong>Email:</strong> <a href="mailto:info@jaipurinvestor.com">info@jaipurinvestor.com</a><br/>
                             <strong>Phone:</strong> (123) 456-7890
                         </div>
