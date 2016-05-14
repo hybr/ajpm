@@ -29,7 +29,14 @@
 					ng-click="currentPhoto=increaseCounter(currentPhoto,doc.photo.length-1,1)" 
 				>Next</md-button>	
 			</div>
-			<p ng-show="doc.pre_requisites != ''"><h3>Pre Requisites</h3>{{ doc.pre_requisites }}</p>
+			<p ng-show="doc.pre_requisites.length != 0"><h3>Pre Requisites</h3>
+				<ul>
+					<li ng-repeat="pr in doc.pre_requisites">
+						<span ng-show="pr.mandatory=='True'">MANDATORY! </span>{{ pr.condition }}
+					</li>
+					
+				</ul>
+			</p>
         </md-content>
       </md-tab>
 
