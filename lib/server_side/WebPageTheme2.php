@@ -28,8 +28,8 @@ class WebPageTheme2 extends Base {
 			'title' => 'orange_amber_yellow_lime',
 		),
 		array (
-			'value' => 'green_light-green_yellow_lime',
-			'title' => 'green_light-green_yellow_lime',
+			'value' => 'green_indigo_orange_light-green',
+			'title' => 'green_indigo_orange_light-green',
 		),
 		array (
 			'value' => 'purple_deep-purple_red_pink',
