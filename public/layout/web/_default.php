@@ -22,6 +22,13 @@
 		?>
 	</head>
 	<body ng-cloak ng-controller="ApplicationController">
+		<script>var _lhdn = '<?php 
+			if (isset($_SESSION ['url_domain'])) {
+				echo (string) $_SESSION ['url_domain']; 
+			} else {
+				echo "owebp.com";
+			}
+		?>';</script>	
 		<script>var _hpid = '<?php 
 			if (isset($_SESSION ['url_domain_org']['web_site_home_page'])) {
 				echo (string) $_SESSION ['url_domain_org']['web_site_home_page'];

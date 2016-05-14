@@ -1,33 +1,36 @@
 
+
+/*
+ * function to check the variable is not null
+ */
+
+function varNotNull(v) {
+	if (v != null && v != '' && v) {
+		return true;
+	}
+	return false;
+}
 /**
  * @variable _0g used to hold the domain of website
  * 
  * For testing a perticular domain set this variable value to that domain
  * if you are at localhost that domain will be used to show the website
+ * _lhdn is comming from org_details as local host domain name
  */
-var _0g = "";
 
-_0g = "owebp.com";
-_0g = "entechintl.com";
-_0g = "et.owebp.com";
-_0g = "farm.hybr.in";
-_0g = "farm.hybr.owebp.com";
-_0g = "pkmishra.owebp.com";
-_0g = "kriya.owebp.com";
-_0g = "apdds.owebp.com";
-_0g = "syspro.owebp.com";
-_0g = "ji.owebp.com";
-_0g = "ji2.owebp.com";
-_0g = "pis.owebp.com";
+var _0g = 'owebp.com';
+if (typeof(_lhdn) !== 'undefined' && varNotNull(_lhdn)) {
+	_0g = _lhdn;
+}
 
 /**
  * @function _1g to get the domain name of from the url
  * @return {string} the domain name from url
  */
 var _1g = function () {
-        var _1l = window.location.hostname.replace(/www\./g, "");
-        if (_1l == 'localhost') {_1l = _0g;}
-        return _1l;
+    var _1l = window.location.hostname.replace(/www\./g, "");
+    if (_1l == 'localhost') {_1l = _0g;}
+    return _1l;
 };
 
 /**
