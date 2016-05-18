@@ -55,10 +55,9 @@
 									          
 								<md-menu>
       						          
-									<md-icon-button aria-label="Menu" ng-click="$mdOpenMenu()">
-                                		<md-tooltip>Menu</md-tooltip>
-										<i class="material-icons">menu</i>
-                            		</md-icon-button>
+									<md-icon aria-label="Menu" ng-click="$mdOpenMenu()">
+                                		menu<md-tooltip>Menu</md-tooltip>
+                            		</md-icon>
 
 						            <md-menu-content >
 						            
@@ -114,50 +113,46 @@
 						            
 						          </md-menu>
 						          
-	                            <md-icon-button aria-label="Search" hide-gt-sm ng-click="showSearchBarDiv = true" ui-sref-active="md-warn" ui-sref="search">
-	                                <md-tooltip>Search Website</md-tooltip>
-									<i class="material-icons">search</i>
-	                            </md-icon-button>
+	                            <md-icon aria-label="Search" hide-gt-sm ng-click="showSearchBarDiv = true" ui-sref-active="md-warn" ui-sref="search">
+	                                search<md-tooltip>Search Website</md-tooltip>
+	                            </md-icon>
 			                            						          
 						</span><!-- small mobile menu -->
 						<!--  ajpmAllSmallMobileIcons -->
 
 						<span id="ajpmMainMobileIcons" hide-xl hide-lg hide-md show-sm show-xs>
 			                            
-                            <md-icon-button aria-label="Home" ui-sref-active="md-warn" ui-sref="home" >
-                                <md-tooltip>Home</md-tooltip>
-								<i class="material-icons">home</i>
-                            </md-icon-button>
+                            <md-icon aria-label="home"  ui-sref-active="md-warn" ui-sref="home" >
+                                home<md-tooltip>Home</md-tooltip>
+                            </md-icon>
 
-                            <md-icon-button aria-label="About Us" ui-sref-active="md-warn" ui-sref="about_us">
-                                <md-tooltip>About Us</md-tooltip>
-								<i class="material-icons">business</i>
-                            </md-icon-button>
+                            <md-icon aria-label="About Us" ui-sref-active="md-warn" ui-sref="about_us">
+                                business<md-tooltip>About Us</md-tooltip>
+                            </md-icon>
 
-                            <md-icon-button aria-label="Catalog" ui-sref-active="md-warn" ui-sref="item_catalog">
-                                <md-tooltip>Catalog</md-tooltip>
-								<i class="material-icons">shop</i>
-                            </md-icon-button>
+                            <md-icon aria-label="Catalog" ui-sref-active="md-warn" ui-sref="item_catalog">
+                                shop<md-tooltip>Catalog</md-tooltip>
+                            </md-icon>
 			                                                        
 						</span>
 						<!-- ajpmMainMobileIcons -->
 												
 						<span id="ajpmMainIPadIcons" show-xl show-lg show-md hide-sm hide-xs>
 			                            
-                            <md-icon-button aria-label="Home" ui-sref-active="md-warn" ui-sref="home" >
+                            <md-button class="md-raised" aria-label="Home" ui-sref-active="md-warn" ui-sref="home" >
                                 <md-tooltip>Home</md-tooltip>
-								<i class="material-icons">home</i> Home
-                            </md-icon-button>
+								Home
+                            </md-button>
 
-                            <md-icon-button aria-label="About Us" ui-sref-active="md-warn" ui-sref="about_us">
+                            <md-button class="md-raised" aria-label="About Us" ui-sref-active="md-warn" ui-sref="about_us">
                                 <md-tooltip>About Us</md-tooltip>
-								<i class="material-icons">business</i> About Us
-                            </md-icon-button>
+								About Us
+                            </md-button>
 
-                            <md-icon-button aria-label="Catalog" ui-sref-active="md-warn" ui-sref="item_catalog">
+                            <md-button class="md-raised" aria-label="Catalog" ui-sref-active="md-warn" ui-sref="item_catalog">
                                 <md-tooltip>Catalog</md-tooltip>
-								<i class="material-icons">shop</i> Catalog
-                            </md-icon-button>
+								Catalog
+                            </md-button>
 			                                                        
 						</span>
 						<!-- ajpmMainIPadIcons -->
@@ -178,10 +173,9 @@
                                         </div>
                                     </md-input-container>
 
-		                            <md-icon-button aria-label="Search" ui-sref-active="md-warn" ui-sref="search">
-		                                <md-tooltip>Search Website</md-tooltip>
-										<i class="material-icons">search</i>
-		                            </md-icon-button>
+		                            <md-icon aria-label="Search" ui-sref-active="md-warn" ui-sref="search">
+		                                search<md-tooltip>Search Website</md-tooltip>
+		                            </md-icon>
 
                                 </form>
 			
@@ -192,28 +186,28 @@
 
 						<span id="ajpmExtraIPadIcons" show-xl show-lg show-md hide-sm hide-xs>
 
-                            <md-icon-button aria-label="Contact Us" ui-sref-active="md-warn" ui-sref="contact_us">
+                            <md-button class="md-raised" aria-label="Contact Us" ui-sref-active="md-warn" ui-sref="contact_us">
                                 <md-tooltip>Our Contact Information</md-tooltip>
-								<i class="material-icons">contacts</i> Contact Us
-                            </md-icon-button>
+								Contact Us
+                            </md-button>
 
 							<span ng-show="isAuthenticated">
-								<md-icon-button aria-label="Logout" ui-sref-active="md-warn" ui-sref="logout" ng-click="isAuthenticated = false">
+								<md-button class="md-raised" aria-label="Logout" ui-sref-active="md-warn" ui-sref="logout" ng-click="isAuthenticated = false">
                                 	<md-tooltip>User Logout</md-tooltip>
-									<i class="material-icons">cancel</i> Logout
-								</md-icon-button>
+									Logout
+								</md-button>
                             	
-                            	<md-icon-button aria-label="My" ui-sref-active="md-warn" ui-sref="my_account">
+                            	<md-button class="md-raised" aria-label="My" ui-sref-active="md-warn" ui-sref="my_account">
 									<md-tooltip>My Profile</md-tooltip>
-									<i class="material-icons">person</i> My
-                            	</md-icon-button>
+									My
+                            	</md-button>
                             
 							</span>
 
                            <span  ng-hide="isAuthenticated">
-								<md-icon-button aria-label="Login" ui-sref-active="md-warn" ui-sref="login1">
+								<md-button class="md-raised" aria-label="Login" ui-sref-active="md-warn" ui-sref="login1">
                                 	<md-tooltip>User Login</md-tooltip>
-									<i class="material-icons">input</i> Login
+									Login
 								</md-icon-button>
                            </span>
 			
@@ -223,28 +217,24 @@
 			                            
 						<span id="ajpmExtraMobileIcons" hide-xl hide-lg hide-md show-sm show-xs>
 
-                            <md-icon-button aria-label="Contact Us" ui-sref-active="md-warn" ui-sref="contact_us">
-                                <md-tooltip>Our Contact Information</md-tooltip>
-								<i class="material-icons">contacts</i>
-                            </md-icon-button>
+                            <md-icon aria-label="Contact Us" ui-sref-active="md-warn" ui-sref="contact_us">
+                                contacts<md-tooltip>Our Contact Information</md-tooltip>
+                            </md-icon>
 
 							<span ng-show="isAuthenticated">
-								<md-icon-button aria-label="Logout" ui-sref-active="md-warn" ui-sref="logout" ng-click="isAuthenticated = false">
-                                	<md-tooltip>User Logout</md-tooltip>
-									<i class="material-icons">cancel</i>
-								</md-icon-button>
+								<md-icon aria-label="Logout" ui-sref-active="md-warn" ui-sref="logout" ng-click="isAuthenticated = false">
+                                	cancel<md-tooltip>User Logout</md-tooltip>A
+								</md-icon>
 								
-	                            <md-icon-button aria-label="My" ui-sref-active="md-warn" ui-sref="my_account">
-									<md-tooltip>My Profile</md-tooltip>
-									<i class="material-icons">person</i>
-	                            </md-icon-button>								
+	                            <md-icon aria-label="My" ui-sref-active="md-warn" ui-sref="my_account">
+									person<md-tooltip>My Profile</md-tooltip>
+	                            </md-icon>								
                            </span>
 
                            <span  ng-hide="isAuthenticated">
-								<md-icon-button aria-label="Login" ui-sref-active="md-warn" ui-sref="login1">
-                                	<md-tooltip>User Login</md-tooltip>
-									<i class="material-icons">input</i>
-								</md-icon-button>
+								<md-icon aria-label="Login" ui-sref-active="md-warn" ui-sref="login1">
+                                	input<md-tooltip>User Login</md-tooltip>
+								</md-icon>
                            </span>
 			
 						</span>
@@ -255,10 +245,9 @@
 			                        
 					<div class="md-toolbar-tools"  layout="row" ng-show="showSearchBarDiv">
 			
-						<md-icon-button ng-click="showSearchBarDiv=false">
-							<md-tooltip>Cancel</md-tooltip>
-							<i class="material-icons">cancel</i>
-						</md-icon-button>
+						<md-icon ng-click="showSearchBarDiv=false">
+							cancel<md-tooltip>Cancel</md-tooltip>
+						</md-icon>
 			
 						<form name="ajpmFormSearch" novalidate="" method="POST" ng-submit="ajpmFormSearch.$valid && searchIt()">
 			
