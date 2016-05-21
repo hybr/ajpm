@@ -1,12 +1,21 @@
-<md-toolbar>
-    <div class="md-toolbar-tools">
-        <h2>{{doc.type}} Area {{doc.area}} {{doc.area_unit}}</h2>
-    </div>
-</md-toolbar>
+<div class="page-header">
+  <h1>{{doc.type}} <small>Area {{doc.area}} {{doc.area_unit}}</small></h1>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">Contact Information</div>
+  <div class="panel-body">
+	<div ng-repeat="c in contacts track by $index">
+		<print-contact c=c ></print-contact>
+	</div>
+  </div>
+</div>
+
 <md-content>
 	<div ng-repeat="price in doc.price">
 		<b>Price {{price.type}} {{price.amount}} {{price.currency}} for {{price.per}} {{price.per_unit}}</b>
 	</div>
+
 	<ul>
         <li ng-repeat="room in doc.room">
 		{{room.count}} {{room.type}},  
@@ -20,3 +29,4 @@
 	</ul>
 	
 </md-content>
+{{doc}}

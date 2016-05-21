@@ -132,15 +132,18 @@ function isAllowed($collectionName, $subTask) {
 			/* $_SESSION['collection']['domain'] has modules associated with collection */
 		
 			/* get the rbac_rule record/doc */
-			$rbacRule = $_SESSION ['mongo_database']->rbac_rule->findOne ( array (
-				'_id' => new MongoId((string)(trim($personRbacRule['position'])))
-			));
+			$rbacRule = array();
+			if (isset($personRbacRule['position'])) {
+				$rbacRule = $_SESSION ['mongo_database']->rbac_rule->findOne ( array (
+					'_id' => new MongoId((string)(trim($personRbacRule['position'])))
+				));
+			}
 			debugPrintArray($rbacRule, '$rbacRule');
 			
 			/* $rbacRule['module'] = database_domain id */
 			foreach($_SESSION['collection']['domain'] as $databaseDomainOfCollection) {
 				debugPrintArray($databaseDomainOfCollection, '$databaseDomainOfCollection');
-				if ($databaseDomainOfCollection['name'] ==  $rbacRule['module']) {
+				if (isset($rbacRule['module']) && $databaseDomainOfCollection['name'] ==  $rbacRule['module']) {
 					if ($subTask == $rbacRule ['permission'] || $rbacRule ['permission'] == 'All') {
 						$_SESSION ['allowed_as'] = "AUTHORATIVE";
 						return true;

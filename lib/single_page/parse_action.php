@@ -58,6 +58,10 @@ if (array_key_exists ( 'path', $urlPartsArray )) {
 			$_SESSION ['url_sub_task'] .= ucfirst ( strtolower ( $w ) ) . ' ';
 		}
 	}
+	if (preg_match('/\.html/', $urlPartsArray ['path'], $m)) {
+		$_SESSION ['LAYOUT_DIR'] = SERVER_SIDE_PUBLIC_DIR . DIRECTORY_SEPARATOR . 'layout/service';
+		$_SESSION['request_type'] = 'partial';
+	}
 }
 if ($_SESSION ['url_action'] == 'public_') {
 	/* Home Page */

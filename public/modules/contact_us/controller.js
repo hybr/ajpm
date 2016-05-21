@@ -15,3 +15,17 @@ angular.module('ajpmApp').controller('ContactUsController',
 		});
 
 } ]);
+
+angular.module('ajpmApp').directive("printContact", function() {
+	var d = {};
+
+	d.restrict = 'E';
+
+	d.templateUrl = '/modules/contact/print_contact.html';
+
+	d.scope = {
+		c : "=c"
+	};
+
+	return d;
+});

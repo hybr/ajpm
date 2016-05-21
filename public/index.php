@@ -82,6 +82,8 @@ include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'content.php';
 
 if ($_SESSION['request_type'] == 'service') {
 	echo $jpmContent;
+} else if ($_SESSION['request_type'] == 'partial') {
+	echo file_get_contents(SERVER_SIDE_PUBLIC_DIR . DIRECTORY_SEPARATOR . $urlPartsArray['path']);
 } else {
 	if(file_exists($_SESSION ['LAYOUT_DIR'] . DIRECTORY_SEPARATOR . '_default.php')) {
 		include $_SESSION ['LAYOUT_DIR'] . DIRECTORY_SEPARATOR .  '_default.php';
