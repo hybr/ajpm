@@ -95,8 +95,7 @@ $_SESSION['authorization_message'] = '';
 $jpmContent = '';
 $actionInstance = NULL;
 if ($_SESSION['request_type'] == 'partial') {
-	echo '';
-	exit;
+	return;
 }
 try {
 	$actionInstance = new $_SESSION ['url_action'] ();

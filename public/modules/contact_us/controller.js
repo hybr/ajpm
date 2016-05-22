@@ -19,12 +19,12 @@ angular.module('ajpmApp').controller('ContactUsController',
 angular.module('ajpmApp').directive("printContact", function() {
 	var d = {};
 
-	d.restrict = 'E';
+	d.restrict = 'E'; 
 
-	d.templateUrl = '/modules/contact/print_contact.html';
+	d.templateUrl = '/modules/contact_us/print_contact.html';
 
 	d.scope = {
-		c : "=c"
+		paramContact : "=argContact"
 	};
 
 	return d;

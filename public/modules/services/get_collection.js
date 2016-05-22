@@ -6,13 +6,14 @@
 angular.module('ajpmApp').service('GetCollectionService', 
 	['$http', '$q', function( $http, $q) {
 
-    this.getCollection = function(collectionName, callbackFunc) {
-    	$http({
-		method: 'POST',
-		url: '/-s-' + collectionName + '/presentjsonall'
-	}).success(function (d) {
-		callbackFunc(d);
-	    });
+	this.getCollection = function(collectionName, parametersObject, callbackFunc) {
+		$http({
+			method: "POST",
+			url: '/-s-' + collectionName + '/presentjsonall',
+			params: parametersObject
+		}).success(function (d) {
+			callbackFunc(d);
+		});
 	} /* getCollection */
 
 } ]); /* function */

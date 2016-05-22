@@ -3,18 +3,31 @@
 </div>
 
 <div class="panel panel-default">
-  <div class="panel-heading">Contact Information</div>
+  <div class="panel-heading">Owners</div>
   <div class="panel-body">
-	<div ng-repeat="c in contacts track by $index">
-		<print-contact c=c ></print-contact>
+	<div ng-repeat="o in owners" >
+		<print-person arg-person="o.data" ></print-person>
 	</div>
   </div>
 </div>
 
-<md-content>
+<div class="panel panel-default">
+  <div class="panel-heading">Contact Information</div>
+  <div class="panel-body">
+	<div ng-repeat="c in contacts" >
+		<print-contact arg-contact="c.data" ></print-contact>
+	</div>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">Price</div>
+  <div class="panel-body">
 	<div ng-repeat="price in doc.price">
 		<b>Price {{price.type}} {{price.amount}} {{price.currency}} for {{price.per}} {{price.per_unit}}</b>
 	</div>
+  </div>
+</div>
 
 	<ul>
         <li ng-repeat="room in doc.room">
@@ -27,6 +40,3 @@
 		</ul>
         </li>
 	</ul>
-	
-</md-content>
-{{doc}}

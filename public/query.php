@@ -120,7 +120,7 @@ if (in_array($urlArgsArray ['c'], array('user', 'person', 'organization', 'item'
 	);
 } /* if (in_array($urlArgsArray ['c'], */
 
-/* print_r($searchConditions); */
+ /* print_r($searchConditions);  */
 $findCursor = $_SESSION['mongo_database']->{$urlArgsArray ['c']}->find ($searchConditions);
 
 

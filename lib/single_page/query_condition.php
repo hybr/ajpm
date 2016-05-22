@@ -6,6 +6,7 @@
  */
 function getQueryConditions($record = array()) {
 	$conds = array ();
+	$anyRecord = false;
 	
 	$requestForSingleRecord = in_array ( strtolower ( $_SESSION ['url_task'] ), array (
 			'create',
@@ -247,13 +248,14 @@ function getQueryConditions($record = array()) {
 					'_id' => 'NO ACCESS' 
 			);
 		}
+		$conds = $orgRecord;
 	}
 	
 	/* all other collections */
 	
-	if (empty ( $conds )) {
+	if (empty ( $conds ) && !$anyRecord) {
 		$conds = array (
-				'_id' => 'NO ACCESS' 
+			'_id' => 'NO ACCESS' 
 		);
 	}
 	
@@ -262,14 +264,12 @@ function getQueryConditions($record = array()) {
 				'sharma.yogesh.1234@gmail.com' 
 		) )) {
 			$conds = array (); /* show all users so that I can fix the issues */
+			$anyRecord = true;
 		}
 	}
-	if ($_SESSION ['debug']) {
+	if (isset($_SESSION['debug']) && $_SESSION['debug'] == 1 ){
 		echo '<pre>getQueryCriteria $conds = ';
 		print_r ( $conds );
-		echo '</pre>';
-		echo '<pre>$_SESSION = ';
-		print_r ( $_SESSION );
 		echo '</pre>';
 		echo '<pre>$requestForMultipleRecord= ';
 		print_r ( $requestForMultipleRecord );

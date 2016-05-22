@@ -1030,8 +1030,8 @@ class Base {
 		$this->findCursor = $_SESSION ['mongo_database']->{$this->collectionName}->find (getQueryConditions($this->record));
 		
 		if ($this->findCursor->count () < 1) {
-			/* array_push ( $this->errorMessage, 'Not one (' . $this->findCursor->count () . ') record with id "' . $this->record ['_id'] . '" exists in ' . $this->collectionName . '. Or you do not have access to record.' . implode(" ",getQueryConditions($this->record)) . '<pre>' . var_dump($_SESSION) . '</pre>' ); */
-			array_push ( $this->errorMessage, 'Not one (' . $this->findCursor->count () . ') record with id "' . $this->record ['_id'] . '" exists in ' . $this->collectionName . '. Or you do not have access to record.');
+			 /* array_push ( $this->errorMessage, 'Not a single (' . $this->findCursor->count () . ') record with id "' . $this->record ['_id'] . '" exists in ' . $this->collectionName . '. Or you do not have access to record.' . implode(" ",getQueryConditions($this->record)) . '<pre>' . var_dump($_SESSION) . '</pre>' );  */
+			array_push ( $this->errorMessage, 'Not a single (' . $this->findCursor->count () . ') record with id "' . $this->record ['_id'] . '" exists in ' . $this->collectionName . '. Or you do not have access to record.');
 			return $this->showError ();
 		}
 		
@@ -1138,6 +1138,7 @@ class Base {
 		}
 
 		$this->findCursor = $_SESSION ['mongo_database']->{$this->collectionName}->find (getQueryConditions(array()));
+
 		debugPrintArray ($this->findCursor->count(), 'findCursor count'); 
 		
 		/* get the form */

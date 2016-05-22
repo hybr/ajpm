@@ -22,7 +22,8 @@ angular.module('ajpmApp').config(['$stateProvider', '$urlRouterProvider', 'USER_
 		controller : 'ContactUsController'
 	}).state('my_account', {
 		url : "/my_account",
-		templateUrl : "modules/my_account/"+viewType+"view.html"
+		templateUrl : "modules/my_account/"+viewType+"view.html",
+		controller : 'PersonController'
 	}).state('logout', {
 		url : "/logout",
 		template : "<div class='ui-state-highlight'> You are logged out. </div>",

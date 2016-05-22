@@ -43,3 +43,4 @@
 <script src="modules/item_catalog/controller.js"></script>
 <script src="modules/item/controller.js"></script>
 <script src="modules/real_estate_asset/controller.js"></script>
+<script src="modules/my_account/controller.js"></script>

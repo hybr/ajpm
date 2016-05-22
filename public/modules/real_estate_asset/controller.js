@@ -5,22 +5,34 @@
  */
 
 angular.module('ajpmApp').controller('realEstateAssetController', 
-	['$scope', '$stateParams', 'GetDocumentByIdService',
-	function($scope, $stateParams, GetDocumentByIdService){
+	['$scope', '$stateParams', 'GetDocumentByIdService', 'GetCollectionService', '$q',
+	function($scope, $stateParams, GetDocumentByIdService, GetCollectionService, $q){
 	
-
 	$scope.contacts = [];
+	$scope.owners = [];
 
 	/* Get the web page id for the about us page */
 	GetDocumentByIdService.getDocument('real_estate_asset', $stateParams.realEstateAssetId, function(d1) {
 		$scope.doc = d1;
-		for(var i=0; i<$scope.doc.contact.length; i++) {
-			var contactId = $scope.doc.contact[i].contact;
-			GetDocumentByIdService.getDocument('contact', contactId, function(d2) {
-				if (varNotNull(d2)) {
-					$scope.contacts[i] = d2;
-				}
-			});
-		}
+
+		var contactPromisses = [];
+		angular.forEach( $scope.doc.contact, function(value){
+			contactPromisses.push(
+				GetDocumentByIdService.getDocumentPromise('contact',value.contact)
+			);
+		});
+		$q.all(contactPromisses).then(function(results) {
+			$scope.contacts = results;
+		});
+
+		var personPromisses = [];
+		angular.forEach( $scope.doc.owner, function(value){
+			personPromisses.push(
+				GetDocumentByIdService.getDocumentPromise('person',value.name)
+			);
+		});
+		$q.all(personPromisses).then(function(results) {
+			$scope.owners = results;
+		});
 	});
 } ]);

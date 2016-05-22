@@ -76,22 +76,40 @@ function isAllowed($collectionName, $subTask) {
 			'public_user-forgetpassword-all',
 			'public_user-va-all',
 			'public_user-sendactivationemail-all',
-			'public_itemcatalog-presentall-all',
-			'public_item-present-all',
 			'public_shoppingcart-present-all',
 			'public_shoppingcart-presentall-all',
+
+			'public_contact-present-all',
+			'public_contact-present_document-all',
+			'public_contact-presentjson-all',
+			'public_contact-presentjsonall-all',
+
 			'public_webpage-present-all',
 			'public_webpage-present_document-all',
-				
-			'public_itemcatalog-presentjsonall-all',
-			'public_item-presentjsonall-all',
-				
-			'public_item-presentjson-all',
 			'public_webpage-presentjson-all',
+			'public_webpage-presentjsonall-all',
+				
+			'public_person-present-all',
+			'public_person-present_document-all',
+			'public_person-presentjson-all',
+			'public_person-presentjsonall-all',
+
+			'public_itemcatalog-present-all',
+			'public_itemcatalog-present_document-all',
+			'public_itemcatalog-presentjson-all',
+			'public_itemcatalog-presentjsonall-all',
+
+			'public_item-present-all',
+			'public_item-present_document-all',
+			'public_item-presentjson-all',
+			'public_item-presentjsonall-all',
+
+			'public_realestateasset-present-all',
+			'public_realestateasset-present_document-all',
 			'public_realestateasset-presentjson-all',
+			'public_realestateasset-presentjsonall-all',
 				
 			'public_user-login-all',
-			'public_contact-presentall-all',
 			'public_organization-clients-all',
 			'public_familytree-presentall-all',
 			'public_familytree-present-all',
