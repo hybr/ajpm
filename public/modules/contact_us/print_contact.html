@@ -1,0 +1,41 @@
+
+<span ng-if="paramContact.primary=='True'">Primary</span>
+&nbsp;{{paramContact.location}} {{paramContact.medium}}:
+
+<span ng-if="paramContact.medium=='Email Address'">
+  <a href="mailto:{{paramContact.email_address}}" target="_top">
+    <button aria-label="Email Address"><i class="fa fa-email"></i> {{paramContact.email_address}} </button>
+  </a>
+</span>
+
+<span ng-if="paramContact.medium=='Phone'">
+	<a href="tel:{{paramContact.phone_number}}" target="_top">
+		<button aria-label="Phone Number"><i class="fa fa-phone"></i>{{paramContact.phone_number}}</button>
+	</a>
+</span>
+
+<span ng-if="paramContact.medium=='Postal Address'">
+	{{paramContact.home_or_building}}, {{paramContact.street}}, {{paramContact.area}}, {{paramContact.pin_or_zip}}, {{paramContact.city}}
+</span>
+
+<span ng-if="paramContact.medium=='Web'">
+	<a href="http://{{paramContact.web_url}}" target="_blank">{{paramContact.web_url}}</a>
+</span>
+
+<span ng-if="paramContact.medium=='Fax'">
+	<a href="tel:{{paramContact.fax_number}}" target="_top">
+		<button aria-label="Fax Number"><i class="fa fa-print"></i>{{paramContact.fax_number}}</button>
+	</a>
+</span>
+
+<span ng-if="paramContact.medium=='Voip'">
+	<a href="tel:{{paramContact.voip_number}}" target="_top">
+		<button aria-label="VoIP Number"><i class="fa fa-phone"></i>{{paramContact.voip_number}}</button>
+	</a>
+</span>
+
+<span ng-if="paramContact.medium=='Pager'">
+	<a href="tel:{{paramContact.pager_number}}" target="_top">
+		<button aria-label="Pager Number"><i class="fa fa-smartphone"></i>{{paramContact.pager_number}}</button>
+	</a>
+</span>
