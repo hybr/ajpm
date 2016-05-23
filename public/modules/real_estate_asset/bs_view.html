@@ -2,6 +2,32 @@
   <h1>{{doc.type}} <small>Area {{doc.area}} {{doc.area_unit}}</small></h1>
 </div>
 
+<div ng-if="doc.site_plan.length > 0" class="panel panel-default">
+  <div class="panel-heading">Photos</div>
+  <div class="panel-body">
+	<print-image-slider arg-slider-image-records="doc.photo"></print-image-slider>
+  </div>
+</div>
+
+
+
+<div ng-if="doc.room.length > 0" class="panel panel-default">
+  <div class="panel-heading">Rooms</div>
+  <div class="panel-body">
+	<ul>
+        <li ng-repeat="room in doc.room">
+		{{room.count}} {{room.type}},  
+		<span ng-if="room.area != ''">{{room.area}} {{room.area_unit}}</span>
+		<ul>
+	        <li ng-repeat="feature in room.accessory">
+			{{feature.count}} {{feature.type}}
+        	</li>
+		</ul>
+        </li>
+	</ul> 
+  </div>
+</div>
+
 <div class="panel panel-default">
   <div class="panel-heading">Owners</div>
   <div class="panel-body">
@@ -29,14 +55,9 @@
   </div>
 </div>
 
-	<ul>
-        <li ng-repeat="room in doc.room">
-		{{room.count}} {{room.type}},  
-		<span ng-if="room.area != ''">{{room.area}} {{room.area_unit}}</span>
-		<ul>
-	        <li ng-repeat="feature in room.accessory">
-			{{feature.count}} {{feature.type}}
-        	</li>
-		</ul>
-        </li>
-	</ul>
+<div ng-if="doc.site_plan.length > 0" class="panel panel-default">
+  <div class="panel-heading">Site Plans</div>
+  <div class="panel-body">
+	<print-image-slider arg-slider-image-records="doc.site_plan"></print-image-slider>
+  </div>
+</div>

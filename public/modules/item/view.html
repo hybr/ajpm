@@ -12,23 +12,8 @@
 			<h3> By {{ manufacturarName }}</h3>
 			<p><div ng-bind-html="doc.summary |showAsHtml"></div></p>
 			
-			<div ng-init="currentPhoto=0">
-				<div ng-repeat="imgRec in doc.photo ">
-					<div ng-show="currentPhoto==$index" 
-						class="ajpmCaruselBox"
-						style="background-image: url('{{imgRec.file_name}}');">
-						<a href="{{imgRec.click_link_url}}"><div class="ajpmCaruselCaption">
-							{{imgRec.caption}}
-						</div></a> 	
-					</div>
-				</div>
-				<md-button class="md-primary md-raised" 
-					ng-click="currentPhoto=decreaseCounter(currentPhoto,0,1)"
-				>Previuos</md-button>	
-				<md-button class="md-primary md-raised" 
-					ng-click="currentPhoto=increaseCounter(currentPhoto,doc.photo.length-1,1)" 
-				>Next</md-button>	
-			</div>
+			<print-image-slider arg-slider-image-records="doc.photo"></print-image-slider>
+			
 			<p ng-show="doc.pre_requisites.length != 0"><h3>Pre Requisites</h3>
 				<ul>
 					<li ng-repeat="pr in doc.pre_requisites">

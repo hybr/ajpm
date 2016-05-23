@@ -2,7 +2,7 @@
 <div ng-repeat="c in doc.component">
 
 	<div ng-if="c.type == 'Image Slider'">
-	<print-image-slider arg-slider-image-records=""></print-image-slider>
+		<print-image-slider arg-slider-image-records="doc.slider_image"></print-image-slider>
  	</div>
 
 	<div ng-if="c.type == 'Learn More'">
