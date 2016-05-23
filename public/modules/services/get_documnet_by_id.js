@@ -15,7 +15,7 @@ angular.module('ajpmApp').service('GetDocumentByIdService', ['$http', '$q', func
 		}).success(function (d) {
 			callbackFunc(d);
 		});
-	} /* getDocument */
+	}; /* getDocument */
 
 	this.getDocumentPromise = function(collectionName, requestedId ) {
 		var deferred = $q.defer();
@@ -30,6 +30,6 @@ angular.module('ajpmApp').service('GetDocumentByIdService', ['$http', '$q', func
 
 		return deferred.promise;
 
-	} /* getDocumentPromise */
+	}; /* getDocumentPromise */
 
 } ]); /* service  */

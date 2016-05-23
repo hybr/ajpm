@@ -1,24 +1,8 @@
 
 <div ng-repeat="c in doc.component">
 
-	<div ng-if="c.type == 'Image Slider' && doc.slider_image.length > 0"">
-		<div ng-init="currentSliderImage=0">
-			<div ng-repeat="imgRec in doc.slider_image ">
-				<div ng-show="currentSliderImage==$index" 
-					class="ajpmCaruselBox"
-					style="background-image: url('{{imgRec.file_name}}');">
-					<a href="{{imgRec.click_link_url}}"><div class="ajpmCaruselCaption">
-						{{imgRec.caption}}
-					</div></a> 	
-				</div>
-			</div>
-			<md-button class="md-primary md-raised" 
-				ng-click="currentSliderImage=decreaseCounter(currentSliderImage,0,1)"
-			>Previuos</md-button>	
-			<md-button class="md-primary md-raised" 
-				ng-click="currentSliderImage=increaseCounter(currentSliderImage,doc.slider_image.length-1,1)" 
-			>Next</md-button>	
-		</div>
+	<div ng-if="c.type == 'Image Slider'">
+	<print-image-slider arg-slider-image-records=""></print-image-slider>
  	</div>
 
 	<div ng-if="c.type == 'Learn More'">

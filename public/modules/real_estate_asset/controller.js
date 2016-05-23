@@ -4,7 +4,7 @@
  * @controller WebPageController to nabage web page information
  */
 
-angular.module('ajpmApp').controller('realEstateAssetController', 
+angular.module('ajpmApp').controller('RealEstateAssetController', 
 	['$scope', '$stateParams', 'GetDocumentByIdService', 'GetCollectionService', '$q',
 	function($scope, $stateParams, GetDocumentByIdService, GetCollectionService, $q){
 	

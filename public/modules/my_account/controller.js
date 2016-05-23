@@ -10,7 +10,7 @@ angular.module('ajpmApp').controller('PersonController',
 		function($scope, $rootScope, $http, GetCollectionService){
 			
 		
-		GetCollectionService.getCollection('person', function(d1) {
+		GetCollectionService.getCollection('person', {}, function(d1) {
 			$scope.docs = d1;
 		});
 

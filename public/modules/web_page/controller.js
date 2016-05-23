@@ -17,3 +17,17 @@ angular.module('ajpmApp').controller('WebPageController',
 	
 
 } ]);
+
+angular.module('ajpmApp').directive("printImageSlider", function() {
+	var d = {};
+
+	d.restrict = 'E'; 
+
+	d.templateUrl = '/modules/web_page/print_image_slider.html';
+
+	d.scope = {
+			paramSliderImageRecords : "=argSliderImageRecords"
+	};
+
+	return d;
+});

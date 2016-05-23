@@ -42,10 +42,10 @@ angular.module('ajpmApp').controller('ItemCatalogController',
 		}
 
 
-       GetCollectionService.getCollection('item', function(d1) {
+       GetCollectionService.getCollection('item', {}, function(d1) {
                 $scope.items = d1;
        });
-       GetCollectionService.getCollection('item_catalog', function(d1) {
+       GetCollectionService.getCollection('item_catalog', {}, function(d1) {
                 $scope.docs = d1;
        });
 
