@@ -3,19 +3,21 @@
         <div class="header">
             <div class="container ">
                 <div class="row">
-                    <div class="col-lg-3 col-sm-4 col-sm-3 logo">
-                    	<img src="layout/web/ji.owebp.com/images/logo.png"> 
+                    <div class="col-lg-3 col-sm-5 col-md-4 logo">
+                    	<img src="layout/web/ji.owebp.com/images/logo.png"><br />
+                    	 We put your dreams within reach
                     </div>
-                    <div class="col-lg-7 col-xs-12 col-sm-8 col-md-9 pull-right top-connect">
+                   
+                    <div class="col-lg-8 col-xs-12 col-sm-6 col-md-7 pull-right top-connect">
                         <div class="search col-lg-5 col-xs-12 col-sm-6">
                             <input type="text" placeholder="You can search here..." ng-model="searchPattern">
                             <input type="submit" value="" ui-sref="search">
                         </div>
-                        <!-- <div class="social social-header">
+                        <div class="social social-header">
                             <a href=""><i class="fa fa-facebook-square"></i></a>
                             <a href=""><i class="fa fa-twitter-square"></i></a>
                             <a href=""><i class="fa fa-google-plus-square"></i></a>
-                            </div> -->
+                        </div>
                         <div class="mail">
                             <a href="mailto:info@ssdrgroup.com">
                             	<i class="fa fa-envelope"></i> info@ssdrgroup.com
