@@ -3,7 +3,9 @@
         <div class="header">
             <div class="container ">
                 <div class="row">
-                    <div class="col-lg-3 col-sm-4 col-sm-3 logo"><img src="layout/web/ji.owebp.com/images/logo.jpg"> </div>
+                    <div class="col-lg-3 col-sm-4 col-sm-3 logo">
+                    	<img src="layout/web/ji.owebp.com/images/logo.png"> 
+                    </div>
                     <div class="col-lg-7 col-xs-12 col-sm-8 col-md-9 pull-right top-connect">
                         <div class="search col-lg-5 col-xs-12 col-sm-6">
                             <input type="text" placeholder="You can search here..." ng-model="searchPattern">
@@ -15,10 +17,12 @@
                             <a href=""><i class="fa fa-google-plus-square"></i></a>
                             </div> -->
                         <div class="mail">
-                            <a href="mailto:info@jaipurinvestor.com"><i class="fa fa-envelope"></i>   info@jaipurinvestor.com</a>
+                            <a href="mailto:info@ssdrgroup.com">
+                            	<i class="fa fa-envelope"></i> info@ssdrgroup.com
+                            </a>
                         </div>
                         <div class="phone">
-                            <i class="fa fa-phone-square"></i> +91-141-2222222
+                            <i class="fa fa-phone-square"></i> +91-78777-77888
                         </div>
                     </div>
                 </div>
@@ -80,9 +84,11 @@
                             <h4>Contact <span>Us</span></h4>
                             <div class="clearfix"></div>
                             <strong>JAIPUR INVESTOR</strong> <br/>
-                            Jagatpura, Jaipur, Rajasthan, India<br/>
-                            <strong>Email:</strong> <a href="mailto:info@jaipurinvestor.com">info@jaipurinvestor.com</a><br/>
-                            <strong>Phone:</strong> (123) 456-7890
+                            56, Santosh Vihar, Haldighati Marg, Jagatpura, 
+                            Jaipur, 302017, Rajasthan, India<br/>
+                            <strong>Email:</strong>
+                            <a href="mailto:info@ssdrgroup.com">info@ssdrgroup.com</a><br/>
+                            <strong>Phone:</strong> +91-78777-77888
                         </div>
                     </div>
                 </div>
