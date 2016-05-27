@@ -42,28 +42,34 @@ class public_Contact extends Base {
 			'phone_number' => array (
 					'type' => 'number',
 					'help' => 'Format: (Country Code)(Full Number)',
-					'sub_tasks' => array('all', 'Phone')
+					'sub_tasks' => array('all', 'Phone'),
+					'show_in_list' => 1,
 			),
 			'fax_number' => array (
 					'type' => 'number',
-					'sub_tasks' => array('all', 'Fax')
+					'sub_tasks' => array('all', 'Fax'),
+					'show_in_list' => 1,
 			),
 			'pager_number' => array (
 					'type' => 'number',
-					'sub_tasks' => array('all', 'Pager')
+					'sub_tasks' => array('all', 'Pager'),
+					'show_in_list' => 1,
 			),
 			'voip_number' => array (
 					'type' => 'number',
 					'help' => 'Voice over IP',
-					'sub_tasks' => array('all', 'Voip')
+					'sub_tasks' => array('all', 'Voip'),
+					'show_in_list' => 1,
 			),
 			'email_address' => array (
 					'type' => 'email',
-					'sub_tasks' => array('all', 'Email Address')
+					'sub_tasks' => array('all', 'Email Address'),
+					'show_in_list' => 1,
 			),
 			'web_url' => array (
 					'type' => 'url',
-					'sub_tasks' => array('all', 'Web')
+					'sub_tasks' => array('all', 'Web'),
+					'show_in_list' => 1,
 			),			
 			'city' => array (
 					'type' => 'geonames_city',
@@ -77,11 +83,13 @@ class public_Contact extends Base {
 					'sub_tasks' => array('all', 'Postal Address')
 			),
 			'street' => array (
-					'sub_tasks' => array('all', 'Postal Address')
+					'sub_tasks' => array('all', 'Postal Address'),
+					'show_in_list' => 1,
 			),
 			'home_or_building' => array (
 					'sub_tasks' => array('all', 'Postal Address'),
-					'help' => 'Home / Flat /Apartment / Building number' 
+					'help' => 'Home / Flat /Apartment / Building number',
+					'show_in_list' => 1,
 			) 
 	); /* fields */
 	public $subTaskKeyToSave = 'medium';
