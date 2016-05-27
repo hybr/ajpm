@@ -1,0 +1,26 @@
+	
+	<md-whiteframe class="md-whiteframe-24dp" layout layout-align="center center">
+	    <div ng-if="paramSliderImageRecords.length > 0"">
+			<div ng-init="currentSliderImage=0">
+				<div ng-repeat="imgRec in paramSliderImageRecords track by $index">
+					<div ng-show="currentSliderImage == $index" 
+						class="ajpmCaruselBox"
+						style="background-image: url('{{imgRec.file_name}}');">
+					</div>
+				</div>
+				
+				<md-button class="md-primary md-raised" ng-disabled="currentSliderImage <= 0"
+					ng-click="currentSliderImage = currentSliderImage - 1"
+				>Previuos</md-button>
+				
+				<md-button class="md-accent md-raised" ng-href="{{paramSliderImageRecords[currentSliderImage].click_link_url}}">
+					{{ currentSliderImage + 1 }}: {{paramSliderImageRecords[currentSliderImage].caption}}
+				</md-button>
+								
+				<md-button class="md-primary md-raised" ng-disabled="currentSliderImage >= (paramSliderImageRecords.length-1)"
+					ng-click="currentSliderImage = currentSliderImage + 1" 
+				>Next</md-button>
+		 				
+			</div>
+	 	</div>
+ 	</md-whiteframe>
