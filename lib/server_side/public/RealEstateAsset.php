@@ -70,6 +70,7 @@ class public_RealEstateAsset extends Base {
 					'foreign_search_fields' => 'location,medium,phone_number,fax_number,pager_number,voip_number,email_address,city,pin_or_zip,area,street,home_or_building',
 					'foreign_title_fields' => 'location,medium,phone_number,fax_number,pager_number,voip_number,email_address,city,pin_or_zip,area,street,home_or_building',
 					'searchable' => 1,
+					'show_in_list' => 1,
 				)
 			),
 		),			
