@@ -49,7 +49,6 @@ class public_RealEstateAsset extends Base {
 		),			
 		'area' => array (
 			'type' => 'string',
-			'show_in_list' => 1,
 			'searchable' => 1,
 		),
 		'area_unit' => array (
@@ -58,12 +57,12 @@ class public_RealEstateAsset extends Base {
 			'list_class' => 'AreaUnit',
 			'input_mode' => 'selecting',
 			'default' => 'Square Foot',
-			'show_in_list' => 1,
 			'searchable' => 1,
 		),
 		'contact' => array(
 			'type' => 'container',
 			'required' => 1,
+			'show_in_list' => 1,
 			'fields' => array (
 				'contact' => array (
 					'type' => 'foreign_key',
