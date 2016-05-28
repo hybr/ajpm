@@ -13,54 +13,11 @@
     	<h3 class="panel-title">Contact Information</h3>
   	</div>
   	<div class="panel-body">
-          <ul>
-          	<li ng-if="doc.public=='True'" ng-repeat="doc in docs">
-          			<span ng-ig="doc.primary=='True'">Primary</span>
-          			&nbsp;{{doc.location}} {{doc.medium}}:
-          			<span ng-if="doc.medium=='Email Address'">
-          				<a href="mailto:{{doc.email_address}}" target="_top">
-						<md-button aria-label="Email Address">
-							<i class="material-icons">email</i>
-							{{doc.email_address}}
-			            </md-button></a>     				
-          			</span>
-          			<span ng-if="doc.medium=='Phone'">
-          				<a href="tel:{{doc.phone_number}}" target="_top">
-						<md-button aria-label="Phone Number">
-							<i class="material-icons">phone</i>
-							{{doc.phone_number}}
-			            </md-button></a>     				
-          			</span>
-					<span ng-if="doc.medium=='Postal Address'">
-          				{{doc.home_or_building}}, {{doc.street}}, {{doc.area}}, {{doc.pin_or_zip}}, {{doc.city}}  				
-          			</span>
-					<span ng-if="doc.medium=='Web'">
-          				<a href="http://{{doc.web_url}}" target="_blank">{{doc.web_url}}</a>			
-          			</span>
-          			<span ng-if="doc.medium=='Fax'">
-          				<a href="tel:{{doc.fax_number}}" target="_top">
-						<md-button aria-label="Fax Number">
-							<i class="material-icons">print</i>
-							{{doc.fax_number}}
-			            </md-button></a>     				
-          			</span>  
-          			<span ng-if="doc.medium=='Voip'">
-          				<a href="tel:{{doc.voip_number}}" target="_top">
-						<md-button aria-label="VoIP Number">
-							<i class="material-icons">phonelink</i>
-							{{doc.voip_number}}
-			            </md-button></a>     				
-          			</span>
-          			<span ng-if="doc.medium=='Pager'">
-          				<a href="tel:{{doc.pager_number}}" target="_top">
-						<md-button aria-label="Pager Number">
-							<i class="material-icons">smartphone</i>
-							{{doc.pager_number}}
-			            </md-button></a>     				
-          			</span>             			
-          			        			  			
-          	</li>
-          </ul>
+		<ul ng-if="docs.length > 0">
+			<li ng-if="doc.public=='True'" ng-repeat="doc in docs">
+				<print-contact arg-contact="doc" ></print-contact>
+			</li>
+		</ul>
           
           <div class="container">
             <div class="row">

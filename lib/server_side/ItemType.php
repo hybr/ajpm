@@ -26,7 +26,15 @@ class ItemType extends Base {
 			array (
 					'value' => 'Solution',
 					'title' => 'Solution' 
-			) 
+			),
+			array (
+					'value' => 'Real Estate Sale',
+					'title' => 'Real Estate Sale'
+			),
+			array (
+					'value' => 'Milk Sale',
+					'title' => 'Milk Sale'
+			)
 	);
 }
 ?>
