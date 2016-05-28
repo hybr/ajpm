@@ -17,28 +17,3 @@ angular.module('ajpmApp').controller('WebPageController',
 	
 
 } ]);
-
-angular.module('ajpmApp').directive("printImageSlider", function() {
-	var d = {};
-
-	d.restrict = 'E'; 
-
-	d.templateUrl = '/modules/web_page/print_image_slider.html';
-
-	d.scope = {
-			paramSliderImageRecords : "=argSliderImageRecords"
-	};
-	
-	/* counter management functions */
-	d.increaseCounter = function(counter, limit, step) {
-		if ((counter+step) <= limit) counter = counter + step;
-		return counter;
-	}
-	
-	d.decreaseCounter = function(counter, limit, step) {
-		if ((counter-step) >= limit) counter = counter - step;
-		return counter;
-	}		
-
-	return d;
-});

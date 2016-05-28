@@ -1,17 +1,13 @@
-<md-content>
-	 <md-toolbar layout="row">
-      <div class="md-toolbar-tools">
-        <span>{{ doc.type }} {{ doc.title }}</span>
-      </div>
-    </md-toolbar>
-    <md-tabs md-dynamic-height md-border-bottom>
+ <print-panel 
+ 	arg-title-one="doc.type"
+ 	arg-title-two="doc.title" 
+ 	arg-content-one="'By ' + manufacturarName" 
+ 	arg-content-two="doc.summary"
+ >
+<md-tabs md-dynamic-height md-border-bottom>
       
       <md-tab label="Item">
         <md-content class="md-padding">
-			<h2>{{ doc.title }}</h2>
-			<h3> By {{ manufacturarName }}</h3>
-			<p><div ng-bind-html="doc.summary |showAsHtml"></div></p>
-			
 			<print-image-slider arg-slider-image-records="doc.photo"></print-image-slider>
 			
 			<p ng-show="doc.pre_requisites.length != 0"><h3>Pre Requisites</h3>
@@ -57,5 +53,7 @@
       		</li></ul> 	  	 
 	  	 </md-content>
 	  </md-tab>      
-    </md-tabs>
-</md-content>
+
+	</md-tabs>
+	
+</print-panel>

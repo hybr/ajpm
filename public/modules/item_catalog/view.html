@@ -1,9 +1,7 @@
-<md-content>
-	 <md-toolbar layout="row">
-      <div class="md-toolbar-tools">
-        <span>Our Catalog</span>
-      </div>
-    </md-toolbar>
+ <print-panel 
+ 	arg-title-one="'Our Catalog'"
+ 	arg-content-one="'Categories for our product and services'" 
+ >
 	<md-list>
         <md-list-item class="md-3-line" ng-repeat="doc in docs track by $index" ng-click="null">
           <div class="md-list-item-text" layout="column">
@@ -17,4 +15,4 @@
           <md-divider></md-divider>
         </md-list-item>
 	</md-list>
-</md-content>
+</print-panel>

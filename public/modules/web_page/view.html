@@ -2,7 +2,9 @@
 <div ng-repeat="c in doc.component">
 
 	<div ng-if="c.type == 'Image Slider'">
-		<print-image-slider arg-slider-image-records="doc.slider_image"></print-image-slider>
+		<print-image-slider 
+			arg-slider-image-records="doc.slider_image"
+		></print-image-slider>
  	</div>
 
 	<div ng-if="c.type == 'Learn More'">
@@ -13,12 +15,10 @@
 	
 	<div ng-if="c.type == 'Paragraph'">
 		<div ng-repeat="para in doc.paragraph">
-			<md-toolbar><div class="md-toolbar-tools">
-			      <h2 class="md-flex">{{para.title}}</h2>
-    			</div></md-toolbar>
-			<md-content flex layout-padding>
-				<div ng-bind-html="para.content  | showAsHtml"></div>
-			</md-content>
+			<print-panel 
+			 	arg-title_one="para.title" 
+			 	arg-content-one="para.content" 
+			 ></print-panel>
 		</div>
 	</div>
 </div>

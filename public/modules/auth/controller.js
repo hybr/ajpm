@@ -118,7 +118,12 @@ angular.module('ajpmApp').controller('LoginController',	[
 			$('#userLoginModelTwo').dialog("close");
 		}
 		
-		$scope.reset();
+		$scope.reset = function() {
+			$scope.credentials = {};
+			$scope.password = "";
+			$scope.email_address = "";
+			
+		};
 
 		// if a session exists for current user (page was refreshed)
 		// log him in again
@@ -129,7 +134,26 @@ angular.module('ajpmApp').controller('LoginController',	[
 
 } ]);
 
-angular.module('ajpmApp').controller('LogoutController', ['$scope', 'AuthService', function($scope, AuthService) {
+angular.module('ajpmApp').controller('LogoutController', 
+	['$scope', 'AuthService', function($scope, AuthService) {
+	
 	AuthService.logout();
 	$scope.isAuthenticated = false;
+
 } ]);
+
+angular.module('ajpmApp').controller('ForgotController',
+		['$scope', '$rootScope', 'AuthService', 'SessionService', 'AUTH_EVENTS', '$state',
+		function($scope, $rootScope, AuthService, SessionService, AUTH_EVENTS, $state){
+
+		$scope.email_address = "";
+
+		$scope.forgot = function() {
+	    }
+	  
+
+		$scope.reset = function() {
+			$scope.email_address = "";
+		}
+
+	} ]);
