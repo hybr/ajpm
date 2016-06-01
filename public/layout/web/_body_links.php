@@ -45,3 +45,4 @@
 <script type="text/javascript" src="modules/item/controller.js"></script>
 <script type="text/javascript" src="modules/real_estate_asset/controller.js"></script>
 <script type="text/javascript" src="modules/my_account/controller.js"></script>
+<script type="text/javascript" src="modules/activity/controller.js"></script>

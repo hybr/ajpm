@@ -80,6 +80,13 @@
 										</md-menu-item>
 						       			
 										<md-menu-divider></md-menu-divider>
+
+										<md-menu-item ui-sref-active="md-warn" ui-sref="activities">
+			                            <md-button aria-label="Activities">
+			                            	<md-tooltip>Activities</md-tooltip>
+											<i class="material-icons">assignment</i> Activities
+			                            </md-button>
+										</md-menu-item>
 																				
 										<md-menu-item ui-sref-active="md-warn" ui-sref="contact_us">
 			                            <md-button aria-label="Contact Us">

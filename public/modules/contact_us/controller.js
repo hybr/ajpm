@@ -10,9 +10,12 @@ angular.module('ajpmApp').controller('ContactUsController',
 		function($scope, $rootScope, $http, GetCollectionService){
 			
 		
-		GetCollectionService.getCollection('contact', {}, function(d1) {
-			$scope.docs = d1;
-		});
+			/* model container for enquery form */
+			$scope.ef = {};
+			
+			GetCollectionService.getCollection('contact', {}, function(d1) {
+				$scope.docs = d1;
+			});
 
 } ]);
 
