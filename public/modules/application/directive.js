@@ -85,6 +85,9 @@ PHONE_REGXP = "\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: 
 			arg-max-length="18"
 			arg-min-length="10"
 			arg-pattern="(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}"
+			arg-pattern-format="'+### ### ### ####'"
+			arg-left-icon="'phone'"
+			arg-right-icon="'home'"			
 		></print-field>
  */
 
@@ -97,7 +100,11 @@ angular.module('ajpmApp').directive("printField", function() {
 			paramTitle : "=argTitle",
 			paramName : "=argName",
 			paramHelp : "=argHelp",
-			paramReadTag : "=argReadTag"
+			paramReadTag : "=argReadTag",
+			paramPatternFormat : "=argPatternFormat",
+			paramLeftIcon : "=argLeftIcon",
+			paramRightIcon : "=argRightIcon",
+			paramNgModel : "=ngModel"
 	};
 	d.templateUrl = '/modules/form/print_field.html';
 	d.link = function (scope, iElement, iAttr, ctrls, transcludeFn) {

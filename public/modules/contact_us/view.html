@@ -6,6 +6,8 @@
 }
 </style>
 
+<md-content>
+
 <print-panel 
  	arg-title-one="'Our Contact Information'"
  	arg-content-one="''"
@@ -22,7 +24,7 @@
  	arg-content-one="'Please provide your details and we will call you!'"
 >
 	<form name="ajpmFormEf" novalidate="" method="POST" ng-submit="ajpmFormEf.$valid" layout="column">
-		
+        
 		<print-field 
 			ng-model="ef.name"
 			arg-read-tag="'input'"
@@ -44,6 +46,9 @@
 			arg-max-length="18"
 			arg-min-length="10"
 			arg-pattern="\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*"
+			arg-pattern-format="'+### ### ### ####'"
+			arg-left-icon="'phone'"
+			arg-right-icon="'home'"
 		></print-field>
 
 		<print-field 
@@ -63,8 +68,9 @@
 		></print-field>
 	   
 	    <md-button ng-class="{linkDisabled:ajpmFormEf.$invalid}"> 
-	    	<a  href="mailto:jaipurinvestor@gmail.com?subject=Real Estate Enquiry&body='Name: {{ef.name}}<br />Phone: {{ef.phone}}<br />{{ef.message}}<br />Email: {{ef.email}}'">Send</a>
+	    	<a  href="mailto:jaipurinvestor@gmail.com?subject=Real Estate Enquiry&body=Name: {{ef.name}}%0DPhone: {{ef.phone_number}}%0DEmail: {{ef.email_address}}%0d%0d{{ef.message}}">Send</a>
 	    </md-button>
-	    
-	</form>          
+    </form>          
 </print-panel>
+
+</md-content>

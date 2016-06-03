@@ -11,3 +11,7 @@
     	ng-minlength="paramMinLength"
     	ng-pattern="paramPattern" 
 	/>
+	
+	<span ng-include="'/modules/form/print_' + paramReadTag + '_field.html'"></span>
+	
+	<md-icon aria-label="{{paramRightIcon}}" ng-if="paramRightIcon">{{paramRightIcon}}</md-icon>

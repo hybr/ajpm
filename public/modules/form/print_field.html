@@ -1,11 +1,30 @@
-{{ paramHelp ? 'Help: ' + paramHelp : '' }}<br />
-<md-input-container>
+
+<md-input-container class="md-block">
 	<label
 		id="{{ paramName }}LabelId"
 		for="{{ paramName }}Id"
 	>{{ paramTitle }}</label>
-	<span ng-include="'/modules/form/print_' + paramReadTag + '_field.html'"></span>
-	<span 
+	
+	
+	<input 
+    	aria-label="{{paramName}}"
+    	id="{{paramName}}Id"
+    	name="{{paramName}}"
+    	type="{{paramReadTagType}}"
+    	size="{{paramReadTagSize}}"
+    	
+    	ng-model="paramNgModel"
+    	ng-required="paramRequired"
+    	ng-maxlength="paramMaxLength"
+    	ng-minlength="paramMinLength"
+    	ng-pattern="paramPattern" 
+	>
+	
+	
+	
+	<div class="hint">{{paramHelp ? 'Help: ' + paramHelp : ''}}</div>
+	
+	<div 
 		ng-messages="form[paramName]['$error']" 
 		ng-show="form[paramName]['$dirty']"
 	>
@@ -28,14 +47,14 @@
 	   	<div 
 	    	id="{{ paramName }}ErrorPatternId" 
 	    	ng-message="pattern"
-	    >{{ paramTitle }} format is not valid</div>	    
+	    >{{ paramTitle }} format is {{ paramPatternFormat }}</div>	    
 	    <div 
 	    	id="{{ paramName }}ErrorMaxLengthId" 
-	    	ng-message="maxlength"
+	    	ng-message="md-maxlength"
 	    >Maximum {{paramMaxLength}} charecters are allowed</div>
 	    <div 
 	    	id="{{ paramName }}ErrorMinLengthId" 
-	    	ng-message="minlength"
+	    	ng-message="md-minlength"
 	    >Minimum {{paramMinLength}} charecters are required</div>
-	</span>
+	</div>
 </md-input-container>
