@@ -21,8 +21,8 @@
 		</div>
 	</div>
 	
-	<div ng-if="c.type == 'Three Media Boxes'" layout="row">
-		<div ng-repeat="mb in doc.media_box">
+	<div ng-if="c.type == 'Three Media Boxes'" layout="row" layout-gt-sm="row" layout-sm="column" layout-xs="column">
+		<div flex ng-repeat="mb in doc.media_box">
 			<print-panel arg-title_one="mb.title">
 			 	<div style="
 			 		background-image: url({{mb.image_file_name}}); 
