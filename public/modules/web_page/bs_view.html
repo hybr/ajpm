@@ -70,12 +70,11 @@
 			</div>
 		</div>
 	</div>
-	
 		
 </div><!-- ng-repeat="c in doc.component" -->
 
-<div ng-if="doc.what_is_next.length > 0">
-	<div ng-repeat="link in doc.what_is_next">
+<div ng-if="doc.what_is_next.length > 0" layout="row" >
+	<div flex ng-repeat="link in doc.what_is_next">
 		<button class="btn" aria-label="{{link.title}}">
          	<a href="{{link.url}}">{{link.title}}</a>
 		</button>

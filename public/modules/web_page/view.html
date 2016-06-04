@@ -23,9 +23,9 @@
 	</div>
 </div>
 
-<div ng-if="doc.what_is_next.length > 0">
-	<div class="md-toolbar-tools" ng-repeat="link in doc.what_is_next">
-		<md-button class="md-primary md-raised" aria-label="{{link.title}}">
+<div ng-if="doc.what_is_next.length > 0" layout="row" >
+	<div flex  ng-repeat="link in doc.what_is_next">
+		<md-button  class="md-primary md-raised" aria-label="{{link.title}}">
          	<a href="{{link.url}}">{{link.title}}</a>
 		</md-button>
 	</div>
