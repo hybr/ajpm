@@ -12,7 +12,7 @@ function varNotNull(v) {
 }
 /**
  * @variable _0g used to hold the domain of website
- * 
+ *
  * For testing a perticular domain set this variable value to that domain
  * if you are at localhost that domain will be used to show the website
  * _lhdn is comming from org_details as local host domain name
@@ -35,7 +35,7 @@ var _1g = function () {
 
 /**
  * @variable _2g is used to hold the person id from the person table of database
- * 
+ *
  * this is used to perform some testing
  */
 var _2g = ""; /* person id */
@@ -55,4 +55,56 @@ var viewType = '';
 if (_1g() == 'ji.owebp.com') {
 	/* bootstrap theme */
 	viewType = 'bs_';
+}
+
+/* *******slider******* */
+
+var tomar;
+var imgnum = 1;
+var marnum = 0;
+var parent = document.getElementById("slider");
+var slidenum = parent.getElementsByTagName('img').length;
+var startSlide = setInterval(slide,3500);
+function slide()
+{
+	if (imgnum < slidenum) {
+		marnum -= 100;
+		imgnum += 1;
+	} else {
+		marnum = 0;
+		imgnum = 1;
+	}
+	tomar =  marnum.toString() + "%";
+    document.getElementById('slider').style.marginLeft = tomar;
+}
+function resetSlide()
+{
+	clearInterval(startSlide);
+    startSlide = setInterval(slide,3500);
+}
+function sliderRight()
+{
+	if (imgnum < slidenum) {
+		marnum -= 100;
+		imgnum += 1;
+	} else {
+		marnum = 0;
+		imgnum = 1;
+	}
+	tomar =  marnum.toString() + "%";
+    document.getElementById('slider').style.marginLeft = tomar;
+	resetSlide();
+}
+function sliderLeft()
+{
+	if (imgnum > 1) {
+		marnum += 100;
+		imgnum -= 1;
+	} else {
+		marnum = 0;
+		imgnum = 1;
+	}
+	tomar =  marnum.toString() + "%";
+    document.getElementById('slider').style.marginLeft = tomar;
+    resetSlide();
 }
