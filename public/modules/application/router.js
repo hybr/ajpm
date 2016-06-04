@@ -3,8 +3,8 @@
  */
 
 
-angular.module('ajpmApp').config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES',
-    function($stateProvider, $urlRouterProvider, USER_ROLES) {
+angular.module('ajpmApp').config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', '$locationProvider',
+    function($stateProvider, $urlRouterProvider, USER_ROLES, $locationProvider) {
 
 	$urlRouterProvider.otherwise("/home");
 
@@ -83,7 +83,12 @@ angular.module('ajpmApp').config(['$stateProvider', '$urlRouterProvider', 'USER_
 		}
 	});
 
-	// enable HTML5mode to disable hashbang urls
-    // $locationProvider.html5Mode(true);
+    /*check browser support */
+    if(window.history && window.history.pushState){
+        $locationProvider.html5Mode({
+        	enabled: true,
+            requireBase: false
+      });
+    }
 
 }]);
