@@ -14,9 +14,9 @@
                             <input type="submit" value="" ui-sref="search">
                         </div>
                         <div class="social social-header">
-                            <a href=""><i class="fa fa-facebook-square"></i></a>
-                            <a href=""><i class="fa fa-twitter-square"></i></a>
-                            <a href=""><i class="fa fa-google-plus-square"></i></a>
+                            <a target="_blank" href="https://www.facebook.com/jaipurinvestors"><i class="fa fa-facebook-square"></i></a>
+                            <a target="_blank" href="https://twitter.com/jaipurinvestori"><i class="fa fa-twitter-square"></i></a>
+                            <a target="_blank" href="https://plus.google.com/116242183340561056706"><i class="fa fa-google-plus-square"></i></a>
                         </div>
                         <div class="mail">
                             <a href="mailto:info@ssdrgroup.com">
@@ -78,9 +78,9 @@
                             <h4>Social <span>Connect</span></h4>
                             <p>Reach us on our social network pages. 
                             </p>
-                            <a href=""><i class="fa fa-facebook-square"></i></a>
-                            <a href=""><i class="fa fa-twitter-square"></i></a>
-                            <a href=""><i class="fa fa-google-plus-square"></i></a>
+							<a target="_blank" href="https://www.facebook.com/jaipurinvestors"><i class="fa fa-facebook-square"></i></a>
+                            <a target="_blank" href="https://twitter.com/jaipurinvestori"><i class="fa fa-twitter-square"></i></a>
+                            <a target="_blank" href="https://plus.google.com/116242183340561056706"><i class="fa fa-google-plus-square"></i></a>
                         </div>
                         <div class="col-lg-3 col-sm-3">
                             <h4>Contact <span>Us</span></h4>
