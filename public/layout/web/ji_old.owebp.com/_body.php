@@ -134,7 +134,7 @@
   </md-toolbar>
 
 	<div ng-show="hasPageMessages()"><ul>
-		<li ng-repeat="pageMessage in getPageMessages()">
+		<li ng-repeat="pageMessage in getPageMessages() track by $index">
 			{{pageMessage}}
 		</li>
 	</ul></div>  

@@ -8,16 +8,19 @@
       
       <md-tab label="Item">
         <md-content class="md-padding">
-			<print-image-slider arg-slider-image-records="doc.photo"></print-image-slider>
+        	<div ng-show="doc.photo">
+				<print-image-slider arg-slider-image-records="doc.photo"></print-image-slider>
+			</div>
 			
-			<p ng-show="doc.pre_requisites.length != 0"><h3>Pre Requisites</h3>
+			<div ng-show="doc.pre_requisites != ''">
+				<h3>Pre Requisites</h3>
 				<ul>
 					<li ng-repeat="pr in doc.pre_requisites">
 						<span ng-show="pr.mandatory=='True'">MANDATORY! </span>{{ pr.condition }}
 					</li>
 					
 				</ul>
-			</p>
+			</div>
         </md-content>
       </md-tab>
 
@@ -47,10 +50,13 @@
       
 	  <md-tab ng-show="doc.service_hours" label="Time">
 	  	 <md-content class="md-padding">
+	  	 	<div ng-show="doc.service_hours.length > 0">
 	  	 	<h3>Service Time</h3>
       		<ul><li ng-repeat="sh in doc.service_hours">
       			Every {{ sh.every }} {{ sh.frequency }} from {{ sh.start_date }} {{ sh.start_time }} for {{ sh.duration }} {{ sh.duration_unit }}
-      		</li></ul> 	  	 
+      			<print-person-by-id arg-person-id="'{{ sh.provider }}'"></print-person-by-id>
+      		</li></ul>
+      		</div> 	  	 
 	  	 </md-content>
 	  </md-tab>      
 

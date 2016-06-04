@@ -29,3 +29,23 @@ angular.module('ajpmApp').directive("printPerson", function() {
 
 	return d;
 });
+
+angular.module('ajpmApp').directive("printPersonById", function(GetDocumentByIdService) {
+	var d = {};
+
+	d.restrict = 'E'; 
+
+	d.templateUrl = '/modules/my_account/print_person.html';
+
+	d.scope = {
+		paramPersonId : "=argPersonId"
+	};
+
+	d.link = function (scope, iElement, iAttr, ctrls, transcludeFn) {
+		GetDocumentByIdService.getDocument('person', iAttr.argPersonId, function(doc) {
+	       scope.paramPerson = doc;
+	    });
+	};
+	
+	return d;
+});

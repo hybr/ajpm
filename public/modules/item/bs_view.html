@@ -1,4 +1,6 @@
 
+		{{doc}}
+		
 <div class="panel panel-default">
 	<div class="panel-heading">
     	<h3 class="panel-title">{{ doc.type }} {{ doc.title }}</h3>
@@ -6,23 +8,26 @@
   	<div class="panel-body">
 			<h2>{{ doc.title }}</h2>
 			<h3> By {{ manufacturarName }}</h3>
-			<p>{{ doc.summary }}</p>
+			<p ng-bind-html="doc.summary |showAsHtml"></p>
 			
-			<print-image-slider arg-slider-image-records="doc.photo"></print-image-slider>
+			<div ng-show="doc.photo">
+				<print-image-slider arg-slider-image-records="doc.photo"></print-image-slider>
+			</div>
 			
-			<p ng-show="doc.pre_requisites != ''"><h3>Pre Requisites</h3>{{ doc.pre_requisites }}</p>
+			<div ng-show="doc.pre_requisites != ''">
+				<h1>Pre Requisites</h1>{{ doc.pre_requisites }}
+			</div>
 			
 			<hr />
 			
-	          <div ng-repeat="abt in doc.about">
-	          		<h3>{{ abt.category }}</h3>
-	          		<p>{{ abt.about_category }}</p>
-	          		<ul><li ng-repeat="atr in abt.attribute">
-	          			<b>{{ atr.name }}</b>: {{ atr.value }}{{ atr.unit }}
-	          			<br />
-	          			<span ng-bind-html="atr.summary |showAsHtml"></span>
-	          		</li></ul>
-	          </div>
+          <div ng-repeat="abt in doc.about">
+          		<h1>{{ abt.category }}</h1><br />
+          		<div ng-bind-html="abt.about_category |showAsHtml"></div>
+          		<ol><li ng-repeat="atr in abt.attribute">
+          			<b>{{ atr.name }}</b>: {{ atr.value }}{{ atr.unit }}
+          			<span ng-bind-html="atr.summary |showAsHtml"></span>
+          		</li></ol>
+          </div>
           
           	<hr />
           	
@@ -33,10 +38,12 @@
       		
       		<hr />
       		
-      		<h3>Service Time</h3>
+      		<div ng-show="doc.service_hours.length > 0">
+      		<h1>Service Time</h1>
       		<ul><li ng-repeat="sh in doc.service_hours">
       			Every {{ sh.every }} {{ sh.frequency }} from {{ sh.start_date }} {{ sh.start_time }} for {{ sh.duration }} {{ sh.duration_unit }}
-      		</li></ul> 	
+      		</li></ul>
+      		</div>
           			        
  	 </div>
   	<div class="panel-footer"></div>

@@ -5,9 +5,10 @@
 
 		<div flex id="ajpmHeaderAndMenu" layout="column">
 
+
 			<div flex id="ajpmHeader" layout="row" layout-xs="column">
 
-				<div id="ajpmLogo">
+				<div flex="25" id="ajpmLogo">
 
 					<?php if (isset ( $_SESSION ['url_domain_org'] ['web_site_logo_file_name'] )) {
 						echo '<img style="height: 75px; width: auto;" ng-src="'.$_SESSION ['url_domain_org'] ['web_site_logo_file_name'].'" />';
@@ -15,11 +16,9 @@
 
 				</div><!-- ajpmLogo -->
 				 
-				<div flex id="ajpmNameStatement" >
+				<div flex layout="column">
 
-					&nbsp;
-
-					<span id="ajpmName" style="font-size:4.5vw; font-weight:bolder;">
+					<div flex id="ajpmName" style="font-size:4.5vw; font-weight:bolder;">
 
 						<?php if (isset ( $_SESSION ['url_domain_org'] ['name'] )) {
 							echo '<a href="/">' . $_SESSION ['url_domain_org'] ['name'] . '</a>';
@@ -27,11 +26,9 @@
 							echo '<a href="/">Our WEB Presence</a>';
 						}?>
 
-					</span><!-- ajpmName -->
+					</div><!-- ajpmName -->
 
-					&nbsp; 
-
-					<span id="ajpmStatement" style="font-size:3vw; font-weight:bold;">
+					<div flex id="ajpmStatement" style="font-size:3vw; font-weight:bold;">
 
 						<?php if (isset ( $_SESSION ['url_domain_org'] ['statement'] )) {
 							echo $_SESSION ['url_domain_org'] ['statement'];
@@ -39,7 +36,7 @@
 							echo "Best Presence on Web";
 						}?>
 
-					</span><!-- ajpmStatement -->
+					</div><!-- ajpmStatement -->
 					
 				</div><!-- ajpmNameStatement -->
 
