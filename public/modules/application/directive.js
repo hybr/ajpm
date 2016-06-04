@@ -68,10 +68,6 @@ angular.module('ajpmApp').directive("printPanel", function() {
 	return d;
 });
 
-var PHONE_REGEXP = '';
-PHONE_REGEXP = '(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}';
-PHONE_REGEXP = "[(]{0,1}[0-9]{3}[)\.\- ]{0,1}[0-9]{3}[\.\- ]{0,1}[0-9]{4}";
-PHONE_REGXP = "\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*";
 /*
 		<print-field 
 			ng-model="ef.phone_number"
@@ -91,9 +87,8 @@ PHONE_REGXP = "\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: 
 		></print-field>
  */
 
-angular.module('ajpmApp').directive("printField", function() {
+angular.module('ajpmApp').directive("printField", function($compile) {
 	var d = {};
-
 	d.restrict = 'E'; 
 	d.require = ['^form', 'ngModel'];
 	d.scope = {
@@ -104,9 +99,10 @@ angular.module('ajpmApp').directive("printField", function() {
 			paramPatternFormat : "=argPatternFormat",
 			paramLeftIcon : "=argLeftIcon",
 			paramRightIcon : "=argRightIcon",
+			paramClass : "=argClass",
+			paramClick : "=argClick",
 			paramNgModel : "=ngModel"
 	};
-	d.templateUrl = '/modules/form/print_field.html';
 	d.link = function (scope, iElement, iAttr, ctrls, transcludeFn) {
 		scope.form = ctrls[0];
 		var ngModelCtrl = ctrls[1];
@@ -157,12 +153,7 @@ angular.module('ajpmApp').directive("printField", function() {
 		
 		if (typeof iAttr.argReadTagType !== 'undefined') {
 			if (varNotNull(iAttr.argReadTagType)) {
-				if (iAttr.argReadTagType.toLowerCase() == "phone") {
-					scope.paramReadTagType = "'text'";
-					/* scope.paramPattern = PHONE_REGEXP; */
-				} else {
-					scope.paramReadTagType = iAttr.argReadTagType.toLowerCase();
-				}
+				scope.paramReadTagType = iAttr.argReadTagType.toLowerCase();
 			} else {
 				scope.paramReadTagType = "text";
 			}
@@ -180,7 +171,13 @@ angular.module('ajpmApp').directive("printField", function() {
            }
        });
 	       
+       //run the ng-click function
+       scope.$watch('paramClick', function(value) {
+           scope.value;
+       });       
 	};
-	    
+	d.templateUrl = function(iElement, iAttr) {
+		return '/modules/form/print_' + iAttr.argReadTag.toLowerCase() + '_field.html';	
+	}
 	return d;
 });

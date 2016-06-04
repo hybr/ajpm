@@ -22,43 +22,54 @@
             <div class="row">
                 <div class="col-lg-5  col-xs-12 col-md-5">
                     <div class="enquiry">
-                        <h3>Enquiry Form !!</h3>
+                        <h1>Enquiry Form !!</h1>
                         <span>Please provide your details and we will call you!</span>
-                        <form name="ajpmFormEf" novalidate="" method="POST" ng-submit="ajpmFormEf.$valid">
-                           <md-input-container>
-                               Enter you name
-                               <input type="text" id="ajpmIdEfName" name="ajpmNameEfName" ng-model="ef.name" required/>
-                               <div ng-messages="ajpmFormEf.ajpmNameEfName.$error" ng-show="ajpmFormEf.ajpmNameEfName.$dirty">
-                                   <div id="ajpmIdEfNameErrorRequired" ng-message="required">Name is required</div>
-                               </div>
-                           </md-input-container>     
-                           <md-input-container>
-                               Enter you contact number
-                               <input type="text" id="ajpmIdEfPhone" name="ajpmNameEfPhone" ng-model="ef.phone_number" required ng-pattern="^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$"/>
-                               <div ng-messages="ajpmFormEf.ajpmNameEfPhone.$error" ng-show="ajpmFormEf.ajpmNameEfPhone.$dirty">
-                                   <div id="ajpmIdEfPhoneErrorRequired" ng-message="required">Phone is required</div>
-                                   <div id="ajpmIdEfPhoneErrorPattern" ng-message="pattern">Phone is invalid</div>
-                               </div>
-                           </md-input-container>                               
-                           <md-input-container>
-                               Enter you email
-                               <input type="email" id="ajpmIdEfEmail" name="ajpmNameEfEmail" ng-model="ef.email" required="" />
-                               <div ng-messages="ajpmFormEf.ajpmNameEfEmail.$error" ng-show="ajpmFormEf.ajpmNameEfEmail.$dirty">
-                                   <div id="ajpmIdEfEmailErrorRequired" ng-message="required">Email is required</div>
-                                   <div id="ajpmIdEfEmailErrorPattern" ng-message="email">Email is invalid</div>
-                               </div>
-                           </md-input-container>   
-                           <md-input-container>
-                               Type message
-                               <textarea id="ajpmIdEfMessage" name="ajpmNameEfMessage" ng-model="ef.message" required="" ></textarea>
-                               <div ng-messages="ajpmFormEf.ajpmNameEfMessage.$error" ng-show="ajpmFormEf.ajpmNameEfMessage.$dirty">
-                                   <div id="ajpmIdEfMessageErrorRequired" ng-message="required">Message is required</div>
-                               </div>
-                           </md-input-container> 
-                            <md-button ng-class="{linkDisabled:ajpmFormEf.$invalid}"> 
-                            <a  href="mailto:jaipurinvestor@gmail.com?subject=Real Estate Enquiry&body='Name: {{ef.name}}<br />Phone: {{ef.phone}}<br />{{ef.message}}<br />Email: {{ef.email}}'">Send</a>
-                            </md-button>
-                        </form>
+                        <form 
+		name="ajpmFormEf" 
+		novalidate="" 
+		method="POST" 
+		ng-submit="ajpmFormEf.$valid" 
+		layout="column"
+	>
+        
+		<print-field 
+			ng-model="ef.name"
+			arg-read-tag="input"
+			arg-read-tag-type="text"
+			arg-title="'Your Name'"
+			arg-name="'name'"
+			arg-help="'Enter your full name'"
+			arg-required
+		></print-field>
+		
+		<print-field 
+			ng-model="ef.phone_number"
+			arg-read-tag="phone"
+			arg-title="'Your Phone Number'"
+			arg-name="'phone_number'"
+			arg-help="'Enter your phone number starting with country code'"
+			arg-required
+		></print-field>
+
+		<print-field 
+			ng-model="ef.email_address"
+			arg-read-tag="email"
+			arg-title="'Your Email Address'"
+			arg-name="'email_address'"
+		></print-field>
+ 
+		<print-field 
+			ng-model="ef.message"
+			arg-read-tag="textarea"
+			arg-title="'Message'"
+			arg-name="'message'"
+			arg-required
+		></print-field>
+	   
+	    <md-button ng-class="{linkDisabled:ajpmFormEf.$invalid}"> 
+	    	<a  href="mailto:jaipurinvestor@gmail.com?subject=Real Estate Enquiry&body=Name: {{ef.name}}%0DPhone: {{ef.phone_number}}%0DEmail: {{ef.email_address}}%0d%0d{{ef.message}}">Send</a>
+	    </md-button>
+    </form>          
                     </div>
                 </div>
             </div>

@@ -1,13 +1,60 @@
+<md-input-container class="md-block">
+	<label
+		id="{{ paramName }}LabelId"
+		for="{{ paramName }}Id"
+	>{{ paramTitle }}</label>
+	
+	
 	<input 
     	aria-label="{{paramName}}"
     	id="{{paramName}}Id"
     	name="{{paramName}}"
-    	type="text"
+    	type="{{paramReadTagType}}"
     	size="{{paramReadTagSize}}"
     	
+    	ng-class="paramClass"
     	ng-model="paramNgModel"
     	ng-required="paramRequired"
-    	ng-maxlength="paramMaxLength"
-    	ng-minlength="paramMinLength"
-    	ng-pattern="'(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}'"
+    	ng-maxlength=18
+    	ng-minlength=10
+    	ng-pattern="'[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}'"  	
 	/>
+	
+	<div id="{{ paramName }}HelpId" class="hint">
+		{{paramHelp ? 'Help: ' + paramHelp : ''}}
+	</div>
+	
+	<div 
+		ng-messages="form[paramName]['$error']" 
+		ng-show="form[paramName]['$dirty']"
+	>
+	    <div 
+	    	id="{{ paramName }}ErrorRequiredId" 
+	    	ng-message="required"
+	    >{{ paramTitle }} is required</div>
+	    <div 
+	    	id="{{ paramName }}ErrorEmailId" 
+	    	ng-message="email"
+	    >Email format is not valid</div>
+	   	<div 
+	    	id="{{ paramName }}ErrorUrlId" 
+	    	ng-message="url"
+	    >URL format is not valid</div>
+	   	<div 
+	    	id="{{ paramName }}ErrorNumberId" 
+	    	ng-message="number"
+	    >Number format is not valid</div>
+	   	<div 
+	    	id="{{ paramName }}ErrorPatternId" 
+	    	ng-message="pattern"
+	    >{{ paramTitle }} format is +### ### ### ####</div>	    
+	    <div 
+	    	id="{{ paramName }}ErrorMaxLengthId" 
+	    	ng-message="md-maxlength"
+	    >Maximum {{paramMaxLength}} charecters are allowed</div>
+	    <div 
+	    	id="{{ paramName }}ErrorMinLengthId" 
+	    	ng-message="md-minlength"
+	    >Minimum {{paramMinLength}} charecters are required</div>
+	</div>
+</md-input-container>

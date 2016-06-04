@@ -19,15 +19,15 @@ angular.module('ajpmApp').controller('LoginController',	[
 		/**
 		 * Initialize the user record before login form is shown
 		 */
-		$scope.credentials = {};
 		$scope.form_login_s1 = {};
 		$scope.form_login_s2 = {};
+		$scope.credential = {};
 		
 		// when the form step s1 is submitted
 		$scope.submit_s1 = function() {
 
 			$rootScope.clearPageMessages();
-
+			
 
 			/**
 			 * Create a service here
@@ -43,8 +43,9 @@ angular.module('ajpmApp').controller('LoginController',	[
 			 * if session_id is empty then user does not exists
 			 */
 			$scope.isAuthenticated = false;
+
 			AuthService.checkUserForLoginProcess(
-				$scope.email_address,
+				$scope.credential.email_address,
 				checkUserForLoginProcessPass,
 				checkUserForLoginProcessFail
 			);
@@ -69,7 +70,7 @@ angular.module('ajpmApp').controller('LoginController',	[
 				 */
 				$scope.isAuthenticated = false;
 				AuthService.isPasswordCorrect(
-					md5($scope.password),
+					md5($scope.credential.password),
 					$scope.isPasswordCorrectPass,
 					$scope.isPasswordCorrectFail
 				);
@@ -120,9 +121,6 @@ angular.module('ajpmApp').controller('LoginController',	[
 		
 		$scope.reset = function() {
 			$scope.credentials = {};
-			$scope.password = "";
-			$scope.email_address = "";
-			
 		};
 
 		// if a session exists for current user (page was refreshed)

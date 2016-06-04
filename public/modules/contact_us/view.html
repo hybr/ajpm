@@ -6,14 +6,12 @@
 }
 </style>
 
-<md-content>
-
 <print-panel 
  	arg-title-one="'Our Contact Information'"
  	arg-content-one="''"
 >
 	<md-list ng-if="docs.length > 0">
-		<md-list-item ng-if="doc.public=='True'" ng-repeat="doc in docs">
+		<md-list-item ng-repeat="doc in docs track by $index" ng-if="doc.public=='True'" >
 			<print-contact arg-contact="doc" ></print-contact>
 		</md-list-item>
 	</md-list>
@@ -21,13 +19,19 @@
 
 <print-panel 
  	arg-title-one="'Enquiry Form !!'"
- 	arg-content-one="'Please provide your details and we will call you!'"
+ 	arg-content-one="'Please provide your details and we will call you back!'"
 >
-	<form name="ajpmFormEf" novalidate="" method="POST" ng-submit="ajpmFormEf.$valid" layout="column">
+	<form 
+		name="ajpmFormEf" 
+		novalidate="" 
+		method="POST" 
+		ng-submit="ajpmFormEf.$valid" 
+		layout="column"
+	>
         
 		<print-field 
 			ng-model="ef.name"
-			arg-read-tag="'input'"
+			arg-read-tag="input"
 			arg-read-tag-type="text"
 			arg-title="'Your Name'"
 			arg-name="'name'"
@@ -37,31 +41,23 @@
 		
 		<print-field 
 			ng-model="ef.phone_number"
-			arg-read-tag="'input'"
-			arg-read-tag-type="phone"
+			arg-read-tag="phone"
 			arg-title="'Your Phone Number'"
 			arg-name="'phone_number'"
 			arg-help="'Enter your phone number starting with country code'"
 			arg-required
-			arg-max-length="18"
-			arg-min-length="10"
-			arg-pattern="\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*"
-			arg-pattern-format="'+### ### ### ####'"
-			arg-left-icon="'phone'"
-			arg-right-icon="'home'"
 		></print-field>
 
 		<print-field 
 			ng-model="ef.email_address"
-			arg-read-tag="'input'"
-			arg-read-tag-type="email"
+			arg-read-tag="email"
 			arg-title="'Your Email Address'"
 			arg-name="'email_address'"
 		></print-field>
  
 		<print-field 
 			ng-model="ef.message"
-			arg-read-tag="'textarea'"
+			arg-read-tag="textarea"
 			arg-title="'Message'"
 			arg-name="'message'"
 			arg-required
@@ -72,5 +68,3 @@
 	    </md-button>
     </form>          
 </print-panel>
-
-</md-content>
