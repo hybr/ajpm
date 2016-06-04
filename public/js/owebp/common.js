@@ -64,19 +64,8 @@ var imgnum = 1;
 var marnum = 0;
 var parent = document.getElementById("slider");
 var slidenum = parent.getElementsByTagName('img').length;
-var startSlide = setInterval(slide,3500);
-function slide()
-{
-	if (imgnum < slidenum) {
-		marnum -= 100;
-		imgnum += 1;
-	} else {
-		marnum = 0;
-		imgnum = 1;
-	}
-	tomar =  marnum.toString() + "%";
-    document.getElementById('slider').style.marginLeft = tomar;
-}
+var startSlide = setInterval(sliderRight,3500);
+
 function resetSlide()
 {
 	clearInterval(startSlide);
