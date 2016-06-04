@@ -1,3 +1,4 @@
+{{doc}}
 
 <div ng-repeat="c in doc.component">
 
@@ -21,6 +22,23 @@
 			 ></print-panel>
 		</div>
 	</div>
+	
+	<div ng-if="c.type == 'Three Media Boxes'" layout="row">
+		<div ng-repeat="mb in doc.media_box">
+			<print-panel arg-title_one="mb.title">
+			 	<div style="
+			 		background-image: url({{mb.image_file_name}}); 
+			 		background-size: contain; 
+			 		height:150px; 
+			 	"></div>
+			 	{{mb.content}}
+			 	<md-button  class="md-primary md-raised" aria-label="{{mb.link_name}}">
+         			<a href="{{mb.link_url}}">{{mb.link_name}}</a>
+				</md-button>
+			 </print-panel>
+		</div>
+	</div>
+		
 </div>
 
 <div ng-if="doc.what_is_next.length > 0" layout="row" >

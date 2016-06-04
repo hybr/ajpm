@@ -71,6 +71,28 @@
 		</div>
 	</div>
 		
+	<div ng-if="c.type == 'Three Media Boxes'" layout-gt-sm="row" layout-sm="column" layout-xs="column">
+		<div flex ng-repeat="mb in doc.media_box">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+			    	<h3 class="panel-title">{{mb.title}}</h3>
+			  	</div>
+			  	<div class="panel-body">
+
+			 	<div style="
+			 		background-image: url({{mb.image_file_name}}); 
+			 		background-size: contain; 
+			 		height:150px; 
+			 	"></div>
+			 	{{mb.content}}
+			 	<button  class="btn" aria-label="{{mb.link_name}}">
+         			<a href="{{mb.link_url}}">{{mb.link_name}}</a>
+				</button>
+			 </div>
+			 </div>
+		</div>
+	</div>
+	
 </div><!-- ng-repeat="c in doc.component" -->
 
 <div ng-if="doc.what_is_next.length > 0" layout="row" >
