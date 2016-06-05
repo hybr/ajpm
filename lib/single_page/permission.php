@@ -43,18 +43,6 @@ function isAllowed($collectionName, $subTask) {
 		return true;
 	}
 	
-	/* once person join the website he/she must be allowed to create the person record */
-	if (isset ( $_SESSION ['user'] ) && ! empty ( $_SESSION ['user'] ) && in_array ( strtolower ( $_SESSION ['url_action'] ), array (
-			'public_query.php',
-			'public_search.php',
-			'public_person',
-			'public_user',
-			'public_contact',
-	) )) {
-		$_SESSION ['allowed_as'] = "USER";
-		return true;
-	}
-
 	/* allow public tasks */
 	$task = strtolower ( $_SESSION ['url_action'] )
 	. '-' . strtolower ( $_SESSION ['url_task'] )
@@ -120,6 +108,18 @@ function isAllowed($collectionName, $subTask) {
 		return true;
 	}	
 
+	/* once person join the website he/she must be allowed to create the person record */
+	if (isset ( $_SESSION ['user'] ) && ! empty ( $_SESSION ['user'] ) && in_array ( strtolower ( $_SESSION ['url_action'] ), array (
+			'public_query.php',
+			'public_search.php',
+			'public_person',
+			'public_user',
+			'public_contact',
+	) )) {
+		$_SESSION ['allowed_as'] = "USER";
+		return true;
+	}
+		
 	/* check if the domain associated with this collection is allowed */
 	if (!validDatabaseCollection($collectionName)) {
 		return false;
