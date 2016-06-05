@@ -42,13 +42,10 @@
 	</div>
 </div>
 
-
-
-
-<div ng-if="doc.site_plan.length > 0" class="panel panel-default">
-	<print-panel arg-title-one="Site Plans">
-		<print-image-slider arg-slider-image-records="doc.site_plan"></print-image-slider>
-	</print-panel>
+<div ng-if="doc.site_plan.length > 0">
+	<br />
+	Site Plans
+	<print-image-slider arg-slider-image-records="doc.site_plan"></print-image-slider>
 </div>
 
 </print-panel>
