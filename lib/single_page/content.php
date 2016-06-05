@@ -97,6 +97,9 @@ $actionInstance = NULL;
 if ($_SESSION['request_type'] == 'partial') {
 	return;
 }
+if (!class_exists($_SESSION ['url_action'])) {
+	$_SESSION ['url_action'] = 'public_WebPage';
+}
 try {
 	$actionInstance = new $_SESSION ['url_action'] ();
 	if (method_exists ( $actionInstance, $_SESSION ['url_task'] )) {
@@ -109,9 +112,9 @@ try {
 			$jpmContent .= $_SESSION['authorization_message'];
 		}
 	} else {
-		echo 'invalid task ' . $_SESSION ['url_task'];
+		/*  echo 'invalid task ' . $_SESSION ['url_task']; */
 	}
 } catch ( Exception $e ) {
-	echo 'invalid action ' . $_SESSION ['url_action'] . $e->getMessage ();
+	/* echo 'invalid action ' . $_SESSION ['url_action'] . $e->getMessage (); */
 }
 ?>

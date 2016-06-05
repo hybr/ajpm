@@ -5,7 +5,10 @@
 				<div ng-repeat="imgRec in paramSliderImageRecords track by $index">
 					<div ng-show="currentSliderImage == $index" 
 						class="ajpmCaruselBox"
-						style="background-image: url('{{imgRec.file_name}}');">
+						style="	height: 500px; 
+								background-image: url('{{imgRec.file_name}}');
+								background-repeat: no-repeat;
+								background-size: 100%;">
 					</div>
 				</div>
 				

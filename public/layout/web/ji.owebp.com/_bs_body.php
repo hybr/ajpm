@@ -4,7 +4,8 @@
             <div class="container ">
                 <div class="row">
                     <div class="col-lg-3 col-sm-5 col-md-4 logo">
-                    	<img src="layout/web/ji.owebp.com/images/logo.png"><br />
+                    	<a href="/"><img src="layout/web/ji.owebp.com/images/logo.png"></a>
+                    	<br />
                     	 We put your dreams within reach
                     </div>
                    
