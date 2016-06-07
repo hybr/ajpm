@@ -8,8 +8,6 @@
 /* find arguments */
 $urlPartsArray = parse_url ( $_SERVER ['REQUEST_URI'] );
 
-debugPrintArray($urlPartsArray, 'urlPartsArray');
-
 $urlArgsArray = array ();
 if (array_key_exists ( 'query', $urlPartsArray )) {
 	parse_str ( $urlPartsArray ['query'], $urlArgsArray );
@@ -20,9 +18,6 @@ $_SESSION ['url_action'] = 'public_';
 $_SESSION ['url_task'] = '';
 $_SESSION ['url_sub_task'] = '';
 $_SESSION['url_collection'] = '';
-/* identify if it is a web_ui, admin_ui or service_ui */
-$_SESSION['request_type'] = 'web';
-$_SESSION ['LAYOUT_DIR'] = SERVER_SIDE_PUBLIC_DIR . DIRECTORY_SEPARATOR . 'layout/web';
 
 
 if (array_key_exists ( 'path', $urlPartsArray )) {
@@ -32,13 +27,9 @@ if (array_key_exists ( 'path', $urlPartsArray )) {
 	if (sizeof ( $urlPathArray ) >= 2) {
 		foreach ( split ( '_', $urlPathArray [1] ) as $w ) {
 			if (strpos($w, '-a-') !== FALSE) {
-				$_SESSION ['LAYOUT_DIR'] = SERVER_SIDE_PUBLIC_DIR . DIRECTORY_SEPARATOR . 'layout/admin';
-				$_SESSION['request_type'] = 'admin';
 				$w = str_replace('-a-', '', $w);
 			}
 			if (strpos($w, '-s-') !== FALSE) {
-				$_SESSION ['LAYOUT_DIR'] = SERVER_SIDE_PUBLIC_DIR . DIRECTORY_SEPARATOR . 'layout/service';
-				$_SESSION['request_type'] = 'service';
 				$w = str_replace('-s-', '', $w);
 			}			
 			$_SESSION ['url_action'] .= ucfirst ( strtolower ( $w ) );
@@ -57,10 +48,6 @@ if (array_key_exists ( 'path', $urlPartsArray )) {
 		foreach ( split ( '_', $urlPathArray [3] ) as $w ) {
 			$_SESSION ['url_sub_task'] .= ucfirst ( strtolower ( $w ) ) . ' ';
 		}
-	}
-	if (preg_match('/\.html/', $urlPartsArray ['path'], $m)) {
-		$_SESSION ['LAYOUT_DIR'] = SERVER_SIDE_PUBLIC_DIR . DIRECTORY_SEPARATOR . 'layout/service';
-		$_SESSION['request_type'] = 'partial';
 	}
 }
 if ($_SESSION ['url_action'] == 'public_') {
@@ -86,5 +73,4 @@ if ($_SESSION ['url_sub_task'] == '') {
 }
 $_SESSION ['url_sub_task'] = trim ( $_SESSION ['url_sub_task'] );
 
-debugPrintArray($_SESSION, 'SESSION');
 ?>

@@ -3,6 +3,9 @@
 /**
  * First div to show logo, organization name, organization statement
  */
+include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'get_menu.php';
+include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'permission.php';
+include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'query_condition.php';
 ?>
 
 <div class="ui-widget">
@@ -88,5 +91,7 @@
 /**
  * To show the page content
  */
+
+include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'content.php';
 echo $jpmContent; 
 ?>

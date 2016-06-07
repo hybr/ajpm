@@ -62,14 +62,17 @@ if (_1g() == 'ji.owebp.com') {
 var tomar;
 var imgnum = 1;
 var marnum = 0;
-var parent = document.getElementById("slider");
-var slidenum = parent.getElementsByTagName('img').length;
+var mainSliderContainer = document.getElementById("slider");
+var slidenum = 0;
+if (varNotNull(mainSliderContainer)) {
+	mainSliderContainer.getElementsByTagName('img').length;
+}
 var startSlide = setInterval(sliderRight,3500);
 
 function resetSlide()
 {
 	clearInterval(startSlide);
-    startSlide = setInterval(slide,3500);
+    startSlide = setInterval(sliderRight,3500);
 }
 function sliderRight()
 {
@@ -81,7 +84,9 @@ function sliderRight()
 		imgnum = 1;
 	}
 	tomar =  marnum.toString() + "%";
-    document.getElementById('slider').style.marginLeft = tomar;
+	if (varNotNull(mainSliderContainer)) {
+		mainSliderContainer.style.marginLeft = tomar;
+	}
 	resetSlide();
 }
 function sliderLeft()
@@ -94,6 +99,8 @@ function sliderLeft()
 		imgnum = 1;
 	}
 	tomar =  marnum.toString() + "%";
-    document.getElementById('slider').style.marginLeft = tomar;
+	if (varNotNull(mainSliderContainer)) {
+		mainSliderContainer.style.marginLeft = tomar;
+	}
     resetSlide();
 }

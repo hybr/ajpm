@@ -37,8 +37,6 @@ Best real estate agent in  agricultural land in delhi road
 				. getTitle($_SESSION['url_task']);
 	}
 ?></title>
-
-<link rel="stylesheet" href="js/angular/angular-material.min.css">
  
 <!-- jQuery lib -->
 <script src="/js/jquery/jquery-ui/external/jquery/jquery.js"></script>

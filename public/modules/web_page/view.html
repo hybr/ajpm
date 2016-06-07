@@ -24,13 +24,15 @@
 	<div ng-if="c.type == 'Three Media Boxes'" layout="row" layout-gt-sm="row" layout-sm="column" layout-xs="column">
 		<div flex ng-repeat="mb in doc.media_box">
 			<print-panel arg-title_one="mb.title">
-				<div style="height:450px;">
+				<div style="text-align:center; height:500px;">
 			 	<div style="
 			 		background-image: url({{mb.image_file_name}});
 			 		background-repeat: no-repeat;
-			 		background-size: contain; 
+			 		background-size: contain;
+			 		 background-position: center;
 			 		height:150px; 
 			 	"></div>
+			 	<hr />
 			 	{{mb.content}}
 			 	<hr />
 			 	<md-button  class="md-primary md-raised" aria-label="{{mb.link_name}}">

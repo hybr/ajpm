@@ -109,9 +109,9 @@ try {
 			$jpmContent .= $_SESSION['authorization_message'];
 		}
 	} else {
-		/*  echo 'invalid task ' . $_SESSION ['url_task']; */
+		echo 'invalid task ' . $_SESSION ['url_task'];
 	}
 } catch ( Exception $e ) {
-	/* echo 'invalid action ' . $_SESSION ['url_action'] . $e->getMessage (); */
+	echo 'invalid action ' . $_SESSION ['url_action'] . $e->getMessage ();
 }
 ?>

@@ -27,11 +27,13 @@ define ( 'SERVER_SIDE_SP_DIR', SERVER_SIDE_PUBLIC_DIR
 /**
  * Include the common files
  */
+include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'debug.php';
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'common.php';
-include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'org_details.php';
+include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'url_domain.php';
+include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'layout_and_theme.php';
+include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'action_and_task.php';
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'mongod_setup.php';
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'autoload.php';
-include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'parse_action.php';
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'get_menu.php';
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'permission.php';
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'query_condition.php';

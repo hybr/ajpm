@@ -18,9 +18,3 @@ if (isset ( $_GET ['lhdn'] )) { /* lhdn = local host domain name */
  * Remove www string from the front of the domain name
  */
 $_SESSION ['url_domain'] = preg_replace ( '/^www\./i', '', $_SESSION ['url_domain'] );
-
-$_SESSION['view_type'] = '';
-if ($_SESSION['url_domain'] == 'ji.owebp.com') {
-	$_SESSION['view_type'] = '_bs';
-}
-?>

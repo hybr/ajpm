@@ -59,7 +59,7 @@
 	
 	<div ng-if="c.type == 'Paragraph'">
 		<div ng-repeat="para in doc.paragraph">
-			<div class="panel panel-default">
+			<div class="panel panel-primary">
 				<div class="panel-heading">
 			    	<h3 class="panel-title">{{para.title}}</h3>
 			  	</div>
@@ -71,25 +71,28 @@
 		</div>
 	</div>
 		
-	<div ng-if="c.type == 'Three Media Boxes'" layout-gt-sm="row" layout-sm="column" layout-xs="column">
-		<div flex ng-repeat="mb in doc.media_box">
-			<div class="panel panel-default" style="height:500px;">
+	<div ng-if="c.type == 'Three Media Boxes'" ng-class="container-fluid">
+		<div ng-repeat="mb in doc.media_box" ng-class="row equal">
+			<div class="col-xs-12 col-sm-6 col-md-4">
+			<div class="panel panel-primary" style="text-align:center; height:500px;">
 				<div class="panel-heading">
 			    	<h3 class="panel-title">{{mb.title}}</h3>
 			  	</div>
 			  	<div class="panel-body">
-
-			 	<div style="
-			 		background-image: url({{mb.image_file_name}}); 
-			 		background-size: contain;
-			 		background-repeat: no-repeat;
-			 		height:150px; 
-			 	"></div>
-			 	{{mb.content}}
-			 	<hr />
-			 	<button  class="btn" aria-label="{{mb.link_name}}">
-         			<a href="{{mb.link_url}}">{{mb.link_name}}</a>
-				</button>
+				 	<div style="
+				 		background-image: url({{mb.image_file_name}}); 
+				 		background-size: contain;
+				 		background-repeat: no-repeat;
+				 		background-position: center;
+				 		height:150px; 
+				 	"></div>
+				 	<hr />
+				 	{{mb.content}}
+				 	<hr />
+				 	<button  class="btn" aria-label="{{mb.link_name}}">
+	         			<a href="{{mb.link_url}}">{{mb.link_name}}</a>
+					</button>
+			 	</div>
 			 </div>
 			 </div>
 		</div>
@@ -97,10 +100,14 @@
 	
 </div><!-- ng-repeat="c in doc.component" -->
 
-<div ng-if="doc.what_is_next.length > 0" layout="row" >
-	<div flex ng-repeat="link in doc.what_is_next">
-		<button class="btn" aria-label="{{link.title}}">
+<div class="container-fluid">
+<div ng-if="doc.what_is_next.length > 0" ng-class="row equal" >
+	<div ng-repeat="link in doc.what_is_next">
+		<div class="col-xs-6 col-sm-4 col-md-2">
+		<button class="btn btn-default" aria-label="{{link.title}}">
          	<a href="{{link.url}}">{{link.title}}</a>
 		</button>
+		</div>
 	</div>
+</div>
 </div>

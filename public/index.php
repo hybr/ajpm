@@ -32,24 +32,11 @@
 session_start ();
 
 /**
- * Initialize the session array so every time we rebuild it
- */
-/*
- *
-foreach($_SESSION as $key) {
-	if (in_array($key, array('user', 'person', 'login_person_id'))) {
-		continue;
-	}
-	unset($_SESSION[$key]);
-}
-*/
-
-/**
- * A constant to hold the absolute path of ajpm lib folder on server
+ * Constants to hold the absolute path of ajpm lib folder on server
  *
  * @constant string DIR
  */
-define ( 'SERVER_SIDE_PUBLIC_DIR', __DIR__ . DIRECTORY_SEPARATOR);
+define ( 'SERVER_SIDE_PUBLIC_DIR', __DIR__ );
 
 define ( 'SERVER_SIDE_LIB_DIR', SERVER_SIDE_PUBLIC_DIR
 	. DIRECTORY_SEPARATOR . '..'
@@ -62,18 +49,18 @@ define ( 'SERVER_SIDE_SP_DIR', SERVER_SIDE_PUBLIC_DIR
 	. DIRECTORY_SEPARATOR . 'lib'
 	. DIRECTORY_SEPARATOR . 'single_page'
 );
+
 /**
  * Include the common files
  */
+include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'debug.php';
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'common.php';
-include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'org_details.php';
+include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'url_domain.php';
+include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'layout_and_theme.php';
+include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'action_and_task.php';
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'mongod_setup.php';
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'autoload.php';
-include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'parse_action.php';
-include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'get_menu.php';
-include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'permission.php';
-include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'query_condition.php';
-include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'content.php';
+
 
 /**
  * This is main home page code file.
@@ -81,10 +68,15 @@ include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'content.php';
  */
 
 if ($_SESSION['request_type'] == 'service') {
+	include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'get_menu.php';
+	include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'permission.php';
+	include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'query_condition.php';	
+	include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'content.php';
 	echo $jpmContent;
 } else if ($_SESSION['request_type'] == 'partial') {
 	echo file_get_contents(SERVER_SIDE_PUBLIC_DIR . $urlPartsArray['path']);
 } else {
+	// echo "default " . $_SESSION ['LAYOUT_DIR'] . DIRECTORY_SEPARATOR .  '_default.php';
 	if(file_exists($_SESSION ['LAYOUT_DIR'] . DIRECTORY_SEPARATOR . '_default.php')) {
 		include $_SESSION ['LAYOUT_DIR'] . DIRECTORY_SEPARATOR .  '_default.php';
 	}
@@ -107,6 +99,8 @@ ga('create', 'UA-77614117-1', 'auto');ga('send', 'pageview');</script>";
 
 }
 
+debugPrintArray($urlPartsArray, 'urlPartsArray');
+debugPrintArray($personRbacRules, '$personRbacRules');
 debugPrintArray($_SESSION, 'SESSION');
 
 

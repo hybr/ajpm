@@ -1,11 +1,8 @@
 <?php
 
-/* debug option */
-if (isset ( $_GET ['debug'] )) {
-	$_SESSION ['debug'] = true;
-} else {
-	$_SESSION ['debug'] = false;
-}
+/**
+ * Common function used by other php files
+ */
 
 /**
  * Convert a string in to title format
@@ -19,23 +16,6 @@ function getTitle($title) {
 		$returnString .= ' ' . ucfirst ( strtolower ( $titleWord ) );
 	}
 	return $returnString;
-}
-
-function debugPrintArray($a, $msg = '') {
-	if (!$_SESSION['debug']) return;
-	echo '<hr />';
-	echo 'DEBUG of '. $msg .'<pre>';
-	/*
-	 * 
-	$traces = debug_backtrace();
-	foreach($traces as $trace) {
-		echo "<br />called by {$trace['class']} :: {$trace['function']}";
-	}
-	*/
-	echo '<hr />';
-			print_r ( $a );
-			echo '</pre>';
-			echo '<hr />';
 }
 
 function getParamValue($key, $args) {
@@ -100,4 +80,5 @@ function validDatabaseCollection ($collectionName) {
 	$_SESSION['authorization_message'] = 'Collection ' . $collectionName . ' is not authorized';
 	return false;
 } /* function validDatabaseCollection */
+
 ?>
