@@ -27,6 +27,9 @@
                         <div class="phone">
                             <i class="fa fa-phone-square"></i> +91-78777-77888
                         </div>
+                        <div class="phone">
+                            <i class="fa fa-phone-square"></i> +91-94140-88399
+                        </div>                        
                     </div>
                 </div>
             </div>
@@ -91,7 +94,7 @@
                             Jaipur, 302017, Rajasthan, India<br/>
                             <strong>Email:</strong>
                             <a href="mailto:info@ssdrgroup.com">info@ssdrgroup.com</a><br/>
-                            <strong>Phone:</strong> +91-78777-77888
+                            <strong>Phone:</strong> +91-78777-77888, +91 94140-88399
                         </div>
                     </div>
                 </div>
