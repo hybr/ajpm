@@ -66,6 +66,22 @@ class public_ItemCatalog extends Base {
 			                        'default' => 'Post',
 					),
 				) 
+			),
+			'photo' => array (
+					'type' => 'container',
+					'show_in_list' => 0,
+					'fields' => array (
+							'caption' => array ('searchable' => 1,),
+							'file_name' => array (
+									'type' => 'file_list',
+									'required' => 1,
+									'searchable' => 1,
+							),
+							'click_link_url' => array (
+									'type' => 'url',
+									'searchable' => 1,
+							)
+					)
 			)
 	); /* fields */
 	public function presentDocument($subTaskKeyToSave, $fields, $doc) {
