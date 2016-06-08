@@ -3,7 +3,7 @@
  	arg-content-one="'Categories for our product and services'" 
  >
 	<md-list>
-        <md-list-item class="md-3-line" ng-repeat="doc in docs track by $index" ng-click="null">
+        <md-list-item class="md-3-line" ng-repeat="doc in docs  | orderBy: 'sequence'" ng-click="null">
           <div class="md-list-item-text" layout="column">
             <h3 flex>{{ doc.category }}</h3>
 		<div flex layout="row">

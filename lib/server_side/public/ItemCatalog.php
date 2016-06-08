@@ -7,7 +7,9 @@ class public_ItemCatalog extends Base {
 	public $fields = array (
 			'sequence' => array (
 				'type' => 'number',
-				'required' => 1
+				'required' => 1,
+				'show_in_list' => 1,
+				'help' => 'Sequence to show in view',
 			),
 			'category' => array (
 				'show_in_list' => 1,

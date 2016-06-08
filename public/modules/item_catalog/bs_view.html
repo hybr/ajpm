@@ -4,7 +4,7 @@
   	</div>
   	<div class="panel-body">
 		<div class="list-group">
-	        <div class="list-group-item" ng-repeat="doc in docs track by $index">
+	        <div class="list-group-item" ng-repeat="doc in docs | orderBy: 'sequence'">
 			<h1>{{ doc.category }}</h1>
 			<div class="container-fluid"><div class="row">
 
