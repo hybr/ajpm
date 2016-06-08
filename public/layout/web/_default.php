@@ -1,4 +1,4 @@
-<html ng-app="ajpmApp">
+<html ng-app="ajpmApp" ng-controller="ApplicationController">
 	<head>
 		<?php if(file_exists($_SESSION ['UI_FOLDER'] . DIRECTORY_SEPARATOR . $_SESSION['view_type'] . '_head.php')) 
 			// 	echo ' head ' . $_SESSION ['UI_FOLDER'] . DIRECTORY_SEPARATOR . $_SESSION['view_type'] . '_head.php';
@@ -6,7 +6,7 @@
 		?>
 	</head>
 	
-	<body ng-cloak ng-controller="ApplicationController">
+	<body>
 		<script>var _lhdn = '<?php 
 			if (isset($_SESSION ['url_domain'])) {
 				echo (string) $_SESSION ['url_domain']; 

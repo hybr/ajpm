@@ -51,10 +51,19 @@ function isInt(n){
     return typeof n == "number" && isFinite(n) && n % 1 === 0;
 }
 
-var viewType = '';
-if (_1g() == 'ji.owebp.com') {
-	/* bootstrap theme */
-	viewType = 'bs_';
+function getJsonItemLength(item) {
+  if (typeof item !== undefined && varNotNull(item) && item) {
+    if (Array.isArray(item)) {
+        return item.length;
+    } else if (typeof item === 'object' ) {
+        return Object.keys(item).length;
+    } else if (typeof item === 'string' ) {
+        return item.length
+    } else {
+        return 0;
+    }
+  }
+  return 0;
 }
 
 /* *******slider******* */

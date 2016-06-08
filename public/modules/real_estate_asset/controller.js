@@ -15,6 +15,10 @@ angular.module('ajpmApp').controller('RealEstateAssetController',
 	GetDocumentByIdService.getDocument('real_estate_asset', $stateParams.realEstateAssetId, function(d1) {
 		$scope.doc = d1;
 
+		
+		$scope.setMetaTag('title', $scope.doc.type);
+		$scope.setMetaTag('keywords',$scope.doc.type + ' Area ' + doc.area + ' ' + doc.area_unit);
+		
 		var contactPromisses = [];
 		angular.forEach( $scope.doc.contact, function(value){
 			contactPromisses.push(

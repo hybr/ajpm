@@ -13,6 +13,10 @@ angular.module('ajpmApp').controller('ItemController',
 		GetDocumentByIdService.getDocument('organization', $scope.doc.manufacturar, function(d1) {
 			$scope.manufacturarName = d1.name;
 	    });
+		$scope.setMetaTag('title', $scope.doc.type + ' ' + $scope.doc.title);
+		$scope.setMetaTag('keywords',$scope.doc.title);
+		$scope.setMetaTag('description',$scope.doc.summary);
+		
     });
 	
 } ]);

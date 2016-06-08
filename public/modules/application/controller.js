@@ -48,6 +48,25 @@ angular.module('ajpmApp').controller('ApplicationController',
 	}
 
 	/**
+	 * meta tags management 
+	 */
+	$scope.metaTags = {
+		'title' : 'Welcome',
+		'description': 'Welcome home',
+		'keywords': 'home, welcome'
+	};
+ 
+	$scope.setMetaTag = function (tag, value) {
+		$scope.metaTags[tag]  = value;
+	}
+	
+	$scope.appendMetaTag = function (tag, value) {
+		$scope.metaTags[tag]  = $scope.metaTags[tag] + value;
+	}
+	
+	/* to get meta tag use {{ metaTags.title }} */
+	
+	/**
 	 * Auth events functions
 	 *
 	 */

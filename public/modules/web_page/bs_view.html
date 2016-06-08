@@ -1,4 +1,3 @@
-
 <div ng-repeat="c in doc.component">
 
 	<div ng-if="c.type == 'Image Slider'">
@@ -50,6 +49,7 @@
 		</div>
 		</div>
 	</div>
+	
 	<div ng-if="c.type == 'Learn More'">
 		<div>
 			{{os}} <button class="button" ui-sref="about_us">Learn More</button>
@@ -72,7 +72,7 @@
 	</div>
 		
 	<div ng-if="c.type == 'Three Media Boxes'" ng-class="container-fluid">
-		<div ng-repeat="mb in doc.media_box" ng-class="row equal">
+		<div ng-repeat="mb in doc.media_box" ng-class="row">
 			<div class="col-xs-12 col-sm-6 col-md-4">
 			<div class="panel panel-primary" style="text-align:center; height:500px;">
 				<div class="panel-heading">
@@ -101,7 +101,7 @@
 </div><!-- ng-repeat="c in doc.component" -->
 
 <div class="container-fluid">
-<div ng-if="doc.what_is_next.length > 0" ng-class="row equal" >
+<div ng-if="doc.what_is_next.length > 0" ng-class="row" >
 	<div ng-repeat="link in doc.what_is_next">
 		<div class="col-xs-6 col-sm-4 col-md-2">
 		<button class="btn btn-default" aria-label="{{link.title}}">

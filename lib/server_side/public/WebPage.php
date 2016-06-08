@@ -5,6 +5,14 @@ class public_WebPage extends Base {
 		$this->collectionName = 'web_page';
 	} /* __construct */
 	public $fields = array (
+		'web_page_keywords' => array(
+			'type' => 'container',
+			'fields' => array (
+				'word' => array (
+					'searchable' => 1,
+				)
+			),
+		),
 		'title' => array(
 			'searchable' => 1,
 			'show_in_list' => 1,

@@ -23,8 +23,8 @@ class WebPageComponent extends Base {
 					'title' => 'Image Slider' 
 			),
 			array (
-					'value' => 'Three Media Boxes',
-					'title' => 'Three Media Boxes'
+					'value' => 'Media Boxes',
+					'title' => 'Media Boxes'
 			),
 			array (
 					'value' => 'Paragraph',

@@ -49,5 +49,8 @@ angular.module('ajpmApp').controller('ItemCatalogController',
                 $scope.docs = d1;
        });
 
+		$scope.setMetaTag('title', 'Products and Services');
+		$scope.setMetaTag('keywords', 'Service Catalog, Product Catalog, Items, Services, Products');
+		$scope.setMetaTag('description', 'List of all services offered by us');
 	
 } ]);
