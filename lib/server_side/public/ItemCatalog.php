@@ -5,6 +5,10 @@ class public_ItemCatalog extends Base {
 		$this->collectionName = 'item_catalog';
 	} /* __construct */
 	public $fields = array (
+			'sequence' => array (
+				'type' => 'number',
+				'required' => 1
+			),
 			'category' => array (
 				'show_in_list' => 1,
 				'required' => 1 
