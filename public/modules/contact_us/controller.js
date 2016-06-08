@@ -16,6 +16,10 @@ angular.module('ajpmApp').controller('ContactUsController',
 			GetCollectionService.getCollection('contact', {}, function(d1) {
 				$scope.docs = d1;
 			});
+			
+			$scope.setMetaTag('title', 'Our Contact Information');
+			$scope.setMetaTag('keywords', 'Our Contact Information, Company, Organization, Contact');
+			$scope.setMetaTag('description', 'List of all phone numbers and postal addresses');			
 
 } ]);
 
