@@ -1,35 +1,52 @@
 <base href="/">
+
        <div id="toTop"><img src="layout/web/ji.owebp.com/images/back-to-top.png"/></div>
         <div class="header">
-            <div class="container ">
+            <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-3 col-sm-5 col-md-4 logo">
+                    <div class="col-lg-3 col-xs-12  col-sm-5 col-md-4 logo">
                     	<a href="/"><img src="layout/web/ji.owebp.com/images/logo.png"></a>
                     	<br />
                     	 We put your dreams within reach
                     </div>
                    
-                    <div class="col-lg-8 col-xs-12 col-sm-6 col-md-7 pull-right top-connect">
-                        <div class="search col-lg-5 col-xs-12 col-sm-6">
+                    <div class="col-lg-9 col-xs-12 col-sm-7 col-md-8 pull-right top-connect">
+                    
+                    	<div class="row">
+                    	
+                        <div class="search col-lg-7 col-xs-12 col-sm-12 col-md-6 top-connect">
                             <input type="text" placeholder="You can search here..." ng-model="searchPattern">
                             <input type="submit" value="" ui-sref="search">
                         </div>
-                        <div class="social social-header">
-                            <a target="_blank" href="https://www.facebook.com/jaipurinvestors"><i class="fa fa-facebook-square"></i></a>
-                            <a target="_blank" href="https://twitter.com/jaipurinvestori"><i class="fa fa-twitter-square"></i></a>
-                            <a target="_blank" href="https://plus.google.com/116242183340561056706"><i class="fa fa-google-plus-square"></i></a>
+                        
+                        <div class="col-lg-3 col-xs-12 col-sm-8 col-md-4 top-connect">
+	                        <div class="">
+	                            <a href="mailto:info@ssdrgroup.com">
+	                            	<i class="fa fa-envelope"></i> 
+	                            	<a href="mailto:info@ssdrgroup.com">info@ssdrgroup.com</a>
+	                            </a>
+	                        </div>
+	                        <div class="">
+	                            <i class="fa fa-phone-square"></i>
+	                            <a href="tel:+91-78777-77888">+91-78777-77888</a>
+	                        </div>
+	                        <div class="">
+	                            <i class="fa fa-phone-square"></i>
+	                            <a href="tel:+91-94140-88399">+91-94140-88399</a>
+	                        </div>
                         </div>
-                        <div class="mail">
-                            <a href="mailto:info@ssdrgroup.com">
-                            	<i class="fa fa-envelope"></i> info@ssdrgroup.com
-                            </a>
+
+                        <div class="social social-header col-lg-2 col-xs-12 col-sm-4 col-md-2  top-connect">
+                            <a target="_blank" href="https://www.facebook.com/jaipurinvestors">
+                            <i class="fa fa-facebook-square"></i></a>
+                            <a target="_blank" href="https://twitter.com/jaipurinvestori">
+                            <i class="fa fa-twitter-square"></i></a>
+                            <a target="_blank" href="https://plus.google.com/116242183340561056706">
+                            <i class="fa fa-google-plus-square"></i></a>
                         </div>
-                        <div class="phone">
-                            <i class="fa fa-phone-square"></i> +91-78777-77888
+                        
                         </div>
-                        <div class="phone">
-                            <i class="fa fa-phone-square"></i> +91-94140-88399
-                        </div>                        
+                         
                     </div>
                 </div>
             </div>
@@ -59,9 +76,8 @@
         </div>
 
         <div class="clearfix"></div>
-        <div class="container"><div class="row">
-        	<div ui-view>Loading...</div>
-        </div></div>
+        <br />
+       	<div ui-view>Loading...</div>
         
         <div class="clearfix"></div>
         <div class="footer">

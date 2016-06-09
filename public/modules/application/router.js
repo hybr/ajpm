@@ -3,8 +3,8 @@
  */
 
 
-angular.module('ajpmApp').config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES',
-    function($stateProvider, $urlRouterProvider, USER_ROLES) {
+angular.module('ajpmApp').config(['$locationProvider', '$stateProvider', '$urlRouterProvider', 'USER_ROLES',
+    function($locationProvider, $stateProvider, $urlRouterProvider, USER_ROLES) {
 
 	$urlRouterProvider.otherwise("/home");
 
@@ -83,6 +83,8 @@ angular.module('ajpmApp').config(['$stateProvider', '$urlRouterProvider', 'USER_
 		}
 	});
 
+	$locationProvider.html5Mode(true);
+	
     /*check browser support */
     /*
      if(window.history && window.history.pushState){

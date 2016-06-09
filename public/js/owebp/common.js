@@ -65,3 +65,51 @@ function getJsonItemLength(item) {
   }
   return 0;
 }
+
+/* *******slider******* */
+
+var tomar;
+var imgnum = 1;
+var marnum = 0;
+var mainSliderContainer = document.getElementById("slider");
+var slidenum = 0;
+if (varNotNull(mainSliderContainer)) {
+	mainSliderContainer.getElementsByTagName('img').length;
+}
+var startSlide = setInterval(sliderRight,3500);
+
+function resetSlide()
+{
+	clearInterval(startSlide);
+    startSlide = setInterval(sliderRight,3500);
+}
+function sliderRight()
+{
+	if (imgnum < slidenum) {
+		marnum -= 100;
+		imgnum += 1;
+	} else {
+		marnum = 0;
+		imgnum = 1;
+	}
+	tomar =  marnum.toString() + "%";
+	if (varNotNull(mainSliderContainer)) {
+		mainSliderContainer.style.marginLeft = tomar;
+	}
+	resetSlide();
+}
+function sliderLeft()
+{
+	if (imgnum > 1) {
+		marnum += 100;
+		imgnum -= 1;
+	} else {
+		marnum = 0;
+		imgnum = 1;
+	}
+	tomar =  marnum.toString() + "%";
+	if (varNotNull(mainSliderContainer)) {
+		mainSliderContainer.style.marginLeft = tomar;
+	}
+    resetSlide();
+}
