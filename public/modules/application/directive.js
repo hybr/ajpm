@@ -37,12 +37,12 @@ angular.module('ajpmApp').directive("printImageSlider", function() {
 	d.increaseCounter = function(counter, limit, step) {
 		if ((counter+step) <= limit) counter = counter + step;
 		return counter;
-	}
+	};
 	
 	d.decreaseCounter = function(counter, limit, step) {
 		if ((counter-step) >= limit) counter = counter - step;
 		return counter;
-	}		
+	};	
 
 	return d;
 });
