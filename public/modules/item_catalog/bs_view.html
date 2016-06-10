@@ -24,7 +24,7 @@
 			</div></div>
 
 			<div class="container-fluid"><div class="row">
-			<div ng-repeat="pns in doc.pas track by $index" class="col-xs-12 col-sm-6 col-md-2">
+			<div ng-repeat="pns in doc.pas track by $index" class="col-xs-12 col-sm-6 col-md-3">
 				<button class="btn btn-default" aria-label="{{getItemTitle(pns.pas_id.$id)}}">
 				<a ng-show="pns.live == 'Live'" href="/#/item/{{ pns.pas_id.$id }}">
 					{{ getItemTitle(pns.pas_id.$id) }}
