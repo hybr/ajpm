@@ -53,7 +53,7 @@
         </div>
         <div class="navigation">
             <nav class="navbar navbar-default navbar-static-top">
-                <div class="container pos-rel">
+                <div class="container-fluid pos-rel">
                     <div class="navbar-header">
                         <span>Menu</span> 
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">

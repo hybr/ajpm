@@ -5,7 +5,7 @@
   	</div>
   	<div class="panel-body">
 			<h2>{{ doc.title }}</h2>
-			<h3> By {{ manufacturarName }}</h3>
+			<h3 ng-show="manufacturarName != ''"> By {{ manufacturarName }}</h3>
 			<p ng-bind-html="doc.summary |showAsHtml"></p>
 			
 			<div ng-show="doc.photo">
