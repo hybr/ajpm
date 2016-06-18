@@ -1,0 +1,15 @@
+
+AddType text/css .css
+AddType text/javascript .js
+AddType application/vnd.ms-fontobject .eot
+AddType font/ttf .ttf
+AddType font/otf .otf
+AddType application/font-woff .woff  
+
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-l
+RewriteCond %{HTTPS} !=on
+RewriteCond $1 !^/(ico|css|js|imgges|search.php|service.php)/
+RewriteRule ^(.*)$ index.html?$1 [L,QSA]

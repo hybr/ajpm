@@ -1,0 +1,11 @@
+
+AddType text/css .css
+AddType text/javascript .js
+
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-l
+RewriteCond %{HTTPS} !=on
+RewriteCond $1 !^/(ico|css|js|imgges|query.php|search.php|service.php)/
+RewriteRule ^(.*)$ index.php?$1 [L,QSA]

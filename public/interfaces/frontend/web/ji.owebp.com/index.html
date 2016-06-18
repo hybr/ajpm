@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html ng-app="ajpmApp" ng-controller="ApplicationController">
+	<head>
+		<meta charset="UTF-8">
+		<title>Jaipur Investor</title>
+		
+		<meta name="description" content="{{ metaTags.description }}">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<!-- jQuery lib -->
+		<script src="/js/jquery/jquery-ui/external/jquery/jquery.js"></script>
+		        
+		<!-- Bootstrap -->
+		<script type="text/javascript" src="/js/bootstrap/bootstrap.min.js"></script>
+		<link href="/js/bootstrap/bootstrap.css" rel="stylesheet">
+		
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+		
+		
+		<!--  application  -->
+		<link href="/css/bootstrap/style.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="/css/icon.css">
+		<link rel="stylesheet" type="text/css" href="/css/owebp/common.css">
+		<link rel="stylesheet" type="text/css" href="/css/owebp/web.css">
+
+
+		<!-- angular lib -->
+		<script type="text/javascript" src="js/angular/angular.min.js"></script>
+		<script type="text/javascript" src="js/angular/angular-animate.min.js"></script>
+		<script type="text/javascript" src="js/angular/angular-aria.min.js"></script>
+		<script type="text/javascript" src="js/angular/angular-messages.min.js"></script>
+		<script type="text/javascript" src="js/angular-ui/angular-ui-router.js"></script>
+		  
+		<!-- md5 -->
+		<script type="text/javascript" src="js/md5/md5.min.js"></script>
+		
+		<!-- application -->
+		<script type="text/javascript" src="js/owebp/common.js"></script>
+		<script type="text/javascript" src="js/owebp/web.js"></script>
+		
+		<script type="text/javascript" src="modules/application/main_angular_bootstrap.js"></script>
+		<script type="text/javascript" src="modules/application/directive.js"></script>
+		<script type="text/javascript" src="modules/application/router.js"></script>
+		<script type="text/javascript" src="modules/application/filter.js"></script>
+		
+		<script type="text/javascript" src="modules/auth/session.js"></script>
+		<script type="text/javascript" src="modules/auth/interceptor.js"></script>
+		
+		<script type="text/javascript" src="modules/application/controller.js"></script>
+		
+		<script type="text/javascript" src="modules/auth/service.js"></script>
+		<script type="text/javascript" src="modules/auth/controller.js"></script>
+		<script type="text/javascript" src="modules/application/global.js"></script>
+		
+		<script type="text/javascript" src="modules/services/get_documnet_by_id.js"></script>
+		<script type="text/javascript" src="modules/services/get_collection.js"></script>
+		
+		<script type="text/javascript" src="modules/web_page/controller.js"></script>
+		<script type="text/javascript" src="modules/contact_us/controller.js"></script>
+		<script type="text/javascript" src="modules/home/controller.js"></script>
+		<script type="text/javascript" src="modules/about_us/controller.js"></script>
+		<script type="text/javascript" src="modules/search/controller.js"></script>
+		<script type="text/javascript" src="modules/item_catalog/controller.js"></script>
+		<script type="text/javascript" src="modules/item/controller.js"></script>
+		<script type="text/javascript" src="modules/real_estate_asset/controller.js"></script>
+		<script type="text/javascript" src="modules/my_account/controller.js"></script>
+		<script type="text/javascript" src="modules/activity/controller.js"></script>
+				
+	</head>
+	<body>
+		<base href="/">
+       <div id="toTop"><img src="/images/back-to-top.png"/></div>
+        <div class="header">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-3 col-xs-12  col-sm-5 col-md-4 logo">
+                    	<a href="/"><img ng-src="{{ orgRecord.web_site_logo_file_name }}"></a>
+                    	<br />
+                    	 {{ orgRecord.statement }}
+                    </div>
+                   
+                    <div class="col-lg-9 col-xs-12 col-sm-7 col-md-8 pull-right top-connect">
+                    
+                    	<div class="row">
+                    	
+                        <div class="search col-lg-7 col-xs-12 col-sm-12 col-md-6 top-connect">
+                            <!--  <h1>{{ orgRecord.name }}</h1>  -->
+                            <input type="text" placeholder="You can search here..." ng-model="searchPattern">
+                            <input type="submit" value="" ui-sref="search">
+                        </div>
+                        
+                        <div class="col-lg-3 col-xs-12 col-sm-8 col-md-4 top-connect">
+	                        <div class="">
+	                            <a href="mailto:info@ssdrgroup.com">
+	                            	<i class="fa fa-envelope"></i> 
+	                            	<a href="mailto:info@ssdrgroup.com">info@ssdrgroup.com</a>
+	                            </a>
+	                        </div>
+	                        <div class="">
+	                            <i class="fa fa-phone-square"></i>
+	                            <a href="tel:+91-78777-77888">+91-78777-77888</a>
+	                        </div>
+	                        <div class="">
+	                            <i class="fa fa-phone-square"></i>
+	                            <a href="tel:+91-94140-88399">+91-94140-88399</a>
+	                        </div>
+                        </div>
+
+                        <div class="social social-header col-lg-2 col-xs-12 col-sm-4 col-md-2  top-connect">
+                            <a target="_blank" href="https://www.facebook.com/jaipurinvestors">
+                            <i class="fa fa-facebook-square"></i></a>
+                            <a target="_blank" href="https://twitter.com/jaipurinvestori">
+                            <i class="fa fa-twitter-square"></i></a>
+                            <a target="_blank" href="https://plus.google.com/116242183340561056706">
+                            <i class="fa fa-google-plus-square"></i></a>
+                        </div>
+                        
+                        </div>
+                         
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="navigation">
+            <nav class="navbar navbar-default navbar-static-top">
+                <div class="container-fluid pos-rel">
+                    <div class="navbar-header">
+                        <span>Menu</span> 
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div id="navbar" class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li><a ui-sref-active="active" ui-sref="home">Home</a></li>
+                            <li><a ui-sref-active="active" ui-sref="about_us">About Us</a></li>
+                            <li><a ui-sref-active="active" ui-sref="item_catalog">Services</a></li>
+                            <li><a ui-sref-active="active" ui-sref="contact_us" >Contact Us</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <div class="clearfix"></div>
+        <br />
+       	<div ui-view>Loading...</div>
+        
+        <div class="clearfix"></div>
+        <div class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="footer-link">
+                        <div class="col-lg-6 col-sm-6 quick-link">
+                            <h4>Quick <span>Link</span></h4>
+                            <ul>
+                                <li class="col-lg-4"><a ui-sref-active="active" ui-sref="home""><i class="fa fa-chevron-right"></i> Home</a> </li>
+                                <li class="col-lg-4"><a ui-sref-active="active" ui-sref="about_us"><i class="fa fa-chevron-right"></i> About Us</a> </li>
+                                <li class="col-lg-4"><a ui-sref-active="active" ui-sref="item_catalog"><i class="fa fa-chevron-right"></i> Services</a> </li>
+                                <li class="col-lg-4"><a ui-sref-active="active" ui-sref="contact_us"><i class="fa fa-chevron-right"></i>  Contact Us</a> </li>
+                                <li class="col-lg-4"><a ui-sref-active="active" ui-sref="search"><i class="fa fa-chevron-right"></i> Search</li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-3 col-sm-3 social">
+                            <h4>Social <span>Connect</span></h4>
+                            <p>Reach us on our social network pages. 
+                            </p>
+							<a target="_blank" href="https://www.facebook.com/jaipurinvestors"><i class="fa fa-facebook-square"></i></a>
+                            <a target="_blank" href="https://twitter.com/jaipurinvestori"><i class="fa fa-twitter-square"></i></a>
+                            <a target="_blank" href="https://plus.google.com/116242183340561056706"><i class="fa fa-google-plus-square"></i></a>
+                        </div>
+                        <div class="col-lg-3 col-sm-3">
+                            <h4>Contact <span>Us</span></h4>
+                            <div class="clearfix"></div>
+                            <strong>JAIPUR INVESTOR</strong> <br/>
+                            56, Santosh Vihar, Haldighati Marg, Jagatpura, 
+                            Jaipur, 302017, Rajasthan, India<br/>
+                            <strong>Email:</strong>
+                            <a href="mailto:info@ssdrgroup.com">info@ssdrgroup.com</a><br/>
+                            <strong>Phone:</strong> +91-78777-77888, +91 94140-88399
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="clearfix"></div>
+        <div class="copyright">
+            &copy; Copyright {{ orgRecord.name }} 2016
+        </div>
+
+        <script>
+            $(function() {
+                $(window).scroll(function() {
+                  if($(this).scrollTop() != 0) {
+                    $('#toTop').fadeIn(); 
+                  } else {
+                    $('#toTop').fadeOut();
+                  }
+                });
+                $('#toTop').click(function() {
+                  $('body,html').animate({scrollTop:0},800);
+                });
+              });
+        </script>
+		
+		<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-77504692-1', 'auto');ga('send', 'pageview');</script>	
+	</body>
+</html>
