@@ -5,6 +5,7 @@ AddType application/vnd.ms-fontobject .eot
 AddType font/ttf .ttf
 AddType font/otf .otf
 AddType application/font-woff .woff  
+AddType application/json .json  
 
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f

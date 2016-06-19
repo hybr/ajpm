@@ -5,7 +5,7 @@
 			arg-slider-image-records="doc.slider_image"
 		></print-image-slider>
  	</div>
- 	
+
 	<div ng-if="c.type == 'Learn More'">
 		<div>
 			{{ orgRecord.statement }} <button class="button" ui-sref="about_us">Learn More</button>
@@ -27,7 +27,7 @@
 		</div>
 	</div>
 		
-	<div ng-if="c.type == 'Three Media Boxes'" ng-class="container-fluid">
+	<div ng-if="c.type == 'Media Boxes'" ng-class="container-fluid">
 		<div ng-repeat="mb in doc.media_box" ng-class="row">
 			<div class="col-xs-12 col-sm-6 col-md-4">
 			<div class="panel panel-primary" style="text-align:center; height:500px;">
@@ -40,12 +40,12 @@
 				 		background-size: contain;
 				 		background-repeat: no-repeat;
 				 		background-position: center;
-				 		height:150px; 
+				 		height: 170px; 
 				 	"></div>
 				 	<hr />
 				 	{{mb.content}}
 				 	<hr />
-				 	<button  class="btn btn-primary" aria-label="{{mb.link_name}}">
+				 	<button  class="btn" aria-label="{{mb.link_name}}">
 	         			<a href="{{mb.link_url}}">{{mb.link_name}}</a>
 					</button>
 			 	</div>

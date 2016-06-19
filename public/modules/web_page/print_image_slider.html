@@ -1,14 +1,13 @@
 	
 	<md-whiteframe class="md-whiteframe-24dp" layout layout-align="center center">
 	    <div ng-if="paramSliderImageRecords.length > 0"">
-			<div >
-				<div ng-repeat="imgRec in paramSliderImageRecords track by $index">
-					<div ng-show="currentSliderImage == $index" 
-						class="ajpmCaruselBox"
-						style="	height: 400px; 
-								background-image: url('{{imgRec.file_name}}');
-								background-repeat: no-repeat;
-								background-size: contain;">
+			<div>
+				<div ng-repeat="imgRec in paramSliderImageRecords track by $index" class="bigOnHover">
+					<div ng-show="currentSliderImage == $index" class="ImageSliderSlide">
+					<img ng-src="{{imgRec.file_name}}"
+						style="height: 350px; max-width: 100%"
+					</img>
+						<a href="{{imgRec.click_link_url}}" class="ImageSliderCaption">{{imgRec.caption}}</a>
 					</div>
 				</div>
 				
@@ -19,10 +18,6 @@
 					ng-click="currentSliderImage = currentSliderImage - 1"
 				>Previuos</button>
 				
-				<button class="md-accent md-raised" ng-href="{{paramSliderImageRecords[currentSliderImage].click_link_url}}">
-					{{ currentSliderImage + 1 }}: {{paramSliderImageRecords[currentSliderImage].caption}}
-				</button>
-								
 				<button class="md-primary md-raised" ng-disabled="currentSliderImage >= (paramSliderImageRecords.length-1)"
 					ng-click="currentSliderImage = currentSliderImage + 1" 
 				>Next</button>

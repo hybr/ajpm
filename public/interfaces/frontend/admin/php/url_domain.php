@@ -18,6 +18,7 @@ if (isset ( $_GET ['lhdn'] )) { /* lhdn = local host domain name */
  * Remove www string from the front of the domain name
  */
 $_SESSION ['url_domain'] = preg_replace ( '/^www\./i', '', $_SESSION ['url_domain'] );
+$_SESSION ['url_domain'] = preg_replace ( '/^admin\./i', '', $_SESSION ['url_domain'] );
 
 /**
  * Find the request type

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html ng-app="ajpmApp" ng-controller="ApplicationController">
 	<head>
@@ -6,16 +7,9 @@
 		
 		<meta name="description" content="{{ metaTags.description }}">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		
-		<!-- jQuery lib -->
-		<script src="/js/jquery/jquery-ui/external/jquery/jquery.js"></script>
 		        
-		<!-- Bootstrap -->
-		<script type="text/javascript" src="/js/bootstrap/bootstrap.min.js"></script>
 		<link href="/js/bootstrap/bootstrap.css" rel="stylesheet">
-		
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-		
 		
 		<!--  application  -->
 		<link href="/css/bootstrap/style.css" rel="stylesheet">
@@ -24,47 +18,53 @@
 		<link rel="stylesheet" type="text/css" href="/css/owebp/web.css">
 
 
+		<!-- jQuery lib -->
+		<script type="text/javascript" src="/js/jquery/jquery-ui/external/jquery/jquery.js"></script>
+
+		<!-- Bootstrap -->
+		<script type="text/javascript" src="/js/bootstrap/bootstrap.min.js"></script>
+
 		<!-- angular lib -->
-		<script type="text/javascript" src="js/angular/angular.min.js"></script>
-		<script type="text/javascript" src="js/angular/angular-animate.min.js"></script>
-		<script type="text/javascript" src="js/angular/angular-aria.min.js"></script>
-		<script type="text/javascript" src="js/angular/angular-messages.min.js"></script>
-		<script type="text/javascript" src="js/angular-ui/angular-ui-router.js"></script>
+		<script type="text/javascript" src="/js/angular/angular.min.js"></script>
+		<script type="text/javascript" src="/js/angular/angular-animate.min.js"></script>
+		<script type="text/javascript" src="/js/angular/angular-aria.min.js"></script>
+		<script type="text/javascript" src="/js/angular/angular-messages.min.js"></script>
+		<script type="text/javascript" src="/js/angular-ui/angular-ui-router.js"></script>
 		  
 		<!-- md5 -->
-		<script type="text/javascript" src="js/md5/md5.min.js"></script>
+		<script type="text/javascript" src="/js/md5/md5.min.js"></script>
 		
 		<!-- application -->
-		<script type="text/javascript" src="js/owebp/common.js"></script>
-		<script type="text/javascript" src="js/owebp/web.js"></script>
+		<script type="text/javascript" src="/js/owebp/common.js"></script>
+		<script type="text/javascript" src="/js/owebp/web.js"></script>
 		
-		<script type="text/javascript" src="modules/application/main_angular_bootstrap.js"></script>
-		<script type="text/javascript" src="modules/application/directive.js"></script>
-		<script type="text/javascript" src="modules/application/router.js"></script>
-		<script type="text/javascript" src="modules/application/filter.js"></script>
+		<script type="text/javascript" src="/modules/application/main_angular_bootstrap.js"></script>
+		<script type="text/javascript" src="/modules/application/directive.js"></script>
+		<script type="text/javascript" src="/modules/application/router.js"></script>
+		<script type="text/javascript" src="/modules/application/filter.js"></script>
 		
-		<script type="text/javascript" src="modules/auth/session.js"></script>
-		<script type="text/javascript" src="modules/auth/interceptor.js"></script>
+		<script type="text/javascript" src="/modules/auth/session.js"></script>
+		<script type="text/javascript" src="/modules/auth/interceptor.js"></script>
 		
-		<script type="text/javascript" src="modules/application/controller.js"></script>
+		<script type="text/javascript" src="/modules/application/controller.js"></script>
 		
-		<script type="text/javascript" src="modules/auth/service.js"></script>
-		<script type="text/javascript" src="modules/auth/controller.js"></script>
-		<script type="text/javascript" src="modules/application/global.js"></script>
+		<script type="text/javascript" src="/modules/auth/service.js"></script>
+		<script type="text/javascript" src="/modules/auth/controller.js"></script>
+		<script type="text/javascript" src="/modules/application/global.js"></script>
 		
-		<script type="text/javascript" src="modules/services/get_documnet_by_id.js"></script>
-		<script type="text/javascript" src="modules/services/get_collection.js"></script>
+		<script type="text/javascript" src="/modules/services/get_documnet_by_id.js"></script>
+		<script type="text/javascript" src="/modules/services/get_collection.js"></script>
 		
-		<script type="text/javascript" src="modules/web_page/controller.js"></script>
-		<script type="text/javascript" src="modules/contact_us/controller.js"></script>
-		<script type="text/javascript" src="modules/home/controller.js"></script>
-		<script type="text/javascript" src="modules/about_us/controller.js"></script>
-		<script type="text/javascript" src="modules/search/controller.js"></script>
-		<script type="text/javascript" src="modules/item_catalog/controller.js"></script>
-		<script type="text/javascript" src="modules/item/controller.js"></script>
-		<script type="text/javascript" src="modules/real_estate_asset/controller.js"></script>
-		<script type="text/javascript" src="modules/my_account/controller.js"></script>
-		<script type="text/javascript" src="modules/activity/controller.js"></script>
+		<script type="text/javascript" src="/modules/web_page/controller.js"></script>
+		<script type="text/javascript" src="/modules/contact_us/controller.js"></script>
+		<script type="text/javascript" src="/modules/home/controller.js"></script>
+		<script type="text/javascript" src="/modules/about_us/controller.js"></script>
+		<script type="text/javascript" src="/modules/search/controller.js"></script>
+		<script type="text/javascript" src="/modules/item_catalog/controller.js"></script>
+		<script type="text/javascript" src="/modules/item/controller.js"></script>
+		<script type="text/javascript" src="/modules/real_estate_asset/controller.js"></script>
+		<script type="text/javascript" src="/modules/my_account/controller.js"></script>
+		<script type="text/javascript" src="/modules/activity/controller.js"></script>
 				
 	</head>
 	<body>
@@ -188,9 +188,7 @@
         </div>
         
         <div class="clearfix"></div>
-        <div class="copyright">
-            &copy; Copyright {{ orgRecord.name }} 2016
-        </div>
+        <div class="copyright"> &copy; Copyright {{ orgRecord.name }} 2016 </div>
 
         <script>
             $(function() {
@@ -207,7 +205,7 @@
               });
         </script>
 		
-		<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
