@@ -77,13 +77,20 @@ if ($_SESSION['url_action'] == 'public_CustomRequest' &&
 ) {
 		echo json_encode ($_SESSION['url_domain_org']);
 
+$recordsOwnedByOrg = array (
+	'for_org' => new MongoId ( $_SESSION ['url_domain_org'] ['_id'] )
+);
+
 /* task to get home page web page record */
 } else if ($_SESSION['url_action'] == 'public_WebPage'
 			&& $_SESSION['url_task'] == 'presentjson'
 			&& $_SESSION['url_sub_task'] == 'Home Page'
 ) {
 	echo json_encode($_SESSION ['mongo_database']->web_page->findOne (array(
-		'web_page_type' => array('$elemMatch' => array('name' =>'home_page'))
+		'$and' => array (
+			array ('web_page_type' => array('$elemMatch' => array('name' =>'home_page')),),
+			array ('for_org' => new MongoId ( $_SESSION ['url_domain_org'] ['_id'] ))
+		)
 	)));
 	
 	
@@ -93,7 +100,10 @@ if ($_SESSION['url_action'] == 'public_CustomRequest' &&
 		&& $_SESSION['url_sub_task'] == 'About Us'
 ) {
 	echo json_encode($_SESSION ['mongo_database']->web_page->findOne (array(
-			'web_page_type' => array('$elemMatch' => array('name' =>'about_us'))
+		'$and' => array (
+			array ('web_page_type' => array('$elemMatch' => array('name' =>'about_us')),),
+			array ('for_org' => new MongoId ( $_SESSION ['url_domain_org'] ['_id'] ))
+		)
 	)));
 
 /* get rest of record based on classes defined */
