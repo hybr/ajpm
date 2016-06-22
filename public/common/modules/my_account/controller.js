@@ -21,7 +21,7 @@ angular.module('ajpmApp').directive("printPerson", function() {
 
 	d.restrict = 'E'; 
 
-	d.templateUrl = '/modules/my_account/print_person.html';
+	d.templateUrl = '/common/modules/my_account/print_person.html';
 
 	d.scope = {
 		paramPerson : "=argPerson"
@@ -35,7 +35,7 @@ angular.module('ajpmApp').directive("printPersonById", function(GetDocumentByIdS
 
 	d.restrict = 'E'; 
 
-	d.templateUrl = '/modules/my_account/print_person.html';
+	d.templateUrl = '/common/modules/my_account/print_person.html';
 
 	d.scope = {
 		paramPersonId : "=argPersonId"

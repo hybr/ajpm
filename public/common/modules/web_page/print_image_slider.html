@@ -7,7 +7,10 @@
 					<img ng-src="{{imgRec.file_name}}"
 						style="height: 350px; max-width: 100%"
 					</img>
-						<a href="{{imgRec.click_link_url}}" class="ImageSliderCaption">{{imgRec.caption}}</a>
+						<a href="{{imgRec.click_link_url}}" class="ImageSliderCaption">
+							<span ng-show="imgRec.caption">{{imgRec.caption}}</span>
+							<span ng-show="imgRec.statement">: {{imgRec.statement}}</span>
+						</a>
 					</div>
 				</div>
 				

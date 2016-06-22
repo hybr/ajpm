@@ -3,7 +3,7 @@
 angular.module('ajpmApp').directive('loginDialogOne', function(AUTH_EVENTS) {
 		return {
 			restrict : 'A',
-			template : '<div ng-if="loginDialogOneVisibility" ng-include="\'/modules/auth/login_s1.html\'" ></div>',
+			template : '<div ng-if="loginDialogOneVisibility" ng-include="\'/common/modules/auth/login_s1.html\'" ></div>',
 			link : function(scope, elem, attr, ctrl) {
 				scope.loginDialogOneVisibility = false;
 				var dialogId = '#userLoginModelOne';
@@ -36,7 +36,7 @@ angular.module('ajpmApp').directive('loginDialogOne', function(AUTH_EVENTS) {
 angular.module('ajpmApp').directive('loginDialogTwo', 	function(AUTH_EVENTS) {
 	return {
 		restrict : 'A',
-		template : '<div ng-if="loginDialogTwoVisibility" ng-include="\'/modules/auth/login_s2.html\'" ></div>',
+		template : '<div ng-if="loginDialogTwoVisibility" ng-include="\'/common/modules/auth/login_s2.html\'" ></div>',
 		link : function(scope, elem, attr, ctrl) {
 			scope.loginDialogTwoVisibility = false;
 			var dialogId = '#userLoginModelTwo';

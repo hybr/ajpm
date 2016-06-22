@@ -28,7 +28,7 @@ angular.module('ajpmApp').directive("printContact", function() {
 
 	d.restrict = 'E'; 
 
-	d.templateUrl = '/modules/contact_us/print_contact.html';
+	d.templateUrl = '/common/modules/contact_us/print_contact.html';
 
 	d.scope = {
 		paramContact : "=argContact"

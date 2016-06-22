@@ -40,7 +40,7 @@ angular.module('ajpmApp').directive("printImageSlider", function() {
 
 	d.restrict = 'E'; 
 
-	d.templateUrl = '/modules/web_page/print_image_slider.html';
+	d.templateUrl = '/common/modules/web_page/print_image_slider.html';
 
 	d.scope = {
 			paramSliderImageRecords : "=argSliderImageRecords"
@@ -121,7 +121,7 @@ angular.module('ajpmApp').directive("printPanel", function() {
 	
 	d.transclude = true;
 
-	d.templateUrl = '/modules/web_page/print_panel.html';
+	d.templateUrl = '/common/modules/web_page/print_panel.html';
 
 	d.scope = {
 			paramTitleOne : "=argTitleOne",
@@ -244,7 +244,7 @@ angular.module('ajpmApp').directive("printField", function($compile) {
        });       
 	};
 	d.templateUrl = function(iElement, iAttr) {
-		return '/modules/form/print_' + iAttr.argReadTag.toLowerCase() + '_field.html';	
+		return '/common/modules/form/print_' + iAttr.argReadTag.toLowerCase() + '_field.html';	
 	}
 	return d;
 });

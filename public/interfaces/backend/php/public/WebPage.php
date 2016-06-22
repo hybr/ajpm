@@ -51,16 +51,17 @@ class public_WebPage extends Base {
 			'type' => 'container',
 			'show_in_list' => 0,
 			'fields' => array (
-					'caption' => array (),
-					'file_name' => array (
-						'type' => 'file_list', 
-						'required' => 1,
-						'searchable' => 1
-					),
-					'click_link_url' => array (
-						'type' => 'url',
-						'searchable' => 1
-					)
+				'caption' => array (),
+				'statement' => array (),
+				'file_name' => array (
+					'type' => 'file_list', 
+					'required' => 1,
+					'searchable' => 1
+				),
+				'click_link_url' => array (
+					'type' => 'url',
+					'searchable' => 1
+				)
 			)
 		),
 		'media_box' => array (

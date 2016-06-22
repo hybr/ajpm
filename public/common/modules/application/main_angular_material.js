@@ -3,17 +3,12 @@
  *           controller ApplicationController is defined in login.js as it
  *           needed lot of other information from login controller
  */
-var ajpmApp = angular.module('ajpmApp', [ 'ui.router', 'ui.bootstrap', 'ngMaterial', 'ngMessages' ]);
+var ajpmApp = angular.module('ajpmApp', [ 'ui.router', 'ngMaterial', 'ngMessages' ]);
 
 ajpmApp.config([ '$httpProvider', function($httpProvider) {
 	$httpProvider.defaults.useXDomain = true;
 	delete $httpProvider.defaults.headers.common['X-Requested-With'];
 } ]);
-
-ajpmApp.config(function($mdIconProvider) {
-	$mdIconProvider.iconSet('social', 'img/icons/sets/social-icons.svg', 24)
-			.defaultIconSet('img/icons/sets/core-icons.svg', 24);
-});
 
 /**
  * authorization events
