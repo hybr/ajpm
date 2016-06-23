@@ -13,7 +13,7 @@ angular.module('ajpmApp').controller('AboutUsController',
 
 	$http({
 		method: 'POST',
-		url: '/service.php/web_page/presentjson/about_us'
+		url: '/common/service.php/web_page/presentjson/about_us'
 	}).then(function successCallback(response) {
 		if (response.status != 200) {
 			/* connection error with server_side */

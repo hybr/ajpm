@@ -1,6 +1,6 @@
 
 /**
- * @controller HomeController to manage search page information
+ * @controller SearchController to manage search page information
  */
 
 'use strict';
@@ -12,7 +12,7 @@ angular.module('ajpmApp').controller('SearchController',
 		 $scope.$watch('searchPattern', function() {
 			$http({
 				method: 'POST',
-				url: '/search.php',
+				url: '/common/search.php',
 				params: { 
 					p: $scope.searchPattern,
 					s: 1

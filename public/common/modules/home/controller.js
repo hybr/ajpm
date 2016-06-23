@@ -10,7 +10,7 @@ angular.module('ajpmApp').controller('HomeController',
 	
 	$http({
 		method: 'POST',
-			url: '/service.php/web_page/presentjson/home_page'			
+			url: '/common/service.php/web_page/presentjson/home_page'			
 	}).then(function successCallback(response) {
 		if (response.status != 200) {
 			/* connection error with server_side */

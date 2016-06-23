@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @controller ItemController to manage item information
+ * @controller ActivitiesController to manage activities
  */
 
 angular.module('ajpmApp').controller('ActivitiesController', 

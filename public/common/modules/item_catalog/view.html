@@ -22,7 +22,7 @@
 		</div>
 
             <div flex><md-button ng-repeat="pns in doc.pas track by $index">
-            	<a  href="/#/item/{{ pns.pas_id.$id }}">{{ getItemTitle(pns.pas_id.$id) }}</a>
+            	<a  href="/item/{{ pns.pas_id.$id }}">{{ getItemTitle(pns.pas_id.$id) }}</a>
             </md-button></div>
           </div>
           <md-divider></md-divider>

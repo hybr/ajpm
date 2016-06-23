@@ -8,7 +8,7 @@ angular.module('ajpmApp').service('GetDocumentByIdService', ['$http', '$q', func
 	this.getDocument = function(collectionName, requestedId, callbackFunc) {
 		$http({
 			method: 'POST',
-			url: '/service.php/' + collectionName + '/presentjson',
+			url: '/common/service.php/' + collectionName + '/presentjson',
 			params: { 
 				id: requestedId
 			}			
@@ -22,7 +22,7 @@ angular.module('ajpmApp').service('GetDocumentByIdService', ['$http', '$q', func
 
 		$http({
 			method: 'POST',
-			url: '/service.php/' + collectionName + '/presentjson',
+			url: '/common/service.php/' + collectionName + '/presentjson',
 			params: { 
 				id: requestedId
 			}			

@@ -9,7 +9,7 @@ angular.module('ajpmApp').service('GetCollectionService',
 	this.getCollection = function(collectionName, parametersObject, callbackFunc) {
 		$http({
 			method: "POST",
-			url: '/service.php/' + collectionName + '/presentjsonall',
+			url: '/common/service.php/' + collectionName + '/presentjsonall',
 			params: parametersObject
 		}).success(function (d) {
 			callbackFunc(d);

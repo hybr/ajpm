@@ -6,32 +6,32 @@ class public_Activity extends Base {
 	} /* __construct */
 	public $fields = array (
 			'title' => array (
-					'show_in_list' => 1,
+				'show_in_list' => 1,
 			),
 			'about' => array(),
 			'step' => array (
-					'type' => 'container',
-					'required' => 1,
-					'help' => 'Step for data entry and save the information',
-					'fields' => array (
-							'name' => array(),
-							'about' => array(),
-							'field' => array (
-									'type' => 'container',
-									'required' => 1,
-									'help' => 'Step for data entry and save the information',
-									'fields' => array (
-											'name' => array (
-												'type' => 'foreign_key',
-												'foreign_collection' => 'database_collection_field',
-												'foreign_search_fields' => 'collection,parent_field,name',
-												'foreign_title_fields' => 'collection,parent_field,name',
-												'required' => 1
-											)
-									) /* field fields */
-						), /* field */ 
-					), /* step fields */ 
-			),/* step */ 
+				'type' => 'container',
+				'required' => 1,
+				'help' => 'Step for data entry and save the information',
+				'fields' => array (
+					'name' => array(),
+					'about' => array(),
+					'field' => array (
+						'type' => 'container',
+						'required' => 1,
+						'help' => 'Step for data entry and save the information',
+						'fields' => array (
+							'name' => array (
+							'type' => 'foreign_key',
+							'foreign_collection' => 'database_collection_field',
+							'foreign_search_fields' => 'collection,parent_field,name',
+							'foreign_title_fields' => 'collection,parent_field,name',
+							'required' => 1
+						)
+					) /* field fields */
+				), /* field */ 
+			), /* step fields */ 
+		),/* step */ 
 	); /* fields */
 	
 	

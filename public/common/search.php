@@ -14,9 +14,6 @@ session_start ();
 define ( 'SERVER_SIDE_PUBLIC_DIR', __DIR__ );
 
 define ( 'SERVER_SIDE_LIB_DIR', SERVER_SIDE_PUBLIC_DIR
-	. DIRECTORY_SEPARATOR . '..'
-	. DIRECTORY_SEPARATOR . '..'
- 	. DIRECTORY_SEPARATOR . '..'
  	. DIRECTORY_SEPARATOR . '..'
  	. DIRECTORY_SEPARATOR . 'interfaces'
  	. DIRECTORY_SEPARATOR . 'backend'
@@ -25,7 +22,8 @@ define ( 'SERVER_SIDE_LIB_DIR', SERVER_SIDE_PUBLIC_DIR
 
 define ( 'SERVER_SIDE_SP_DIR', SERVER_SIDE_PUBLIC_DIR
 	. DIRECTORY_SEPARATOR . '..'
-	. DIRECTORY_SEPARATOR . '..'
+ 	. DIRECTORY_SEPARATOR . 'interfaces'
+ 	. DIRECTORY_SEPARATOR . 'frontend'
 	. DIRECTORY_SEPARATOR . 'admin'
 	. DIRECTORY_SEPARATOR . 'php'
 );
@@ -51,6 +49,8 @@ header ( 'Cache-Control: no-cache, must-revalidate' );
 
 // The JSON standard MIME header.
 header ( 'Content-type: application/json' );
+
+$errorMessage = '';
 
 /* find arguments */
 $urlPartsArray = parse_url ( $_SERVER ['REQUEST_URI'] );
@@ -160,7 +160,6 @@ function getSearchConditionsForOneCollection($collectionName,$patternToSearch) {
 
 function searchInOneTable($collectionName = 'web_site', $patternToSearch) {
 	$arr = array();
-	$errorMessage = '';
 	if (isset($urlArgsArray ['l'])) {
 		$limit = $urlArgsArray ['l'];
 	}
@@ -219,7 +218,6 @@ echo '{"status" : "OK", "result" : '
 	. json_encode (searchInAllTables($urlArgsArray ['p'])) 
 	. ', "searchAreas" : ' .  json_encode($searchAreas) 
 	. ', "errorMessage" : "' . $errorMessage . '"'
-	. ', "conditions" : ' . json_encode($searchConditions)
 	. "}";
 
 /*

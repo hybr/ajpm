@@ -14,9 +14,11 @@ angular.module('ajpmApp').controller('ApplicationController',
 	$rootScope.nextRequestedStateName =  '';
 
 
-	// this is the parent controller for all controllers.
-	// Manages auth login functions and each controller
-	// inherits from this controller
+	/**
+	 * this is the parent controller for all controllers.
+ 	 * Manages auth login functions and each controller
+	 * inherits from this controller
+	 */ 	
 
 	$scope.isAuthenticated = AuthService.isAuthenticated();
 	$scope.isAuthorized = AuthService.isAuthorized();
@@ -109,7 +111,7 @@ angular.module('ajpmApp').controller('ApplicationController',
 
 	$http({
 		method: 'POST',
-		url: 'service.php/custom_request/url_domain_org',
+		url: '/common/service.php/custom_request/url_domain_org',
 	}).then(function successCallback(response) {
 		if (response.status != 200) {
 			/* connection error with server_side */

@@ -8,7 +8,7 @@ angular.module('ajpmApp').service('GetDocumentByConditionService', ['$http', '$q
 	this.getDocument = function(collectionName, conditionObj, callbackFunc) {
 		$http({
 			method: 'POST',
-			url: '/service.php/' + collectionName + '/presentjson',
+			url: '/common/service.php/' + collectionName + '/presentjson',
 			params: { 
 				condition: conditionObj
 			}			
@@ -22,7 +22,7 @@ angular.module('ajpmApp').service('GetDocumentByConditionService', ['$http', '$q
 
 		$http({
 			method: 'POST',
-			url: '/service.php/' + collectionName + '/presentjson',
+			url: '/common/service.php/' + collectionName + '/presentjson',
 			params: { 
 				condition: conditionObj
 			}			

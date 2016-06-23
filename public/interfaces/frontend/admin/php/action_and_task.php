@@ -25,8 +25,13 @@ if (array_key_exists ( 'path', $urlPartsArray )) {
 	/* array_shift will remove word service, word service is used for backend calls */
 	debugPrintArray($urlPathArray, 'urlPathArray');
 	
-	if (preg_match("/^service\.php/i", $urlPathArray[1])) {
+	if (preg_match("/^common/i", $urlPathArray[1]) && preg_match("/^search\.php/i", $urlPathArray[2])) {
+		array_shift($urlPathArray);
+	}
+
+	if (preg_match("/^common/i", $urlPathArray[1]) && preg_match("/^service\.php/i", $urlPathArray[2])) {
 		$_SESSION['request_type'] = 'service';
+		array_shift($urlPathArray);
 		array_shift($urlPathArray);
 	}
 		
