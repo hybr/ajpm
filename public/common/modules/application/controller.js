@@ -20,7 +20,7 @@ angular.module('ajpmApp').controller('ApplicationController',
 	 * inherits from this controller
 	 */ 	
 
-	$scope.isAuthenticated = AuthService.isAuthenticated();
+	$rootScope.isAuthenticated = AuthService.isAuthenticated();
 	$scope.isAuthorized = AuthService.isAuthorized();
 
 	/**
@@ -74,7 +74,7 @@ angular.module('ajpmApp').controller('ApplicationController',
 	 */
 
 	var showNotAuthorized = function(){
-		if (AuthService.isAuthenticated) {
+		if ( $rootScope.isAuthenticated ) {
 			$rootScope.pushPageMessage("You are not authorized");
 		} else {
 			$rootScope.pushPageMessage("Please login first");

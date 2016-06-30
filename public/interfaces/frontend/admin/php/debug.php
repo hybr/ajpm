@@ -2,22 +2,25 @@
 /* debug option */
 if (isset ( $_GET ['debug'] )) {
 	$_SESSION ['debug'] = true;
+	header('Content-Type: text/html');
+	echo '<!DOCTYPE html>';
 } else {
 	$_SESSION ['debug'] = false;
 }
 
 function debugPrintArray($a, $msg = '') {
 	if (!$_SESSION['debug']) return;
+	echo "\n\n<br />=============================================================================================<br />\n\n";
 	echo '<hr />';
-	echo 'DEBUG of '. $msg .'<pre>';
-	/*
-	$traces = debug_backtrace();
-	foreach($traces as $trace) {
-		echo "<br />called by {$trace['class']} :: {$trace['function']}";
-	}
-	*/
-	echo '<hr />';
+	echo 'DEBUG of '. $msg;
+	echo '<hr />' . "\n\n";
+	echo '<pre>';
 	print_r ( $a );
 	echo '</pre>';
-	echo '<hr />';
+	echo '<hr />' . "\n\n";
+	$traces = debug_backtrace();
+	foreach($traces as $trace) {
+		echo "\n\n<br /> $msg called by {$trace['class']} :: {$trace['function']}";
+	}
+	echo "\n\n<br/>---------------------------------------------------------------------------------------------<br />\n\n";
 }

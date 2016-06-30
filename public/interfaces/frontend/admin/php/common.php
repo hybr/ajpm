@@ -54,7 +54,7 @@ function validDatabaseCollection ($collectionName) {
 
 	if (empty($_SESSION['collection'])) {
 		/* no such collection exists */
-		$_SESSION['authorization_message'] = 'Collection ' . $collectionName . ' does not exists';
+		$_SESSION['authorization_message'] = 'common:validDatabaseCollection: Collection ' . $collectionName . ' does not exists';
 		return false;
 	}
 
@@ -67,7 +67,7 @@ function validDatabaseCollection ($collectionName) {
 
 		if (empty($databaseDomainDoc)) {
 			/* assigned domain does not exists */
-			$_SESSION['authorization_message'] = 'Assigned module ' . $assignedDatabaseDomain['name'] . ' does not exists';
+			$_SESSION['authorization_message'] = 'common:validDatabaseCollection: Assigned module ' . $assignedDatabaseDomain['name'] . ' does not exists';
 			return false;
 		}
 
@@ -77,7 +77,7 @@ function validDatabaseCollection ($collectionName) {
 		}
 	} /* foreach( $databaseCollectionDoc['domain'] as $assignedDatabaseDomain) */
 
-	$_SESSION['authorization_message'] = 'Collection ' . $collectionName . ' is not authorized';
+	$_SESSION['authorization_message'] = 'common:validDatabaseCollection: Collection ' . $collectionName . ' is not authorized';
 	return false;
 } /* function validDatabaseCollection */
 

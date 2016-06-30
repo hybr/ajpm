@@ -34,7 +34,7 @@ angular.module('ajpmApp').factory('AuthService', [
 					/* email address supplied does not exists */
 					failFunc(response.data.status); /* empty session_id */
 				} else {
-					/* session id we will receive from server side */
+					/* session id that we will receive from server side */
 					/* attempt to login so clear the current login if exists */
 					SessionService.clearUserSession();
 										
@@ -82,6 +82,24 @@ angular.module('ajpmApp').factory('AuthService', [
 			}, function errorCallback(response) {
 				failFunc(response.statusText);
 			});
+		}; /* authService.isPasswordCorrect = function(passwordToCheck, passFunc, failFunc)  */
+
+
+		authService.sendActivationEmail = function(emailToSend, passFunc, failFunc) {
+                        /* send sessionId and md5(password) to server end and verify is password OK */
+                        $http({
+                                method: 'POST',
+                                url: '/common/service.php/user_password/sae',
+                                params: {
+                                        e: emailToSend
+                                }
+                        }).then(function successCallback(response) {
+                                alert(JSON.stringify(response));
+                        }, function errorCallback(response) {
+                                alert(JSON.stringify(response));
+                        });
+
+
 		};
 
 		/**

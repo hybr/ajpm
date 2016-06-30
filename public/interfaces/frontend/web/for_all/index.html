@@ -154,6 +154,12 @@
 												</md-menu-item>						            
 		
 												<md-menu-item ng-hide="isAuthenticated">
+												<md-button aria-label="Join" ui-sref-active="md-warn" ui-sref="join" >
+													<md-tooltip>User Join</md-tooltip>
+													<i class="material-icons">edit</i> Join
+												</md-button>
+												</md-menu-item>
+												<md-menu-item ng-hide="isAuthenticated">
 												<md-button aria-label="Login" ui-sref-active="md-warn" ui-sref="login1" >
 													<md-tooltip>User Login</md-tooltip>
 													<i class="material-icons">input</i> Login
@@ -263,10 +269,13 @@
 									</span>
 		
 		                           <span  ng-hide="isAuthenticated">
-										<md-button class="md-raised" aria-label="Login" ui-sref-active="md-warn" ui-sref="login1">
+								<md-button class="md-raised" aria-label="Join" ui-sref-active="md-warn" ui-sref="join">
+		                                	<md-tooltip>User Join</md-tooltip>Join
+										</md-button>
+								<md-button class="md-raised" aria-label="Login" ui-sref-active="md-warn" ui-sref="login1">
 		                                	<md-tooltip>User Login</md-tooltip>
 											Login
-										</md-icon-button>
+									</md-button>
 		                           </span>
 					
 								</span>
@@ -290,6 +299,8 @@
 		                           </span>
 		
 		                           <span  ng-hide="isAuthenticated">
+										<md-icon aria-label="Join" ui-sref-active="md-warn" ui-sref="join"> edit<md-tooltip>User Join</md-tooltip>
+										</md-icon>
 										<md-icon aria-label="Login" ui-sref-active="md-warn" ui-sref="login1">
 		                                	input<md-tooltip>User Login</md-tooltip>
 										</md-icon>

@@ -1,58 +1,7 @@
 <?php
-require_once SERVER_SIDE_LIB_DIR . DIRECTORY_SEPARATOR . "Base.php";
-class public_CheckUser extends Base {
-	function __construct() {
-		$this->collectionName = 'user';
-	}
+require_once SERVER_SIDE_LIB_DIR . DIRECTORY_SEPARATOR . "UserLib.php";
+class public_CheckUser extends UserLib {
 
-	public $fields = array ();
-
-	private function validSessionId($session_id) {
-		return preg_match('/^[-,a-zA-Z0-9]{1,128}$/', $session_id) > 0;
-	}
-
-	private function emailVarification($emailToCheck, $userRecord) {
-		$rStr = 'User exists';
-		if (empty($userRecord)) {
-			$rStr = 'User ' . $emailToCheck . ' does not exists';
-		} else {
-			if (isset($userRecord['email_address'])) {
-				if ($emailToCheck != $userRecord['email_address']) {
-					$rStr = 'User email is invalid';
-				}				
-			} else {
-				$rStr = 'User ' . $emailToCheck . ' email_address field missing';
-			}
-			if (isset($userRecord['verified'])) {
-				if ($userRecord['verified'] != 1) {
-					$rStr = 'User is not verified yet';
-				}
-			} else {
-				$rStr = 'User ' . $emailToCheck . ' verification field missing';
-			}
-		}
-		return $rStr;	
-	}
-	
-	private function passwordVarification(
-		$passwordToCheck, $userRecord
-	) {
-		$rStr = $this->emailVarification($userRecord['email_address'], $userRecord);
-		
-		if ($rStr == 'User exists') {
-			if ($userRecord['password'] == '') {
-				$rStr = 'Password is empty';
-			} else if ($passwordToCheck != $userRecord['password']) {
-				$rStr = 'Password does not match ' . $userRecord['password'];
-			}
-		}
-		
-		if ($rStr == 'User exists') {
-			$rStr = 'Password OK';
-		}
-		return $rStr;
-	}	
-	
 	/* public function exsistance($urlArgsArray) { */
 	public function e($urlArgsArray) {
 		$response = array();
@@ -142,11 +91,15 @@ class public_CheckUser extends Base {
 			/**
 			 * Read person record for this user and get the roles
 			 */
-			$personRecord = $_SESSION ['mongo_database']->person->findOne ( array (
-					'_id' => $userRecord['person']
+			$_SESSION['person'] = $_SESSION ['mongo_database']->person->findOne ( array (
+				'_id' => $userRecord['person']
+			) );
+			$_SESSION['org_worker'] = $_SESSION ['mongo_database']->organization_worker->findOne ( array (
+				'person' => $userRecord['person']
 			) );
 			$response ['email_address'] = $userRecord['email_address'];
-			$response ['person_record'] = $personRecord;
+			$response ['person_record'] = $_SESSION['person'];
+			$response ['org_worker_record'] = $_SESSION['org_worker'];
 		} else {
 			$_SESSION ['user'] = 'NULL';
 			$_SESSION ['session_id'] = 'NULL';

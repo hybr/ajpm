@@ -30,7 +30,7 @@ angular.module('ajpmApp').config(['$locationProvider', '$stateProvider', '$urlRo
 		controller : 'LogoutController'
 	}).state('join', {
 		url : "/join",
-		templateUrl : "/common/modules/join/"+viewType+"join.html",
+		templateUrl : "/common/modules/auth/"+viewType+"join.html",
 		controller : 'JoinController'
 	}).state('forgot', {
 		url : "/forgot",

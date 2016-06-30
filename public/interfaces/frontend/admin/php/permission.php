@@ -52,10 +52,9 @@ function isAllowed($collectionName, $subTask) {
 			'public_database_domain-present-all',
 			'public_user-login-all',
 				
-			'public_checkuser-exsistance-all',
 			'public_checkuser-e-all',
-			'public_checkuser-password-all',
 			'public_checkuser-p-all',
+			'public_userpassword-sae-all',
 				
 			'public_user-authenticate-all',
 			'public_user-logout-all',

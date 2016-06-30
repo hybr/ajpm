@@ -2,16 +2,34 @@
  	arg-title-one="'Forgot Password'"
  	arg-content-one="'Please provide email address to reset password'"
 >
-<form method="post" ng-controller="ForgotController" name="form_forget_pass">
-		<md-input-container>
-    		<label>Email Address</label>
-    		<input aria-label="Email Address" type="email" id="id_email" name="name_email" ng-model="email_address" required />
-    		<div ng-messages="form_forget_pass.name_email.$error" ng-show="form_login_s1.name_email.$dirty">
-      			<div id="id_email_error_required" ng-message="required">Email address is required</div>
-      			<div id="id_email_error_pattern" ng-message="email">Email address is invalid</div>
-    		</div>
-  		</md-input-container>
-  		<md-button aria-label="Reset" class="md-raised md-warn" ng-click="reset()">Reset</md-button>
-  		<md-button aria-label="Submit" class="md-raised md-primary" ng-click="forget()">Submit</md-button>
-</form>
+        <form name="form_forgot_password" 
+                novalidate 
+                ng-controller="ForgotController" 
+                method="POST" 
+                ng-submit="form_forgot_password.$valid && sendNewPassword()"
+        >
+                <print-field 
+                        ng-model="credential.email_address"
+                        arg-read-tag="email"
+                        arg-title="'Your Login Email Address'"
+                        arg-name="'email_address'"
+                        arg-required
+                ></print-field>
+
+                <print-field 
+                        ng-model="submit"
+                        arg-read-tag="button"
+                        arg-read-tag-type="'submit'"
+                        arg-title="'Send Me New Password'"
+                        arg-name="'submit_email_address_for_new_password'"
+                        arg-class="'md-raised md-primary'"
+                ></print-field>
+
+                <hr />
+
+                <md-button aria-label="Reset" class="md-raised md-warn" ng-click="reset()">Reset</md-button>
+                <md-button aria-label="Join" class="md-raised md-primary" ng-click="register()">Join</md-button>
+                <md-button aria-label="Login" class="md-raised md-primary" ng-click="login()">Login</md-button>
+
+        </form>
 </print-panel>

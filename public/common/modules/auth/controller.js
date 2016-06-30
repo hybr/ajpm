@@ -12,9 +12,7 @@ angular.module('ajpmApp').controller('LoginController',	[
 	'AuthService',
 	'SessionService',
 	'AUTH_EVENTS',
-	'$location',
-	'$mdDialog', '$mdMedia',
-	function($rootScope, $scope, $state, $window, AuthService, SessionService, AUTH_EVENTS, $location, $mdDialog, $mdMedia) {
+	function($rootScope, $scope, $state, $window, AuthService, SessionService, AUTH_EVENTS) {
 
 		/**
 		 * Initialize the user record before login form is shown
@@ -31,8 +29,8 @@ angular.module('ajpmApp').controller('LoginController',	[
 
 			/**
 			 * Create a service here
-			 * 1. Encrypt as md5 of credentials.email
-			 * 2. Send the encrypted credentials.email to server
+			 * 1. Encrypt as md5 of credential.email
+			 * 2. Send the encrypted credential.email to server
 			 * 3. Response will be any one of two
 			 * 		3.1 Found user and return with a session_id
 			 * 		3.2 No user found and return is empty string
@@ -55,7 +53,7 @@ angular.module('ajpmApp').controller('LoginController',	[
 		$scope.submit_s2 = function() {
 			/**
 			 * Create a service here
-			 * 1. Encrypt as md5 of credentials.email
+			 * 1. Encrypt as md5 of credential.email
 			 * 2. Send the encrypted credentials.email to server
 			 * 3. Response will be any one of two
 			 * 		3.1 Found user and return with a session_id
@@ -94,7 +92,7 @@ angular.module('ajpmApp').controller('LoginController',	[
 
 		$scope.isPasswordCorrectPass = function(message) {
 			if (message) $rootScope.pushPageMessage(message);
-			$scope.isAuthenticated = true;
+			$rootScope.isAuthenticated = true;
 			$state.go('home');
 		}
 
@@ -105,24 +103,18 @@ angular.module('ajpmApp').controller('LoginController',	[
 		}
 
 		$scope.reset = function() {
-			$scope.credentials.password = '';
+			$scope.credential.email_address = '';
+			$scope.credential.password = '';
 		};
 
 		$scope.register = function() {
-			$location.url('/join');
-			$('#userLoginModelOne').dialog("close");
-			$('#userLoginModelTwo').dialog("close");
+			$state.go('join');
 		}
+
 		$scope.forget_password = function() {
-			$location.url('/forgot');
-			$('#userLoginModelOne').dialog("close");
-			$('#userLoginModelTwo').dialog("close");
+			$state.go('forgot');
 		}
 		
-		$scope.reset = function() {
-			$scope.credentials = {};
-		};
-
 		// if a session exists for current user (page was refreshed)
 		// log him in again
 		if (SessionService.getCurrentUserSessionId() == '') {
@@ -140,18 +132,97 @@ angular.module('ajpmApp').controller('LogoutController',
 
 } ]);
 
+angular.module('ajpmApp').controller('JoinController',
+                ['$scope', '$rootScope', 'AuthService', 'SessionService', 'AUTH_EVENTS', '$state',
+               function($scope, $rootScope, AuthService, SessionService, AUTH_EVENTS, $state){
+
+                $scope.credential = {};
+
+                $scope.randomPassword = function(length) {
+                        var chars = "abcdefghijklmnopqrstuvwxyz!@#$%^&*()-+<>ABCDEFGHIJKLMNOP1234567890";
+                        var pass = "";
+                        for (var x = 0; x < length; x++) {
+                                var i = Math.floor(Math.random() * chars.length);
+                                pass += chars.charAt(i);
+                        }
+                        return pass;
+                };
+
+                $scope.sendNewPassword = function() {
+                        /* send sessionId and md5(password) to server end and verify is password OK */
+                        AuthService.sendActivationEmail (
+                                $scope.credential.email_address,
+                                $scope.sendActivationEmailPass,
+                                $scope.sendActivationEmailFail
+                        );
+                };
+
+                $scope.sendActivationEmailPass = function(message) {
+                        alert('If ' + $scope.credential.email_address + ' is a valid email address in our users list, then you will receive an email at same address to activate new password. ');
+                };
+
+                $scope.sendActivationEmailFail = function(message) {
+                        alert('Fail ' + message);
+                };
+
+                $scope.forgotPassword = function() {
+                        $state.go('forgot');
+                };
+
+                $scope.login = function() {
+                        $state.go('login1');
+                };
+
+                $scope.reset = function() {
+                        $scope.credential.email_address = '';
+                };
+
+        } ]);
+
+
 angular.module('ajpmApp').controller('ForgotController',
 		['$scope', '$rootScope', 'AuthService', 'SessionService', 'AUTH_EVENTS', '$state',
 		function($scope, $rootScope, AuthService, SessionService, AUTH_EVENTS, $state){
 
-		$scope.email_address = "";
+		$scope.credential = {};
 
-		$scope.forgot = function() {
-	    }
+		$scope.randomPassword = function(length) {
+			var chars = "abcdefghijklmnopqrstuvwxyz!@#$%^&*()-+<>ABCDEFGHIJKLMNOP1234567890";
+			var pass = "";
+			for (var x = 0; x < length; x++) {
+				var i = Math.floor(Math.random() * chars.length);
+				pass += chars.charAt(i);
+			}
+			return pass;
+		};
+
+		$scope.sendNewPassword = function() { 
+                        /* send sessionId and md5(password) to server end and verify is password OK */
+			AuthService.sendActivationEmail	(
+				$scope.credential.email_address,
+				$scope.sendActivationEmailPass,
+				$scope.sendActivationEmailFail
+			);
+		};
 	  
+		$scope.sendActivationEmailPass = function(message) {
+			alert('If ' + $scope.credential.email_address + ' is a valid email address in our users list, then you will receive an email at same address to activate new password. ');
+		};
+
+		$scope.sendActivationEmailFail = function(message) {
+			alert('Fail ' + message);
+		};
+
+		$scope.register = function() {
+			$state.go('join');
+		};
+
+		$scope.login = function() {
+			$state.go('login1');
+		};
 
 		$scope.reset = function() {
-			$scope.email_address = "";
-		}
+			$scope.credential.email_address = '';
+		};
 
 	} ]);

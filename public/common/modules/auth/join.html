@@ -18,7 +18,8 @@
 
                 <print-field 
                         ng-model="credential.password"
-                        arg-read-tag="password"
+                        arg-read-tag="input"
+                        arg-read-tag-type="'password'"
                         arg-title="'Password'"
                         arg-name="'password'"
                         arg-required
@@ -37,7 +38,7 @@
 
                 <md-button aria-label="Reset" class="md-raised md-warn" ng-click="reset()">Reset</md-button>
                 <md-button aria-label="Login" class="md-raised md-primary" ng-click="login()">Login</md-button>
-                <md-button aria-label="Forgot Password" class="md-raised md-primary" ng-click="forgetPassword()">Forget Password</md-button>
+                <md-button aria-label="Forgot Password" class="md-raised md-primary" ng-click="forgotPassword()">Forget Password</md-button>
 
         </form>
 </print-panel>

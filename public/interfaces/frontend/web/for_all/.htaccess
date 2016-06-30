@@ -10,6 +10,5 @@ RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-l
-RewriteCond %{HTTPS} !=on
-RewriteCond $1 !^/(common|file)/
-RewriteRule ^(.*)$ index.html?$1 [L,QSA]
+RewriteCond %{REQUEST_URI} !/(common|file)\.*/ [NC]
+RewriteRule ^.*$ /index.html [L,QSA]
