@@ -4,10 +4,17 @@
 >
         <form name="form_join" 
                 novalidate 
-                ng-controller="JoinController" 
                 method="POST" 
-                ng-submit="form_join.$valid && registerUser()"
+                ng-submit="form_join.$valid && addUser()"
         >
+                <print-field 
+                        ng-model="credential.name"
+                        arg-read-tag="input"
+                        arg-title="'Name'"
+                        arg-name="'name'"
+                        arg-required
+                ></print-field>
+
                 <print-field 
                         ng-model="credential.email_address"
                         arg-read-tag="email"

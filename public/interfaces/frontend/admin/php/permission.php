@@ -55,6 +55,7 @@ function isAllowed($collectionName, $subTask) {
 			'public_checkuser-e-all',
 			'public_checkuser-p-all',
 			'public_userpassword-sae-all',
+			'public_userjoin-add-all',
 				
 			'public_user-authenticate-all',
 			'public_user-logout-all',

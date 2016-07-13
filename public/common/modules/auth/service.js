@@ -94,11 +94,10 @@ angular.module('ajpmApp').factory('AuthService', [
                                         e: emailToSend
                                 }
                         }).then(function successCallback(response) {
-                                alert(JSON.stringify(response));
+                                passFunc(response);
                         }, function errorCallback(response) {
-                                alert(JSON.stringify(response));
+                               failFunc(response);
                         });
-
 
 		};
 
@@ -123,7 +122,27 @@ angular.module('ajpmApp').factory('AuthService', [
 		authService.logout = function() {
 			SessionService.clearUserSession();
 			$rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
-		}
+		};
+
+		authService.addUser = function(userRecordToAdd, passFunc, failFunc) {
+                        $http({
+                                method: 'POST',
+                                url: '/common/service.php/user_join/add',
+                                params: {
+                                        e: userRecordToAdd.email_address,
+                                        p: md5(userRecordToAdd.password),
+                                        n: userRecordToAdd.name
+                                }
+                        }).then(function successCallback(response) {
+				if (response.status != 'Account created') {
+					failFunc(response); 
+				} else {
+                                	passFunc(response);
+				}
+                        }, function errorCallback(response) {
+                               failFunc(response);
+                        });
+		};
 
 		return authService;
 	} ]); /* AuthService */

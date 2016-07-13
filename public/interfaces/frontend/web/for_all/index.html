@@ -1,55 +1,40 @@
-
 <!DOCTYPE html>
 <html ng-app="ajpmApp" ng-controller="ApplicationController">
 	<head>
 		<meta charset="UTF-8">
 		<title>{{ orgRecord.name }}</title>
-		
 		<meta name="description" content="{{ metaTags.description }}">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		
 		<link rel="stylesheet" type="text/css" href="/common/js/angular/angular-material.min.css">
-		
 		<!-- application -->
 		<link rel="stylesheet" type="text/css" href="/common/css/icon.css">
 		<link rel="stylesheet" type="text/css" href="/common/css/owebp/common.css">
 		<link rel="stylesheet" type="text/css" href="/common/css/owebp/web.css">
-		
-
 		<!-- angular lib -->
 		<script type="text/javascript" src="/common/js/angular/angular.min.js"></script>
 		<script type="text/javascript" src="/common/js/angular/angular-animate.min.js"></script>
 		<script type="text/javascript" src="/common/js/angular/angular-aria.min.js"></script>
 		<script type="text/javascript" src="/common/js/angular/angular-messages.min.js"></script>
 		<script type="text/javascript" src="/common/js/angular-ui/angular-ui-router.js"></script>
-		
 		<!-- Angular Material Library -->
 		<script type="text/javascript" src="/common/js/angular/angular-material.min.js"></script>
-		 	
 		<!-- md5 -->
 		<script type="text/javascript" src="/common/js/md5/md5.min.js"></script>
-		
 		<!-- application -->
 		<script type="text/javascript" src="/common/js/owebp/common.js"></script>
 		<script type="text/javascript" src="/common/js/owebp/web.js"></script>
-		
 		<script type="text/javascript" src="/common/modules/application/main_angular_material.js"></script>
 		<script type="text/javascript" src="/common/modules/application/directive.js"></script>
 		<script type="text/javascript" src="/common/modules/application/router.js"></script>
 		<script type="text/javascript" src="/common/modules/application/filter.js"></script>
-		
 		<script type="text/javascript" src="/common/modules/auth/session.js"></script>
 		<script type="text/javascript" src="/common/modules/auth/interceptor.js"></script>
-		
 		<script type="text/javascript" src="/common/modules/application/controller.js"></script>
-		
 		<script type="text/javascript" src="/common/modules/auth/service.js"></script>
 		<script type="text/javascript" src="/common/modules/auth/controller.js"></script>
 		<script type="text/javascript" src="/common/modules/application/global.js"></script>
-		
 		<script type="text/javascript" src="/common/modules/services/get_documnet_by_id.js"></script>
 		<script type="text/javascript" src="/common/modules/services/get_collection.js"></script>
-		
 		<script type="text/javascript" src="/common/modules/web_page/controller.js"></script>
 		<script type="text/javascript" src="/common/modules/contact_us/controller.js"></script>
 		<script type="text/javascript" src="/common/modules/home/controller.js"></script>
@@ -60,316 +45,249 @@
 		<script type="text/javascript" src="/common/modules/real_estate_asset/controller.js"></script>
 		<script type="text/javascript" src="/common/modules/my_account/controller.js"></script>
 		<script type="text/javascript" src="/common/modules/activity/controller.js"></script>
-		
 	</head>
 	<body>
 		<base href="/">
-		
-			<div id="ajpmMainRow" layout="column">
-		
-				<div flex id="ajpmHeaderAndMenu" layout="column">
-		
-		
-					<div flex id="ajpmHeader" layout="row" layout-xs="column">
-		
-						<div flex="25" id="ajpmLogo">
-		
-							<a href="/"><img style="height: 100px; max-width: 100%" ng-src="{{ orgRecord.web_site_logo_file_name }}"></a>
-		
-						</div><!-- ajpmLogo -->
-						 
-						<div flex layout="column">
-		
-							<div flex id="ajpmName" style="font-size:4vw; font-weight:bolder;">
-		
-								{{ orgRecord.name }}
-
-							</div><!-- ajpmName -->
-		
-							<div flex id="ajpmStatement" style="font-size:2.5vw; font-weight:bold;">
-		
-								{{ orgRecord.statement }}
-		
-							</div><!-- ajpmStatement -->
-							
-						</div><!-- ajpmNameStatement -->
-		
-					</div><!-- ajpmHeader -->
-		
-					<div id="ajpmMenu" >
-					
-						<md-toolbar>
-					                    
-							<div class="md-toolbar-tools" ng-hide="showSearchBarDiv">
-					
-								<span id="ajpmAllSmallMobileIcons" hide-gt-xs show-xs><!-- small mobile menu -->
-											          
-										<md-menu>
-		      						          
-											<md-icon aria-label="Menu" ng-click="$mdOpenMenu()">
-		                                		menu<md-tooltip>Menu</md-tooltip>
-		                            		</md-icon>
-		
-								            <md-menu-content >
-								            
-												<md-menu-item ui-sref-active="md-warn" ui-sref="home">
-												<md-button aria-label="Home">
-													<i class="material-icons">home</i> Home
-												</md-button>
-												</md-menu-item>
-		
-												<md-menu-item ui-sref-active="md-warn" ui-sref="about_us">
-					                            <md-button aria-label="About Us">
-													<i class="material-icons">business</i> About Us
-					                            </md-button>
-												</md-menu-item>
-								
-												<md-menu-item ui-sref-active="md-warn" ui-sref="item_catalog">
-					                            <md-button aria-label="Catalog">
-													<i class="material-icons">shop</i> Catalog
-					                            </md-button>
-												</md-menu-item>
-								       			
-												<md-menu-divider></md-menu-divider>
-		
-												<md-menu-item ui-sref-active="md-warn" ui-sref="activities">
-					                            <md-button aria-label="Activities">
-					                            	<md-tooltip>Activities</md-tooltip>
-													<i class="material-icons">assignment</i> Activities
-					                            </md-button>
-												</md-menu-item>
-																						
-												<md-menu-item ui-sref-active="md-warn" ui-sref="contact_us">
-					                            <md-button aria-label="Contact Us">
-					                            	<md-tooltip>Our Contact Information</md-tooltip>
-													<i class="material-icons">contacts</i> Contact Us
-					                            </md-button>
-												</md-menu-item>
-								
-												<md-menu-item ng-show="isAuthenticated">
-												<md-button aria-label="Logout" ui-sref-active="md-warn" ui-sref="logout" ng-click="isAuthenticated = false">
-													<md-tooltip>User Logout</md-tooltip>
-													<i class="material-icons">cancel</i> Logout
-												</md-button>
-												</md-menu-item>						            
-		
-												<md-menu-item ng-hide="isAuthenticated">
-												<md-button aria-label="Join" ui-sref-active="md-warn" ui-sref="join" >
-													<md-tooltip>User Join</md-tooltip>
-													<i class="material-icons">edit</i> Join
-												</md-button>
-												</md-menu-item>
-												<md-menu-item ng-hide="isAuthenticated">
-												<md-button aria-label="Login" ui-sref-active="md-warn" ui-sref="login1" >
-													<md-tooltip>User Login</md-tooltip>
-													<i class="material-icons">input</i> Login
-												</md-button>
-												</md-menu-item>
-		
-												<md-menu-item ng-show="isAuthenticated">
-					                            <md-button aria-label="My" ui-sref-active="md-warn" ui-sref="my_account">
-					                            	<md-tooltip>My Profile</md-tooltip>
-													<i class="material-icons">person</i> My
-					                            </md-button>
-												</md-menu-item>
-																			
-								            </md-menu-content>
-								            
-								          </md-menu>
-								          
-			                            <md-icon aria-label="Search" hide-gt-sm ng-click="showSearchBarDiv = true" ui-sref-active="md-warn" ui-sref="search">
-			                                search<md-tooltip>Search Website</md-tooltip>
-			                            </md-icon>
-					                            						          
-								</span><!-- small mobile menu -->
-								<!--  ajpmAllSmallMobileIcons -->
-		
-								<span id="ajpmMainMobileIcons" hide-xl hide-lg hide-md show-sm show-xs>
-					                            
-		                            <md-icon aria-label="home"  ui-sref-active="md-warn" ui-sref="home" >
-		                                home<md-tooltip>Home</md-tooltip>
-		                            </md-icon>
-		
-		                            <md-icon aria-label="About Us" ui-sref-active="md-warn" ui-sref="about_us">
-		                                business<md-tooltip>About Us</md-tooltip>
-		                            </md-icon>
-		
-		                            <md-icon aria-label="Catalog" ui-sref-active="md-warn" ui-sref="item_catalog">
-		                                shop<md-tooltip>Catalog</md-tooltip>
-		                            </md-icon>
-					                                                        
-								</span>
-								<!-- ajpmMainMobileIcons -->
-														
-								<span id="ajpmMainIPadIcons" show-xl show-lg show-md hide-sm hide-xs>
-					                            
-		                            <md-button class="md-raised" aria-label="Home" ui-sref-active="md-warn" ui-sref="home" >
-		                                <md-tooltip>Home</md-tooltip>
-										Home
-		                            </md-button>
-		
-		                            <md-button class="md-raised" aria-label="About Us" ui-sref-active="md-warn" ui-sref="about_us">
-		                                <md-tooltip>About Us</md-tooltip>
-										About Us
-		                            </md-button>
-		
-		                            <md-button class="md-raised" aria-label="Catalog" ui-sref-active="md-warn" ui-sref="item_catalog">
-		                                <md-tooltip>Catalog</md-tooltip>
-										Catalog
-		                            </md-button>
-					                                                        
-								</span>
-								<!-- ajpmMainIPadIcons -->
-		        
-								<span flex></span>
-					
-								<span id="ajpmSearch" show-xl show-lg show-md show-sm hide-xs>
-					
-		                                <form name="ajpmFormSearch" novalidate="" method="POST" ng-submit="ajpmFormSearch.$valid && searchIt()">
-		
-		                                    <md-input-container>
-		                                        <label for="ajpmIdSearchInput">Search</label>
-		
-		                                        <input type="text" id="ajpmIdSearchInput" name="nameSearchPattern" ng-model="searchPattern" required="" />
-		
-		                                        <div ng-messages="ajpmFormSearch.nameSearchPattern.$error" ng-show="ajpmFormSearch.nameSearchPattern.$dirty">
-		                                            <div id="ajpmSearchInputRequiredError" ng-message="required">Search pattern is required</div>
-		                                        </div>
-		                                    </md-input-container>
-		
-				                            <md-icon aria-label="Search" ui-sref-active="md-warn" ui-sref="search">
-				                                search<md-tooltip>Search Website</md-tooltip>
-				                            </md-icon>
-		
-		                                </form>
-					
-								</span>
-								<!-- ajpmSearch -->
-					
-								<span flex></span>
-		
-								<span id="ajpmExtraIPadIcons" show-xl show-lg show-md hide-sm hide-xs>
-		
-		                            <md-button class="md-raised" aria-label="Contact Us" ui-sref-active="md-warn" ui-sref="contact_us">
-		                                <md-tooltip>Our Contact Information</md-tooltip>
-										Contact Us
-		                            </md-button>
-		
-									<span ng-show="isAuthenticated">
-										<md-button class="md-raised" aria-label="Logout" ui-sref-active="md-warn" ui-sref="logout" ng-click="isAuthenticated = false">
-		                                	<md-tooltip>User Logout</md-tooltip>
-											Logout
-										</md-button>
-		                            	
-		                            	<md-button class="md-raised" aria-label="My" ui-sref-active="md-warn" ui-sref="my_account">
-											<md-tooltip>My Profile</md-tooltip>
-											My
-		                            	</md-button>
-		                            
-									</span>
-		
-		                           <span  ng-hide="isAuthenticated">
-								<md-button class="md-raised" aria-label="Join" ui-sref-active="md-warn" ui-sref="join">
-		                                	<md-tooltip>User Join</md-tooltip>Join
-										</md-button>
-								<md-button class="md-raised" aria-label="Login" ui-sref-active="md-warn" ui-sref="login1">
-		                                	<md-tooltip>User Login</md-tooltip>
-											Login
-									</md-button>
-		                           </span>
-					
-								</span>
-								<!-- ajpmExtraIPadIcons -->
-								
-					                            
-								<span id="ajpmExtraMobileIcons" hide-xl hide-lg hide-md show-sm show-xs>
-		
-		                            <md-icon aria-label="Contact Us" ui-sref-active="md-warn" ui-sref="contact_us">
-		                                contacts<md-tooltip>Our Contact Information</md-tooltip>
-		                            </md-icon>
-		
-									<span ng-show="isAuthenticated">
-										<md-icon aria-label="Logout" ui-sref-active="md-warn" ui-sref="logout" ng-click="isAuthenticated = false">
-		                                	cancel<md-tooltip>User Logout</md-tooltip>A
-										</md-icon>
-										
-			                            <md-icon aria-label="My" ui-sref-active="md-warn" ui-sref="my_account">
-											person<md-tooltip>My Profile</md-tooltip>
-			                            </md-icon>								
-		                           </span>
-		
-		                           <span  ng-hide="isAuthenticated">
-										<md-icon aria-label="Join" ui-sref-active="md-warn" ui-sref="join"> edit<md-tooltip>User Join</md-tooltip>
-										</md-icon>
-										<md-icon aria-label="Login" ui-sref-active="md-warn" ui-sref="login1">
-		                                	input<md-tooltip>User Login</md-tooltip>
-										</md-icon>
-		                           </span>
-					
-								</span>
-								<!-- ajpmExtraMobileIcons -->
-					                
-							</div>
-							<!-- class=md-toolbar-tools -->
-					                        
-							<div class="md-toolbar-tools"  layout="row" ng-show="showSearchBarDiv">
-					
-								<md-icon ng-click="showSearchBarDiv=false">
-									cancel<md-tooltip>Cancel</md-tooltip>
+		<div id="ajpmMainRow" layout="column">
+			<div flex id="ajpmHeaderAndMenu" layout="column">
+				<div flex id="ajpmHeader" layout="row" layout-xs="column">
+					<div flex="25" id="ajpmLogo">
+						<a href="/"><img style="height: 100px; max-width: 100%" ng-src="{{ orgRecord.web_site_logo_file_name }}"></a>
+					</div>
+					<!-- ajpmLogo -->
+					<div flex layout="column">
+						<div flex id="ajpmName" style="font-size:4vw; font-weight:bolder;">
+							{{ orgRecord.name }}
+						</div>
+						<!-- ajpmName -->
+						<div flex id="ajpmStatement" style="font-size:2.5vw; font-weight:bold;">
+							{{ orgRecord.statement }}
+						</div>
+						<!-- ajpmStatement -->
+					</div>
+					<!-- ajpmNameStatement -->
+				</div>
+				<!-- ajpmHeader -->
+				<div id="ajpmMenu" >
+					<md-toolbar>
+						<div class="md-toolbar-tools" ng-hide="showSearchBarDiv">
+							<span id="ajpmAllSmallMobileIcons" hide-gt-xs show-xs>
+								<!-- small mobile menu -->
+								<md-menu>
+									<md-icon aria-label="Menu" ng-click="$mdOpenMenu()">
+										menu
+										<md-tooltip>Menu</md-tooltip>
+									</md-icon>
+									<md-menu-content >
+										<md-menu-item ui-sref-active="md-warn" ui-sref="home">
+											<md-button aria-label="Home">
+												<i class="material-icons">home</i> Home
+											</md-button>
+										</md-menu-item>
+										<md-menu-item ui-sref-active="md-warn" ui-sref="about_us">
+											<md-button aria-label="About Us">
+												<i class="material-icons">business</i> About Us
+											</md-button>
+										</md-menu-item>
+										<md-menu-item ui-sref-active="md-warn" ui-sref="item_catalog">
+											<md-button aria-label="Catalog">
+												<i class="material-icons">shop</i> Catalog
+											</md-button>
+										</md-menu-item>
+										<md-menu-divider></md-menu-divider>
+										<md-menu-item ui-sref-active="md-warn" ui-sref="activities">
+											<md-button aria-label="Activities">
+												<md-tooltip>Activities</md-tooltip>
+												<i class="material-icons">assignment</i> Activities
+											</md-button>
+										</md-menu-item>
+										<md-menu-item ui-sref-active="md-warn" ui-sref="contact_us">
+											<md-button aria-label="Contact Us">
+												<md-tooltip>Our Contact Information</md-tooltip>
+												<i class="material-icons">contacts</i> Contact Us
+											</md-button>
+										</md-menu-item>
+										<md-menu-item ng-show="isAuthenticated">
+											<md-button aria-label="Logout" ui-sref-active="md-warn" ui-sref="logout" ng-click="isAuthenticated = false">
+												<md-tooltip>User Logout</md-tooltip>
+												<i class="material-icons">cancel</i> Logout
+											</md-button>
+										</md-menu-item>
+										<md-menu-item ng-hide="isAuthenticated">
+											<md-button aria-label="Join" ui-sref-active="md-warn" ui-sref="join" >
+												<md-tooltip>User Join</md-tooltip>
+												<i class="material-icons">edit</i> Join
+											</md-button>
+										</md-menu-item>
+										<md-menu-item ng-hide="isAuthenticated">
+											<md-button aria-label="Login" ui-sref-active="md-warn" ui-sref="login1" >
+												<md-tooltip>User Login</md-tooltip>
+												<i class="material-icons">input</i> Login
+											</md-button>
+										</md-menu-item>
+										<md-menu-item ng-show="isAuthenticated">
+											<md-button aria-label="My" ui-sref-active="md-warn" ui-sref="my_account">
+												<md-tooltip>My Profile</md-tooltip>
+												<i class="material-icons">person</i> My
+											</md-button>
+										</md-menu-item>
+									</md-menu-content>
+								</md-menu>
+								<md-icon aria-label="Search" hide-gt-sm ng-click="showSearchBarDiv = true" ui-sref-active="md-warn" ui-sref="search">
+									search
+									<md-tooltip>Search Website</md-tooltip>
 								</md-icon>
-					
+							</span>
+							<!-- small mobile menu -->
+							<!--  ajpmAllSmallMobileIcons -->
+							<span id="ajpmMainMobileIcons" hide-xl hide-lg hide-md show-sm show-xs>
+								<md-icon aria-label="home"  ui-sref-active="md-warn" ui-sref="home" >
+									home
+									<md-tooltip>Home</md-tooltip>
+								</md-icon>
+								<md-icon aria-label="About Us" ui-sref-active="md-warn" ui-sref="about_us">
+									business
+									<md-tooltip>About Us</md-tooltip>
+								</md-icon>
+								<md-icon aria-label="Catalog" ui-sref-active="md-warn" ui-sref="item_catalog">
+									shop
+									<md-tooltip>Catalog</md-tooltip>
+								</md-icon>
+							</span>
+							<!-- ajpmMainMobileIcons -->
+							<span id="ajpmMainIPadIcons" show-xl show-lg show-md hide-sm hide-xs>
+								<md-button class="md-raised" aria-label="Home" ui-sref-active="md-warn" ui-sref="home" >
+									<md-tooltip>Home</md-tooltip>
+									Home
+								</md-button>
+								<md-button class="md-raised" aria-label="About Us" ui-sref-active="md-warn" ui-sref="about_us">
+									<md-tooltip>About Us</md-tooltip>
+									About Us
+								</md-button>
+								<md-button class="md-raised" aria-label="Catalog" ui-sref-active="md-warn" ui-sref="item_catalog">
+									<md-tooltip>Catalog</md-tooltip>
+									Catalog
+								</md-button>
+							</span>
+							<!-- ajpmMainIPadIcons -->
+							<span flex></span>
+							<span id="ajpmSearch" show-xl show-lg show-md show-sm hide-xs>
 								<form name="ajpmFormSearch" novalidate="" method="POST" ng-submit="ajpmFormSearch.$valid && searchIt()">
-					
 									<md-input-container>
 										<label for="ajpmIdSearchInput">Search</label>
-					
 										<input type="text" id="ajpmIdSearchInput" name="nameSearchPattern" ng-model="searchPattern" required="" />
-					
 										<div ng-messages="ajpmFormSearch.nameSearchPattern.$error" ng-show="ajpmFormSearch.nameSearchPattern.$dirty">
 											<div id="ajpmSearchInputRequiredError" ng-message="required">Search pattern is required</div>
 										</div>
 									</md-input-container>
-					
+									<md-icon aria-label="Search" ui-sref-active="md-warn" ui-sref="search">
+										search
+										<md-tooltip>Search Website</md-tooltip>
+									</md-icon>
 								</form>
-					
-							</div>
-					
-						</md-toolbar>                
-					
-					</div>
-					<!-- ajpmMenu -->
-		
-				</div>
-				<!-- ajpmHeaderAndMenu-->
-		
-				<div id="ajpmViewAndFooter" layout="column" layout-margin>
-					<div id="ajpmMessage">
-						<div ng-show="hasPageMessages()">
-							<ul>
-								<li ng-repeat="pageMessage in getPageMessages()">
-									{{pageMessage}}
-								</li>
-							</ul>
+							</span>
+							<!-- ajpmSearch -->
+							<span flex></span>
+							<span id="ajpmExtraIPadIcons" show-xl show-lg show-md hide-sm hide-xs>
+								<md-button class="md-raised" aria-label="Contact Us" ui-sref-active="md-warn" ui-sref="contact_us">
+									<md-tooltip>Our Contact Information</md-tooltip>
+									Contact Us
+								</md-button>
+								<span ng-show="isAuthenticated">
+									<md-button class="md-raised" aria-label="Logout" ui-sref-active="md-warn" ui-sref="logout" ng-click="isAuthenticated = false">
+										<md-tooltip>User Logout</md-tooltip>
+										Logout
+									</md-button>
+									<md-button class="md-raised" aria-label="My" ui-sref-active="md-warn" ui-sref="my_account">
+										<md-tooltip>My Profile</md-tooltip>
+										My
+									</md-button>
+								</span>
+								<span  ng-hide="isAuthenticated">
+									<md-button class="md-raised" aria-label="Join" ui-sref-active="md-warn" ui-sref="join">
+										<md-tooltip>User Join</md-tooltip>
+										Join
+									</md-button>
+									<md-button class="md-raised" aria-label="Login" ui-sref-active="md-warn" ui-sref="login1">
+										<md-tooltip>User Login</md-tooltip>
+										Login
+									</md-button>
+								</span>
+							</span>
+							<!-- ajpmExtraIPadIcons -->
+							<span id="ajpmExtraMobileIcons" hide-xl hide-lg hide-md show-sm show-xs>
+								<md-icon aria-label="Contact Us" ui-sref-active="md-warn" ui-sref="contact_us">
+									contacts
+									<md-tooltip>Our Contact Information</md-tooltip>
+								</md-icon>
+								<span ng-show="isAuthenticated">
+									<md-icon aria-label="Logout" ui-sref-active="md-warn" ui-sref="logout" ng-click="isAuthenticated = false">
+										cancel
+										<md-tooltip>User Logout</md-tooltip>
+										A
+									</md-icon>
+									<md-icon aria-label="My" ui-sref-active="md-warn" ui-sref="my_account">
+										person
+										<md-tooltip>My Profile</md-tooltip>
+									</md-icon>
+								</span>
+								<span  ng-hide="isAuthenticated">
+									<md-icon aria-label="Join" ui-sref-active="md-warn" ui-sref="join">
+										edit
+										<md-tooltip>User Join</md-tooltip>
+									</md-icon>
+									<md-icon aria-label="Login" ui-sref-active="md-warn" ui-sref="login1">
+										input
+										<md-tooltip>User Login</md-tooltip>
+									</md-icon>
+								</span>
+							</span>
+							<!-- ajpmExtraMobileIcons -->
 						</div>
-					</div>
-					<!-- ajpmMessage -->
-		
-					<div id="ajpmView">
-						 <div ui-view>Loading...</div>
-					</div>
-					<!-- ajpmView -->
-		
-					<div id="ajpmFooter">
-		                &copy; Copyright {{ orgRecord.name }}
-					</div>
-					<!-- ajpmFooter -->
-		
+						<!-- class=md-toolbar-tools -->
+						<div class="md-toolbar-tools"  layout="row" ng-show="showSearchBarDiv">
+							<md-icon ng-click="showSearchBarDiv=false">
+								cancel
+								<md-tooltip>Cancel</md-tooltip>
+							</md-icon>
+							<form name="ajpmFormSearch" novalidate="" method="POST" ng-submit="ajpmFormSearch.$valid && searchIt()">
+								<md-input-container>
+									<label for="ajpmIdSearchInput">Search</label>
+									<input type="text" id="ajpmIdSearchInput" name="nameSearchPattern" ng-model="searchPattern" required="" />
+									<div ng-messages="ajpmFormSearch.nameSearchPattern.$error" ng-show="ajpmFormSearch.nameSearchPattern.$dirty">
+										<div id="ajpmSearchInputRequiredError" ng-message="required">Search pattern is required</div>
+									</div>
+								</md-input-container>
+							</form>
+						</div>
+					</md-toolbar>
 				</div>
-				<!-- ajpmViewAndFooter -->
-		
-		            
+				<!-- ajpmMenu -->
 			</div>
-			<!-- ajpmMainRow -->
-		      
+			<!-- ajpmHeaderAndMenu-->
+			<div id="ajpmViewAndFooter" layout="column" layout-margin>
+				<div id="ajpmMessage">
+					<div ng-show="hasPageMessages()">
+						<ul>
+							<li ng-repeat="pageMessage in getPageMessages()">
+								{{pageMessage}}
+							</li>
+						</ul>
+					</div>
+				</div>
+				<!-- ajpmMessage -->
+				<div id="ajpmView">
+					<div ui-view>Loading...</div>
+				</div>
+				<!-- ajpmView -->
+				<div id="ajpmFooter">
+					&copy; Copyright {{ orgRecord.name }}
+				</div>
+				<!-- ajpmFooter -->
+			</div>
+			<!-- ajpmViewAndFooter -->
+		</div>
+		<!-- ajpmMainRow -->
 	</body>
 </html>
+

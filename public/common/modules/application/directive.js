@@ -218,14 +218,11 @@ angular.module('ajpmApp').directive("printField", function($compile) {
 			}
 		}
 		
+		scope.paramReadTagType = "text";
 		if (typeof iAttr.argReadTagType !== 'undefined') {
 			if (varNotNull(iAttr.argReadTagType)) {
 				scope.paramReadTagType = iAttr.argReadTagType.toLowerCase();
-			} else {
-				scope.paramReadTagType = "text";
 			}
-		} else {
-			scope.paramReadTagType = "text";
 		}
 		
        //get the value from ngModel

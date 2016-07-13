@@ -138,31 +138,20 @@ angular.module('ajpmApp').controller('JoinController',
 
                 $scope.credential = {};
 
-                $scope.randomPassword = function(length) {
-                        var chars = "abcdefghijklmnopqrstuvwxyz!@#$%^&*()-+<>ABCDEFGHIJKLMNOP1234567890";
-                        var pass = "";
-                        for (var x = 0; x < length; x++) {
-                                var i = Math.floor(Math.random() * chars.length);
-                                pass += chars.charAt(i);
-                        }
-                        return pass;
-                };
-
-                $scope.sendNewPassword = function() {
-                        /* send sessionId and md5(password) to server end and verify is password OK */
-                        AuthService.sendActivationEmail (
-                                $scope.credential.email_address,
-                                $scope.sendActivationEmailPass,
-                                $scope.sendActivationEmailFail
+                $scope.addUser = function() {
+                        AuthService.addUser (
+                                $scope.credential,
+                                $scope.addUserPass,
+                                $scope.addUserFail
                         );
                 };
 
-                $scope.sendActivationEmailPass = function(message) {
-                        alert('If ' + $scope.credential.email_address + ' is a valid email address in our users list, then you will receive an email at same address to activate new password. ');
+                $scope.addUserPass = function(message) {
+                        alert('Your account is created. Please log in.');
                 };
 
-                $scope.sendActivationEmailFail = function(message) {
-                        alert('Fail ' + message);
+                $scope.addUserFail = function(message) {
+                        alert('Fail to create account: ' + message);
                 };
 
                 $scope.forgotPassword = function() {
@@ -175,6 +164,7 @@ angular.module('ajpmApp').controller('JoinController',
 
                 $scope.reset = function() {
                         $scope.credential.email_address = '';
+                        $scope.credential.password = '';
                 };
 
         } ]);
@@ -197,7 +187,6 @@ angular.module('ajpmApp').controller('ForgotController',
 		};
 
 		$scope.sendNewPassword = function() { 
-                        /* send sessionId and md5(password) to server end and verify is password OK */
 			AuthService.sendActivationEmail	(
 				$scope.credential.email_address,
 				$scope.sendActivationEmailPass,
