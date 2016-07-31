@@ -16,6 +16,7 @@ if ($_SESSION ['url_domain']  == 'localhost'
 	/* development environment */
 	$mongoUrl = "mongodb://localhost:27017";
 	$_SESSION ['database_name'] = "jpm_devlopment";
+	$_SESSION ['database_name'] = "db1";
 }
 
 /**

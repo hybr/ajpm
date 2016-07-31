@@ -117,7 +117,6 @@ class public_Person extends Base {
 							if (isset($relativeName ['type']) && $relativeName ['type'] == $type) {
 								$rStr .= '<br />' . $relative['relation'] . ': ' 
 									. $relativeName['prefix'] . ' '
-									. $relativeName['first'] . ' '
 									. $relativeName['middle'] . ' '
 									. $relativeName['last'] . ' '
 									. $relativeName['suffix'] . ' ';
