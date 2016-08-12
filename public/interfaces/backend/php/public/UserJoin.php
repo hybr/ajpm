@@ -31,18 +31,16 @@ class public_UserJoin extends UserLib {
 		/**
 		 * Return the response
 		 */
-/*
 		if ($response['status'] == 'User exists') {
-			$response['status'] = $userEmailAddress	+ ' already exists';
+			$response['status'] = $userEmailAddress	. ' already exists';
 			array_push ( $this->errorMessage, $response['status'] );
+			debugPrintArray($response, 'updated at user exists response');
 		} else if ($response['status'] == 'User is not verified yet') {
-			$response['status'] = $userEmailAddress	+ ' already exists and not verified by email';
+			$response['status'] = $userEmailAddress	. ' already exists and not verified by email';
 			array_push ( $this->errorMessage, $response['status'] );
 		} else {
-*/
 
-			/* save the new user account in user table and person table */
-
+		/* save the new user account in user table and person table */
 
 			/* Create person record */
 			$name =explode(" ", $userName); 
@@ -93,9 +91,9 @@ class public_UserJoin extends UserLib {
 			);
 */
 			debugPrintArray($response, 'account add response');
-/*		} */
+		} 
 
-
+		debugPrintArray($response, 'the return response');
 		return json_encode($response);
 
 	} /* public function exsistance($urlArgsArray) { */
