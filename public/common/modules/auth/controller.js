@@ -137,13 +137,18 @@ angular.module('ajpmApp').controller('JoinController',
                function($scope, $rootScope, AuthService, SessionService, AUTH_EVENTS, $state){
 
                 $scope.credential = {};
+		$scope.bcf = '';
 
                 $scope.addUser = function() {
-                        AuthService.addUser (
-                                $scope.credential,
-                                $scope.addUserPass,
-                                $scope.addUserFail
-                        );
+			if ($scope.bcf == '') {
+	                        AuthService.addUser (
+					$scope.credential,
+					$scope.addUserPass,
+					$scope.addUserFail
+				);
+			} else {
+				$scope.addUserFail({"data":{"status":"You are a bot"}});
+			}
                 };
 
                 $scope.addUserPass = function(message) {
