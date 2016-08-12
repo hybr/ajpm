@@ -134,7 +134,7 @@ angular.module('ajpmApp').factory('AuthService', [
                                         n: userRecordToAdd.name
                                 }
                         }).then(function successCallback(response) {
-				if (response.status != 'Account created') {
+				if (response.data.status != 'Account created successfully') {
 					failFunc(response); 
 				} else {
                                 	passFunc(response);

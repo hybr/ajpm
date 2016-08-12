@@ -147,11 +147,11 @@ angular.module('ajpmApp').controller('JoinController',
                 };
 
                 $scope.addUserPass = function(message) {
-                        alert('Your account is created. Please log in.');
+                        alert('Your account is created. Please login now.' + JSON.stringify(message.data.status));
                 };
 
                 $scope.addUserFail = function(message) {
-                        alert('Fail to create account: ' + message);
+                        alert('Fail to create account: ' + JSON.stringify(message.data.status));
                 };
 
                 $scope.forgotPassword = function() {
