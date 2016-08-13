@@ -60,10 +60,11 @@ class InputForm extends Base {
 
 	private function showFileList($value, $field) {
 		$rStr = '';
+		$rStr .= '<div class="jpm-html-form-field-cover">';
 		$rStr .= $this->showLabel ($field);
 		$rStr .= $this->showHelp ($field);
 		/* select start */
-		$rStr .= '<a target="_blank" href="/file_upload/create">Upload</a> ' . 'file if neeed <br />' ;
+		$rStr .= '<a target="_blank" href="/file_upload/create">Upload</a> ' . 'file if needed <br />' ;
 		$rStr .= '<select class="ui-menu ui-widget ui-state-default ui-state-hover ui-state-focus" ';
 		$rStr .= $this->showCommonAttributes ($field);
 		$rStr .= ' size="' . $field ['select_tag_hight'] . '"';
@@ -101,6 +102,7 @@ class InputForm extends Base {
 		}
 		/* options */
 		$rStr .= '</select>';
+		$rStr .= '</div>';
 		return $rStr;
 	}	
 
