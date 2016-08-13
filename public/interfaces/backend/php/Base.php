@@ -40,11 +40,11 @@ class Base {
 	public $defaultFields = array (
 			'created_on' => array (
 				'type' => 'datetime',
-				'show_in_list' => 1 
+				'show_in_list' => 0 
 			),
 			'updated_on' => array (
 				'type' => 'datetime',
-				'show_in_list' => 1 
+				'show_in_list' => 0 
 			),
 			'created_by' => array (
 				'type' => 'foreign_key',
