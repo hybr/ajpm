@@ -43,7 +43,7 @@
         <md-content class="md-padding">
           	<ul><li ng-repeat="pr in doc.price">
       			<span ng-show="pr.type=='Quote'">Call us for quote</span>
-      			<span ng-hide="pr.type=='Quote'">{{ pr.type }} {{ pr.amount }} {{ pr.currency }} {{ pr.per }} {{ pr.per_unit }}</span>
+      			<span ng-hide="pr.type=='Quote'">{{ pr.type }} {{ pr.amount }} {{ pr.currency }} per {{ pr.per }} {{ pr.per_unit }}</span>
       		</li></ul>
       	</md-content>
       </md-tab>
