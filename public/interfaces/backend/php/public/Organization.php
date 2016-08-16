@@ -50,6 +50,9 @@ class public_Organization extends Base {
 			'input_mode' => 'selecting',
 			'default' => 'Electronic Commerce',
 		),
+		'web_site_logo_file_name' => array (
+			'type' => 'file_list'
+		),
 		'web_site_theme' => array (
 			'help' => 'Color scheme of admin site',
 			'type' => 'list',
@@ -58,26 +61,11 @@ class public_Organization extends Base {
 			'default' => 'start'
 		),
 		'web_site_theme_2' => array (
-			'help' => 'Color scheme of testing/live site. primary, accent, warn, background, darkness',
+			'help' => 'Color scheme for main home page. Colors are primary, accent, warn, background, darkness',
 			'type' => 'list',
 			'list_class' => 'WebPageTheme2',
 			'input_mode' => 'selecting',
 			'default' => 'start'
-		),
-		'web_site_home_page' => array (
-			'type' => 'foreign_key',
-			'foreign_collection' => 'web_page',
-			'foreign_search_fields' => 'title',
-			'foreign_title_fields' => 'title'
-		),
-		'web_site_about_us_page' => array (
-			'type' => 'foreign_key',
-			'foreign_collection' => 'web_page',
-			'foreign_search_fields' => 'title',
-			'foreign_title_fields' => 'title'
-		),			
-		'web_site_logo_file_name' => array (
-			'type' => 'file_list'
 		),
 	); /* fields */
 	
