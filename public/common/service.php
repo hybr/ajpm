@@ -86,7 +86,7 @@ $recordsOwnedByOrg = array (
 ) {
 	echo json_encode($_SESSION ['mongo_database']->web_page->findOne (array(
 		'$and' => array (
-			array ('web_page_type' => array('$elemMatch' => array('name' =>'home_page')),),
+			array ('web_page_type' => array('$elemMatch' => array('name' =>'Home Page')),),
 			array ('for_org' => new MongoId ( $_SESSION ['url_domain_org'] ['_id'] ))
 		)
 	)));
@@ -99,7 +99,7 @@ $recordsOwnedByOrg = array (
 ) {
 	echo json_encode($_SESSION ['mongo_database']->web_page->findOne (array(
 		'$and' => array (
-			array ('web_page_type' => array('$elemMatch' => array('name' =>'about_us')),),
+			array ('web_page_type' => array('$elemMatch' => array('name' =>'About Us')),),
 			array ('for_org' => new MongoId ( $_SESSION ['url_domain_org'] ['_id'] ))
 		)
 	)));
