@@ -81,4 +81,8 @@ function validDatabaseCollection ($collectionName) {
 	return false;
 } /* function validDatabaseCollection */
 
+function isValidMongoObjectID($str) {
+	// A valid Object Id must be 24 hex characters
+	return preg_match ( '/^[0-9a-fA-F]{24}$/', $str );
+}
 ?>

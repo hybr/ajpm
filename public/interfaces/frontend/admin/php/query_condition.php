@@ -248,7 +248,7 @@ function getQueryConditions($record = array()) {
 					'_id' => 'NO ACCESS' 
 			);
 		}
-		$conds = $orgRecord;
+		/* $conds = $orgRecord; */
 	}
 	
 	/* all other collections */

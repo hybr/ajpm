@@ -15,17 +15,17 @@ class WebPageType extends Base {
 	public $dataLocation = DATA_LOCATION_SERVER_CODE;
 	public $table = array (
 			array (
-					'value' => 'other',
+					'value' => 'Other',
 					'title' => 'Other' 
 			),
 			array (
-					'value' => 'home_page', /* who can login */
+					'value' => 'Home Page',
 					'title' => 'Home Page' 
 			),
 			array (
-					'value' => 'about_us', /* who has purchase history */
+					'value' => 'About Us',
 					'title' => 'About Us' 
-			)
+			),
 	);
 }
 ?>

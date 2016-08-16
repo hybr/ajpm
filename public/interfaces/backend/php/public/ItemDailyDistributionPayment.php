@@ -6,77 +6,141 @@ class public_ItemDailyDistributionPayment extends Base {
 	function __construct() {
 		$this->collectionName = 'item_daily_distribution_payment';
 	} /* __construct */
+
 	public $fields = array (
 		'item' => array (
-				'type' => 'foreign_key',
-				'show_in_list' => 1,
-				'foreign_collection' => 'item',
-				'foreign_search_fields' => 'title,summary',
-				'foreign_title_fields' => 'type,title',
+			'help' => 'Item which will be distributed',
+			'type' => 'foreign_key',
+			'show_in_list' => 1,
+			'foreign_collection' => 'item',
+			'foreign_search_fields' => 'title,summary',
+			'foreign_title_fields' => 'type,title',
 		),
+		'paid_as_advance' => array (
+			'help' => 'True if amount paid for daily  distribution is in advance',
+			'type' => 'list',
+			'list_class' => 'Boolean',
+			'input_mode' => 'clicking',
+			'default' => 'True',
+			'required' => 1,
+		),			
 		'paid_amount' => array (
+			'help' => 'Advance amount paid to receive the item',
 			'type' => 'number',
 			'show_in_list' => 1,
 			'required' => 1,
 		),
 		'paid_amount_currency' => array (
-				'type' => 'currency',
-				'required' => 1,
-				'default' => 'INR',
+			'type' => 'currency',
+			'required' => 1,
+			'default' => 'INR',
 		),
 		'paid_date' => array (
-				'type' => 'date' ,
-				'required' => 1,
-				'show_in_list' => 1,
-		),
-		'start_date' => array (
-				'type' => 'date' ,
-				'required' => 1,
-				'show_in_list' => 1,
-		),
-		'distribution_time' => array (
-				'type' => 'time' ,
-				'required' => 1,
-				'show_in_list' => 1,
+			'type' => 'date' ,
+			'required' => 1,
 		),
 		'paid_by' => array (
-				'type' => 'foreign_key',
-				'foreign_collection' => 'person',
-				'foreign_search_fields' => 'name.first,name.middle,name.last',
-				'foreign_title_fields' => 'name,gender',
-				'show_in_list' => 1,
+			'type' => 'foreign_key',
+			'foreign_collection' => 'person',
+			'foreign_search_fields' => 'name.first,name.middle,name.last,name.suffix',
+			'foreign_title_fields' => 'name,gender',
+			'show_in_list' => 1,
 		),		
-		'delivery_location' => array (
-				'type' => 'string',
-				'required' => 1,
+                'other_amount' => array (
+                        'type' => 'container',
+			'show_in_list' => 1,
+                        'fields' => array (
+				'received' => array (
+					'help' => 'Other carried over amount received from customer',
+					'type' => 'number',
+				),
+				'paid' => array (
+					'help' => 'Other amount paid to customer already',
+					'type' => 'number',
+				),
+				'to_be_received' => array (
+					'help' => 'Other amount to be received from customer',
+					'type' => 'number',
+				),
+				'to_be_paid' => array (
+					'help' => 'Other amount to be paid to customer',
+					'type' => 'number',
+				),
+				'explanation' => array (
+				),
+                        )
+                ),
+		'start_date' => array (
+			'help' => 'Date when the distribution will start' ,
+			'type' => 'date' ,
+			'required' => 1,
+			'show_in_list' => 1,
 		),
-		'daily_quantity' => array (
-				'type' => 'number',
-				'required' => 1,
-		),
-		'daily_quantity_unit' => array (
-				'type' => 'string',
-				'required' => 1,
-		),
+                'delivery' => array (
+                        'type' => 'container',
+			'show_in_list' => 1,
+                        'fields' => array (
+				'distribution_time' => array (
+					'type' => 'time' ,
+					'required' => 1,
+					'show_in_list' => 1,
+				),
+				'is_urgent' => array (
+					'help' => 'If customer want delivery as soon as possible then select True',
+					'type' => 'list',
+					'list_class' => 'Boolean',
+					'input_mode' => 'clicking',
+					'default' => 'False',
+					'required' => 1,
+				),		
+				'do_ring_bell' => array (
+					'help' => 'If customer do not want to be disturbed at delivery time then select False',
+					'type' => 'list',
+					'list_class' => 'Boolean',
+					'input_mode' => 'clicking',
+					'default' => 'True',
+					'required' => 1,
+				),		
+				'quantity' => array (
+					'type' => 'number',
+					'required' => 1,
+				),
+				'quantity_unit' => array (
+					'type' => 'string',
+					'required' => 1,
+				),
+				'location' => array (
+					'type' => 'string',
+					'required' => 1,
+				),
+				'location_code' => array (
+					'help' => 'Code will be used to generate SMS message',
+					'type' => 'string',
+					'required' => 1,
+					'show_in_list' => 1,
+				),
+                        )
+                ),
 		'instructions' => array (
-				'type' => 'string',
+			'type' => 'string',
 		),
-			'recreate_daily_records' => array (
-					'help' => 'Recreate daily records once',
-					'type' => 'list',
-					'list_class' => 'Boolean',
-					'input_mode' => 'clicking',
-					'default' => 'False',
-					'required' => 1,
-			),
-			'distribution_complete' => array (
-					'help' => 'True if daily distribution is complete',
-					'type' => 'list',
-					'list_class' => 'Boolean',
-					'input_mode' => 'clicking',
-					'default' => 'False',
-					'required' => 1,
-			),			
+		'recreate_daily_records' => array (
+			'help' => 'Recreate daily records once for past dates',
+			'type' => 'list',
+			'list_class' => 'Boolean',
+			'input_mode' => 'clicking',
+			'default' => 'False',
+			'required' => 1,
+		),
+		'distribution_complete' => array (
+			'help' => 'True if daily distribution is complete',
+			'type' => 'list',
+			'list_class' => 'Boolean',
+			'input_mode' => 'clicking',
+			'default' => 'False',
+			'required' => 1,
+			'show_in_list' => 1,
+		),			
 	); /* fields */	
 
 } /* class */

@@ -8,10 +8,11 @@ class public_ItemDailyDistributionException extends Base {
 	} /* __construct */
 	public $fields = array (
 		'payment_record' => array (
+				'help' => 'Type location or amount of payment record',
 				'type' => 'foreign_key',
 				'foreign_collection' => 'item_daily_distribution_payment',
-				'foreign_search_fields' => 'paid_by,paid_amount',
-				'foreign_title_fields' => 'paid_by,paid_amount',
+				'foreign_search_fields' => 'paid_amount,delivery.location,delivery.location_code',
+				'foreign_title_fields' => 'paid_amount,delivery',
 				'show_in_list' => 1,
 		),
 		'start_date' => array (
@@ -26,7 +27,7 @@ class public_ItemDailyDistributionException extends Base {
 			
 		/* things that can be part of ecception */
 		'apply_sequence' => array (
-				'help' => 'Provide new value if change required',
+				'help' => 'If there are more than one exceptions for day put order in which it needs to be applied',
 				'type' => 'number',
 		),			
 		'new_distribution_time' => array (
@@ -65,11 +66,11 @@ class public_ItemDailyDistributionException extends Base {
 		),			
 
 			
-		'daily_quantity' => array (
+		'delivery_quantity' => array (
 				'help' => 'Provide new value if change required',
 				'type' => 'number',
 		),
-		'daily_quantity_unit' => array (
+		'delivery_quantity_unit' => array (
 				'help' => 'Provide new value if change required',
 				'type' => 'string',
 		),

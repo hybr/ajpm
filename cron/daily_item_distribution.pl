@@ -9,7 +9,6 @@ use MongoDB::OID;
 my $debug = 0;
 my $debugRecord = 0;
 
-# $debug && print "\n\n============================================================================";
 
 # my $conection = MongoDB->connect('mongodb://localhost');
 my $connection = MongoDB::Connection->new ();
@@ -31,16 +30,17 @@ sub getRate {
 	return $perUnitRate;
 }
 
-sub getRateFromDoc {
+sub getRateFromNewRecordDoc {
 	my ($doc) = @_;
 	my $perUnitRate = 0;
 	if (defined $doc 
-		&& defined $doc->{'rate_quantity'} 
-		&& $doc->{'rate_quantity'} gt 0
-		&& defined $doc->{'rate_amount'} 
-		&& $doc->{'rate_amount'} gt 0
+		&& defined $doc->{'ipsr_quantity'} 
+		&& $doc->{'ipsr_quantity'} gt 0
+		&& defined $doc->{'ipsr_amount'} 
+		&& $doc->{'ipsr_amount'} gt 0
 	) {
-		$perUnitRate = $doc->{'rate_amount'} / $doc->{'rate_quantity'};
+		$perUnitRate = $doc->{'ipsr_amount'} / $doc->{'ipsr_quantity'};
+		$debug && print "\n\n perUnitRate from new record = " . $perUnitRate;
 	} else {
 		# this function is used when we calculate rate from the price field of item table
 		if (defined $doc 
@@ -49,6 +49,7 @@ sub getRateFromDoc {
 		) {
 			$perUnitRate = $doc->{'amount'} / $doc->{'per'};
 		}
+		$debug && print "\n\n perUnitRate from item price sub record = " . $perUnitRate;
 	}
 	return $perUnitRate;
 }
@@ -59,24 +60,44 @@ sub getDailyCost {
 	return $dailyQuantity * getRate($rateAmount, $rateQuantity);
 }
 
-sub getDailyCostFromDoc {
+sub getDailyCostFromNewRecordDoc {
 	# daily cost calculation
 	# item price subRecord does not have daily quantity
-	my ($quantityDoc, $rateDoc) = @_;
+	my ($newDistributionRecord, $rateDoc) = @_;
 	my $cost = 0;
 
 	my $rate = 0;
-	$rate = getRateFromDoc($rateDoc);
+	$rate = getRateFromNewRecordDoc($newDistributionRecord);
 	if ($rate <= 0) {
-		$rate = getRateFromDoc($quantityDoc);
+		$rate = getRateFromNewRecordDoc($rateDoc);
 	}
 
-	if (defined $quantityDoc 
-		&& defined $quantityDoc->{'daily_quantity'} 
-		&& $quantityDoc->{'daily_quantity'} > 0
-	) {
-		$cost =  $quantityDoc->{'daily_quantity'} * $rate;
+	my $quantity = 0;
+	if (defined $newDistributionRecord && defined $newDistributionRecord->{'delivery_quantity'}) {
+		$quantity =  $newDistributionRecord->{'delivery_quantity'};
+	} elsif (defined $rateDoc && defined $rateDoc->{'delivery_quantity'}) {
+		$quantity =  $rateDoc->{'delivery_quantity'};
 	}
+
+	if (defined $rate && defined $quantity && $rate > 0 && $quantity > 0) {
+		$cost =  $quantity * $rate;
+	}
+
+	# Add per visit distribution charge
+	# ipsr_daily_distribution_charge_per_unit
+	if (defined $newDistributionRecord && defined $newDistributionRecord->{'ipsr_daily_distribution_charge_per_visit'}) {
+		$cost = $cost + $newDistributionRecord->{'ipsr_daily_distribution_charge_per_visit'};
+	} elsif (defined $rateDoc && defined $rateDoc->{'ipsr_daily_distribution_charge_per_visit'}) {
+		$cost = $cost + $rateDoc->{'ipsr_daily_distribution_charge_per_visit'};
+	}
+
+	# Add per unit distribution charge
+	if (defined $newDistributionRecord && defined $newDistributionRecord->{'ipsr_daily_distribution_charge_per_unit'}) {
+		$cost =  $cost + $quantity * $newDistributionRecord->{'ipsr_daily_distribution_charge_per_unit'};
+	} elsif (defined $rateDoc && defined $rateDoc->{'ipsr_daily_distribution_charge_per_unit'}) {
+		$cost =  $cost + $quantity * $rateDoc->{'ipsr_daily_distribution_charge_per_unit'};
+	}
+
 	return $cost;
 }
 
@@ -86,25 +107,17 @@ sub getDailyBalance {
 }
 
 sub getDailyBalanceFromDoc {
-	my ($yesterdayBalance, $quantityDoc, $rateDoc) = @_;
-	return $yesterdayBalance - getDailyCostFromDoc($quantityDoc,$rateDoc);
+	my ($yesterdayBalance, $newDistributionRecord, $rateDoc) = @_;
+	return $yesterdayBalance - getDailyCostFromNewRecordDoc($newDistributionRecord,$rateDoc);
 }
 
-sub balanceIsSufficient {
+sub balanceIsNotSufficientFromDoc {
 	# Check for sufficient fund
-	my ($rateAmount, $rateQuantity, $dailyQuantity, $yesterdayBalance) = @_;
+	my ($yesterdayBalance, $newDistributionRecord, $rateDoc) = @_;
+	# $debug && print "Insufficient funds";
 	return (
-		getDailyBalance($rateAmount, $rateQuantity, $dailyQuantity, $yesterdayBalance)
-		>= getDailyCost($rateAmount, $rateQuantity, $dailyQuantity)
-	);
-}
-
-sub balanceIsSufficientFromDoc {
-	# Check for sufficient fund
-	my ($yesterdayBalance, $quantityDoc, $rateDoc) = @_;
-	return (
-		getDailyBalanceFromDoc($yesterdayBalance, $quantityDoc, $rateDoc)
-		>= getDailyCostFromDoc($quantityDoc, $rateDoc)
+		getDailyBalanceFromDoc($yesterdayBalance, $newDistributionRecord, $rateDoc)
+		< getDailyCostFromNewRecordDoc($newDistributionRecord, $rateDoc)
 	);
 }
 
@@ -122,29 +135,102 @@ sub paymentDistributionIsComplete {
 sub applyPaymentToNewRecord {
 	my ($newDistributionRecord, $paymentDocument) = @_;
 	$newDistributionRecord->{'payment_record'} =  $paymentDocument->{'_id'};
-	$newDistributionRecord->{'distribution_time'} = $paymentDocument->{'distribution_time'};
-	$newDistributionRecord->{'daily_quantity'} = $paymentDocument->{'daily_quantity'};
-	$newDistributionRecord->{'daily_quantity_unit'} = $paymentDocument->{'daily_quantity_unit'};
-	$newDistributionRecord->{'delivery_location'} = $paymentDocument->{'delivery_location'};
-	$newDistributionRecord->{'instructions'} = $paymentDocument->{'instructions'};
+	$newDistributionRecord->{'paid_as_advance'} =  $paymentDocument->{'paid_as_advance'};
+	$newDistributionRecord->{'other_amount'} =  0;
+	$newDistributionRecord->{'other_amount_explanation'} =  '';
+	if (defined $paymentDocument->{'other_amount'} 
+		&& ref($paymentDocument->{'other_amount'}) eq 'ARRAY'
+		&& @{$paymentDocument->{'other_amount'}}
+	) {
+		foreach my $otherAmountRecord ( @{$paymentDocument->{'other_amount'}} ) {
+			if (defined $otherAmountRecord->{'received'} && $otherAmountRecord->{'received'} ne '') {
+				$newDistributionRecord->{'other_amount'} +=  $otherAmountRecord->{'received'};
+			}
+			if (defined $otherAmountRecord->{'paid'} && $otherAmountRecord->{'paid'} ne '') {
+				$newDistributionRecord->{'other_amount'} -=  $otherAmountRecord->{'paid'};
+			}
+			if (defined $otherAmountRecord->{'to_be_received'} && $otherAmountRecord->{'to_be_received'} ne '') {
+				$newDistributionRecord->{'other_amount'} -=  $otherAmountRecord->{'to_be_received'};
+			}
+			if (defined $otherAmountRecord->{'to_be_paid'} && $otherAmountRecord->{'to_be_paid'} ne '') {
+				$newDistributionRecord->{'other_amount'} -=  $otherAmountRecord->{'to_be_paid'};
+			}
+			if (defined $otherAmountRecord->{'explanation'} && $otherAmountRecord->{'explanation'} ne '') {
+				$newDistributionRecord->{'other_amount_explanation'} .=  $otherAmountRecord->{'explanation'} . ', ';
+			}
+		}
+	}
+	if ($newDistributionRecord->{'paid_as_advance'} eq 'False') {
+		$newDistributionRecord->{'other_amount'} -=  $paymentDocument->{'paid_amount'};
+		$newDistributionRecord->{'other_amount_explanation'} .=  'Advance payment of current month, ';
+	#} else {
+		# $newDistributionRecord->{'other_amount'} +=  $paymentDocument->{'paid_amount'};
+	}
+	# Remove last comma and space
+	$newDistributionRecord->{'other_amount_explanation'} =  substr($newDistributionRecord->{'other_amount_explanation'}, 0, -2);
+	
+	$newDistributionRecord->{'instructions'} = '';
+	return $newDistributionRecord;
+}
+
+sub applyDeliveryToNewRecord {
+	my ($newDistributionRecord, $deliveryRecord) = @_;
+
+	$newDistributionRecord->{'delivery_distribution_time'} = (defined $deliveryRecord->{'distribution_time'}) 
+		? $deliveryRecord->{'distribution_time'} : '7:00 am';
+	$newDistributionRecord->{'delivery_is_urgent'} = (defined $deliveryRecord->{'is_urgent'}) 
+		? $deliveryRecord->{'is_urgent'} : 'False';
+	$newDistributionRecord->{'delivery_do_ring_bell'} = (defined $deliveryRecord->{'do_ring_bell'}) 
+		? $deliveryRecord->{'do_ring_bell'} : 'True';
+
+	$newDistributionRecord->{'delivery_quantity'} = (defined $deliveryRecord->{'quantity'})
+		? $deliveryRecord->{'quantity'} : 0;
+	$newDistributionRecord->{'delivery_quantity_unit'} = (defined $deliveryRecord->{'quantity_unit'})
+		? $deliveryRecord->{'quantity_unit'} : 'Unknown';
+
+	$newDistributionRecord->{'delivery_location'} = (defined $deliveryRecord->{'location'}) 
+		? $deliveryRecord->{'location'} : 'Unknown';
+	$newDistributionRecord->{'delivery_location_code'} = (defined $deliveryRecord->{'location_code'})
+		? $deliveryRecord->{'location_code'} : 'Unknown';
+
 	return $newDistributionRecord;
 }
 
 sub applyItemPriceToNewRecord {
-	my ($newDistributionRecord, $paymentDocument, $rateSubRecord, $paymentBalance) = @_;
-	$newDistributionRecord->{'rate_for'} = $rateSubRecord->{'for'};
-	$newDistributionRecord->{'rate_type'} = $rateSubRecord->{'type'};
-	$newDistributionRecord->{'rate_amount'} = $rateSubRecord->{'amount'};
-	$newDistributionRecord->{'rate_amount_currency'} = $rateSubRecord->{'currency'};
-	$newDistributionRecord->{'rate_quantity'} = $rateSubRecord->{'per'};
-	$newDistributionRecord->{'rate_quantity_unit'} = $rateSubRecord->{'per_unit'};
-	# Update balance
-	$newDistributionRecord->{'payment_balance'} = getDailyBalanceFromDoc ($paymentBalance, $paymentDocument, $rateSubRecord);
+	my ($newDistributionRecord, $itemRateSubRecord) = @_;
+	# ipsr = Item Price Sub Record
+
+	$newDistributionRecord->{'ipsr_for'} = (defined $itemRateSubRecord->{'for'}) 
+		? $itemRateSubRecord->{'for'} : 'Make and Sale';
+
+	$newDistributionRecord->{'ipsr_type'} = (defined $itemRateSubRecord->{'type'}) 
+		? $itemRateSubRecord->{'type'} : 'Amount';
+
+	$newDistributionRecord->{'ipsr_amount'} = (defined $itemRateSubRecord->{'amount'})
+		? $itemRateSubRecord->{'amount'} : 0;
+
+	$newDistributionRecord->{'ipsr_amount_currency'} = (defined $itemRateSubRecord->{'currency'})
+		? $itemRateSubRecord->{'currency'} : 'INR';
+
+	$newDistributionRecord->{'ipsr_quantity'} = (defined $itemRateSubRecord->{'per'})
+		? $itemRateSubRecord->{'per'} : 1;
+
+	$newDistributionRecord->{'ipsr_quantity_unit'} = (defined $itemRateSubRecord->{'per_unit'})
+		? $itemRateSubRecord->{'per_unit'} : 'Unknown';
+
+	$newDistributionRecord->{'ipsr_daily_distribution_charge_per_visit'} = 
+		(defined $itemRateSubRecord->{'daily_distribution_charge_per_visit'})
+		? $itemRateSubRecord->{'daily_distribution_charge_per_visit'} : '';
+
+	$newDistributionRecord->{'ipsr_daily_distribution_charge_per_unit'} = 
+		(defined $itemRateSubRecord->{'daily_distribution_charge_per_unit'})
+		? $itemRateSubRecord->{'daily_distribution_charge_per_unit'} : '';
+
 	return $newDistributionRecord;
 }
 
 sub applyExceptionToNewRecord {
-	my ($newDistributionRecord, $paymentId,  $paymentBalance, $dailyDistributionEpoch) = @_;
+	my ($newDistributionRecord, $paymentId,  $deliveryStartDateEpoch) = @_;
 
 	my $anyExceptionForToday = 0;
 
@@ -157,71 +243,114 @@ sub applyExceptionToNewRecord {
 		my $exceptionEndDateTime = getDt($exceptionDocument->{'end_date'}, 'exception end date');
 
 		# check if this exception is valid
-		if ($dailyDistributionEpoch >= $exceptionStartDateTime->epoch() 
-			&& $dailyDistributionEpoch <= $exceptionEndDateTime->epoch()) {
+		if ($deliveryStartDateEpoch >= $exceptionStartDateTime->epoch() 
+			&& $deliveryStartDateEpoch <= $exceptionEndDateTime->epoch()) {
 			$debug && print "\n\n--------------- found exception";
 			$anyExceptionForToday = 1;
 
 			# apply the exceptions
 			$debug && print "\n\n--------------- Single Exception: " . Dumper($exceptionDocument);
 
-			my @toChangeFields = (
-				'rate_amount',
-				'rate_amount_currency',
-				'rate_quantity',
-				'rate_quantity_unit',
-				'delivery_location',
-				'daily_quantity',
-				'daily_quantity_unit',
-				'instructions',
-			);
-			foreach my $fieldToChange (@toChangeFields) {
-				if ($exceptionDocument->{$fieldToChange} ne '') {
-					$newDistributionRecord->{$fieldToChange} = $exceptionDocument->{$fieldToChange};
-				}
-			}
-
-			# can not be compared as string
 			if (defined $exceptionDocument->{'new_distribution_time'}
+				&& defined $exceptionDocument->{'distribution_time'}
 				&& $exceptionDocument->{'new_distribution_time'} eq 'True'
 			) {
-				$newDistributionRecord->{'distribution_time'} = $exceptionDocument->{'distribution_time'};
+				$newDistributionRecord->{'delivery_distribution_time'} = $exceptionDocument->{'distribution_time'};
 			}
 
-			# Update balance
-			$newDistributionRecord->{'payment_balance'} = getDailyBalanceFromDoc ($paymentBalance, $exceptionDocument);
+			if (defined $exceptionDocument->{'rate_amount'} && $exceptionDocument->{'rate_amount'} ne '') {
+				$newDistributionRecord->{'ipsr_amount'} = $exceptionDocument->{'rate_amount'};
+			}
 
-			next; # Go to next exception record
+			if (defined $exceptionDocument->{'rate_amount_currency'} && $exceptionDocument->{'rate_amount_currency'} ne '') {
+				$newDistributionRecord->{'ipsr_amount_currency'} = $exceptionDocument->{'rate_amount_currency'};
+			}
+
+			if (defined $exceptionDocument->{'rate_quantity'} && $exceptionDocument->{'rate_quantity'} ne '') {
+				$newDistributionRecord->{'ipsr_quantity'} = $exceptionDocument->{'rate_quantity'};
+			}
+
+			if (defined $exceptionDocument->{'rate_quantity_unit'} && $exceptionDocument->{'rate_quantity_unit'} ne '') {
+				$newDistributionRecord->{'ipsr_quantity_unit'} = $exceptionDocument->{'rate_quantity_unit'};
+			}
+
+			if (defined $exceptionDocument->{'delivery_location'} && $exceptionDocument->{'delivery_location'} ne '') {
+				$newDistributionRecord->{'delivery_location'} = $exceptionDocument->{'delivery_location'};
+			}
+
+			if (defined $exceptionDocument->{'delivery_location_code'} && $exceptionDocument->{'delivery_location_code'} ne '') {
+				$newDistributionRecord->{'delivery_location_code'} = $exceptionDocument->{'delivery_location_code'};
+			}
+
+			if (defined $exceptionDocument->{'delivery_quantity'} && $exceptionDocument->{'delivery_quantity'} ne '') {
+				$newDistributionRecord->{'delivery_quantity'} = $exceptionDocument->{'delivery_quantity'};
+			}
+
+			if (defined $exceptionDocument->{'delivery_quantity_unit'} && $exceptionDocument->{'delivery_quantity_unit'} ne '') {
+				$newDistributionRecord->{'delivery_quantity_unit'} = $exceptionDocument->{'delivery_quantity_unit'};
+			}
+
+			if (defined $exceptionDocument->{'instructions'} && $exceptionDocument->{'instructions'} ne '') {
+				$newDistributionRecord->{'instructions'} = $exceptionDocument->{'instructions'};
+			}
+
 		}
 		
 	} # while (my $exceptionDocument = $exceptionDocuments->next) 
-
 	
 	return $newDistributionRecord;
 }
 
 sub createNewRecord {
-	my ($paymentDocument, $rateSubRecord, $paymentBalance, $dailyDistributionEpoch) = @_;
+	my ($paymentDocument, $deliveryRecord, $itemRateSubRecord, $paymentBalance, $deliveryStartDateEpoch) = @_;
 
 	my $newDistributionRecord->{'instructions'} = '';
 
-	$newDistributionRecord = applyPaymentToNewRecord ($newDistributionRecord, $paymentDocument);
+
+	$newDistributionRecord = applyPaymentToNewRecord (
+		$newDistributionRecord, 
+		$paymentDocument
+	);
+
+	$newDistributionRecord = applyDeliveryToNewRecord (
+		$newDistributionRecord, 
+		$deliveryRecord
+	);
+
 	$newDistributionRecord = applyItemPriceToNewRecord (
 		$newDistributionRecord, 
-		$paymentDocument, 
-		$rateSubRecord, 
-		$paymentBalance
+		$itemRateSubRecord 
 	);
+
 	$newDistributionRecord = applyExceptionToNewRecord (
 		$newDistributionRecord, 
 		$paymentDocument->{'_id'},  
-		$paymentBalance, 
-		$dailyDistributionEpoch
+		$deliveryStartDateEpoch
 	);
+
+	$newDistributionRecord->{'date'} = DateTime->from_epoch(
+                epoch   => $deliveryStartDateEpoch
+	);
+	
+	$newDistributionRecord->{'payment_balance'} = $paymentBalance - getDailyCostFromNewRecordDoc($newDistributionRecord, $itemRateSubRecord);
 
 	return $newDistributionRecord;
 }
 
+sub startDateIsNotArrived {
+	my ($startDate, $nowDate) = @_;
+	# my $cmp = DateTime->compare($dt1, $dt2);
+	# $cmp is -1, 0 or 1, depending on whether $dt1 is less than, equal to, or more than $dt2.
+	$debug && print "\n\n--------------- start and current compare: " 
+		. DateTime->compare($startDate, $nowDate);
+	if (DateTime->compare($startDate, $nowDate) > 0) {
+		# time has not come to start the distribution
+		# we will create and recreate the records when distribution will start
+		$debug && print "\n\n--------------- go to next record";
+		return 1; #true
+	}
+	return 0; #false
+}
 
 # TODO: get the timezone of customer
 my $tz = DateTime::TimeZone->new(name => "Asia/Kolkata");
@@ -244,8 +373,81 @@ sub getDt {
 	return $ldt;
 }
 
+sub getItemRateRecord {
+	my ($itemId) = @_;
+	#
+	# Now find out this payment is for which item
+	$debug && print "\n\n--------------- ItemId: " . $itemId;	
+	my $itemRecord = $itemCollection->find_one({"_id" => $itemId});
+	$debugRecord && print "\n\n--------------- Item: " . Dumper($itemRecord);
 
+	# get rate sub record from item document
+	my $itemRateSubRecord = {};
+	for my $itemPriceRecord (@{$itemRecord->{'price'}}) {
+		# TODO: need logic to choose which price record to use
+		$itemRateSubRecord = $itemPriceRecord;
+		$debugRecord && print "\n\n--------------- itemPriceRecord : " . Dumper($itemPriceRecord);
+	}
 
+	$debug && print "\n" . $itemRecord->{'title'} . " Distribution Report";
+	$debug && print "\n" . $itemRecord->{'summary'};
+
+	return $itemRateSubRecord;
+}
+
+sub getCustomerRecord {
+	my ($personId) = @_;
+	#
+	# Read customer record
+	my $personRecord = $personCollection->find_one({"_id" => $personId });
+	$debugRecord && print "\n\n--------------- Person: " . Dumper($personRecord);
+
+	# print header
+	$debug && print "\nDeliver to " . $personRecord->{'name'}[0]->{'first'}
+		. ' ' . $personRecord->{'name'}[0]->{'middle'}
+		. ' ' . $personRecord->{'name'}[0]->{'last'};
+
+	return $personRecord;
+}
+
+sub toRecreateAllRecordsDeleteAllOldRecordsForThisPayment {
+	my ($paymentDocument) = @_;
+
+	# if we asked to recreate all the records for this payment then remove all old records
+	# This way it will create all the records only once
+	if ( defined $paymentDocument->{'recreate_daily_records'}
+		&& $paymentDocument->{'recreate_daily_records'} eq 'True' 
+	) {
+		# To recreate new ercords first remove existing records
+		$debug && print "\n\n -------------- deleting all records for payment " . $paymentDocument->{'_id'};
+		my $result = $recordCollection->remove({ 
+			'payment_record' =>  $paymentDocument->{'_id'}
+		});
+	}
+}
+
+sub getOldDistributionRecord {
+	my ($paymentRecordId, $distributionTimeEpoch) = @_;
+
+	# my $distributeDateTime = getDt( $distributionTime, 'distribution time');
+
+	my $dailyDistributionDateTime = DateTime->from_epoch(
+		epoch	=> $distributionTimeEpoch
+	);
+
+	# Read existing records
+	my $distributionRecordsDocument = $recordCollection->find_one({ 
+		"payment_record" =>  $paymentRecordId,
+		"date" => $dailyDistributionDateTime
+	});
+
+	$debug && print "\n\n--------------- does exsisting record defined: ";
+	$debug && ((defined $distributionRecordsDocument) ? print "Yes" : print "No");
+	$debugRecord && print "\n\n--------------- Distribution Record: " . Dumper($distributionRecordsDocument);
+
+	return $distributionRecordsDocument;
+}
+#
 # Read all payment records
 my $paymentDocuments = $paymentCollection->find();
 
@@ -254,138 +456,136 @@ my $currentDateTime = DateTime->now;
 my $oneDay = 60 * 60 * 24; # seconds in a day
 
 while (my $paymentDocument = $paymentDocuments->next) {
-	# iterate over each document
+	$debug && print "\n\n============================================================================";
 
+	# iterate over each document
 	$debugRecord && print "\n\n--------------- Payment Record: " . Dumper($paymentDocument);
 
-	# Find if this payment distribution is complete. If complete then go for
-	# next advance payment
-	if (paymentDistributionIsComplete($paymentDocument)) { 
-		next;  # Read next payment record
-	}
+	# Find if this payment distribution is complete. If complete then go for next advance payment
+	paymentDistributionIsComplete($paymentDocument) && next; 
 
 	# Calculate disrtibution start date time
 	my $startDateTime = getDt($paymentDocument->{'start_date'}, 'distribution start date');
-	my $distributeDateTime = getDt($paymentDocument->{'distribution_time'}, 'distribution start time');
 
-	# my $cmp = DateTime->compare($dt1, $dt2);
-	# $cmp is -1, 0 or 1, depending on whether $dt1 is less than, equal to, or more than $dt2.
-	$debug && print "\n\n--------------- start and current compare: " . DateTime->compare($startDateTime, $currentDateTime);
-
-	if (DateTime->compare($startDateTime, $currentDateTime) > 0) {
-		# time has not come to start the distribution
-		# we will create and recreate the records when distribution will start
-		next; # Read next payment record
-	}
-
-	# daily distribution date counter
-	my $dailyDistributionEpoch = $startDateTime->epoch();
+	# If start date is not arrived then go for next payment
+	startDateIsNotArrived ($startDateTime, $currentDateTime) && next;
+	$debug && print "\n\n--------------- Start date arrived";
 
 	# Payment balance
 	my $paymentBalance = $paymentDocument->{'paid_amount'};
 	$debug && print "\n\n--------------- Paid Amount: " . $paymentBalance;
-
-	# Now find out this payment is for which item
-	$debug && print "\n\n--------------- ItemId: " . $paymentDocument->{'item'};	
-	my $itemRecord = $itemCollection->find_one({"_id" => $paymentDocument->{'item'}});
-	$debugRecord && print "\n\n--------------- Item: " . Dumper($itemRecord);
-
-	# get rate sub record from item document
-	my $rateSubRecord = {};
-	for my $itemPriceRecord (@{$itemRecord->{'price'}}) {
-		# TODO: need logic to choose which price record to use
-		$rateSubRecord = $itemPriceRecord;
-		$debug && print "\n\n--------------- itemPriceRecord : " . Dumper($itemPriceRecord);
-	}
-
-	if (!balanceIsSufficientFromDoc( $paymentBalance, $paymentDocument, $rateSubRecord)) {
-		$debug && print "Insufficient funds";
-		next; # Go to next payment record
-	}
-
-	my $personRecord = $personCollection->find_one({"_id" => $paymentDocument->{'paid_by'}});
-	$debugRecord && print "\n\n--------------- Person: " . Dumper($personRecord);
-
-	# print header
-	$debug && print "\n" . $itemRecord->{'title'} . " Distribution Report";
-	$debug && print "\n" . $itemRecord->{'summary'};
-	$debug && print "\nDeliver to " . $personRecord->{'name'}[0]->{'first'}
-		. ' ' . $personRecord->{'name'}[0]->{'middle'}
-		. ' ' . $personRecord->{'name'}[0]->{'last'} 
-		. " at " . $paymentDocument->{'delivery_location'};
 	
+	my $itemRateSubRecord = getItemRateRecord($paymentDocument->{'item'});
 
-	if ( defined $paymentDocument->{'recreate_daily_records'}
-		&& $paymentDocument->{'recreate_daily_records'} eq 'True' 
-	) {
-		# To recreate new ercords first remove existing records
-		$debug && print "\n\n -------------- deleting records " . $paymentDocument->{'_id'};
-		my $result = $recordCollection->remove({ 
-			'payment_record' =>  $paymentDocument->{'_id'}
-		});
-	}
+	# Does customer has enough balance to get daily supply
+	# We do not know the quantity yet until we iterate over delivery record
+	# balanceIsNotSufficientFromDoc( $paymentBalance, $paymentDocument, $itemRateSubRecord) && next;
+
+	my $customerRecord = getCustomerRecord ($paymentDocument->{'paid_by'});
+	
+	# force recreation of all current records
+	# $paymentDocument->{'recreate_daily_records'} = 'True';
+	
+	toRecreateAllRecordsDeleteAllOldRecordsForThisPayment($paymentDocument);
+	
+	# daily distribution date counter
+	my $deliveryStartDateEpoch = $startDateTime->epoch();
+	$debug && print "\n\n--------------- start date epoch: " . $deliveryStartDateEpoch;
+	$debug && print "\n\n--------------- current date epoch: " . $currentDateTime->epoch();
+
+	my $newDistributionRecord = {};
 
 	# main loop to create each day records
-	while ($dailyDistributionEpoch < $currentDateTime->epoch())	{
+	while ($deliveryStartDateEpoch <= ($currentDateTime->epoch() + $oneDay))	{
+		$debug && print "\n\n--------------- start date" . DateTime->from_epoch( epoch   => $deliveryStartDateEpoch);
+		$debug && print "\n\n--------------- current date" . DateTime->from_epoch( epoch   => ($currentDateTime->epoch() + $oneDay));
 
-		my $dailyDistributionDateTime = DateTime->from_epoch(
-			epoch	=> $dailyDistributionEpoch
-		);
+		$debug && print "\n\n--------------- recreate_daily_records :" . $paymentDocument->{'recreate_daily_records'};
 
-		if ( defined $paymentDocument->{'recreate_daily_records'}
-			&& $paymentDocument->{'recreate_daily_records'} eq 'False' 
-			&& (!DateTime->compare($dailyDistributionDateTime, $currentDateTime))
-		) {
-			# as recreate is false then only add today's record
-			# my $cmp = DateTime->compare($dt1, $dt2);
-			# $cmp is -1, 0 or 1, depending on whether $dt1 is less than, equal to, or more than $dt2.
-			$paymentBalance = getDailyBalanceFromDoc ($paymentBalance, $paymentDocument, $rateSubRecord);
-			$dailyDistributionEpoch += $oneDay;
-			next; # Go to next day
+		my $distributionRecordsDocument = 
+			getOldDistributionRecord($paymentDocument->{'_id'}, $deliveryStartDateEpoch);
+
+
+		# if distribution record exists do not create new
+		# if we have recreate flag true then we delete all old records earlier
+		# in that case it will ceaet new record
+		# as we are running this script every 10 minutes so create if not created earlier
+		if (defined $distributionRecordsDocument) {
+			$deliveryStartDateEpoch += $oneDay;
+			next; # next delivery record
 		}
 
-		my $newDistributionRecord = createNewRecord (
-			$paymentDocument, 
-			$rateSubRecord, 
-			$paymentBalance,
-			$dailyDistributionEpoch
-		);
-		$newDistributionRecord->{'date'} = $dailyDistributionDateTime;
-		$paymentBalance = $newDistributionRecord->{'payment_balance'};
+		$debug && print "\n\n--------------- this distribution record does not exists";
 
-		if (!balanceIsSufficientFromDoc( $paymentBalance, $paymentDocument, $rateSubRecord)) {
-			$debug && print "Insufficient funds";
-			last; # Do not create daily records as no funds
-		}
+		if (defined $paymentDocument->{'delivery'}) {
+			$debug && print "\n\n--------------- delivery sub record exist";
 
-		if (defined $paymentDocument->{'recreate_daily_records'} 
-			&& $paymentDocument->{'recreate_daily_records'} eq 'True'
-		) {
-			# update the paymentRecord with recreate_daily_records as false
-			$paymentDocument->{'recreate_daily_records'}  = 'False';
-			$paymentCollection->save($paymentDocument);
-		}
+			foreach my $deliveryRecord ( @{$paymentDocument->{'delivery'}} ) {
 
-		# Read existing records
-		my $distributionRecordsDocument = $recordCollection->find_one({ 
-			"payment_record" =>  $paymentDocument->{'_id'},
-			"date" => $dailyDistributionDateTime
-		});
-		$debugRecord && print "\n\n--------------- Distribution Record: " . Dumper($distributionRecordsDocument);
+				if ( defined $paymentDocument->{'recreate_daily_records'}
+					&& $paymentDocument->{'recreate_daily_records'} eq 'False' 
+					&& $deliveryStartDateEpoch > ($currentDateTime->epoch() + $oneDay)
+				) {
+					# recreate == true
+					# 	create new record
+					# recreate == false
+					# 	create only today's record
+					# my $cmp = DateTime->compare($dt1, $dt2);
+					# $cmp is -1, 0 or 1, depending on whether $dt1 is less than, equal to, or more than $dt2.
+					$paymentBalance = $distributionRecordsDocument->{'payment_balance'};
+					$deliveryStartDateEpoch += $oneDay;
+					$debug && print "\n\n--------------- go to next record (only today record will be created)";
+					next; # Go to next day
+				}
+ 				
+				# Create the new distribution record
+				$newDistributionRecord = createNewRecord (
+					$paymentDocument, 
+					$deliveryRecord, 
+					$itemRateSubRecord, 
+					$paymentBalance,
+					$deliveryStartDateEpoch
+				);
+				$debug && print "\n\n--------------- newDistributionRecord created "; 
+				$debugRecord && print "\n\n--------------- New Distribution Record: " . Dumper($newDistributionRecord);
+				$debug && print "\n\n--------------- New Distribution Record: " . Dumper($newDistributionRecord);
+ 				
+				$debug && print "\n" . $newDistributionRecord->{'delivery_location'} 
+					. ' | payment_balance ' . $newDistributionRecord->{'payment_balance'}
+					. ' | delivery_quantity ' . $newDistributionRecord->{'delivery_quantity'}
+					. ' | ' . $newDistributionRecord->{'date'}
+				;
+ 				
+ 				# Do not create daily records as no funds
+				if ($newDistributionRecord->{'payment_balance'} <= 0) {
+					next;
+				}
 
-		if (! defined $distributionRecordsDocument ) {
-			print "\n" 
-				. '|' . $newDistributionRecord->{'date'}->ymd
-				. '|' . $newDistributionRecord->{'payment_balance'}
-			;
 
-			# Save the record
-			$recordCollection->save($newDistributionRecord);
-			$debug && print "\n\n--------------- newDistributionRecord: " . Dumper($newDistributionRecord);
-		} # if (! defined $distributionRecordsDocument ) 
+				# Save the record
+				$recordCollection->save($newDistributionRecord);
+				$debug && print "\n\n--------------- newDistributionRecord saved "; 
+				$debugRecord && print "\n\n--------------- newDistributionRecord: " . Dumper($newDistributionRecord);
+				
+				# Update the payment balance
+				$paymentBalance = $newDistributionRecord->{'payment_balance'};
 
-		$dailyDistributionEpoch += $oneDay;
-	} # while ($dailyDistributionEpoch < $currentDateTime->epoch())
+			} # foreach ( @{$paymentDocument->{'delivery'}}) 
+
+		} # if (defined $paymentDocument->{'delivery'}) {
+
+		$deliveryStartDateEpoch += $oneDay;
+
+	} # while ($deliveryStartDateEpoch < $currentDateTime->epoch())
+
+	$debug && print "\n";
+	if (defined $paymentDocument->{'recreate_daily_records'} 
+		&& $paymentDocument->{'recreate_daily_records'} eq 'True'
+	) {
+		# update the paymentRecord with recreate_daily_records as false
+		$paymentDocument->{'recreate_daily_records'}  = 'False';
+		$paymentCollection->save($paymentDocument);
+	}
 
 } #  while (my $paymentDocument = $paymentDocuments->next) 
 

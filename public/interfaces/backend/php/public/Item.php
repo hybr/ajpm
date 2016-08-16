@@ -101,48 +101,58 @@ class public_Item extends Base {
 				) 
 			) 
 		),
-			'price' => array (
-				'type' => 'container',
-				'show_in_list' => 0,
-				'fields' => array (
-					'for' => array (
-						'type' => 'list',
-						'help' => 'Purpose of this item',
-						'list_class' => 'ItemFor',
-						'input_mode' => 'selecting',
-						'show_in_list' => 1,
-						'default' => 'Make and Sale',
-						'required' => 1,
-						'searchable' => 1,
-					),							
-					'type' => array (
-						'type' => 'list',
-						'list_class' => 'ItemPriceType',
-						'input_mode' => 'clicking',
-						'default' => 'Amount',
-						'required' => 1  
-					),
-					'amount' => array (
-						'type' => 'number',
-						'required' => 1 
-					),
-					'currency' => array (
-						'type' => 'currency',
-						'required' => 1,
-						'default' => 'INR',
-						'searchable' => 1,
-					),						
-					'per' => array (
-						'type' => 'number',
-						'required' => 1,
-						'default' => 1
-					),
-					'per_unit' => array (
-						'type' => 'string',
-						'required' => 1
-					),							
-				) 
-			),
+		'price' => array (
+			'type' => 'container',
+			'show_in_list' => 0,
+			'fields' => array (
+				'for' => array (
+					'type' => 'list',
+					'help' => 'Purpose of this item',
+					'list_class' => 'ItemFor',
+					'input_mode' => 'selecting',
+					'show_in_list' => 1,
+					'default' => 'Make and Sale',
+					'required' => 1,
+					'searchable' => 1,
+				),							
+				'type' => array (
+					'type' => 'list',
+					'list_class' => 'ItemPriceType',
+					'input_mode' => 'clicking',
+					'default' => 'Amount',
+					'required' => 1  
+				),
+				'amount' => array (
+					'type' => 'number',
+					'required' => 1 
+				),
+				'currency' => array (
+					'type' => 'currency',
+					'required' => 1,
+					'default' => 'INR',
+					'searchable' => 1,
+				),						
+				'per' => array (
+					'type' => 'number',
+					'required' => 1,
+					'default' => 1
+				),
+				'per_unit' => array (
+					'type' => 'string',
+					'required' => 1
+				),							
+				'daily_distribution_charge_per_visit' => array (
+					'help' => 'This is charge applicable for daily distribution per visit',
+					'required' => 1,
+					'default' => 0,
+				),
+				'daily_distribution_charge_per_unit' => array (
+					'help' => 'This is charge applicable for daily distribution per unit',
+					'required' => 1,
+					'default' => 0,
+				),
+			) 
+		),
 			'service_hours' => array (
 				'help' => 'If this is a real service then provide the service hours of each provider.',
 				'type' => 'container',
@@ -194,23 +204,27 @@ class public_Item extends Base {
 					),
 				) 
 			),
-			'pre_requisites' => array (
-				'type' => 'container',
-				'show_in_list' => 0,
-				'fields' => array (
-					'mendatory' => array (
-						'type' => 'list',
-						'list_class' => 'Boolean',
-						'input_mode' => 'clicking',
-						'default' => 'False',
-						'required' => 1,
-					),							
-					'condition' => array (
-						'searchable' => 1,
-						'required' => 1,
-					),
-				) 
-			),
+		'pre_requisites' => array (
+			'type' => 'container',
+			'show_in_list' => 0,
+			'fields' => array (
+				'mendatory' => array (
+					'type' => 'list',
+					'list_class' => 'Boolean',
+					'input_mode' => 'clicking',
+					'default' => 'False',
+					'required' => 1,
+				),							
+				'condition' => array (
+					'searchable' => 1,
+					'required' => 1,
+				),
+			) 
+		),
+		'daily_distribution_report_password' => array (
+			'help' => 'This is needed to view the daily distribution report of this item',
+			'required' => 1,
+		),
 	); /* fields */
 	
 

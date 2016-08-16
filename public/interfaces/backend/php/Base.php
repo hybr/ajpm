@@ -1062,6 +1062,11 @@ class Base {
 				$rStr = $f->showForm ( $urlArgsArray, '/' . $this->collectionName . '/' . $method, $doc, $this->fields );
 			}
 			$rStr .= $this->showLinks ();
+			
+			if ($this->collectionName == 'item') {
+				$rStr .= '<hr />Reports: <a target="_blank" href="http://'.$_SESSION['url_domain'].'/common/didl.php?i='.$doc['_id'].'&p='.md5($doc['daily_distribution_report_password']).'">Item Daily Distribution Report</a>';
+			}
+
 			return $rStr;
 		}
 		array_push ( $this->errorMessage, 'Record does not exists' );
@@ -1159,7 +1164,7 @@ class Base {
 			$rStr .= $this->presentAllDocument ( $this->subTaskKeyToSave, $this->fields, $this->findCursor );
 		} else { /* Present All */
 			
-			$rStr .= '<table class="showTable">';
+			$rStr .= 'Use Ctrl + F to search a record. <table class="showTable">';
 			$rStr .= '<thead><tr>';
 			foreach ( $this->fields as $key => $val ) {
 				$field2 = array_merge ( $this->fieldDefault, $val );

@@ -48,8 +48,10 @@ class public_ItemDailyDistributionRecord extends Base {
 				'type' => 'string',
 				'required' => 1,
 		),			
-
-			
+		'delivery_location_code' => array (
+				'type' => 'string',
+				'required' => 1,
+		),			
 		'daily_quantity' => array (
 				'type' => 'number',
 				'required' => 1,
