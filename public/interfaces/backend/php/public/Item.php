@@ -153,57 +153,57 @@ class public_Item extends Base {
 				),
 			) 
 		),
-			'service_hours' => array (
-				'help' => 'If this is a real service then provide the service hours of each provider.',
-				'type' => 'container',
-				'show_in_list' => 0,
-				'fields' => array (
-					'provider' => array (
-						'type' => 'foreign_key',
-						'foreign_collection' => 'person',
-						'foreign_search_fields' => 'name.first,name.middle,name.last',
-						'foreign_title_fields' => 'name,gender'
-					),
-					'every' => array (
-						'type' => 'number' ,
-						'required' => 1,  
-					),
-					'frequency' => array (
-						'type' => 'list',
-						'list_class' => 'TimeRepeatFrequency',
-						'input_mode' => 'selecting',
-						'default' => 'Day',
-						'required' => 1,  
-					),
-					'start_date' => array (
-						'type' => 'date' ,
-						'required' => 1,  
-					),
-					'start_time' => array (
-						'type' => 'time' ,
-						'required' => 1,  
-					),
-					'duration' => array (
-						'type' => 'number' ,
-						'required' => 1,  
-					),
-					'duration_unit' => array (
-						'type' => 'list',
-						'list_class' => 'TimeRepeatFrequency',
-						'input_mode' => 'selecting',
-						'default' => 'Hour',
-						'required' => 1,  
-					),
-					'end_date' => array (
-						'type' => 'date' ,
-						'required' => 1,  
-					),
-					'end_time' => array (
-						'type' => 'time' ,
-						'required' => 1,  
-					),
-				) 
-			),
+		'service_hours' => array (
+			'help' => 'If this is a real service then provide the service hours of each provider.',
+			'type' => 'container',
+			'show_in_list' => 0,
+			'fields' => array (
+				'provider' => array (
+					'type' => 'foreign_key',
+					'foreign_collection' => 'person',
+					'foreign_search_fields' => 'name.first,name.middle,name.last',
+					'foreign_title_fields' => 'name,gender'
+				),
+				'every' => array (
+					'type' => 'number' ,
+					'required' => 1,  
+				),
+				'frequency' => array (
+					'type' => 'list',
+					'list_class' => 'TimeRepeatFrequency',
+					'input_mode' => 'selecting',
+					'default' => 'Day',
+					'required' => 1,  
+				),
+				'start_date' => array (
+					'type' => 'date' ,
+					'required' => 1,  
+				),
+				'start_time' => array (
+					'type' => 'time' ,
+					'required' => 1,  
+				),
+				'duration' => array (
+					'type' => 'number' ,
+					'required' => 1,  
+				),
+				'duration_unit' => array (
+					'type' => 'list',
+					'list_class' => 'TimeRepeatFrequency',
+					'input_mode' => 'selecting',
+					'default' => 'Hour',
+					'required' => 1,  
+				),
+				'end_date' => array (
+					'type' => 'date' ,
+					'required' => 1,  
+				),
+				'end_time' => array (
+					'type' => 'time' ,
+					'required' => 1,  
+				),
+			) 
+		),
 		'pre_requisites' => array (
 			'type' => 'container',
 			'show_in_list' => 0,
@@ -216,6 +216,22 @@ class public_Item extends Base {
 					'required' => 1,
 				),							
 				'condition' => array (
+					'searchable' => 1,
+					'required' => 1,
+				),
+			) 
+		),
+		'after_sale_information' => array (
+			'help' => 'This information is provided after the sale of product along with the invoice.',
+			'type' => 'container',
+			'show_in_list' => 0,
+			'fields' => array (
+				'title' => array (
+					'searchable' => 1,
+					'required' => 1,
+				),							
+				'detail' => array (
+					'type' => 'textarea',
 					'searchable' => 1,
 					'required' => 1,
 				),
