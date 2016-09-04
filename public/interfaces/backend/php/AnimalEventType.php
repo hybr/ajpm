@@ -23,6 +23,14 @@ class AnimalEventType extends Base {
 					'title' => 'Sell'
 			),
 			array (
+					'value' => 'Returned',
+					'title' => 'Returned'
+			),
+			array (
+					'value' => 'Released',
+					'title' => 'Released'
+			),
+			array (
 					'value' => 'Birth',
 					'title' => 'Birth'
 			),			
@@ -33,6 +41,18 @@ class AnimalEventType extends Base {
 			array (
 					'value' => 'Health',
 					'title' => 'Health'
+			),
+			array (
+					'value' => 'In Heat',
+					'title' => 'In Heat'
+			),
+			array (
+					'value' => 'Got Crossed',
+					'title' => 'Got Crossed'
+			),
+			array (
+					'value' => 'Delivered Baby',
+					'title' => 'Delivered Baby'
 			),
 	);
 }

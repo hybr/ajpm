@@ -1,9 +1,9 @@
 <?php
 require_once SERVER_SIDE_LIB_DIR . DIRECTORY_SEPARATOR . "Base.php";
-class public_AnimalEvent extends Base {
+class public_AnimalProduction extends Base {
 		
 	function __construct() {
-		$this->collectionName = 'animal_event';
+		$this->collectionName = 'animal_production';
 	} /* __construct */
 	public $fields = array (
 		'date' => array (
@@ -18,10 +18,10 @@ class public_AnimalEvent extends Base {
                 'type' => array (
                         'type' => 'list',
 			'required' => 1,
-                        'list_class' => 'AnimalEventType',
+                        'list_class' => 'AnimalProductionType',
                         'input_mode' => 'selecting',
                         'show_in_list' => 1,
-                        'default' => 'Health',
+                        'default' => 'Milk',
 			'searchable' => 1,				
                 ),
 		'animal' => array (
@@ -33,41 +33,16 @@ class public_AnimalEvent extends Base {
 			'required' => 1,
 			'searchable' => 1,				
 		),
-		'crossed_by_animal' => array (
-			'help' => 'If this is Got Crossed record add male animal here',
-			'type' => 'foreign_key',
-			'foreign_collection' => 'animal',
-			'foreign_search_fields' => 'name,tag_number,type',
-			'foreign_title_fields' => 'name,tag_number,type',
-			'searchable' => 1,				
-		),
-		'delivered_animal' => array (
-			'help' => 'If this is Delivered Baby record add child animal here',
-			'type' => 'foreign_key',
-			'foreign_collection' => 'animal',
-			'foreign_search_fields' => 'name,tag_number,type',
-			'foreign_title_fields' => 'name,tag_number,type',
-			'searchable' => 1,				
-		),
-		'detail' => array (
-			'type' => 'string',
-			'searchable' => 1,
+		'quantity' => array (
+			'type' => 'number',
 			'show_in_list' => 1,
 		),
-		'medicin' => array (
+		'quantity_unit' => array (
 			'type' => 'string',
-			'searchable' => 1,
 			'show_in_list' => 1,
 		),			
-		'cost' => array (
-			'type' => 'number',
-		),
-		'currency' => array (
-			'type' => 'currency',
-			'default' => 'INR'
-		),
-                'providers' => array (
-			'help' => 'Persons who helped or worked for this event',
+                'worker' => array (
+			'help' => 'Persons who helped or worked for this production',
                         'type' => 'container',
                         'fields' => array (
 				'name' => array (
@@ -79,6 +54,21 @@ class public_AnimalEvent extends Base {
 				),		
                         )
                 ),
+                'used_for' => array (
+			'help' => 'This product of animal will be used for making of following items',
+                        'type' => 'container',
+                        'fields' => array (
+                		'item' => array (
+		                        'help' => 'Item which will be produced from this product',
+		                        'type' => 'foreign_key',
+		                        'show_in_list' => 1,
+		                        'foreign_collection' => 'item',
+		                        'foreign_search_fields' => 'title,summary',
+		                        'foreign_title_fields' => 'type,title',
+		                ),
+                        )
+                ),
+
 
 	); /* fields */	
 

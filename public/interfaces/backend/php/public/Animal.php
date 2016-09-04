@@ -12,19 +12,27 @@ class public_Animal extends Base {
 			'searchable' => 1,
 		),
 		'tag_number' => array (
-			'type' => 'string',
+			'type' => 'number',
 			'show_in_list' => 1,
 			'required' => 1,
 			'searchable' => 1,
 		),
-		'mother_tag_number' => array (
-			'type' => 'string',
-			'show_in_list' => 1,
-				
-		),
-		'birth_date' => array (
-			'type' => 'date' ,
-		),
+                'mother' => array (
+                        'type' => 'foreign_key',
+                        'foreign_collection' => 'animal',
+                        'foreign_search_fields' => 'name,tag_number,type',
+                        'foreign_title_fields' => 'name,tag_number,type',
+                        'show_in_list' => 1,
+                        'searchable' => 1,
+                ),
+                'father' => array (
+                        'type' => 'foreign_key',
+                        'foreign_collection' => 'animal',
+                        'foreign_search_fields' => 'name,tag_number,type',
+                        'foreign_title_fields' => 'name,tag_number,type',
+                        'show_in_list' => 1,
+                        'searchable' => 1,
+                ),
 		'type' => array (
 				'help' => 'Select the gender and type of animal',
 				'type' => 'list',
@@ -53,57 +61,20 @@ class public_Animal extends Base {
 						)
 				)
 		) ,
-		
-		'purchased' => array(
-			'type' => 'container',
-			'fields' => array (
-				'date' => array (
-					'type' => 'date' ,
-				),
-				'cost' => array (
-					'type' => 'number' ,
-				),
-				'from' => array (
-					'type' => 'foreign_key',
-					'foreign_collection' => 'person',
-					'foreign_search_fields' => 'name.first,name.middle,name.last',
-					'foreign_title_fields' => 'name,gender',
-					'show_in_list' => 1,
-					'searchable' => 1,
-				),
-				'contact' => array (
-					'type' => 'foreign_key',
-					'foreign_collection' => 'contact',
-					'foreign_search_fields' => 'location,medium,phone_number,fax_number,pager_number,voip_number,email_address,city,pin_or_zip,area,street,home_or_building',
-					'foreign_title_fields' => 'location,medium,phone_number,fax_number,pager_number,voip_number,email_address,city,pin_or_zip,area,street,home_or_building'
-				),					
-			),
-		),
-		'sold' => array(
-			'type' => 'container',
-			'fields' => array (
-				'date' => array (
-						'type' => 'date' ,
-				),
-				'cost' => array (
-						'type' => 'number' ,
-				),
-				'to' => array (
-						'type' => 'foreign_key',
-						'foreign_collection' => 'person',
-						'foreign_search_fields' => 'name.first,name.middle,name.last',
-						'foreign_title_fields' => 'name,gender',
-						'show_in_list' => 1,
-						'searchable' => 1,
-				),
-				'contact' => array (
-						'type' => 'foreign_key',
-						'foreign_collection' => 'contact',
-						'foreign_search_fields' => 'location,medium,phone_number,fax_number,pager_number,voip_number,email_address,city,pin_or_zip,area,street,home_or_building',
-						'foreign_title_fields' => 'location,medium,phone_number,fax_number,pager_number,voip_number,email_address,city,pin_or_zip,area,street,home_or_building'
-				),
-			),
-		),						
+                'owners' => array (
+                        'help' => 'Persons who own this animal',
+                        'type' => 'container',
+                        'fields' => array (
+                                'name' => array (
+                                        'type' => 'foreign_key',
+                                        'foreign_collection' => 'person',
+                                        'foreign_search_fields' => 'name.first,name.middle,name.last',
+                                        'foreign_title_fields' => 'name,gender',
+                                        'searchable' => 1,
+                                ),
+                        )
+                ),
+
 	); /* fields */	
 
 } /* class */
