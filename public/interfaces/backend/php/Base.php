@@ -394,6 +394,14 @@ class Base {
 			}
 		}
 		
+		if ($attributes ['type'] == 'number') {
+			if ($direction == 'before_save') {
+				$nv = floatval ( $value );
+			}
+			if ($direction == 'after_read') {
+				$nv = floatval ( $value );
+			}
+		}
 		if ($attributes ['type'] == 'date') {
 			if ($direction == 'before_save') {
 				$nv = new MongoDate ( strtotime ( $value ) );
@@ -1041,6 +1049,9 @@ class Base {
 
 			$doc = $this->processFieldsForPresentationAndStorage ( 'after_read', $this->fields, $doc, 1 );
 			
+			if ($this->collectionName == 'item') {
+				$rStr .= '<hr />Reports: <a target="_blank" href="http://'.$_SESSION['url_domain'].'/common/didl.php?i='.$doc['_id'].'&p='.md5($doc['daily_distribution_report_password']).'">Item Distribution Report</a>';
+			}
 			if ($this->curlsMode == 'Present') {
 				$rStr .= $this->presentDocument ( $this->subTaskKeyToSave, $this->fields, $doc );
 			} elseif ($this->curlsMode == 'Present Json') {
@@ -1064,7 +1075,7 @@ class Base {
 			$rStr .= $this->showLinks ();
 			
 			if ($this->collectionName == 'item') {
-				$rStr .= '<hr />Reports: <a target="_blank" href="http://'.$_SESSION['url_domain'].'/common/didl.php?i='.$doc['_id'].'&p='.md5($doc['daily_distribution_report_password']).'">Item Daily Distribution Report</a>';
+				$rStr .= '<hr />Reports: <a target="_blank" href="http://'.$_SESSION['url_domain'].'/common/didl.php?i='.$doc['_id'].'&p='.md5($doc['daily_distribution_report_password']).'">Item Distribution Report</a>';
 			}
 
 			return $rStr;
@@ -1150,6 +1161,9 @@ class Base {
 		
 		
 		$rStr = '<div class="ui-widget">'; /* main */
+		if ($this->collectionName == 'animal_event') {
+			$rStr .= '<hr />Reports: <a target="_blank" href="http://admin.'.$_SESSION['url_domain'].'/common/ar.php'.'">Animal Events Report</a>';
+		}
  		$rStr .= '<div class="ui-widget-header ui-corner-top jpmHeaderPadding">'
 			. $this->getFormTitle () .'</div>';
 		$rStr .= '<div class="ui-widget-content ui-corner-bottom jpmContentPadding">'; /* widget content */
@@ -1210,6 +1224,9 @@ class Base {
  		$rStr .= '</div>'; /* widget content */
 		$this->record = array ();
 		$rStr .= $this->showLinks ();
+		if ($this->collectionName == 'animal_event') {
+			$rStr .= '<hr />Reports: <a target="_blank" href="http://admin.'.$_SESSION['url_domain'].'/common/ar.php'.'">Animal Events Report</a>';
+		}
 		$rStr .= '</div>'; /* main */
 		return $rStr;
 	}

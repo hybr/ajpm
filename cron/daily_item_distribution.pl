@@ -5,10 +5,14 @@ use warnings;
 use Data::Dumper; 
 use MongoDB;
 use MongoDB::OID;
+use Getopt::Long;
 
 my $debug = 0;
 my $debugRecord = 0;
-
+my $runForLocation = 'all';
+my $recreate = 0;
+GetOptions ('debug' => \$debug, 'debugrecord' => \$debugRecord, 'location=s' => \$runForLocation, 'recreate' => \$recreate);
+$debug && print "\n\n runForLocation = " . $runForLocation;
 
 # my $conection = MongoDB->connect('mongodb://localhost');
 my $connection = MongoDB::Connection->new ();
@@ -161,10 +165,7 @@ sub applyPaymentToNewRecord {
 		}
 	}
 	if ($newDistributionRecord->{'paid_as_advance'} eq 'False') {
-		$newDistributionRecord->{'other_amount'} -=  $paymentDocument->{'paid_amount'};
 		$newDistributionRecord->{'other_amount_explanation'} .=  'Advance payment of current month, ';
-	#} else {
-		# $newDistributionRecord->{'other_amount'} +=  $paymentDocument->{'paid_amount'};
 	}
 	# Remove last comma and space
 	$newDistributionRecord->{'other_amount_explanation'} =  substr($newDistributionRecord->{'other_amount_explanation'}, 0, -2);
@@ -230,7 +231,7 @@ sub applyItemPriceToNewRecord {
 }
 
 sub applyExceptionToNewRecord {
-	my ($newDistributionRecord, $paymentId,  $deliveryStartDateEpoch) = @_;
+	my ($newDistributionRecord, $paymentId,  $distributionOverAllStartDateEpoch) = @_;
 
 	my $anyExceptionForToday = 0;
 
@@ -243,8 +244,8 @@ sub applyExceptionToNewRecord {
 		my $exceptionEndDateTime = getDt($exceptionDocument->{'end_date'}, 'exception end date');
 
 		# check if this exception is valid
-		if ($deliveryStartDateEpoch >= $exceptionStartDateTime->epoch() 
-			&& $deliveryStartDateEpoch <= $exceptionEndDateTime->epoch()) {
+		if ($distributionOverAllStartDateEpoch >= $exceptionStartDateTime->epoch() 
+			&& $distributionOverAllStartDateEpoch <= $exceptionEndDateTime->epoch()) {
 			$debug && print "\n\n--------------- found exception";
 			$anyExceptionForToday = 1;
 
@@ -283,6 +284,10 @@ sub applyExceptionToNewRecord {
 			}
 
 			if (defined $exceptionDocument->{'delivery_quantity'} && $exceptionDocument->{'delivery_quantity'} ne '') {
+				$debug && print "\n\n--------------- quantity exception from " 
+					. $newDistributionRecord->{'delivery_quantity'} . ' to ' 
+					. $exceptionDocument->{'delivery_quantity'};
+				$newDistributionRecord->{'orig_delivery_quantity'} = $newDistributionRecord->{'delivery_quantity'};
 				$newDistributionRecord->{'delivery_quantity'} = $exceptionDocument->{'delivery_quantity'};
 			}
 
@@ -302,7 +307,7 @@ sub applyExceptionToNewRecord {
 }
 
 sub createNewRecord {
-	my ($paymentDocument, $deliveryRecord, $itemRateSubRecord, $paymentBalance, $deliveryStartDateEpoch) = @_;
+	my ($paymentDocument, $deliveryRecord, $itemRateSubRecord, $paymentBalance, $distributionOverAllStartDateEpoch) = @_;
 
 	my $newDistributionRecord->{'instructions'} = '';
 
@@ -325,11 +330,11 @@ sub createNewRecord {
 	$newDistributionRecord = applyExceptionToNewRecord (
 		$newDistributionRecord, 
 		$paymentDocument->{'_id'},  
-		$deliveryStartDateEpoch
+		$distributionOverAllStartDateEpoch
 	);
 
 	$newDistributionRecord->{'date'} = DateTime->from_epoch(
-                epoch   => $deliveryStartDateEpoch
+                epoch   => $distributionOverAllStartDateEpoch
 	);
 	
 	$newDistributionRecord->{'payment_balance'} = $paymentBalance - getDailyCostFromNewRecordDoc($newDistributionRecord, $itemRateSubRecord);
@@ -455,24 +460,58 @@ my $paymentDocuments = $paymentCollection->find();
 my $currentDateTime = DateTime->now;
 my $oneDay = 60 * 60 * 24; # seconds in a day
 
+# iterate over each payment document
 while (my $paymentDocument = $paymentDocuments->next) {
 	$debug && print "\n\n============================================================================";
+	my $customerRecord = getCustomerRecord ($paymentDocument->{'paid_by'});
 
-	# iterate over each document
+	# either run for all locations for for debugging purpose run for a single location
+	# delivery_location_code
+	my $locationValidToProcess = 1;
+	if (defined $paymentDocument->{'delivery'}
+		&& ref($paymentDocument->{'delivery'}) eq 'ARRAY'
+	) {
+		foreach my $deliveryRecord ( @{$paymentDocument->{'delivery'}} ) {
+			if (defined $deliveryRecord->{'location_code'}
+				&& $runForLocation ne 'all' 
+				&& $deliveryRecord->{'location_code'} ne $runForLocation
+			) {
+				$debug && print "\n\n--------------- Processing not requested for " . $deliveryRecord->{'location_code'};
+				$locationValidToProcess = 0;
+			}
+		} # foreach my $deliveryRecord ( @{$paymentDocument->{'delivery'}} ) 
+	} else {
+		if ($paymentDocument->{'instructions'} ne '') {
+			$paymentDocument->{'instructions'} .= ' ,';
+		}
+		$paymentDocument->{'instructions'} .= 'Delivery section is not defined';
+	}
+	if (!$locationValidToProcess) { 
+		next; 
+	}
+
 	$debugRecord && print "\n\n--------------- Payment Record: " . Dumper($paymentDocument);
 
 	# Find if this payment distribution is complete. If complete then go for next advance payment
-	paymentDistributionIsComplete($paymentDocument) && next; 
+	if (paymentDistributionIsComplete($paymentDocument)) {
+		$debug && print "\n\n--------------- Distribution is marked as complete";
+		next; 
+	}
 
 	# Calculate disrtibution start date time
-	my $startDateTime = getDt($paymentDocument->{'start_date'}, 'distribution start date');
+	my $distributionOverAllStartDate = getDt($paymentDocument->{'start_date'}, 'Distribution start date');
 
 	# If start date is not arrived then go for next payment
-	startDateIsNotArrived ($startDateTime, $currentDateTime) && next;
-	$debug && print "\n\n--------------- Start date arrived";
+	if (startDateIsNotArrived ($distributionOverAllStartDate, $currentDateTime)) {
+		$debug && print "\n\n--------------- Start date is not arrived";
+		next;
+	}
 
 	# Payment balance
-	my $paymentBalance = $paymentDocument->{'paid_amount'};
+	my $paymentBalance = 0;
+	if ($paymentDocument->{'paid_as_advance'} eq 'True') {
+		$paymentBalance = $paymentDocument->{'paid_amount'};
+	}
 	$debug && print "\n\n--------------- Paid Amount: " . $paymentBalance;
 	
 	my $itemRateSubRecord = getItemRateRecord($paymentDocument->{'item'});
@@ -481,29 +520,32 @@ while (my $paymentDocument = $paymentDocuments->next) {
 	# We do not know the quantity yet until we iterate over delivery record
 	# balanceIsNotSufficientFromDoc( $paymentBalance, $paymentDocument, $itemRateSubRecord) && next;
 
-	my $customerRecord = getCustomerRecord ($paymentDocument->{'paid_by'});
 	
 	# force recreation of all current records
-	# $paymentDocument->{'recreate_daily_records'} = 'True';
+	if ($recreate) {
+		print "\nRunning with recreate daily records\n";
+		$paymentDocument->{'recreate_daily_records'} = 'True';
+	}
 	
 	toRecreateAllRecordsDeleteAllOldRecordsForThisPayment($paymentDocument);
 	
 	# daily distribution date counter
-	my $deliveryStartDateEpoch = $startDateTime->epoch();
-	$debug && print "\n\n--------------- start date epoch: " . $deliveryStartDateEpoch;
+	my $distributionOverAllStartDateEpoch = $distributionOverAllStartDate->epoch();
+	$debug && print "\n\n--------------- start date epoch: " . $distributionOverAllStartDateEpoch;
 	$debug && print "\n\n--------------- current date epoch: " . $currentDateTime->epoch();
 
 	my $newDistributionRecord = {};
 
 	# main loop to create each day records
-	while ($deliveryStartDateEpoch <= ($currentDateTime->epoch() + $oneDay))	{
-		$debug && print "\n\n--------------- start date" . DateTime->from_epoch( epoch   => $deliveryStartDateEpoch);
-		$debug && print "\n\n--------------- current date" . DateTime->from_epoch( epoch   => ($currentDateTime->epoch() + $oneDay));
+	while ($distributionOverAllStartDateEpoch <= ($currentDateTime->epoch() + $oneDay))	{
+		$debug && print "\n\n--------------- main loop LHS <= RHS " 
+			. DateTime->from_epoch(epoch => $distributionOverAllStartDateEpoch)
+			. " <= " . DateTime->from_epoch(epoch => ($currentDateTime->epoch()+$oneDay));
 
 		$debug && print "\n\n--------------- recreate_daily_records :" . $paymentDocument->{'recreate_daily_records'};
 
 		my $distributionRecordsDocument = 
-			getOldDistributionRecord($paymentDocument->{'_id'}, $deliveryStartDateEpoch);
+			getOldDistributionRecord($paymentDocument->{'_id'}, $distributionOverAllStartDateEpoch);
 
 
 		# if distribution record exists do not create new
@@ -511,20 +553,47 @@ while (my $paymentDocument = $paymentDocuments->next) {
 		# in that case it will ceaet new record
 		# as we are running this script every 10 minutes so create if not created earlier
 		if (defined $distributionRecordsDocument) {
-			$deliveryStartDateEpoch += $oneDay;
+			$debug && print "\n\n--------------- distributionRecordsDocument exist";
+			$distributionOverAllStartDateEpoch += $oneDay;
+			$debug && print "\n\n--------------- increasing distributionOverAllStartDateEpoch 1 "; 
+			$paymentBalance = $distributionRecordsDocument->{'payment_balance'};
 			next; # next delivery record
 		}
 
-		$debug && print "\n\n--------------- this distribution record does not exists";
+		$debug && print "\n\n--------------- this distribution record does not exists. Let's create it.";
 
 		if (defined $paymentDocument->{'delivery'}) {
 			$debug && print "\n\n--------------- delivery sub record exist";
 
 			foreach my $deliveryRecord ( @{$paymentDocument->{'delivery'}} ) {
+				$debug && print "\n\n--------------- delivery location date" . $deliveryRecord->{'location'};
+				my $deliveryStartDate = $distributionOverAllStartDate;
+				my $deliveryStartDateEpoch = $distributionOverAllStartDate->epoch();
+				if (defined $deliveryRecord->{'start_date'}) {
+					$deliveryStartDate = getDt($deliveryRecord->{'start_date'}, 'delivery start date');
+					$deliveryStartDateEpoch = $deliveryStartDate->epoch();
+				}
+
+				my $deliveryEndDate = $currentDateTime;
+				my $deliveryEndDateEpoch = $currentDateTime->epoch();
+				if (defined $deliveryRecord->{'end_date'}) {
+					$deliveryEndDate = getDt($deliveryRecord->{'end_date'}, 'delivery end date');
+					$deliveryEndDateEpoch = $deliveryEndDate->epoch();
+				}
+
+				$debug && print "\n\n--------------- delivery check distributionOverAllStartDateEpoch " 
+					. "\ncurrentDateTime                   = " . $currentDateTime->epoch()
+					. "\ndeliveryStartDateEpoch            = " . $deliveryStartDateEpoch
+					. "\ndistributionOverAllStartDateEpoch = " . $distributionOverAllStartDateEpoch
+					. "\ndeliveryEndDateEpoch              = " . $deliveryEndDateEpoch
+					. "\nrecreate_daily_records            = " . $paymentDocument->{'recreate_daily_records'}
+				;
+
 
 				if ( defined $paymentDocument->{'recreate_daily_records'}
 					&& $paymentDocument->{'recreate_daily_records'} eq 'False' 
-					&& $deliveryStartDateEpoch > ($currentDateTime->epoch() + $oneDay)
+					&& (!($currentDateTime->epoch()) <= $distributionOverAllStartDateEpoch 	
+					&& $distributionOverAllStartDateEpoch <= ($currentDateTime->epoch() + $oneDay))
 				) {
 					# recreate == true
 					# 	create new record
@@ -533,10 +602,14 @@ while (my $paymentDocument = $paymentDocuments->next) {
 					# my $cmp = DateTime->compare($dt1, $dt2);
 					# $cmp is -1, 0 or 1, depending on whether $dt1 is less than, equal to, or more than $dt2.
 					$paymentBalance = $distributionRecordsDocument->{'payment_balance'};
-					$deliveryStartDateEpoch += $oneDay;
+					$distributionOverAllStartDateEpoch += $oneDay;
+					# $debug && print "\n\n--------------- increasing distributionOverAllStartDateEpoch 3"; 
 					$debug && print "\n\n--------------- go to next record (only today record will be created)";
 					next; # Go to next day
 				}
+				
+
+				$debug && print "\n\n--------------- start date epoch: " . $distributionOverAllStartDateEpoch;
  				
 				# Create the new distribution record
 				$newDistributionRecord = createNewRecord (
@@ -544,24 +617,62 @@ while (my $paymentDocument = $paymentDocuments->next) {
 					$deliveryRecord, 
 					$itemRateSubRecord, 
 					$paymentBalance,
-					$deliveryStartDateEpoch
+					$distributionOverAllStartDateEpoch
 				);
 				$debug && print "\n\n--------------- newDistributionRecord created "; 
 				$debugRecord && print "\n\n--------------- New Distribution Record: " . Dumper($newDistributionRecord);
-				$debug && print "\n\n--------------- New Distribution Record: " . Dumper($newDistributionRecord);
  				
 				$debug && print "\n" . $newDistributionRecord->{'delivery_location'} 
 					. ' | payment_balance ' . $newDistributionRecord->{'payment_balance'}
 					. ' | delivery_quantity ' . $newDistributionRecord->{'delivery_quantity'}
+					. ' | location code ' . $newDistributionRecord->{'delivery_location_code'}
 					. ' | ' . $newDistributionRecord->{'date'}
 				;
  				
- 				# Do not create daily records as no funds
-				if ($newDistributionRecord->{'payment_balance'} <= 0) {
-					next;
+				if (!($deliveryStartDateEpoch <= $distributionOverAllStartDateEpoch
+					&& $distributionOverAllStartDateEpoch <= $deliveryEndDateEpoch)) {
+					# The start time for delivery sub record (Sr) has not arrived yet
+					$newDistributionRecord->{'delivery_quantity'} = 0;
+					if ($newDistributionRecord->{'instructions'} ne '') {
+						$newDistributionRecord->{'instructions'} .= ' ,';
+					}
+					$newDistributionRecord->{'instructions'} .= 'Delivery date not applicable';
+					$newDistributionRecord->{'payment_balance'} = $paymentBalance; 
+					$debug && print "\n\n--------------- this delivery record is not effective";
+					# next; # Go to next day
 				}
 
+ 				# Do not save daily records if no funds
+ 				# Decided to save the records with 0 quantity and a note
+				if ($newDistributionRecord->{'payment_balance'} < 0) {
+					$debug && print "\n\n--------------- newDistributionRecord NOT saved as payment is less"; 
+					$paymentBalance = $newDistributionRecord->{'payment_balance'};
+					# $newDistributionRecord->{'delivery_quantity'} = 0;
+					if ($newDistributionRecord->{'paid_as_advance'} eq 'True') {
+						if ($newDistributionRecord->{'instructions'} ne '') {
+							$newDistributionRecord->{'instructions'} .= ' ,';
+						}
+						$newDistributionRecord->{'instructions'} .= 'Advance Payment Completed';
+					}
+					# next;
+				}
 
+				# delivery start date
+				#if (defined $deliveryRecord->{'start_date'} && defined $deliveryRecord->{'end_date'}) {
+				#	my $deliverySrStartDate = getDt($deliveryRecord->{'start_date'}, 'Delivery start date');
+				#	my $deliverySrEndDate = getDt($deliveryRecord->{'end_date'}, 'Delivery end date');
+				#	my $deliverySrStartDateEpoch = $deliverySrStartDate->epoch();
+				#	my $deliverySrEndDateEpoch = $deliverySrEndDate->epoch();
+				#	if (!($deliverySrStartDateEpoch <= $distributionOverAllStartDateEpoch
+				#		&& $deliverySrEndDateEpoch >= $distributionOverAllStartDateEpoch)
+				#	) {
+				#		# The start time for delivery sub record (Sr) has not arrived yet
+				#		$newDistributionRecord->{'delivery_quantity'} = 0;
+				#		$newDistributionRecord->{'instructions'} = 'Delivery date not applicable';
+				#		$newDistributionRecord->{'payment_balance'} = $paymentBalance; 
+				#	}
+				#}
+	
 				# Save the record
 				$recordCollection->save($newDistributionRecord);
 				$debug && print "\n\n--------------- newDistributionRecord saved "; 
@@ -574,9 +685,10 @@ while (my $paymentDocument = $paymentDocuments->next) {
 
 		} # if (defined $paymentDocument->{'delivery'}) {
 
-		$deliveryStartDateEpoch += $oneDay;
+		$distributionOverAllStartDateEpoch += $oneDay;
+		$debug && print "\n\n--------------- increasing distributionOverAllStartDateEpoch 4"; 
 
-	} # while ($deliveryStartDateEpoch < $currentDateTime->epoch())
+	} # while ($distributionOverAllStartDateEpoch < $currentDateTime->epoch())
 
 	$debug && print "\n";
 	if (defined $paymentDocument->{'recreate_daily_records'} 

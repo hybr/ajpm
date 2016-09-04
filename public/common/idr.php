@@ -114,11 +114,12 @@ debugPrintArray($urlArgsArray,'urlArgsArray');
 		echo $value['location'] . ' | ';
 	}
 
-	echo '<br />Payment: <b>' . $paymentRecord['paid_amount'] .  ' ' . $paymentRecord['paid_amount_currency']  . '</b>';
+	echo '<br />Payment: ';
 	if ($paymentRecord['paid_as_advance'] == 'True') {
-		echo ' (payment is paid as advance on '. date('D Y-M-d',$paymentRecord['paid_date']->sec) . ')';
+		echo '<b>' . $paymentRecord['paid_amount'] .  ' ' . $paymentRecord['paid_amount_currency']  . '</b>';
+		echo getColoredText(' payment is paid on '. date('D Y-M-d',$paymentRecord['paid_date']->sec), 'green');
 	} else {
-		echo '( <font color="red"><u><b>advance payment is pending</b></u></font> )';
+		echo getColoredText('<b>advance payment is pending</b>', 'red');
 	}
 
 	$distributionRecordsCursor = $_SESSION ['mongo_database']
@@ -148,43 +149,67 @@ debugPrintArray($urlArgsArray,'urlArgsArray');
 	<tbody>
 <?php
 	$due = 0;
+	$totalQuantity = 0;
+	$totalQuantityUnit = '';
 	$explanation = '';
 	foreach ( $distributionRecordsCursor as $doc ) {
-		echo '<tr><td>' . date('Y-M-d D', $doc['date']->sec);
-		echo '</td><td>' . date('H:i', $doc['delivery_distribution_time']->sec);
-		echo '</td><td>' . $doc['delivery_quantity'] . ' ' . $doc['delivery_quantity_unit'];
+		if (strpos($doc['instructions'], 'Delivery date not applicable') !== false) { continue; }
 
-		echo '</td><td>' . $doc['ipsr_amount'] . ' ' . $doc['ipsr_amount_currency'] . ' per ' 
+		/* <th>Date</th> */
+		echo '<tr><td>' . date('Y-M-d D', $doc['date']->sec);
+
+		/* <th>Time</th> */
+		echo '</td><td>' . date('H:i', $doc['delivery_distribution_time']->sec);
+
+		/* <th>Quantity</th> */
+		echo '</td><td>' . number_format($doc['delivery_quantity'], 1, '.', '') . ' ' . $doc['delivery_quantity_unit'];
+		$totalQuantity += $doc['delivery_quantity'];
+		$totalQuantityUnit = $doc['delivery_quantity_unit'];
+
+		/* <th>Rate</th> */
+		echo '</td><td>' . number_format($doc['ipsr_amount'], 2, '.', '') . ' ' . $doc['ipsr_amount_currency'] . ' per ' 
 			. $doc['ipsr_quantity'] . ' ' . $doc['ipsr_quantity_unit'];
-		echo '</td><td>' . ($doc['ipsr_amount']/$doc['ipsr_quantity']) * $doc['delivery_quantity'] 
+
+		/* <th>Cost</th> */
+		echo '</td><td>' . number_format((($doc['ipsr_amount']/$doc['ipsr_quantity']) * $doc['delivery_quantity']), 2, '.', '') 
 			. ' ' . $doc['ipsr_amount_currency'];
-		echo '</td><td>' . ($doc['ipsr_daily_distribution_charge_per_visit'] 
-			+ ($doc['ipsr_daily_distribution_charge_per_unit'] * $doc['delivery_quantity'])) . ' ' . $doc['ipsr_amount_currency'];
-		echo '</td><td>' . $doc['payment_balance'] . ' ' . $doc['ipsr_amount_currency'];
+
+		/* <th>Charge</th> */
+		echo '</td><td>' . number_format(($doc['ipsr_daily_distribution_charge_per_visit'] 
+			+ ($doc['ipsr_daily_distribution_charge_per_unit'] * $doc['delivery_quantity'])), 2, '.', '') 
+			. ' ' . $doc['ipsr_amount_currency'];
+
+		/* <th>Balance</th> */
+		echo '</td><td>' . number_format($doc['payment_balance'], 2, '.', '') . ' ' . $doc['ipsr_amount_currency'];
+
+		/* <th>Notes</th> */
 		echo '</td><td>' . $doc['instructions'];
+
 		echo '</td></tr>';
-		$due = $doc['other_amount'];
+		$due = $doc['other_amount'] + $doc['payment_balance'];
 		$explanation = $doc['other_amount_explanation'];
 	}
 ?>
 	</tbody>
 </table>
-</br />
-Our distribution details show one day advance for your and our planning purpose.
-<br />
-<?php if ($due >= 0) { ?>
-	<span style="color: green;">
-<?php } else { ?>
-	<span style="color: red;">
-<?php } ?>
-	Due Amount: <b><?php echo $due; ?> <?php echo $paymentRecord['paid_amount_currency']; ?></b>
-	<?php echo $explanation; ?>
-</span>
+<br />Our distribution details show one day advance for your and our planning purpose.
+<br />Total quantity distributed : <?php echo $totalQuantity . ' ' . $totalQuantityUnit; ?>
 
-<hr />
-<b>Payment Methods</b><ul>
+<br />
+<?php 
+        $dueText = 'Due';
+        if ($due > 0) $dueText = 'Extra';
+	echo getAlertText(
+		$dueText . ' Amount: <b> ' . $due . ' ' . $paymentRecord['paid_amount_currency'] . '</b><ol><li>' . str_replace(',','</li><li>',$explanation) . '</li></ol>', 
+		($due < 0 )
+	);
+ ?>
+
+<hr /><b>Payment Methods</b><br />
+Customer can pay the advance payment via any of the following methods<ul>
 <?php
         $paymentReceivingMethods = $_SESSION ['mongo_database']->payment_receiving_method->find (array(
+                'for_org' => $_SESSION['url_domain_org']['_id']
         ));
         foreach ( $paymentReceivingMethods as $doc ) {
                 echo '<li>Pay by ' . $doc['by'] . ' at ' . $doc['note'] . '</li>';
@@ -192,3 +217,29 @@ Our distribution details show one day advance for your and our planning purpose.
 ?>
 </ul>
 
+<?php
+	foreach($itemRecord['after_sale_information'] as $asiDoc) {
+		echo '<hr /><b>' . $asiDoc['title'] . '</b>';
+		echo $asiDoc['detail'];
+	}
+?>
+
+<!-- Save the visitor information REMOTE_ADDR -->
+<hr />
+<?php 
+	$addresses = '';
+	if (array_key_exists('remote_addresses', $paymentRecord) ) {
+		$addresses .= $paymentRecord['remote_addresses'];
+	}
+	if (!(isset( $_SESSION['allowed_as']) && $_SESSION['allowed_as'] == 'OWNER')) {
+		if ($addresses != '') {
+			$addresses .= ', ';
+		}
+		$addresses .= $_SERVER['REMOTE_ADDR'];
+	}
+	$paymentRecord['remote_addresses'] = $addresses;
+	echo "Visits: " . (substr_count($addresses, ',') + 1). ' by <br />' . str_replace(',','<br />',$addresses);
+	if (!(isset( $_SESSION['allowed_as']) && $_SESSION['allowed_as'] == 'OWNER')) {
+		$_SESSION ['mongo_database']->item_daily_distribution_payment->save ($paymentRecord);
+	}
+?>

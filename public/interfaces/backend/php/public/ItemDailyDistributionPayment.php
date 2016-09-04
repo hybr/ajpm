@@ -25,14 +25,12 @@ class public_ItemDailyDistributionPayment extends Base {
 			'required' => 1,
 		),			
 		'paid_amount' => array (
-			'help' => 'Advance amount paid to receive the item',
+			'help' => 'Advance amount paid to receive the item. Type 0 if not paid as advance.',
 			'type' => 'number',
 			'show_in_list' => 1,
-			'required' => 1,
 		),
 		'paid_amount_currency' => array (
 			'type' => 'currency',
-			'required' => 1,
 			'default' => 'INR',
 		),
 		'paid_date' => array (
@@ -71,7 +69,7 @@ class public_ItemDailyDistributionPayment extends Base {
                         )
                 ),
 		'start_date' => array (
-			'help' => 'Date when the distribution will start' ,
+			'help' => 'The overall date when the distribution will start' ,
 			'type' => 'date' ,
 			'required' => 1,
 			'show_in_list' => 1,
@@ -80,6 +78,16 @@ class public_ItemDailyDistributionPayment extends Base {
                         'type' => 'container',
 			'show_in_list' => 1,
                         'fields' => array (
+				'start_date' => array (
+					'help' => 'Date when the distribution will start for this delivery record' ,
+					'type' => 'date' ,
+					'required' => 1,
+				),
+				'end_date' => array (
+					'help' => 'Date when the distribution will stop for this delivery record' ,
+					'type' => 'date' ,
+					'required' => 1,
+				),
 				'distribution_time' => array (
 					'type' => 'time' ,
 					'required' => 1,
@@ -141,6 +149,8 @@ class public_ItemDailyDistributionPayment extends Base {
 			'required' => 1,
 			'show_in_list' => 1,
 		),			
+		'remote_addresses' => array(
+		),
 	); /* fields */	
 
 } /* class */
