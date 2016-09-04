@@ -63,7 +63,10 @@ function getQueryConditions($record = array()) {
 						),
 						array (
 								'updated_by' => new MongoId ( ( string ) $_SESSION ['person'] ['_id'] ) 
-						) 
+						) ,
+						array (
+								'for_org' => new MongoId ( $_SESSION ['url_domain_org'] ['_id'] ) 
+						),
 				) 
 		);
 		/* if we are looking at person collection then show only person's profile */

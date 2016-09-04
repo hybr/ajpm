@@ -23,11 +23,13 @@ function getMenu($parent = '571f91cba934995b1b9af90d') {
 			$rStr .= '<li>' . $databaseDomain ['name'] ;
 			$rStr .= '<ul>';
 			foreach ($_SESSION['mongo_database']->database_collection->find() as $collection ) {
+				if (array_key_exists('domain', $collection) && !empty($collection['domain'])) {
 				foreach( $collection['domain'] as $assignedDatabaseDomain) {
 					if ( (string) $databaseDomain['_id'] == (string) $assignedDatabaseDomain['name']) {
 						$rStr .= '<li><a href="/' . $collection['name'] 
 						. '">' . ucwords ( join ( ' ', split ( '_', $collection['name'] ) ) ) . '</a></li>';
 					}
+				}
 				}
 			}
 			$rStr .= getMenu ( (string)$databaseDomain ['_id'] );

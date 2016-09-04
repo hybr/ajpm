@@ -84,6 +84,7 @@ This guide will help you to configure and setup <b><?php echo $_SESSION['url_dom
 </ul>
 
 <h2>Steps</h2>to setup and configure the website. <b>Read each step carefully before performing the task</b>
+
 <ol>
 	<li><b>Create your login credential</b>
 		<ol>
@@ -141,10 +142,35 @@ This guide will help you to configure and setup <b><?php echo $_SESSION['url_dom
 			<li>If you are website owner then talk to support team at owebp.com at +91 800 349 2766 and they will assign you as owner of website</li>
 		</ol>
 	</li>
-	<li><b>Create organization record</b>
+
+	<li><b>Organization Information</b>
 		<ol>
-			<li>If your account is authorized as website owner then you can create the organizatoin record</li>
-			<li>Click here to go to <a style="color: red;" target="_blank" href="http://admin.<?php echo $_SESSION['url_domain'] ?>/organization">Organization Record List Page</a> and then click on Update button.</li>
+			<li>The organization on this website represents one company/firm/person. You can create sub organizations as group/subsidary under the other organization.The organization record is used for following purposes
+			<ol>
+				<li>To configure organization abbreviation, name, statement, logo</li>
+				<li>To identify the parent organization</li>
+				<li>To define the person who will be owner of the organization. Owner of the organization can can do all the required setu on website for its functioning.</li>
+				<li>To configure the website themes. This is done here as this record will be read first when someone arrives at website.</li>
+				<li>The main purpose id to provide the relationship among web domains and organization. Multiple web domains can represent one organization.</li>
+			</ol>
+			</li>
+			<li><u>Important: Once you are registered to the website the HYBR team will authorize you as the owner of the website and then update the organization record already exists</u></li>
+			<li><b>Update organization record</b>
+				<ol>
+					<li>If your account is authorized as website owner then you can create the organizatoin record</li>
+					<li>Click here to go to <a style="color: red;" target="_blank" href="http://admin.<?php echo $_SESSION['url_domain'] ?>/organization">Organization Record List Page</a> and then click on Update button.</li>
+				</ol>
+			</li>
+		</ol>
+	</li>
+	<li><b>Adding web pages to public website</b>
+		<ol>
+			<li><b>Upload images and files</b>
+				<br />These images and files are used to create the web pages.
+				<ol>
+					<li>To upload the file go to Start -> Website -> File Upload</li>
+				</ol>
+			</li>
 		</ol>
 	</li>
 </ol>

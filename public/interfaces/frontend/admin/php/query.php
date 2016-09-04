@@ -99,7 +99,7 @@ foreach ( $sfs as $sf ) {
 
 
 /* there are few collections which are open for public, for rest add organization as conditions */
-if (in_array($urlArgsArray ['c'], array('user', 'person', 'organization', 'item', 'database_domain'))) {
+if (in_array($urlArgsArray ['c'], array('user', 'organization', 'database_domain'))) {
 	/* for public */
 	$searchConditions = array(
 		'$or' => $searchConditions
@@ -139,9 +139,18 @@ foreach ( $findCursor as $doc ) {
 		if (is_array ( $doc [$tf] )) {
 			foreach ( $doc [$tf] as $subField ) {
 				foreach ( $subField as $subElem => $val ) {
-					$label .= $val . ' ';
+					$type = gettype($val);
+					if ($type == 'object') {
+						$type = get_class($val);
+					}
+					if ($type == 'MongoDate') {
+						$label .= $subElem . ': ' .date('Y-M-d D H:i',$val->sec);
+					} else {
+						$label .= $subElem . ': ' . $val;
+					}
+					$label .= ' - ';
 				}
-				$label = rtrim ( $label, " " );
+				$label = rtrim ( $label, " -  " );
 				$label .= '; ';
 			}
 			$label = rtrim ( $label, "; " );
@@ -150,7 +159,7 @@ foreach ( $findCursor as $doc ) {
 				$label .= $doc [$tf] . ', ';
 			}
 		}
-		$label .= ", ";
+		$label .= ",";
 	}
 	$label = rtrim ( $label, ", " );
 	array_push ( $arr, array (

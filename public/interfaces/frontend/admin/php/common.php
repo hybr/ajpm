@@ -85,4 +85,43 @@ function isValidMongoObjectID($str) {
 	// A valid Object Id must be 24 hex characters
 	return preg_match ( '/^[0-9a-fA-F]{24}$/', $str );
 }
+
+function getColoredText ($text, $color) {
+        if ($text == '') return '';
+        return ' <span style="color: '.$color.';">' . $text . '</span> ';
+}
+
+function getAlertText($text, $redBooleanCondition) {
+	if ($redBooleanCondition) {
+		return getColoredText($text, 'red');
+	} else {
+		return getColoredText($text, 'green');
+	}
+}
+
+function getAnimalNameUsingTagNumber ($tagNumber) {
+        if ($tagNumber == '') return getColoredText('No Animal Defined', 'blue');
+        $animalRecord = $_SESSION ['mongo_database']->animal->findOne(array(
+                'tag_number' => $tagNumber
+        ));
+        if (isset($animalRecord)) {
+                return $animalRecord['name'] . ' (Tag ' . $animalRecord['tag_number'] . ')';
+        } else {
+                return  getColoredText('Missing Animal Record', 'blue');
+        }
+}
+
+function getAnimalNameUsingId ($id) {
+        if ($id == '') return getColoredText('No Animal Defined', 'blue');
+        if(!isValidMongoObjectID($id)) return  getColoredText('Wrong Animal Defined', 'blue');
+        $animalRecord = $_SESSION ['mongo_database']->animal->findOne(array(
+                '_id' => $id instanceof MongoId ? $id : new MongoId($id)
+        ));
+        if (isset($animalRecord)) {
+                return $animalRecord['name'] . ' (Tag ' . $animalRecord['tag_number'] . ')';
+        } else {
+                return  getColoredText('Missing Animal Record', 'blue');
+        }
+}
+
 ?>
