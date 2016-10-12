@@ -32,8 +32,6 @@ $_SESSION ['mongo_database'] = $mongoClient->{$_SESSION ['database_name']};
 /**
  * Read the organization detail from the database
  */
-$_SESSION ['url_domain_org'] = $_SESSION ['mongo_database']->organization->findOne ( array (
-		'web_domain.name' => $_SESSION ['url_domain']
-) );
+$_SESSION ['url_domain_org'] = getOneDocument('organization', 'web_domain.name', $_SESSION ['url_domain']);
 
 ?>

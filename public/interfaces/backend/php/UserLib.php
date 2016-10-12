@@ -85,10 +85,7 @@ class UserLib extends Base {
 	public function va($urlArgsArray) {
 		/* va = varify account */
 		/* read the record */
-
-		$user = $_SESSION ['mongo_database']->user->findOne ( array (
-			'verified' => $urlArgsArray ['c']
-		) );
+		$user = getOneDocument('user', 'verified', $urlArgsArray ['c']);
 		if (empty($user)) {
 			array_push ( $this->errorMessage, 'Invalid activation code' );
 			return $this->showError ();
@@ -108,12 +105,8 @@ class UserLib extends Base {
 	}
 
 	public function sendActivationEmail($emailAddress) {
-
 		/* read the record */
-		$userRecord = $_SESSION ['mongo_database']->user->findOne ( array (
-			'email_address' => $emailAddress
-		) );
-
+		$userRecord = getOneDocument('user', 'email_address', $emailAddress);
 		$rStr = $this->emailVarification($emailAddress, $userRecord);
 		
 		debugPrintArray($rStr, 'UserLib:sendActivationEmail:rStr emailVerification response');

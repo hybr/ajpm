@@ -14,9 +14,7 @@ class public_CheckUser extends UserLib {
 		/**
 		 *  read the record from database
 		 */
-		$userRecord = $_SESSION ['mongo_database']->user->findOne ( array (
-				'email_address' => $emailToCheck
-		) );
+		$userRecord = getOneRecord('user', 'email_address', $emailToCheck);
 
 		/**
 		 * Verificacion logic
@@ -66,12 +64,8 @@ class public_CheckUser extends UserLib {
 		/**
 		 *  read the record from database
 		 */
-		$loginsRecord = $_SESSION ['mongo_database']->logins->findOne ( array (
-			'session_id' => $sessionId
-		) );
-		$userRecord = $_SESSION ['mongo_database']->user->findOne ( array (
-			'email_address' => $loginsRecord['email_address']
-		) );		
+		$loginsRecord = getOneRecord('logins', 'session_id', $sessionId);
+		$userRecord = getOneRecord('user', 'email_address', $loginsRecord['email_address']);		
 	
 		/**
 		 * Verificacion logic
@@ -91,12 +85,8 @@ class public_CheckUser extends UserLib {
 			/**
 			 * Read person record for this user and get the roles
 			 */
-			$_SESSION['person'] = $_SESSION ['mongo_database']->person->findOne ( array (
-				'_id' => $userRecord['person']
-			) );
-			$_SESSION['org_worker'] = $_SESSION ['mongo_database']->organization_worker->findOne ( array (
-				'person' => $userRecord['person']
-			) );
+			$_SESSION['person'] = getOneRecord('person', '_id', $userRecord['person']);
+			$_SESSION['org_worker'] = getOneRecord('organization_worker', 'person', $userRecord['person']);
 			$response ['email_address'] = $userRecord['email_address'];
 			$response ['person_record'] = $_SESSION['person'];
 			$response ['org_worker_record'] = $_SESSION['org_worker'];

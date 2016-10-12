@@ -48,6 +48,7 @@ function isAllowed($collectionName, $subTask) {
 	. '-' . strtolower ( $_SESSION ['url_task'] )
 	. '-' . strtolower ( $_SESSION ['url_sub_task'] );
 	
+	debugPrintArray($task, 'Task of isAllowed');
 	if (in_array ( $task, array (
 			'public_database_domain-present-all',
 			'public_user-login-all',
@@ -87,6 +88,7 @@ function isAllowed($collectionName, $subTask) {
 			'public_itemcatalog-present_document-all',
 			'public_itemcatalog-presentjson-all',
 			'public_itemcatalog-presentjsonall-all',
+			'public_itemcatalog-presentall-all',
 
 			'public_item-present-all',
 			'public_item-present_document-all',
@@ -171,7 +173,7 @@ function isAllowed($collectionName, $subTask) {
 			}
 		}
 	}
-	$_SESSION['authorization_message'] = 'Your position in organization does not allow this';
+	$_SESSION['authorization_message'] = 'Access denied. Need a role to access this page.';
 	/* we give only message but allow user to continue so that he can create person profile */	
 	return false;
 } /* function isAllowed */

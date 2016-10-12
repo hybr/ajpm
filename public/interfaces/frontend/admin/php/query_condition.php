@@ -26,7 +26,9 @@ function getQueryConditions($record = array()) {
 	$globalCollections = array (
 			'user',
 			'person',
-			'item' 
+			'item', 
+			'item_catalog', 
+			'chart_of_accounts', 
 	);
 	
 	$recordId = '';
@@ -59,13 +61,16 @@ function getQueryConditions($record = array()) {
 		$userRecords = array (
 				'$or' => array (
 						array (
-								'created_by' => new MongoId ( ( string ) $_SESSION ['person'] ['_id'] ) 
+							'created_by' => new MongoId ( ( string ) $_SESSION ['person'] ['_id'] ) 
 						),
 						array (
-								'updated_by' => new MongoId ( ( string ) $_SESSION ['person'] ['_id'] ) 
+							'updated_by' => new MongoId ( ( string ) $_SESSION ['person'] ['_id'] ) 
 						) ,
 						array (
-								'for_org' => new MongoId ( $_SESSION ['url_domain_org'] ['_id'] ) 
+							'for_org' => new MongoId ( $_SESSION ['url_domain_org'] ['_id'] ) 
+						),
+						array (
+                					'accessible_web_domain.name' => $_SESSION ['url_domain']
 						),
 				) 
 		);
@@ -74,14 +79,20 @@ function getQueryConditions($record = array()) {
 			$userRecords = array (
 					'$or' => array (
 							array (
-									'_id' => new MongoId ( ( string ) $_SESSION ['person'] ['_id'] ) 
+								'_id' => new MongoId ( ( string ) $_SESSION ['person'] ['_id'] ) 
 							),
 							array (
-									'created_by' => new MongoId ( ( string ) $_SESSION ['person'] ['_id'] ) 
+								'created_by' => new MongoId ( ( string ) $_SESSION ['person'] ['_id'] ) 
 							),
 							array (
-									'updated_by' => new MongoId ( ( string ) $_SESSION ['person'] ['_id'] ) 
-							) 
+								'updated_by' => new MongoId ( ( string ) $_SESSION ['person'] ['_id'] ) 
+							),
+						array (
+							'for_org' => new MongoId ( $_SESSION ['url_domain_org'] ['_id'] ) 
+						),
+						array (
+                					'accessible_web_domain.name' => $_SESSION ['url_domain']
+						),
 					) 
 			);
 		}
@@ -270,16 +281,6 @@ function getQueryConditions($record = array()) {
 			$anyRecord = true;
 		}
 	}
-	if (isset($_SESSION['debug']) && $_SESSION['debug'] == 1 ){
-		echo '<pre>getQueryCriteria $conds = ';
-		print_r ( $conds );
-		echo '</pre>';
-		echo '<pre>$requestForMultipleRecord= ';
-		print_r ( $requestForMultipleRecord );
-		echo '</pre>';
-		echo '<pre>$recordId= ';
-		print_r ( $recordId );
-		echo '</pre>';
-	}
+	debugPrintArray($conds, 'getQueryCriteria $conds');
 	return ($conds);
 }

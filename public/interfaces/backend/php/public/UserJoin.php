@@ -15,9 +15,7 @@ class public_UserJoin extends UserLib {
 		/**
 		 *  read the record from database
 		 */
-		$userRecord = $_SESSION ['mongo_database']->user->findOne ( array (
-			'email_address' => $userEmailAddress
-		) );
+		$userRecord = getOneRecord('user', 'email_address', $userEmailAddress);
 
 		/**
 		 * Verificacion logic

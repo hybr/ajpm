@@ -14,6 +14,7 @@ if (array_key_exists ( 'query', $urlPartsArray )) {
 }
 
 /* find action */
+$_SESSION ['url_args_array'] = $urlArgsArray;
 $_SESSION ['url_action'] = 'public_';
 $_SESSION ['url_task'] = '';
 $_SESSION ['url_sub_task'] = '';
@@ -58,15 +59,14 @@ if (array_key_exists ( 'path', $urlPartsArray )) {
 		}
 	}
 }
+
 if ($_SESSION ['url_action'] == 'public_') {
 	/* Home Page */
 	$_SESSION ['url_action'] = 'public_WebPage';
 	$_SESSION ['url_task'] = 'present';
 	$_SESSION['url_collection'] = 'web_page';
-	/* if organization record exists then read the home page id */
-	if (array_key_exists ( 'url_domain_org', $_SESSION ) && $_SESSION ['url_domain_org']) {
-		$urlArgsArray ['id'] = $_SESSION ['url_domain_org'] ['web_site_home_page'];
-	}
+	$homePageRec = getOneDocument('web_page', 'web_page_type.name', 'Home Page', true);
+	$urlArgsArray ['id'] = (string)($homePageRec['_id']); 
 }
 if ($_SESSION ['url_task'] == '') {
 	$_SESSION ['url_task'] = 'presentAll';

@@ -146,6 +146,9 @@ class InputForm extends Base {
 		if ($field ['name'] == 'for_org') {
 			$dv = ( string ) $_SESSION ['url_domain_org'] ['_id'];
 		}
+		if (array_key_exists($field['name'], $_GET) && isset($_GET[$field['name']])) {
+			$dv = $_GET[$field['name']];
+		}
 		return $dv;
 	}
 	public function showSameLevelFields($slfs, $fieldParentName, $rec, $parentUid) {
@@ -187,8 +190,10 @@ class InputForm extends Base {
 			/* start the form field row */
 			// $rStr .= '<tr><td class="jpmFormField ui-corner-all" >';
 			$rStr .= ' <tr><td>';
-			if (! isset ( $rec [$key] ) || $rec[$key] == '') {
+                        debugPrintArray (print_r($rec, true), 'showSameLevelFields Second Value of ' . $key);
+			if (!isset($rec[$key])) {
 				$rec [$key] = $this->getDefaultValue ($field); /* dynamic default value */
+                        	debugPrintArray (print_r($rec[$key], true), 'showSameLevelFields Third Value of ' . $key);
 			}
 
 			/* find if field should be shown as readonly */
@@ -377,7 +382,7 @@ class InputForm extends Base {
 				'Join',
 				'Forget Password' 
 		) )) {
-			$rStr .= ' <tr><td class="jpmFormField ui-corner-all" >';
+			$rStr .= ' <tr><td class="jpmFormField ui-corner-bottom" >';
 			$rStr .= ' <input type="reset" />';
 			$rStr .= ' <input type="submit"/>';
 			$rStr .= ' for ' . $this->curlsMode . ' </td></tr>';

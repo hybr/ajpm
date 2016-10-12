@@ -14,9 +14,7 @@ class public_UserPassword extends UserLib {
 		/**
 		 *  read the record from database
 		 */
-		$userRecord = $_SESSION ['mongo_database']->user->findOne ( array (
-			'email_address' => $userEmailAddress
-		) );
+		$userRecord = getOneDocument('user', 'email_address', $userEmailAddress);
 
 		/**
 		 * Verificacion logic

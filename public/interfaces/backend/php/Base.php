@@ -22,20 +22,6 @@ class Base {
 	public $titleValueConversionRequired = 1;
 	public $subTaskKeyToSave = 'sub_task';
 
-	public function isValidMongoObjectID($str) {
-		// A valid Object Id must be 24 hex characters
-		return preg_match ( '/^[0-9a-fA-F]{24}$/', $str );
-	}
-	
-	public function getDocumentById($collection,$id) {
-		if (! $this->isValidMongoObjectID(trim($id))) {
-			return array();
-		}
-		return $_SESSION ['mongo_database']->{$collection}->findOne ( array (
-				'_id' => new MongoId((string)(trim($id)))
-		) );
-	}
-	
 	/* fiel definations */
 	public $defaultFields = array (
 			'created_on' => array (
@@ -129,43 +115,13 @@ class Base {
 		}
 	}
 
-	public function showSelectedReadOnlyFields($allFields, $record) {
-		$rStr = '';
-		foreach ( $allFields as $oneField ) {
-			$fieldValue = '';
-			
-			if (isset ( $record [trim ( $oneField )] )) {
-				if (is_array ( $record [trim ( $oneField )] )) {
-					
-					foreach ( $record [trim ( $oneField )] as $subRecord ) {
-						foreach ( $subRecord as $subElem => $val ) {
-							if ($val != '') {
-								$fieldValue .= $val . ' ';
-							}
-						}
-						$fieldValue = rtrim ( $fieldValue, " " );
-						$fieldValue .= '; ';
-					}
-					$fieldValue = rtrim ( $fieldValue, "; " );
-				} else {
-					if ($record [trim ( $oneField )] != '') {
-						$fieldValue .= $record [trim ( $oneField )] . ', ';
-					}
-				}
-				$fieldValue .= ", ";
-				$fieldValue = rtrim ( $fieldValue, ", " );
-			}
-			if ($fieldValue != '') {
-				$rStr .= $this->getTitle ( $oneField ) . ': ' . $fieldValue . '<br/ >';
-			}
-		}
-		return $rStr;
-	}
-	
 	private function showReadOnlyValue($value, $field) {
 		$rStr = '';
 		if ($field ['type'] == 'foreign_key' && $value != '') {
-			$rStr .= $this->showSelectedReadOnlyFieldsFromDocOfCollection ( $value, $field ['foreign_collection'], $field ['foreign_title_fields'] );
+			$rStr .= showSelectedReadOnlyFieldsFromDocOfCollection ( 
+				$value, 
+				$field ['foreign_collection'], $field ['foreign_title_fields'] 
+			);
 		} elseif ($field ['type'] == 'list' && $value != '') {
 			$listInstance = new $field ['list_class'] ();
 			if ($listInstance->titleValueConversionRequired) {
@@ -186,35 +142,7 @@ class Base {
 		}
 		return $rStr;
 	}
-	public function showSelectedReadOnlyFieldsFromDocOfCollection($docId, $collection, $allShowFields) {
-		$fkDoc = array ();
-		$rStr = '';
-		$rStr .= '<div><b>';
-		
-		try {
-			$frId = ( string ) $docId;
-			if ($frId == 'COMMON_ITEM') {
-				$rStr .= "Common Item";
-			} else {
-				if (! $this->isValidMongoObjectID ( $frId )) {
-					$rStr .= 'Invalid format of key';
-				} else {
-					$frId = new MongoId ( trim ( $frId ) );
-					$fkDoc = $this->getDocumentById($collection, $frId); 
-					if (empty ( $fkDoc )) {
-						$rStr .= 'No such record exists';
-					} else {
-						$fkTitleFields = split ( ",", $allShowFields );
-						$rStr .= $this->showSelectedReadOnlyFields ( $fkTitleFields, $fkDoc );
-					}
-				}
-			}
-		} catch ( MongoException $em ) {
-			$rStr .= ( string ) $docId . ' Invalid value of key';
-		}
-		$rStr .= '</b></div>';
-		return $rStr;
-	}
+
 	private function getCreateLink($st = '') {
 		if ($st != '') {
 			$st = '/' .$st;
@@ -490,10 +418,10 @@ class Base {
 		}
 		if ($attributes ['type'] == 'foreign_key') {
 			/* already took care for for org above */
-			if ($direction == 'before_save' && $this->isValidMongoObjectID($value)) {
+			if ($direction == 'before_save' && isValidMongoObjectID($value)) {
 				$nv = new MongoId ( ( string ) $value );
 			}
-			if ($direction == 'after_read'&& $this->isValidMongoObjectID($value)) {
+			if ($direction == 'after_read'&& isValidMongoObjectID($value)) {
 				/* get the title fields values */
 				$nv = ( string ) $value;
 			}
@@ -619,7 +547,7 @@ class Base {
 				$slrec ['_id'] = new MongoId ( $slrec ['_id'] );
 				
 				/* read the current record before updating it. This is to maintain the created_on date. */
-				$currentRecord = $this->getDocumentById($this->collectionName, $slrec ['_id'] );
+				$currentRecord = getOneDocument($this->collectionName, '_id', $slrec ['_id'] );
 				
 				if (isset ( $currentRecord ['created_on'] )) {
 					/* current record is in object format */
@@ -650,14 +578,9 @@ class Base {
 		$level ++;
 		
 		foreach ( $slfs as $key => $val ) {
+			debugPrintArray (print_r($slfs[$key], true), 'First Value of ' . $key);
 			
 			$field = array_merge ( $this->fieldDefault, $val );
-			
-			if (false && $_SESSION['debug']) {
-				echo '<hr /> '.$this->curlsMode.' Processing: <b>'.$key.'</b> of record | ';
-				echo '<hr /> Vale = '; print_r($slrec[$key]);
-				echo '<hr /> Attributes = '; print_r($field); 
-			}
 			
 			
 			if ($this->curlsMode == 'List' && $field ['show_in_list'] == 0) {
@@ -682,15 +605,8 @@ class Base {
 				}
 			}
 			
-			if (false && $_SESSION['debug']) {
- 				echo "<br /><b>Attribute Type</b>: " . $field ['type']; 
-			}
-			
 			$slrec [$key] = $this->convertField ( $direction, $key, $field, $slrec [$key] );
-			
-			if (false && $_SESSION['debug']) {
- 				echo '<hr /> CRULS Mode = ' . $this->curlsMode; 
-			}
+			debugPrintArray (print_r($slrec[$key], true), 'After Convert Value of ' . $key);
 			
 			if ($field ['type'] == 'container') {
 				/* the array push here helps the record in proper format for query. The objects in array without keys */
@@ -718,9 +634,9 @@ class Base {
 				}
 				$slrec [$key] = $arr;
 			}
-			
-			/* echo '<hr /> <u>Converted Value</u> = '; print_r($slrec[$key]); */
-		}
+
+			debugPrintArray (print_r($slfs[$key], true), 'Final Value of ' . $key);
+		} /* foreach ( $slfs as $key => $val ) */
 		return $slrec;
 	}
 	public function showError() {
@@ -746,7 +662,6 @@ class Base {
 		$rStr = '';
  		debugPrintArray ( $this->record, 'Before Process'); 
 		$this->record = $this->processFieldsForPresentationAndStorage ( 'before_save', $this->fields, $this->record, 1 );
-
  		debugPrintArray ( $this->record, 'After Process'); 
 
 		if (count ( $this->errorMessage ) > 0) {
@@ -775,7 +690,7 @@ class Base {
 					$rStr .= '<tr>';
 					$rStr .= '<td>' . $name['first'] . '</td>';
 					$rStr .= '<td>';
-					$personInstance->record = $this->getDocumentById('person', (string)$rec['created_by']); 
+					$personInstance->record = getOneDocument('person', '_id', $rec['created_by']); 
 					foreach($personInstance->record['name'] as $createdByName) {
 						$rStr .= $personInstance->getFullName('Official', true);
 						break;
@@ -1014,6 +929,15 @@ class Base {
 			array_push ( $this->errorMessage, '# Please create <a href="/person">person</a> profile. Assign it to your credentials and re-login.' );
 		}
 	}
+
+	private function getReports() {
+		$rStr = '';
+		if ($this->collectionName == 'item') {
+			$rStr .= '<hr />Reports: <a target="_blank" href="http://'.$_SESSION['url_domain'].'/common/didl.php?i='.$doc['_id'].'&p='.md5($doc['daily_distribution_report_password']).'">Item Distribution Report</a>';
+		}
+		return $rStr;
+	}
+
 	private function edit($urlArgsArray) {
 		$this->makeSurePersonprofileExists();
 		
@@ -1049,14 +973,12 @@ class Base {
 
 			$doc = $this->processFieldsForPresentationAndStorage ( 'after_read', $this->fields, $doc, 1 );
 			
-			if ($this->collectionName == 'item') {
-				$rStr .= '<hr />Reports: <a target="_blank" href="http://'.$_SESSION['url_domain'].'/common/didl.php?i='.$doc['_id'].'&p='.md5($doc['daily_distribution_report_password']).'">Item Distribution Report</a>';
-			}
 			if ($this->curlsMode == 'Present') {
 				$rStr .= $this->presentDocument ( $this->subTaskKeyToSave, $this->fields, $doc );
 			} elseif ($this->curlsMode == 'Present Json') {
 					return $doc;				
 			} else {
+				$rStr .= $this->getReports();
 				/* initialize form */
 				$f = new InputForm ();
 				$f->curlsMode = $this->curlsMode;
@@ -1070,13 +992,11 @@ class Base {
 				if ($this->curlsMode == 'Copy') {
 					unset($doc['_id']);
 				}
-				$rStr = $f->showForm ( $urlArgsArray, '/' . $this->collectionName . '/' . $method, $doc, $this->fields );
+				$rStr .= $f->showForm ( $urlArgsArray, '/' . $this->collectionName . '/' . $method, $doc, $this->fields );
+				$rStr .= $this->getReports();
 			}
 			$rStr .= $this->showLinks ();
 			
-			if ($this->collectionName == 'item') {
-				$rStr .= '<hr />Reports: <a target="_blank" href="http://'.$_SESSION['url_domain'].'/common/didl.php?i='.$doc['_id'].'&p='.md5($doc['daily_distribution_report_password']).'">Item Distribution Report</a>';
-			}
 
 			return $rStr;
 		}

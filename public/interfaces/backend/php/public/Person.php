@@ -90,6 +90,17 @@ class public_Person extends Base {
 				) 
 			) 
 		 ) ,
+                'accessible_web_domain' => array (
+			'help' => 'Person record is accessible in following web domains',
+                        'type' => 'container',
+                        'required' => 1,
+                        'show_in_list' => 1,
+                        'fields' => array (
+                                'name' => array (
+                                        'show_in_list' => 1,
+                                )
+                        )
+                ),
 		'check_duplicate' => array (
 			'type' => 'list',
 			'list_class' => 'Boolean',
@@ -112,7 +123,7 @@ class public_Person extends Base {
 				;
 				if ($relatives && isset($this->record ['relative'])) {
 					foreach ( $this->record ['relative'] as $relative ) {
-						$relativeDoc = $this->getDocumentById('person', (string)$relative['person']);
+						$relativeDoc = getOneDocument('person', (string)$relative['person']);
 						foreach ( $relativeDoc['name'] as $relativeName ) {
 							if (isset($relativeName ['type']) && $relativeName ['type'] == $type) {
 								$rStr .= '<br />' . $relative['relation'] . ': ' 
@@ -134,7 +145,7 @@ class public_Person extends Base {
 		}
 		foreach ( $this->record ['login_credential'] as $loginCredential ) {
 			if ($loginCredential['primary'] == $primary) {
-				$userDoc = $this->getDocumentById('user', (string)$loginCredential['email_address']);
+				$userDoc = getOneDocument('user', (string)$loginCredential['email_address']);
 				return $userDoc['email_address'];
 			}
 		}

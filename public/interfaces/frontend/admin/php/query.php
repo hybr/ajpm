@@ -33,8 +33,8 @@ include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'debug.php';
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'common.php';
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'url_domain.php';
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'layout_and_theme.php';
-include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'action_and_task.php';
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'mongod_setup.php';
+include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'action_and_task.php';
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'autoload.php';
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'get_menu.php';
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'permission.php';
@@ -90,16 +90,22 @@ $limit = 10;
 
 /* create search conditions array */
 foreach ( $sfs as $sf ) {
-	array_push ( $searchConditions, array (
+	if (strpos($sf, 'number') == false) {
+		array_push ( $searchConditions, array (
 			$sf => array (
 					'$regex' => new MongoRegex ( "/" . $urlArgsArray ['p'] . "/i" ) 
 			) 
-	) );
+		) );
+	} else {
+		array_push ( $searchConditions, array (
+			$sf => (float)$urlArgsArray ['p'],
+		) );
+	}
 } /* foreach ( $sfs as $sf ) */
 
 
 /* there are few collections which are open for public, for rest add organization as conditions */
-if (in_array($urlArgsArray ['c'], array('user', 'organization', 'database_domain'))) {
+if (in_array($urlArgsArray ['c'], array('user', 'organization', 'database_domain', 'chart_of_accounts'))) {
 	/* for public */
 	$searchConditions = array(
 		'$or' => $searchConditions
@@ -124,46 +130,15 @@ if (in_array($urlArgsArray ['c'], array('user', 'organization', 'database_domain
 	);
 } /* if (in_array($urlArgsArray ['c'], */
 
- /* print_r($searchConditions);  */
+// print_r($searchConditions); 
 $findCursor = $_SESSION['mongo_database']->{$urlArgsArray ['c']}->find ($searchConditions);
 
 
 $arr = array ();
 $tfs = split ( ",", $urlArgsArray ['tf'] );
 foreach ( $findCursor as $doc ) {
-	$label = '';
-	foreach ( $tfs as $tf ) {
-		if (!isset($doc[$tf])) {
-			continue;
-		}
-		if (is_array ( $doc [$tf] )) {
-			foreach ( $doc [$tf] as $subField ) {
-				foreach ( $subField as $subElem => $val ) {
-					$type = gettype($val);
-					if ($type == 'object') {
-						$type = get_class($val);
-					}
-					if ($type == 'MongoDate') {
-						$label .= $subElem . ': ' .date('Y-M-d D H:i',$val->sec);
-					} else {
-						$label .= $subElem . ': ' . $val;
-					}
-					$label .= ' - ';
-				}
-				$label = rtrim ( $label, " -  " );
-				$label .= '; ';
-			}
-			$label = rtrim ( $label, "; " );
-		} else {
-			if(isset($doc[$tf]) && $doc[$tf] != '') {
-				$label .= $doc [$tf] . ', ';
-			}
-		}
-		$label .= ",";
-	}
-	$label = rtrim ( $label, ", " );
 	array_push ( $arr, array (
-		'label' => $label,
+		'label' => showSelectedReadOnlyFields($tfs, $doc, false, 'query'),
 		'value' => ( string ) $doc ['_id'] 
 	) );
 }

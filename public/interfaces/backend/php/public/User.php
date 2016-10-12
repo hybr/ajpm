@@ -110,9 +110,7 @@ class public_User extends Base {
 		/* va = varify account */
 		/* read the record */
 
-		$user = $_SESSION ['mongo_database']->user->findOne ( array (
-			'verified' => $urlArgsArray ['c']
-		) );
+		$user = getOneDocument('user', 'verified', $urlArgsArray ['c']);
 		if (empty($user)) {
 			array_push ( $this->errorMessage, 'Invalid activation code' );
 			return $this->showError ();
@@ -134,10 +132,7 @@ class public_User extends Base {
 
 	public function sendactivationemail($urlArgsArray) {
 		/* read the record */
-		$user = $_SESSION ['mongo_database']->user->findOne ( array (
-			'email_address' => $_POST ['email_address']
-		) );
-
+		$user = getOneDocument('user', 'email_address', $_POST ['email_address']);
 		if (empty($user)) {
 			array_push ( $this->errorMessage, $_POST ['email_address'] . ' does not exists' );
 			return $this->showError ();
@@ -161,7 +156,7 @@ class public_User extends Base {
 	}
 
 	public function forgetpassword($urlArgsArray) {
-		$this->debugPrintArray($_SESSION ); 
+		debugPrintArray($_SESSION, 'SESSION'); 
 		$rStr = '';
 		/* this process is to receive login credentials for authentication */
 		$f = new InputForm ();
@@ -182,16 +177,11 @@ class public_User extends Base {
 		return $rStr;
 	}
 	public function authenticate($urlArgsArray) {
-		/* $this->debugPrintArray($_POST); */ 
+		debugPrintArray($_POST, 'POST');
 		
 		/* read the record */
-		$_SESSION ['user'] = $_SESSION ['mongo_database']->user->findOne ( array (
-				'email_address' => $_POST ['email_address']
-		) );
-		
-		
-		/* $this->debugPrintArray($_SESSION ['user']); */
-		
+		$_SESSION ['user'] = getOneDocument('user', 'email_address', $_POST ['email_address']);
+		debugPrintArray($_SESSION ['user'], 'user record'); 
 		if (empty($_SESSION ['user'])) {
 			array_push ( $this->errorMessage, $_POST ['email_address'] . ' does not exists' );
 			unset($_SESSION['user']);
@@ -221,12 +211,11 @@ class public_User extends Base {
 
 		/* get the person record also */
 		$_SESSION ['person'] = array();
-		/*
-		$this->debugPrintArray($_SESSION['user']);
-		$this->debugPrintArray($_SESSION['url_domain_org']); 
-		*/
+		debugPrintArray($_SESSION['user'], 'user record');
+		debugPrintArray($_SESSION['url_domain_org'], 'url_domain_org record'); 
+
 		if (isset($_SESSION ['user'] ['person'])) {
-			$_SESSION ['person'] = $this->getDocumentById('person', (string) $_SESSION ['user'] ['person']); 
+			$_SESSION ['person'] = getOneDocument('person', '_id', $_SESSION['user']['person']); 
 		}
 		
 		if (empty($_SESSION ['person'])) {
@@ -245,9 +234,7 @@ class public_User extends Base {
 			array_push ( $this->errorMessage, 'Provide email address to register' );
 		} else {
 			/* first check if user exists in db or not */
-			$userRec = $_SESSION ['mongo_database']->user->findOne ( array (
-				'email_address' => trim ( $_POST ['email_address'] ) 
-			) );
+			$userRec = getOneDocument('user', 'email_address', $_POST ['email_address']);
 		}
 		
 		if (! empty ( $userRec )) {
@@ -255,9 +242,7 @@ class public_User extends Base {
 			/* get the person record also */
 			array_push ( $this->errorMessage, 'User account with this email <b>' . trim ( $_POST ['email_address'] ) . '</b> already exists' );
 			if (isset ( $userRec ['person'] ) && $userRec ['person'] != '') {
-				$personRec = $_SESSION ['mongo_database']->person->findOne ( array (
-						'_id' => new MongoId ( $userRec ['person'] ) 
-				) );
+				$personRec = getOneDocument('person', '_id', $userRec ['person']);
 				if (empty ( $personRec )) {
 					array_push ( $this->errorMessage, ' = Please create <a href="/person">person</a> profile. Assign it to your credentials and re-login.' );
 				} else {
@@ -271,11 +256,11 @@ class public_User extends Base {
 					}
 					/* get the login credential account to get the email address */
 					if ($personCommunicationEmail != '') {
-						$lcRec = $_SESSION ['mongo_database']->user->findOne ( array (
-								'_id' => new MongoId ( $personCommunicationEmail ) 
-						) );
-						$personCommunicationEmail = $lcRec ['email_address'];
-						
+						$personCommunicationEmail = 'No Email Address';
+						$lcRec = getOneDocument('user', '_id', $personCommunicationEmail);
+						if (!empty($lcRec)) {
+							$personCommunicationEmail = $lcRec ['email_address'];
+						}
 						$personClass = new public_Person ();
 						$personClass->record = $personRec;
 						array_push ( $this->errorMessage, $personClass->getOfficialFullName () . ' is holding this user account, <a href="mailto:' . $personCommunicationEmail . '">request</a> the person to migrate it to you.' );
