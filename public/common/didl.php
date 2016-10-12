@@ -32,12 +32,11 @@ define ( 'SERVER_SIDE_SP_DIR', SERVER_SIDE_PUBLIC_DIR
  * Include the common files
  */
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'debug.php';
-
+include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'common.php';
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'url_domain.php';
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'layout_and_theme.php';
-include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'action_and_task.php';
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'mongod_setup.php';
-include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'common.php';
+include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'action_and_task.php';
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'autoload.php';
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'get_menu.php';
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'permission.php';
@@ -52,7 +51,11 @@ header ( 'Expires: ' . $expire );
 // The JSON standard MIME header.
 header ( 'Content-type: text/html' );
 
+$locale='en-US'; //browser or user locale
 $errorMessage = '';
+$distributionTimeGroups = array();
+$total = array();
+$pendingAmountSms = ''; 
 
 /* find arguments */
 $urlPartsArray = parse_url ( $_SERVER ['REQUEST_URI'] );
@@ -76,11 +79,12 @@ if (!isValidMongoObjectID($urlArgsArray ['i'])) {
 $itemRecord = $_SESSION ['mongo_database']->item->findOne (array(
 	'_id' => new MongoId((string)(trim($urlArgsArray ['i'])))
 ) );
+$itemRecordId = $itemRecord ['_id'] instanceof MongoId ? $itemRecord ['_id'] : new MongoId($itemRecord ['_id']);
 
 if (!isset($urlArgsArray ['p']) || $urlArgsArray ['p'] == '') {
 	$errorMessage .= "Access code is missing";
 } else {
-	if ($urlArgsArray ['p'] != md5($itemRecord['daily_distribution_report_password'])) {
+	if ($urlArgsArray ['p'] != md5($itemRecord['distribution_report_password'])) {
 		$errorMessage .= "Access code is wrong";
 	}
 }
@@ -94,23 +98,12 @@ echo "Item: " . $itemRecord['title'];
 if ($errorMessage != '') { echo $errorMessage; exit; }
  
 
-debugPrintArray($allPaymentRecordsCursor,'allPaymentRecordsCursor');
 
 $todayStart = New Mongodate(strtotime('today'));
 $tomorrowEnd   = New Mongodate(strtotime("tomorrow + 1day"));
 debugPrintArray($todayStart->sec,'todayStart');
 debugPrintArray($tomorrowEnd->sec,'tomorrowEnd');
-
-$distributionTimeGroups = array();
-$totalQuantity = 0;
-$totalAbsentQuantity = 0;
-$totalDue = 0;
-$totalExtra = 0;
-$totalCost = 0;
-$totalOtherAmount = 0;
-$oneDateStamp = '';
 $currencySymbol = '';
-$quantityUnit = '';
 
 ?>
 
@@ -124,55 +117,9 @@ $quantityUnit = '';
 
 <hr /><b>Table of all dsitributions.</b>
 
-<table border=1  style="font-size: 1em;">
-	<thead>
-		<tr>
-			<th>Date</th>
-			<th>Time</th>
-			<th>Urgent</th>
-			<th>Ring Bell</th>
-			<th>Quantity</th>
-			<th>Start</th>
-			<th>Location</th>
-			<th>Email</th>
-			<th>SMS</th>
-			<th>Copy</th>
-			<th>Cost</th>
-			<th>Charge</th>
-			<th>Balance</th>
-			<th>Advance</th>
-			<th>Instructions</th>
-			<th>Bill Visits</th>
-		</tr>
-	</thead>
-	<tbody>
 <?php
 
-function getCellStart($contentType = '') {
-	if ($contentType == 'currency') {
-		return '<td  style="text-align: right;" >';
-	} else {
-		return '<td>';
-	}
-}
-
-function getCellEnd() {
-	return '</td>';
-}
-
-function getRowStart() {
-	return '<tr>';
-}
-
-function getRowEnd() {
-	return '</tr>';
-}
-
-function getAsCell($text = '', $contentType = '') {
-	return getCellStart($contentType) . $text . getCellEnd();
-}
-
-function getCurrency($amount) {
+function getCurrency($amount, $recordDoc) {
 	# $fmt = new NumberFormatter( $locale."@currency=".$recordDoc['ipsr_amount_currency'], NumberFormatter::CURRENCY );
 	# $currencySymbol = $fmt->getSymbol(NumberFormatter::CURRENCY_SYMBOL);
 	$currencySymbol = $recordDoc['ipsr_amount_currency'];
@@ -187,7 +134,7 @@ function getDateCell($recordDoc) {
 }
 
 function getTimeCell($recordDoc) {
-	return getAsCell(date('H:i a', $recordDoc['delivery_distribution_time']->sec));
+	return getAsCell(date('h:i A', $recordDoc['delivery_distribution_time']->sec));
 }
 
 function getUrgentCell($recordDoc) {
@@ -200,16 +147,25 @@ function getRingBellCell($recordDoc) {
 	return getAsCell($a);
 }
 
-function getLink($link = '', $text = '') {
-	return '<a target="_bkank" href="' . $link . '">' . $text . '</a>';
-}
+function getQuantityCell($recordDoc, $paymentDoc, $sms = true) {
+	$q = $recordDoc['delivery_quantity_unit'];
+	if ($sms) $q = substr($recordDoc['delivery_quantity_unit'],0,1);
 
-function getQuantityCell($recordDoc) {
+	if (empty($paymentDoc)) {
+		$paymentDoc['_id'] = '';
+		$paymentDoc['delivery'][0]['quantity_unit'] = '';
+		$paymentDoc['delivery'][0]['quantity_unit'] = '';
+	}
 	return getAsCell(
 		getLink(
-			'http://admin.' . $_SESSION['url_domain'] . '/item_daily_distribution_exception/create/All',
+			'http://admin.' . $_SESSION['url_domain'] . '/item_distribution_exception/create/All'
+			. '?payment_record=' . (string)($paymentDoc['_id'])
+			. '&rate_quantity_unit=' . $paymentDoc['delivery'][0]['quantity_unit']
+			. '&delivery_quantity_unit=' . $paymentDoc['delivery'][0]['quantity_unit']
+			,
 		        getAlertText(
-				number_format($recordDoc['delivery_quantity'], 1, '.', '') . ' ' . $recordDoc['delivery_quantity_unit'],
+				number_format($recordDoc['delivery_quantity'], 1, '.', '') 
+				. ' ' . $q,
 				($recordDoc['delivery_quantity'] <= 0) 
 			)
 		)
@@ -217,6 +173,9 @@ function getQuantityCell($recordDoc) {
 }
 
 function getStartDateCell($recordDoc, $paymentDoc) {
+	if (!array_key_exists('start_date', $paymentDoc)) {
+		return 'Missing';
+	}
 	return getAsCell(
         	getAlertText(
 			date('Y-M-d D', $paymentDoc['start_date']->sec),
@@ -248,13 +207,15 @@ function getEmailCell($recordDoc) {
 }
 
 function getSmsCell($recordDoc, $paymentDoc) {
+	if (!array_key_exists('start_date', $paymentDoc) || $paymentDoc['start_date'] == '') {
+		return 'Missing start date';
+	}
 	return getAsCell(
-		getLink(
-			'sms:?body='
-			.date('Y-M', $paymentDoc['start_date']->sec)
+		getSmsLink(
+			'',
+			date('Y-M', $paymentDoc['start_date']->sec)
 			.'%20HYBR%20Farm%20milk%20bill%20link%0Ahttp://farm.hybr.in/common/idr.php?c='
-			.$recordDoc['payment_record'].'%0AThanks%0A',
-			'SMS'
+			.$recordDoc['payment_record'].'%0AThanks%0A'
 		)
 	);
 }
@@ -263,7 +224,7 @@ function getCopyCell($recordDoc, $paymentDoc) {
 	return getAsCell(
 		getLink(
 			'http://admin.' . $_SESSION['url_domain'] 
-			. '/item_daily_distribution_payment/copy/All?id=' . $paymentDoc['_id'],
+			. '/item_payment/copy/All?id=' . $paymentDoc['_id'],
 			'Copy'
 		)
 	);
@@ -271,7 +232,7 @@ function getCopyCell($recordDoc, $paymentDoc) {
 
 function getCostCell($recordDoc) {
 	return getAsCell(
-		getCurrency(($recordDoc['ipsr_amount']/$recordDoc['ipsr_quantity']) * $recordDoc['delivery_quantity']),
+		getCurrency(($recordDoc['ipsr_amount']/$recordDoc['ipsr_quantity']) * $recordDoc['delivery_quantity'], $recordDoc),
 		'currency'
 	);
 }
@@ -279,8 +240,9 @@ function getCostCell($recordDoc) {
 function getChargeCell($recordDoc) {
 	return getAsCell(
 		getCurrency(
-			($recordDoc['ipsr_daily_distribution_charge_per_visit'] 
-			+ ($recordDoc['ipsr_daily_distribution_charge_per_unit'] * $recordDoc['delivery_quantity']))
+			($recordDoc['ipsr_distribution_charge_per_visit'] 
+			+ ($recordDoc['ipsr_distribution_charge_per_unit'] * $recordDoc['delivery_quantity'])),
+			$recordDoc
 		),
 		'currency'
 	);
@@ -288,11 +250,12 @@ function getChargeCell($recordDoc) {
 
 function getBalanceCell($recordDoc, $paymentDoc) {
 	return getAsCell(
-		getLink(
-			'http://admin.' . $_SESSION['url_domain'] . '/item_daily_distribution_payment/update/All?id=' . $paymentDoc['_id'],
+		getUpdateRecordLink(
+			'item_payment', 
+			$paymentDoc['_id'], 
 		        getAlertText(
-				getCurrency($recordDoc['payment_balance'] + $recordDoc['other_amount']),
-				($recordDoc['payment_balance'] < 0) 
+				getCurrency($recordDoc['payment_balance'] + $recordDoc['other_amount'], $recordDoc),
+				(($recordDoc['payment_balance']+$recordDoc['other_amount']) < 0) 
 			)
 		),
 		'currency'
@@ -322,7 +285,7 @@ function getRow ($recordDoc, $paymentDoc) {
 	$rStr .= getTimeCell($recordDoc);
 	$rStr .= getUrgentCell($recordDoc);
 	$rStr .= getRingBellCell($recordDoc);
-	$rStr .= getQuantityCell($recordDoc);
+	$rStr .= getQuantityCell($recordDoc, $paymentDoc, false);
 	$rStr .= getStartDateCell($recordDoc, $paymentDoc);
 	$rStr .= getLocationCell($recordDoc);
 	$rStr .= getEmailCell($recordDoc);
@@ -338,172 +301,167 @@ function getRow ($recordDoc, $paymentDoc) {
 	return $rStr;
 }
 
-# Find the distribution records for each payment
-$locale='en-US'; //browser or user locale
+function getSmsRow ($recordDoc) {
+        $rStr = '';
+	$rStr .= getRowStart();
+        $rStr .= getQuantityCell($recordDoc, array(), true);
+        $rStr .= getLocationCell($recordDoc);
+        $rStr .= getUrgentCell($recordDoc);
+        $rStr .= getRingBellCell($recordDoc);
+        $rStr .= getRowEnd();
+        return $rStr;
+}
 
-# Find all the payment records which are for item received in url and also which are not complete
-$allPaymentRecordsCursor =  $_SESSION ['mongo_database']->item_daily_distribution_payment->find (array(
-	'$and' => array(
-		array('item' => new MongoId((string)(trim($urlArgsArray ['i'])))),
-		array('distribution_complete' => 'False')
-	)
-));
-$allPaymentRecordsCursor->sort(array('delivery.location_code' => 1));
-foreach ( $allPaymentRecordsCursor as $paymentDoc ) {
-	debugPrintArray($paymentDoc,'paymentDoc');
+function getTimeGroupDateString($recordDoc) {
+	return date('Y-M-d D',$recordDoc['date']->sec) . ' ' 
+		. date('h:i A',$recordDoc['delivery_distribution_time']->sec);
+}
+function updateDistributionTimeGroup ($recordDoc) {
+	global $distributionTimeGroups;
+	/* grouping of records for SMS tables */
+	$dateString = getTimeGroupDateString($recordDoc);
+	if (!array_key_exists($dateString, $distributionTimeGroups)) {
+		$distributionTimeGroups[$dateString] = array();
+	}
+	array_push($distributionTimeGroups[$dateString], $recordDoc);
+}
 
-	if ($paymentDoc['distribution_complete'] == 'True') { continue; }
+function calculateTotals($recordDoc) {
+	global $total;
+
+		if (!array_key_exists('effective_balance', $total)) {
+			$total['effective_balance'] = 0;
+		}
+		$total['effective_balance'] += $recordDoc['other_amount'] + $recordDoc['payment_balance'];
+
+		if (!array_key_exists('due', $total)) {
+			$total['due'] = 0;
+		}
+		if ($recordDoc['other_amount'] + $recordDoc['payment_balance'] < 0) {
+			$total['due'] += $recordDoc['other_amount'] + $recordDoc['payment_balance'];
+		}
+
+		if (!array_key_exists('extra', $total)) {
+			$total['extra'] = 0;
+		}
+		if ($recordDoc['other_amount'] + $recordDoc['payment_balance'] > 0) {
+			$total['extra'] += $recordDoc['other_amount'] + $recordDoc['payment_balance'];
+		}
+
+		if (!array_key_exists('delivery_quantity', $total)) {
+			$total['delivery_quantity'] = 0;
+		}
+		if (array_key_exists('delivery_quantity',$recordDoc)){
+			$total['delivery_quantity'] += $recordDoc['delivery_quantity'];
+		}
+
+		if (!array_key_exists('absent_quantity', $total)) {
+			$total['absent_quantity'] = 0;
+		}
+		if ($recordDoc['delivery_quantity'] == 0 && array_key_exists('orig_delivery_quantity',$recordDoc)){
+			$total['absent_quantity'] += $recordDoc['orig_delivery_quantity'];
+		}
+
+		if (!array_key_exists('income', $total)) {
+			$total['income'] = 0;
+		}
+		$total['income'] += (($recordDoc['ipsr_amount']/$recordDoc['ipsr_quantity']) * $recordDoc['delivery_quantity']);
+
+
+		if (!array_key_exists('delivery_quantity_unit', $total)) {
+			$total['delivery_quantity_unit'] = $recordDoc['delivery_quantity_unit'];
+		}
+}
+
+function printTotals() {
+	global $total;
+	ksort($total);	
+	echo '<table border=1><tbody>';
+	foreach ( $total as $key => $value ) {
+		if ($key != '') {
+			echo '<tr><td>' . getTitle($key) . '</td><td>';
+			if (gettype($value) == 'double') {
+				echo number_format($value, 1, '.', ',') ;
+			} else {
+				echo $value;
+			}
+			echo '</td></tr>';
+		}
+	}
+	echo '</tbody></table>';
+
+	/*
+	echo '<br />Approximate monthly: ' 
+		. $currencySymbol 
+		. number_format($total['cost'] * 30, 2, '.', ','); 
+
+	*/
+}
+
+function printTodayDistributionRecord($paymentDoc, $completedPayments) {
+
+	global $distributionTimeGroups;
+	global $total;
+	global $pendingAmountSms;
 
 	# read distribution records for this payment
-	$distributionRecordsCursor = $_SESSION ['mongo_database']
-		->item_daily_distribution_record->find (array(
+	if ($completedPayments == 'False') {
+		$cond = array(
 			'$and' => array(
-				array('date' => array('$gte' => $todayStart)),
+				array('date' => array('$gte' => $GLOBALS['todayStart'])),
 				array('payment_record' => $paymentDoc['_id'])
 			)
-	));
+		);
+	} else {
+		$cond = array(
+			'payment_record' => $paymentDoc['_id']
+		);
+	}
+	$distributionRecordsCursor = $_SESSION ['mongo_database']
+		->item_distribution_record->find ($cond);
+
 	# 'item' => $itemRecord['_id']
 	/* "date" => array('$gte' => $todayStart, '$lte' => $tomorrowEnd) */
-	$distributionRecordsCursor->sort(array('date' => 1));
+	$distributionRecordsCursor->sort(array('date' => -1));
+
 	debugPrintArray($distributionRecordsCursor,'distributionRecordsCursor');
 
 	# process each distribution record
 	foreach ( $distributionRecordsCursor as $recordDoc ) {
-		debugPrintArray($recordDoc,'recordDoc');
+		# debugPrintArray($recordDoc,'recordDoc');
+		
+		updateDistributionTimeGroup ($recordDoc, $distributionTimeGroups);
 
 		/* show only today record */
-		if (date('Y-M-d',$recordDoc['date']->sec) == date('Y-M-d',$todayStart->sec)) { continue; }
-
-		
-		/* grouping of records for SMS tables */
-		$dateString = date('Y-M-d D',$recordDoc['date']->sec) . ' ' 
-			. date('H:i',$recordDoc['delivery_distribution_time']->sec);
-		if (!array_key_exists($dateString, $distributionTimeGroups)) {
-			$distributionTimeGroups[$dateString] = array();
-		}
-		array_push($distributionTimeGroups[$dateString], $recordDoc);
+		if (	date('Y-M-d',$recordDoc['date']->sec) == date('Y-M-d',$GLOBALS['todayStart']->sec)
+			&& $completedPayments == 'False'
+		) { continue; }
 
 		/* show a row */
 		echo getRow($recordDoc, $paymentDoc);
 
-		$totalOtherAmount += $recordDoc['other_amount'] + $recordDoc['payment_balance'];
-		if ($recordDoc['other_amount'] + $recordDoc['payment_balance'] < 0) {
-			$totalDue += $recordDoc['other_amount'] + $recordDoc['payment_balance'];
-		}
-		if ($recordDoc['other_amount'] + $recordDoc['payment_balance'] > 0) {
-			$totalExtra += $recordDoc['other_amount'] + $recordDoc['payment_balance'];
-		}
+		calculateTotals($recordDoc);
 
-		if (array_key_exists('delivery_quantity',$recordDoc)){
-			$totalQuantity = $totalQuantity + $recordDoc['delivery_quantity'];
-		}
-		if ($recordDoc['delivery_quantity'] == 0 && array_key_exists('orig_delivery_quantity',$recordDoc)){
-			$totalAbsentQuantity = $totalAbsentQuantity + $recordDoc['orig_delivery_quantity'];
-		}
-		$totalCost = $totalCost + (($recordDoc['ipsr_amount']/$recordDoc['ipsr_quantity']) * $recordDoc['delivery_quantity']);
-		$quantityUnit = $recordDoc['delivery_quantity_unit'];
+                if ($recordDoc['other_amount'] + $recordDoc['payment_balance'] < 0) {
+			$pendingAmountSms .= '%0A' . ($recordDoc['other_amount'] + $recordDoc['payment_balance']) 
+				. ' | ' . $recordDoc['delivery_location_code'];
+                }
+
+		if ($completedPayments == 'True') { break; }
 	} # foreach ( $distributionRecordsCursor as $recordDoc ) 
 
-} # foreach ( $allPaymentRecordsCursor as $paymentDoc ) 
-$dueText = 'Due';
-if ($totalOtherAmount > 0) $dueText = 'Extra';
-?>
-	</tbody>
-</table>
-<br />Total today sale <?php echo number_format($totalQuantity, 1, '.', ',') . ' ' . $quantityUnit; ?>
-<br />Absent <?php echo number_format($totalAbsentQuantity, 1, '.', '') . ' ' . $quantityUnit; ?>
-<br />Daily Income <?php echo $currencySymbol . number_format($totalCost, 2, '.', ','); ?> 
-<br />Approximate monthly: <?php echo $currencySymbol . number_format($totalCost*30, 2, '.', ','); ?> 
-<br /><?php echo 'Due: ' . $currencySymbol . number_format($totalDue, 2, '.', ','); ?>
-<br /><?php echo 'Extra: ' . $currencySymbol . number_format($totalExtra, 2, '.', ','); ?>
-<br /><?php echo 'Effective ' . $dueText . ' Amount: ' . $currencySymbol . number_format($totalOtherAmount, 2, '.', ','); ?> 
+}
 
-<?php
-	# Find all the payment records which are for item received in url and also which are not complete
-	$allProductionRecords =  $_SESSION ['mongo_database']->animal_production->find (array(
-		'$and' => array(
-			array('used_for.item' => new MongoId((string)(trim($urlArgsArray ['i'])))),
-		)
-	));
-	$totalProductionQuantity = 0;
-	foreach ( $allProductionRecords as $productionDoc ) {
-		$totalProductionQuantity = $totalProductionQuantity + $productionDoc['quantity'];
-	}
-	
-?>
-<hr />
+function printTodayPayments($completedPayments = 'True') {
+	global $distributionTimeGroups;
+	global $total;
+	global $pendingAmountSms;
 
-<b>Tables for SMS to production and distribution</b>
-<?php $totalQuantity = 0; foreach ($distributionTimeGroups as $key => $recordDocs) { ?>
-<hr />
-<table border=1  style="font-size: 1em;">
-	<thead>
-		<tr>
-			<th><span title="Urgent">U</span></th>
-			<th><span title="Ring Bell">B</span></th>
-			<th><span title="Quantity">Q</span></th>
-			<th><span title="Location">L</span></th>
-			<th><span title="Pending Amount">PA</span></th>
-			<th><span title="Instructions">I</span></tr>
-		</tr>
-	</thead>
-	<tbody>
-<?php
-	$totalQuantity = 0;
-	$totalAbsentQuantity = 0;
-	foreach ( $recordDocs as $recordDoc ) {
-		if ( date('Y-M-d D',$recordDoc['date']->sec) . ' ' .date('H:i',$recordDoc['delivery_distribution_time']->sec) == $key) {
+	$distributionTimeGroupsRef = array();
+	$total = array();
+	$pendingAmountSms = '';
 
-		if ($recordDoc['delivery_quantity'] <= 0) { continue; }
-		/* echo "&#13;&#10;"; /* new line char for SMS */
-
-		$a = ($recordDoc['delivery_is_urgent'] == 'True')?'Y':'N';
-		echo '<tr><td>' . $a;
-
-		$a = ($recordDoc['delivery_do_ring_bell'] == 'True')?'Y':'N';
-		echo '|</td><td>' . $a;
-
-
-		echo '|</td><td>';
-		echo number_format($recordDoc['delivery_quantity'], 1, '.', '') . substr($recordDoc['delivery_quantity_unit'],0,1);
-
-		echo '|</td><td>' . $recordDoc['delivery_location_code'];
-
-		echo '|</td><td>' . $recordDoc['other_amount'];
-		echo '|</td><td>' . $recordDoc['instructions'];
-		echo '|</td></tr>';
-		if (array_key_exists('delivery_quantity',$recordDoc)){
-			$totalQuantity = $totalQuantity + $recordDoc['delivery_quantity'];
-		}
-		if ($recordDoc['delivery_quantity'] == 0 && array_key_exists('orig_delivery_quantity',$recordDoc)){
-			$totalAbsentQuantity = $totalAbsentQuantity + $recordDoc['orig_delivery_quantity'];
-		}
-		}
-	}
-?>
-</tbody>
-</table>
-Distribute at <span style="color: blue;"><?php echo $key ?> </span> |  
-Total <?php echo number_format($totalQuantity, 1, '.', '') . ' ' . substr($recordDoc['delivery_quantity_unit'],0,1); ?> |  
-Absent <?php echo number_format($totalAbsentQuantity, 1, '.', '') . ' ' . substr($recordDoc['delivery_quantity_unit'],0,1); ?> 
-<br />
-<!-- Sent at <?php echo date('Y-M-d H:i'); ?> -->
-<?php } # foreach (array_expression as $key => $value) ?>
-
-
-<hr />
-<b>Payment Methods</b><ul>
-<?php
-	$paymentReceivingMethods = $_SESSION ['mongo_database']->payment_receiving_method->find (array(
-		'for_org' => $_SESSION['url_domain_org']['_id']
-	));
-	foreach ( $paymentReceivingMethods as $doc ) {
-		echo '<li>Pay by ' . $doc['by'] . ' at ' . $doc['note'] . '</li>';
-	}
-?>
-</ul>
-
-<table border=1  style="font-size: 1em;">
+	echo '<table border=1  style="font-size: 1em;">
 	<thead>
 		<tr>
 			<th>Date</th>
@@ -524,67 +482,71 @@ Absent <?php echo number_format($totalAbsentQuantity, 1, '.', '') . ' ' . substr
 			<th>Bill Visits</th>
 		</tr>
 	</thead>
+	<tbody>';
+	# Find all the payment records which are for item received in url and also which are not complete
+	$allPaymentRecordsCursor =  $_SESSION ['mongo_database']->item_payment->find (array(
+		'$and' => array(
+			array('item' => $GLOBALS['itemRecordId']),
+			array('distribution_complete' => $completedPayments)
+		)
+	));
+	$allPaymentRecordsCursor->sort(array('delivery.location_code' => 1));
+	debugPrintArray($allPaymentRecordsCursor,'allPaymentRecordsCursor');
+
+	foreach ( $allPaymentRecordsCursor as $paymentDoc ) {
+		debugPrintArray($paymentDoc,'paymentDoc');
+		printTodayDistributionRecord($paymentDoc, $completedPayments);
+	} # foreach ( $allPaymentRecordsCursor as $paymentDoc ) 
+	echo '</tbody></table>';
+	printTotals();
+	echo getSmsLinkSpaced(
+		'+919929941606,+917062667175',
+		$pendingAmountSms,
+		'To Income Collectors'
+	);
+}
+
+printTodayPayments('False');
+?>
+
+<?php
+	$allProductionRecords =  $_SESSION ['mongo_database']->animal_production->find (array(
+		'$and' => array(
+			array('used_for.item' => $itemRecordId)
+		)
+	));
+	$totalProductionQuantity = 0;
+	foreach ( $allProductionRecords as $productionDoc ) {
+		$totalProductionQuantity = $totalProductionQuantity + $productionDoc['quantity'];
+	}
+	
+?>
+
+
+<hr /><b>Tables for SMS to production and distribution</b>
+<?php $totalQuantity = 0; foreach ($distributionTimeGroups as $key => $recordDocs) { ?>
+<hr />
+<table border=1  style="font-size: 1em;">
+	<thead>
+		<tr>
+			<th><span title="Quantity">Q</span></th>
+			<th><span title="Location">L</span></th>
+			<th><span title="Urgent">U</span></th>
+			<th><span title="Ring Bell">B</span></th>
+		</tr>
+	</thead>
 	<tbody>
 <?php
-$distributionTimeGroups = array();
-$totalQuantity = 0;
-$totalAbsentQuantity = 0;
-$totalDue = 0;
-$totalExtra = 0;
-$totalCost = 0;
-$totalOtherAmount = 0;
-# Find all the payment records which are for item received in url and also which are not complete
-$allPaymentRecordsCursor =  $_SESSION ['mongo_database']->item_daily_distribution_payment->find (array(
-	'$and' => array(
-		array('item' => new MongoId((string)(trim($urlArgsArray ['i'])))),
-		array('distribution_complete' => 'True')
-	)
-));
-$allPaymentRecordsCursor->sort(array('payment_balance' => 1, 'start_date' => -1, 'delivery.location_code' => 1));
-foreach ( $allPaymentRecordsCursor as $paymentDoc ) {
-	debugPrintArray($paymentDoc,'paymentDoc');
+	$totalQuantity = 0;
+	$totalAbsentQuantity = 0;
+	$rStr = '';
+	foreach ( $recordDocs as $recordDoc ) {
+		if ( getTimeGroupDateString($recordDoc) == $key) {
 
-	if ($paymentDoc['distribution_complete'] == 'False') { continue; }
-
-	# read distribution records for this payment
-	$distributionRecordsCursor = $_SESSION ['mongo_database']
-		->item_daily_distribution_record->find (array(
-			'$and' => array(
-				array('date' => array('$gte' => $todayStart)),
-				array('payment_record' => $paymentDoc['_id'])
-			)
-	));
-	# 'item' => $itemRecord['_id']
-	/* "date" => array('$gte' => $todayStart, '$lte' => $tomorrowEnd) */
-	$distributionRecordsCursor->sort(array('date' => 1));
-	debugPrintArray($distributionRecordsCursor,'distributionRecordsCursor');
-
-	# process each distribution record
-	foreach ( $distributionRecordsCursor as $recordDoc ) {
-		debugPrintArray($recordDoc,'recordDoc');
-
-		/* show only today record */
-		if (date('Y-M-d',$recordDoc['date']->sec) == date('Y-M-d',$todayStart->sec)) { continue; }
-
-		
-		/* grouping of records for SMS tables */
-		$dateString = date('Y-M-d D',$recordDoc['date']->sec) . ' ' 
-			. date('H:i',$recordDoc['delivery_distribution_time']->sec);
-		if (!array_key_exists($dateString, $distributionTimeGroups)) {
-			$distributionTimeGroups[$dateString] = array();
-		}
-		array_push($distributionTimeGroups[$dateString], $recordDoc);
-
-		/* show a row */
-		echo getRow($recordDoc, $paymentDoc);
-
-		$totalOtherAmount += $recordDoc['other_amount'] + $recordDoc['payment_balance'];
-		if ($recordDoc['other_amount'] + $recordDoc['payment_balance'] < 0) {
-			$totalDue += $recordDoc['other_amount'] + $recordDoc['payment_balance'];
-		}
-		if ($recordDoc['other_amount'] + $recordDoc['payment_balance'] > 0) {
-			$totalExtra += $recordDoc['other_amount'] + $recordDoc['payment_balance'];
-		}
+		if ($recordDoc['delivery_quantity'] <= 0) { continue; }
+		/* echo "&#13;&#10;"; /* new line char for SMS */
+		$rStr .= "%0A" . $recordDoc['delivery_quantity'] . ' | ' . $recordDoc['delivery_location_code'];
+		echo getSmsRow ($recordDoc);
 
 		if (array_key_exists('delivery_quantity',$recordDoc)){
 			$totalQuantity = $totalQuantity + $recordDoc['delivery_quantity'];
@@ -592,18 +554,25 @@ foreach ( $allPaymentRecordsCursor as $paymentDoc ) {
 		if ($recordDoc['delivery_quantity'] == 0 && array_key_exists('orig_delivery_quantity',$recordDoc)){
 			$totalAbsentQuantity = $totalAbsentQuantity + $recordDoc['orig_delivery_quantity'];
 		}
-		$totalCost = $totalCost + (($recordDoc['ipsr_amount']/$recordDoc['ipsr_quantity']) * $recordDoc['delivery_quantity']);
-		$quantityUnit = $recordDoc['delivery_quantity_unit'];
-	} # foreach ( $distributionRecordsCursor as $recordDoc ) 
-
-} # foreach ( $allPaymentRecordsCursor as $paymentDoc ) 
+		}
+	}
 ?>
-	</tbody>
+</tbody>
 </table>
-<br />Total today sale <?php echo number_format($totalQuantity, 1, '.', ',') . ' ' . $quantityUnit; ?>
-<br />Absent <?php echo number_format($totalAbsentQuantity, 1, '.', '') . ' ' . $quantityUnit; ?>
-<br />Daily Income <?php echo $currencySymbol . number_format($totalCost, 2, '.', ','); ?> 
-<br />Approximate monthly: <?php echo $currencySymbol . number_format($totalCost*30, 2, '.', ','); ?> 
-<br /><?php echo 'Due: ' . $currencySymbol . number_format($totalDue, 2, '.', ','); ?>
-<br /><?php echo 'Extra: ' . $currencySymbol . number_format($totalExtra, 2, '.', ','); ?>
-<br /><?php echo 'Effective ' . $dueText . ' Amount: ' . $currencySymbol . number_format($totalOtherAmount, 2, '.', ','); ?> 
+<span style="color: blue;"><?php echo $key ?> </span>
+<br />Total <?php echo number_format($totalQuantity, 1, '.', '') . ' ' . substr($recordDoc['delivery_quantity_unit'],0,1); ?>
+<br /> Absent <?php echo number_format($totalAbsentQuantity, 1, '.', '') . ' ' . substr($recordDoc['delivery_quantity_unit'],0,1); ?> 
+
+<?php 
+	$rStr .= '%0ATotal: ' . $totalQuantity . ' on ' . $key; 
+	echo getSmsLinkSpaced(
+		'+919929941606,+917062667175',
+		$rStr,
+		'To Distributors'
+	);
+?>
+
+<!-- Sent at <?php echo date('Y-M-d h:i A'); ?> -->
+<?php } # foreach (array_expression as $key => $value) ?>
+
+<?php printTodayPayments(); ?>

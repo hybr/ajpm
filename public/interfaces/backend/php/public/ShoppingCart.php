@@ -77,7 +77,7 @@ class public_ShoppingCart extends Base {
                 foreach ( $docCursor as $doc ) {
 //echo '<pre>'; print_r($doc); echo '</pre>';
                         $rStr .= '<li>' . '<ul>';
-			$pasDoc = $this->getDocumentById ( 'item', (string) $doc ['item'] );
+			$pasDoc = getOneDocument ( 'item', '_id', $doc ['item'] );
                         /* make sure item is for sale */
                         $forSale = false;
                         foreach ( $pasDoc ['price'] as $price ) {
@@ -86,8 +86,8 @@ class public_ShoppingCart extends Base {
                                                 if ($pasDoc ['manufacturar'] == 'COMMON_ITEM') {
                                                         $manufacturarDoc = $_SESSION ['url_domain_org'];
                                                 } else {
-                                                        $manufacturarDoc = $this->getDocumentById (
-                                                                'organization', $pasDoc ['manufacturar']
+                                                        $manufacturarDoc = getOneDocument (
+                                                                'organization', '_id', $pasDoc ['manufacturar']
                                                         );
                                                 }
 					$rStr .= '<li><a href="/item/present?id=' . ( string ) ($pasDoc ['_id']) . '">';

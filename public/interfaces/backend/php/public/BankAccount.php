@@ -30,10 +30,22 @@ class public_BankAccount extends Base {
 				),		
 			),
 		),
-		'number' => array(),
-		'ifsc' => array(),
+                'type' => array (
+                        'type' => 'list',
+                        'list_class' => 'BankAccountType',
+                        'input_mode' => 'clicking',
+                        'show_in_list' => 1,
+                        'default' => 'Petty Cash'
+                ),
+		'number' => array(
+                        'show_in_list' => 1,
+		),
+		'ifsc' => array(
+                        'show_in_list' => 1,
+		),
 		'opened_on' => array (
 			'type' => 'date' ,
+                        'show_in_list' => 1,
 			'required' => 1,
 		),
 		'amount_currency' => array (

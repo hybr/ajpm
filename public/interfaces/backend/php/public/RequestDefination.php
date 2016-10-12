@@ -64,7 +64,7 @@ class public_RequestDefination extends Base {
 
 	public function presentAllDocument($subTaskKeyToSave, $fields, $docCursor) {
 		$rStr = '<ul>';
-		$rStr .= $this->showRequest($docCursor, $this->getDocumentById('request_defination', '5528f478a93499f610ca7073'), 1) ;
+		$rStr .= $this->showRequest($docCursor, getOneDocument('request_defination', '_id', '5528f478a93499f610ca7073'), 1) ;
 		return $rStr . '</ul>';
 	} /* presentAllDocument */
 

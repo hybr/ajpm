@@ -143,7 +143,7 @@ class public_WebPage extends Base {
 				$rStr .= '<table class="showTable">';
 				$contactInstance = new public_Contact();
 				foreach ($doc['contacts'] as $rec) {
-					$contactDoc = $this->getDocumentById('contact', $rec['contact']);
+					$contactDoc = getOneDocument('contact', '_id', $rec['contact']);
 					$rStr .= $contactInstance->showContactAsTableRow($contactDoc);
 				}				
 				$rStr .= '</table></div>';

@@ -6,6 +6,7 @@ use Data::Dumper;
 use MongoDB;
 use MongoDB::OID;
 use Getopt::Long;
+use POSIX qw(strftime);
 
 my $debug = 0;
 my $debugRecord = 0;
@@ -138,6 +139,8 @@ sub paymentDistributionIsComplete {
 
 sub applyPaymentToNewRecord {
 	my ($newDistributionRecord, $paymentDocument) = @_;
+	$newDistributionRecord->{'instructions'} = '';
+
 	$newDistributionRecord->{'payment_record'} =  $paymentDocument->{'_id'};
 	$newDistributionRecord->{'paid_as_advance'} =  $paymentDocument->{'paid_as_advance'};
 	$newDistributionRecord->{'other_amount'} =  0;
@@ -147,30 +150,83 @@ sub applyPaymentToNewRecord {
 		&& @{$paymentDocument->{'other_amount'}}
 	) {
 		foreach my $otherAmountRecord ( @{$paymentDocument->{'other_amount'}} ) {
-			if (defined $otherAmountRecord->{'received'} && $otherAmountRecord->{'received'} ne '') {
+			
+			my $otherAmountPaidDate = undef;
+			if (defined $paymentDocument->{'start_date'}) {
+				$otherAmountPaidDate = getDt($paymentDocument->{'start_date'}, 'paymentDocument start date');
+			}
+			if (defined $paymentDocument->{'paid_date'}) {
+				$otherAmountPaidDate = getDt($paymentDocument->{'paid_date'}, 'paymentDocument paid date');
+			}
+			if (defined $otherAmountRecord->{'date'}) {
+				$otherAmountPaidDate = getDt($otherAmountRecord->{'date'}, 'paymentDocument date');
+			}
+
+			if ($newDistributionRecord->{'other_amount_explanation'} ne '') {
+				$newDistributionRecord->{'other_amount_explanation'} .= ', ';
+			}
+			if (defined $otherAmountRecord->{'received'} 
+				&& $otherAmountRecord->{'received'} ne ''
+				&& $otherAmountRecord->{'received'} != 0
+			) {
 				$newDistributionRecord->{'other_amount'} +=  $otherAmountRecord->{'received'};
+				$newDistributionRecord->{'other_amount_explanation'} .= 
+					strftime("%a %Y %b %e", localtime($otherAmountPaidDate->epoch()))
+					. ': Received ' . $otherAmountRecord->{'received'}
+					. ' ' . $paymentDocument->{'paid_amount_currency'}
+					. ', '
+				;
 			}
-			if (defined $otherAmountRecord->{'paid'} && $otherAmountRecord->{'paid'} ne '') {
+			if (defined $otherAmountRecord->{'paid'} 
+				&& $otherAmountRecord->{'paid'} ne ''
+				&& $otherAmountRecord->{'paid'} != 0
+			) {
 				$newDistributionRecord->{'other_amount'} -=  $otherAmountRecord->{'paid'};
+				$newDistributionRecord->{'other_amount_explanation'} .=
+					strftime("%a %Y %b %e", localtime($otherAmountPaidDate->epoch()))
+					. ': Paid ' . $otherAmountRecord->{'paid'}
+					. ' ' . $paymentDocument->{'paid_amount_currency'}
+					. ', '
+				;
 			}
-			if (defined $otherAmountRecord->{'to_be_received'} && $otherAmountRecord->{'to_be_received'} ne '') {
+			if (defined $otherAmountRecord->{'to_be_received'} 
+				&& $otherAmountRecord->{'to_be_received'} ne ''
+				&& $otherAmountRecord->{'to_be_received'} != 0
+			) {
 				$newDistributionRecord->{'other_amount'} -=  $otherAmountRecord->{'to_be_received'};
+				$newDistributionRecord->{'other_amount_explanation'} .=
+					strftime("%a %Y %b %e", localtime($otherAmountPaidDate->epoch()))
+					. ': To Be Received ' . $otherAmountRecord->{'to_be_received'}
+					. ' ' . $paymentDocument->{'paid_amount_currency'}
+					. ', '
+				;
 			}
-			if (defined $otherAmountRecord->{'to_be_paid'} && $otherAmountRecord->{'to_be_paid'} ne '') {
+			if (defined $otherAmountRecord->{'to_be_paid'} 
+				&& $otherAmountRecord->{'to_be_paid'} ne ''
+				&& $otherAmountRecord->{'to_be_paid'} != 0
+			) {
 				$newDistributionRecord->{'other_amount'} -=  $otherAmountRecord->{'to_be_paid'};
+				$newDistributionRecord->{'other_amount_explanation'} .= 
+					strftime("%a %Y %b %e", localtime($otherAmountPaidDate->epoch()))
+					. ': To Be Paid ' . $otherAmountRecord->{'to_be_paid'}
+					. ' ' . $paymentDocument->{'paid_amount_currency'}
+					. ', '
+				;
 			}
 			if (defined $otherAmountRecord->{'explanation'} && $otherAmountRecord->{'explanation'} ne '') {
-				$newDistributionRecord->{'other_amount_explanation'} .=  $otherAmountRecord->{'explanation'} . ', ';
+				$newDistributionRecord->{'other_amount_explanation'} .=  ' ' . $otherAmountRecord->{'explanation'} . ', ';
 			}
 		}
 	}
 	if ($newDistributionRecord->{'paid_as_advance'} eq 'False') {
-		$newDistributionRecord->{'other_amount_explanation'} .=  'Advance payment of current month, ';
+		#TODO: Remove this is due is 0 or more
+		$newDistributionRecord->{'other_amount_explanation'} .=  'Payment is not paid as advance, ';
 	}
 	# Remove last comma and space
-	$newDistributionRecord->{'other_amount_explanation'} =  substr($newDistributionRecord->{'other_amount_explanation'}, 0, -2);
+	# $newDistributionRecord->{'other_amount_explanation'} =  substr($newDistributionRecord->{'other_amount_explanation'}, 0, -2);
+	$newDistributionRecord->{'other_amount_explanation'} =~ s/,+\s$//;
+	$newDistributionRecord->{'other_amount_explanation'} =~ s/,+\s$//;
 	
-	$newDistributionRecord->{'instructions'} = '';
 	return $newDistributionRecord;
 }
 
@@ -462,6 +518,12 @@ my $oneDay = 60 * 60 * 24; # seconds in a day
 
 # iterate over each payment document
 while (my $paymentDocument = $paymentDocuments->next) {
+	# Find if this payment distribution is complete. If complete then go for next advance payment
+	if (paymentDistributionIsComplete($paymentDocument)) {
+		$debug && print "\n\n--------------- Distribution is marked as complete";
+		next; 
+	}
+
 	$debug && print "\n\n============================================================================";
 	my $customerRecord = getCustomerRecord ($paymentDocument->{'paid_by'});
 
@@ -492,11 +554,6 @@ while (my $paymentDocument = $paymentDocuments->next) {
 
 	$debugRecord && print "\n\n--------------- Payment Record: " . Dumper($paymentDocument);
 
-	# Find if this payment distribution is complete. If complete then go for next advance payment
-	if (paymentDistributionIsComplete($paymentDocument)) {
-		$debug && print "\n\n--------------- Distribution is marked as complete";
-		next; 
-	}
 
 	# Calculate disrtibution start date time
 	my $distributionOverAllStartDate = getDt($paymentDocument->{'start_date'}, 'Distribution start date');
@@ -592,8 +649,7 @@ while (my $paymentDocument = $paymentDocuments->next) {
 
 				if ( defined $paymentDocument->{'recreate_daily_records'}
 					&& $paymentDocument->{'recreate_daily_records'} eq 'False' 
-					&& (!($currentDateTime->epoch()) <= $distributionOverAllStartDateEpoch 	
-					&& $distributionOverAllStartDateEpoch <= ($currentDateTime->epoch() + $oneDay))
+					&& (!DateTime->compare($distributionOverAllStartDate, $currentDateTime))
 				) {
 					# recreate == true
 					# 	create new record

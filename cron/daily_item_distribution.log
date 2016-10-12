@@ -1,4 +1,1 @@
-Use of uninitialized value $paymentBalance in subtraction (-) at /hybr/websites/ajpm/cron/daily_item_distribution.pl line 340.
-Use of uninitialized value $paymentBalance in subtraction (-) at /hybr/websites/ajpm/cron/daily_item_distribution.pl line 340.
-Use of uninitialized value in numeric lt (<) at /hybr/websites/ajpm/cron/daily_item_distribution.pl line 647.
-Use of uninitialized value $paymentBalance in subtraction (-) at /hybr/websites/ajpm/cron/daily_item_distribution.pl line 340.
+/bin/sh: /hybr/websites/ajpm/cron/daily_item_distribution.pl: No such file or directory

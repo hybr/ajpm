@@ -32,12 +32,11 @@ define ( 'SERVER_SIDE_SP_DIR', SERVER_SIDE_PUBLIC_DIR
  * Include the common files
  */
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'debug.php';
-
+include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'common.php';
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'url_domain.php';
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'layout_and_theme.php';
-include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'action_and_task.php';
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'mongod_setup.php';
-include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'common.php';
+include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'action_and_task.php';
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'autoload.php';
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'get_menu.php';
 include SERVER_SIDE_SP_DIR . DIRECTORY_SEPARATOR . 'permission.php';
@@ -84,7 +83,7 @@ debugPrintArray($urlArgsArray,'urlArgsArray');
 <?php
 	debugPrintArray($_SESSION,'_SESSION');
 	$paymentRecord = $_SESSION ['mongo_database']
-	->item_daily_distribution_payment->findOne (array(
+	->item_payment->findOne (array(
 		'$and' => array (
 			array ('_id' => new MongoId ( $urlArgsArray ['c'] )),
 			array ('for_org' => new MongoId ( 
@@ -119,11 +118,11 @@ debugPrintArray($urlArgsArray,'urlArgsArray');
 		echo '<b>' . $paymentRecord['paid_amount'] .  ' ' . $paymentRecord['paid_amount_currency']  . '</b>';
 		echo getColoredText(' payment is paid on '. date('D Y-M-d',$paymentRecord['paid_date']->sec), 'green');
 	} else {
-		echo getColoredText('<b>advance payment is pending</b>', 'red');
+		echo getColoredText('<b>Payment is not paid as advance</b>', 'red');
 	}
 
 	$distributionRecordsCursor = $_SESSION ['mongo_database']
-		->item_daily_distribution_record->find (array(
+		->item_distribution_record->find (array(
 			'payment_record' => new MongoId ( $urlArgsArray ['c'] )
 		))
 	;
@@ -143,6 +142,7 @@ debugPrintArray($urlArgsArray,'urlArgsArray');
 			<th>Cost</th>
 			<th>Charge</th>
 			<th>Balance</th>
+			<th>Due</th>
 			<th>Notes</th>
 		</tr>
 	</thead>
@@ -175,12 +175,15 @@ debugPrintArray($urlArgsArray,'urlArgsArray');
 			. ' ' . $doc['ipsr_amount_currency'];
 
 		/* <th>Charge</th> */
-		echo '</td><td>' . number_format(($doc['ipsr_daily_distribution_charge_per_visit'] 
-			+ ($doc['ipsr_daily_distribution_charge_per_unit'] * $doc['delivery_quantity'])), 2, '.', '') 
+		echo '</td><td>' . number_format(($doc['ipsr_distribution_charge_per_visit'] 
+			+ ($doc['ipsr_distribution_charge_per_unit'] * $doc['delivery_quantity'])), 2, '.', '') 
 			. ' ' . $doc['ipsr_amount_currency'];
 
 		/* <th>Balance</th> */
 		echo '</td><td>' . number_format($doc['payment_balance'], 2, '.', '') . ' ' . $doc['ipsr_amount_currency'];
+
+		/* <th>Balance</th> */
+		echo '</td><td>' . number_format($doc['payment_balance'] + $doc['other_amount'], 2, '.', '') . ' ' . $doc['ipsr_amount_currency'];
 
 		/* <th>Notes</th> */
 		echo '</td><td>' . $doc['instructions'];
@@ -235,11 +238,11 @@ Customer can pay the advance payment via any of the following methods<ul>
 		if ($addresses != '') {
 			$addresses .= ', ';
 		}
-		$addresses .= $_SERVER['REMOTE_ADDR'];
+		$addresses .= $_SERVER['REMOTE_ADDR'] .  date('.Y-M-d');
 	}
 	$paymentRecord['remote_addresses'] = $addresses;
 	echo "Visits: " . (substr_count($addresses, ',') + 1). ' by <br />' . str_replace(',','<br />',$addresses);
 	if (!(isset( $_SESSION['allowed_as']) && $_SESSION['allowed_as'] == 'OWNER')) {
-		$_SESSION ['mongo_database']->item_daily_distribution_payment->save ($paymentRecord);
+		$_SESSION ['mongo_database']->item_payment->save ($paymentRecord);
 	}
 ?>

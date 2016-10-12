@@ -43,6 +43,8 @@ class public_Animal extends Base {
 				'required' => 1,
 				'searchable' => 1,
 		),
+		'color' => array(),
+		'breed' => array(),
 		'photo' => array (
 				'type' => 'container',
 				'show_in_list' => 0,

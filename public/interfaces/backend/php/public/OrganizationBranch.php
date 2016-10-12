@@ -59,7 +59,7 @@ class public_organizationBranch extends Base {
 		foreach ( $docCursor as $doc ) {
 			$rStr .= '<li><a href="/organization_branch/present?id=' . (string) ($doc['_id']) . '" >'
 					. $doc['code'] . '</a>: ' . $doc['name'];
-			$org = $this->getDocumentById('organization', $doc['organization']);
+			$org = getDocument('organization', '_id', $doc['organization']);
 				$rStr .= ' | Organization: <a href="/organization/present?id='
 						. ( string ) ($org ['_id']) . '" >'
 								. $org ['name'] . '</a>';
