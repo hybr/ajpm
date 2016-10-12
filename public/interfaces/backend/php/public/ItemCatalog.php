@@ -99,7 +99,7 @@ class public_ItemCatalog extends Base {
 		
 		foreach ( $doc ['item'] as $item ) {
 			if (isset ( $item ['id'] ) && $item ['id'] != '') {
-				$itemDoc = $this->getDocumentById ( 'item', $item ['id'] );
+				$itemDoc = getOneDocument( 'item', '_id', $item ['id'] );
 				
 				$rStr .= '<tr class="ui-widget-content">';
 				
@@ -123,7 +123,7 @@ class public_ItemCatalog extends Base {
 			$rStr .= '<li>' . $doc ['category'] . '<ul>';
 			foreach ( $doc ['pas'] as $pas ) {
 				if (isset ( $pas ['pas_id'] )) {
-					$pasDoc = $this->getDocumentById ( 'item', $pas ['pas_id'] );
+					$pasDoc = getOneDocument ( 'item', '_id', $pas ['pas_id'] );
 					/* make sure item is for sale */
 					$forSale = false;
 					foreach ( $pasDoc ['price'] as $price ) {
@@ -135,8 +135,8 @@ class public_ItemCatalog extends Base {
 						if ($pasDoc ['manufacturar'] == 'COMMON_ITEM') {
 							$manufacturarDoc = $_SESSION ['url_domain_org'];
 						} else {
-							$manufacturarDoc = $this->getDocumentById ( 
-								'organization', $pasDoc ['manufacturar'] 
+							$manufacturarDoc = getOneDocument ( 
+								'organization', '_id', $pasDoc ['manufacturar'] 
 							);	
 						}
 						$rStr .= '<li><a href="/item/present?id=' . ( string ) ($pas ['pas_id']) . '">';

@@ -61,7 +61,6 @@ class public_Item extends Base {
 		),							
 		'about' => array (
 			'type' => 'container',
-			'required' => 1,
 			'show_in_list' => 0,
 			'fields' => array (
 				'category' => array (
@@ -141,13 +140,13 @@ class public_Item extends Base {
 					'type' => 'string',
 					'required' => 1
 				),							
-				'daily_distribution_charge_per_visit' => array (
-					'help' => 'This is charge applicable for daily distribution per visit',
+				'distribution_charge_per_visit' => array (
+					'help' => 'This is charge applicable for single distribution per visit',
 					'required' => 1,
 					'default' => 0,
 				),
-				'daily_distribution_charge_per_unit' => array (
-					'help' => 'This is charge applicable for daily distribution per unit',
+				'distribution_charge_per_unit' => array (
+					'help' => 'This is charge applicable for single distribution per unit',
 					'required' => 1,
 					'default' => 0,
 				),
@@ -237,8 +236,8 @@ class public_Item extends Base {
 				),
 			) 
 		),
-		'daily_distribution_report_password' => array (
-			'help' => 'This is needed to view the daily distribution report of this item',
+		'distribution_report_password' => array (
+			'help' => 'This is needed to view the distribution report of this item',
 			'required' => 1,
 		),
 	); /* fields */
@@ -266,7 +265,7 @@ class public_Item extends Base {
  		if ($doc ['manufacturar'] == 'COMMON_ITEM') {
 			$manufacturarDoc = $_SESSION ['url_domain_org'];
 		} else {
-			$manufacturarDoc = $this->getDocumentById ( 'organization', $doc ['manufacturar'] );
+			$manufacturarDoc = getOneDocument ('organization', '_id', $doc ['manufacturar']);
 		}
 		$rStr .= '<input type="hidden" name="supplier" value="'.(string) $manufacturarDoc['_id'].'" />';
 
@@ -380,7 +379,7 @@ class public_Item extends Base {
 				$endTimeEpoch = strtotime($endDate . ' ' . $endTime);
 
                                 $personClass =  new public_Person();
-                                $personClass->record = $this->getDocumentById('person', $this->getFieldValue($sh, 'provider'));
+                                $personClass->record = getOneDocument('person', '_id', $this->getFieldValue($sh, 'provider'));
                                 $personName = $personClass->getFullName('Official');
 
 
