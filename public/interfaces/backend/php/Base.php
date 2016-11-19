@@ -930,10 +930,17 @@ class Base {
 		}
 	}
 
-	private function getReports() {
+	private function getReports($doc) {
 		$rStr = '';
 		if ($this->collectionName == 'item') {
-			$rStr .= '<hr />Reports: <a target="_blank" href="http://'.$_SESSION['url_domain'].'/common/didl.php?i='.$doc['_id'].'&p='.md5($doc['daily_distribution_report_password']).'">Item Distribution Report</a>';
+			$rStr .= '<a target="_blank" href="http://'
+				.$_SESSION['url_domain'].'/common/didl.php?i='
+				.$doc['_id']
+				.'&p='.md5($doc['distribution_report_password'])
+				.'">Item Distribution</a>';
+		}
+		if ($rStr != '') {
+			$rStr = '<hr />Reports: ' . $rStr;
 		}
 		return $rStr;
 	}
@@ -978,7 +985,7 @@ class Base {
 			} elseif ($this->curlsMode == 'Present Json') {
 					return $doc;				
 			} else {
-				$rStr .= $this->getReports();
+				$rStr .= $this->getReports($doc);
 				/* initialize form */
 				$f = new InputForm ();
 				$f->curlsMode = $this->curlsMode;
@@ -993,7 +1000,7 @@ class Base {
 					unset($doc['_id']);
 				}
 				$rStr .= $f->showForm ( $urlArgsArray, '/' . $this->collectionName . '/' . $method, $doc, $this->fields );
-				$rStr .= $this->getReports();
+				$rStr .= $this->getReports($doc);
 			}
 			$rStr .= $this->showLinks ();
 			
