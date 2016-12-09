@@ -238,7 +238,7 @@ Customer can pay the advance payment via any of the following methods<ul>
 		if ($addresses != '') {
 			$addresses .= ', ';
 		}
-		$addresses .= $_SERVER['REMOTE_ADDR'] .  date('.Y-M-d');
+		$addresses .= $_SERVER['REMOTE_ADDR'] .  date('.Y-M-d-H-i');
 	}
 	$paymentRecord['remote_addresses'] = $addresses;
 	echo "Visits: " . (substr_count($addresses, ',') + 1). ' by <br />' . str_replace(',','<br />',$addresses);
